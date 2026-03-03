@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ukubona LLC · Diagnostic Cartography · Time-Stack Fractal · Digital Twin</title>
+<title>Diagnostic Cartography · Time-Stack · Digital Twin · Epistemic Infrastructure · Ukubona LLC</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
@@ -12,662 +13,314 @@
 <link href="../css/head.css?v=1.1" rel="stylesheet" />
 <link href="../css/card.css?v=1.1" rel="stylesheet" />
 <link href="../css/footer.css" rel="stylesheet" />
+
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=JetBrains+Mono:wght@300;400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
+:root {
+  color-scheme: light dark;
+  --paper:   #f3efe6;
+  --ink:     #18120a;
+  --ink2:    #2c1e08;
+  --ink3:    #7a6840;
+  --rule:    #c4a060;
+  --rule2:   #e4d4b0;
+  --accent:  #6b1a1a;
+  --accent2: #a03010;
 
-  :root {
-    --ink: #0d0d0e;
-    --paper: #f5f0e8;
-    --cream: #ede7d5;
-    --g-acc: #c8673a;
-    --o-acc: #2e6e5f;
-    --a-acc: #5c4a8a;
-    --x-acc: #b5372a;
-    --twin-acc: #1a4a6b;
-    --twin-glow: #4e9fc4;
-    --first-aid: #d93025;
-    --emergency: #e8590c;
-    --urgent: #d4a017;
-    --outpatient: #2a7a3b;
-    --inpatient: #1a4a8a;
-    --rule: #c4b89a;
-    --muted: #7a7060;
-    --serif: 'Playfair Display', Georgia, serif;
-    --mono: 'JetBrains Mono', 'Courier New', monospace;
-    --body: 'Cormorant Garamond', Georgia, serif;
+  /* tier palette — one color per care tier */
+  --t1-bg:#10080a; --t1-text:#f0c0c8; --t1-acc:#c83030;   /* First Aid   — red     */
+  --t2-bg:#100c08; --t2-text:#f0d4b0; --t2-acc:#c86020;   /* Emergency   — orange  */
+  --t3-bg:#100e08; --t3-text:#f0e4a0; --t3-acc:#b09020;   /* Urgent      — amber   */
+  --t4-bg:#081008; --t4-text:#b8e0b8; --t4-acc:#409040;   /* Outpatient  — green   */
+  --t5-bg:#080e18; --t5-text:#b0c8f0; --t5-acc:#3070c0;   /* In-Patient  — blue    */
+
+  /* pedagogy palette — learning rate voices */
+  --g-bg:#0a0e10;  --g-text:#b0ccd8;  --g-acc:#4090b0;   /* G · PBL     — teal    */
+  --o-bg:#0c100a;  --o-text:#b8d4b0;  --o-acc:#5aa060;   /* O · Reason  — green   */
+  --a-bg:#100c18;  --a-text:#c4b8e8;  --a-acc:#8060c8;   /* A · Tension — violet  */
+  --x-bg:#180e08;  --x-text:#f0d4a0;  --x-acc:#d08030;   /* X · PBL list— amber   */
+
+  /* twin palette */
+  --tw-bg:#08100e; --tw-text:#a8d8cc; --tw-acc:#2090a0;   /* Twin        — cyan    */
+
+  /* new voice palettes */
+  --t-bg:#0e0a18;  --t-text:#d4c8f8;  --t-acc:#9060e0;   /* T · Fractal — indigo  */
+  --d-bg:#100e08;  --d-text:#f0e0a8;  --d-acc:#c09030;   /* D · Demo    — gold    */
+
+  /* special */
+  --err-bg:#140808; --err-acc:#b03020; --err-text:#f0c8b8;
+  --ok-acc:#5aa060;
+
+  --mono:'IBM Plex Mono',monospace;
+  --serif:'Source Serif 4',Georgia,serif;
+  --display:'Playfair Display',Georgia,serif;
+  --toggle-bg:#e0cdb0; --toggle-knob:#18120a;
+}
+[data-theme="dark"] {
+  --paper:#0c0a10; --ink:#f0e8c0; --ink2:#d0c090; --ink3:#907848;
+  --rule:#3a2a08; --rule2:#221808; --accent:#e04028; --accent2:#f08038;
+  --toggle-bg:#1e1408; --toggle-knob:#f0e8c0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:#0c0a10; --ink:#f0e8c0; --ink2:#d0c090; --ink3:#907848;
+    --rule:#3a2a08; --rule2:#221808; --accent:#e04028; --accent2:#f08038;
+    --toggle-bg:#1e1408; --toggle-knob:#f0e8c0;
   }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { font-size: 16px; scroll-behavior: smooth; }
-
-  body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: var(--body);
-    font-size: 1.15rem;
-    line-height: 1.75;
-    overflow-x: hidden;
-  }
-
-  /* ── MASTHEAD ── */
-  .masthead {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 4rem 3rem 3rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .masthead::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: 
-      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.03) 40px),
-      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.03) 40px);
-  }
-
-  .mast-eyebrow {
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: #8a8070;
-    margin-bottom: 1.5rem;
-  }
-
-  .mast-numeral {
-    font-size: 6rem;
-    line-height: 1;
-    color: rgba(255,255,255,0.06);
-    position: absolute;
-    top: 2rem;
-    right: 3rem;
-    font-family: var(--serif);
-  }
-
-  .mast-title {
-    font-family: var(--serif);
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 900;
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
-    max-width: 820px;
-  }
-
-  .mast-title em { color: var(--g-acc); font-style: italic; }
-
-  .mast-sub {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    line-height: 2;
-    color: #a09080;
-    letter-spacing: 0.02em;
-    margin-bottom: 2.5rem;
-    max-width: 760px;
-  }
-
-  .mast-sub em { color: var(--twin-glow); font-style: italic; }
-
-  /* ── TIME STACK HERO ── */
-  .timestack-hero {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 2px;
-    margin: 2rem 0 0;
-  }
-
-  .ts-cell {
-    padding: 1.2rem 1rem;
-    position: relative;
-    cursor: default;
-    transition: transform 0.2s;
-  }
-
-  .ts-cell:hover { transform: translateY(-3px); }
-
-  .ts-cell[data-tier="I"] { background: var(--first-aid); }
-  .ts-cell[data-tier="II"] { background: var(--emergency); }
-  .ts-cell[data-tier="III"] { background: var(--urgent); }
-  .ts-cell[data-tier="IV"] { background: var(--outpatient); }
-  .ts-cell[data-tier="V"] { background: var(--inpatient); }
-
-  .ts-roman {
-    font-family: var(--mono);
-    font-size: 0.55rem;
-    letter-spacing: 0.3em;
-    color: rgba(255,255,255,0.5);
-    text-transform: uppercase;
-    margin-bottom: 0.3rem;
-  }
-
-  .ts-label {
-    font-family: var(--serif);
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: white;
-    line-height: 1.2;
-    margin-bottom: 0.4rem;
-  }
-
-  .ts-latency {
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    color: rgba(255,255,255,0.75);
-    letter-spacing: 0.05em;
-    border-top: 1px solid rgba(255,255,255,0.2);
-    padding-top: 0.4rem;
-    margin-top: 0.4rem;
-  }
-
-  .ts-latency strong { color: white; }
-
-  /* ── ALIGN STRIP ── */
-  .align-strip {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    margin-top: 2rem;
-    border-top: 1px solid rgba(255,255,255,0.1);
-  }
-
-  .align-strip th {
-    padding: 0.6rem 0.8rem;
-    text-align: left;
-    color: #706050;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
-
-  .align-strip td {
-    padding: 0.5rem 0.8rem;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    color: #d0c8b8;
-    vertical-align: top;
-  }
-
-  .align-strip tr.rg td:first-child { color: var(--g-acc); font-weight: 700; }
-  .align-strip tr.ro td:first-child { color: var(--o-acc); font-weight: 700; }
-  .align-strip tr.ra td:first-child { color: var(--a-acc); font-weight: 700; }
-  .align-strip tr.rx td:first-child { color: var(--x-acc); font-weight: 700; }
-
-  /* ── CIPHER GRID ── */
-  .cipher-grid {
-    margin-top: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .cipher-line {
-    display: grid;
-    grid-template-columns: 2rem 10rem 1fr 8rem;
-    gap: 1.2rem;
-    padding: 0.7rem 1rem;
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.03em;
-    align-items: center;
-  }
-
-  .g-voice { background: rgba(200,103,58,0.12); border-left: 3px solid var(--g-acc); }
-  .o-voice { background: rgba(46,110,95,0.12); border-left: 3px solid var(--o-acc); }
-  .a-voice { background: rgba(92,74,138,0.12); border-left: 3px solid var(--a-acc); }
-  .x-voice { background: rgba(181,55,42,0.12); border-left: 3px solid var(--x-acc); }
-
-  .cl-roman { font-weight: 700; font-size: 0.9rem; color: var(--paper); }
-  .g-voice .cl-roman { color: var(--g-acc); }
-  .o-voice .cl-roman { color: var(--o-acc); }
-  .a-voice .cl-roman { color: var(--a-acc); }
-  .x-voice .cl-roman { color: var(--x-acc); }
-  .cl-noun { color: var(--paper); font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; }
-  .cl-verb { color: #a09080; }
-  .cl-key { color: #706050; text-transform: uppercase; letter-spacing: 0.2em; text-align: right; }
-
-  /* ── MAIN CONTENT ── */
-  .page-body {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
-
-  /* ── VERSE / ANNOTATION BLOCKS ── */
-  .verse-block {
-    font-family: var(--serif);
-    font-size: 1.25rem;
-    font-style: italic;
-    line-height: 2;
-    padding: 3rem 2rem;
-    border-left: 4px solid var(--rule);
-    margin: 3rem 0;
-    color: var(--muted);
-  }
-
-  .verse-block em { color: var(--ink); font-style: normal; font-weight: 700; }
-  .verse-block cite { display: block; margin-top: 1rem; font-size: 0.8rem; font-style: normal; font-family: var(--mono); letter-spacing: 0.1em; color: #a09080; }
-
-  .annotation {
-    background: var(--cream);
-    padding: 2rem;
-    margin: 2rem 0;
-    font-size: 1.05rem;
-    line-height: 1.85;
-    border-top: 3px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-  }
-
-  /* ── SECTION RULE ── */
-  .sec-rule {
-    margin: 4rem 0 2rem;
-    padding: 0 2rem;
-  }
-
-  .sec-rule hr {
-    border: none;
-    border-top: 1px solid var(--rule);
-    margin-top: 0.5rem;
-  }
-
-  .sec-rule-label {
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    padding-bottom: 0.5rem;
-    display: block;
-  }
-
-  .g-lbl { color: var(--g-acc); }
-  .o-lbl { color: var(--o-acc); }
-  .a-lbl { color: var(--a-acc); }
-  .x-lbl { color: var(--x-acc); }
-  .twin-lbl { color: var(--twin-acc); }
-  .ts-lbl { color: #8a6020; }
-  .schema { color: var(--muted); }
-
-  /* ── MODEL BLOCKS ── */
-  .model-block {
-    padding: 2.5rem 2rem;
-    margin: 0 0 1px;
-    position: relative;
-  }
-
-  .g-block { background: rgba(200,103,58,0.05); border-left: 4px solid var(--g-acc); }
-  .o-block { background: rgba(46,110,95,0.05); border-left: 4px solid var(--o-acc); }
-  .a-block { background: rgba(92,74,138,0.05); border-left: 4px solid var(--a-acc); }
-  .x-block { background: rgba(181,55,42,0.05); border-left: 4px solid var(--x-acc); }
-  .twin-block { background: rgba(26,74,107,0.05); border-left: 4px solid var(--twin-acc); }
-  .ts-block { background: rgba(138,96,32,0.04); border-left: 4px solid #8a6020; }
-
-  .model-stamp {
-    font-family: var(--mono);
-    font-size: 0.55rem;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 1.2rem;
-  }
-
-  .model-block h2 {
-    font-family: var(--serif);
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 0.3rem;
-    line-height: 1.2;
-  }
-
-  .model-sub {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid var(--rule);
-    padding-bottom: 1rem;
-  }
-
-  .model-prose { margin-bottom: 1.5rem; }
-  .model-prose p { margin-bottom: 1rem; }
-  .model-prose ul, .model-prose ol { padding-left: 1.5rem; margin-bottom: 1rem; }
-  .model-prose li { margin-bottom: 0.5rem; }
-  .model-prose strong { font-weight: 700; }
-  .model-prose em { font-style: italic; }
-  .model-prose blockquote {
-    border-left: 3px solid var(--rule);
-    padding-left: 1.2rem;
-    margin: 1.2rem 0;
-    font-style: italic;
-    color: var(--muted);
-  }
-
-  .model-block h3 {
-    font-family: var(--serif);
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin: 2rem 0 0.8rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--rule);
-  }
-
-  .model-pull {
-    font-family: var(--serif);
-    font-size: 1.2rem;
-    font-style: italic;
-    line-height: 1.8;
-    color: var(--muted);
-    border-top: 2px solid var(--rule);
-    padding-top: 1.5rem;
-    margin-top: 2rem;
-  }
-
-  /* ── FRACTAL LATENCY TABLE ── */
-  .fractal-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.85rem;
-    margin: 1.5rem 0;
-  }
-
-  .fractal-table th {
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding: 0.7rem 0.8rem;
-    border-bottom: 2px solid var(--rule);
-    text-align: left;
-  }
-
-  .fractal-table td {
-    padding: 0.8rem;
-    border-bottom: 1px solid var(--rule);
-    vertical-align: top;
-    line-height: 1.6;
-  }
-
-  .fractal-table tr:last-child td { border-bottom: none; }
-
-  .tier-badge {
-    display: inline-block;
-    width: 1.6rem;
-    height: 1.6rem;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 1.6rem;
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: white;
-    margin-right: 0.4rem;
-  }
-
-  .tb-I { background: var(--first-aid); }
-  .tb-II { background: var(--emergency); }
-  .tb-III { background: var(--urgent); }
-  .tb-IV { background: var(--outpatient); }
-  .tb-V { background: var(--inpatient); }
-
-  .latency-value {
-    font-family: var(--mono);
-    font-weight: 700;
-    font-size: 0.8rem;
-  }
-  .lv-I { color: var(--first-aid); }
-  .lv-II { color: var(--emergency); }
-  .lv-III { color: var(--urgent); }
-  .lv-IV { color: var(--outpatient); }
-  .lv-V { color: var(--inpatient); }
-
-  /* ── DIGITAL TWIN SECTION ── */
-  .twin-architecture {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    margin: 1.5rem 0;
-    background: var(--rule);
-  }
-
-  .twin-arch-cell {
-    background: var(--paper);
-    padding: 1.4rem;
-  }
-
-  .twin-arch-cell h4 {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--twin-acc);
-    margin-bottom: 0.8rem;
-  }
-
-  .twin-arch-cell p {
-    font-size: 0.9rem;
-    line-height: 1.65;
-    color: var(--ink);
-  }
-
-  /* ── PASSCODE GATE VIZ ── */
-  .passcode-viz {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 2rem;
-    margin: 1.5rem 0;
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    line-height: 1.9;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .passcode-viz::before {
-    content: '⬛ UKUBONA DIGITAL TWIN · ACCESS CONTROL LAYER';
-    display: block;
-    color: var(--twin-glow);
-    letter-spacing: 0.3em;
-    margin-bottom: 1rem;
-    font-size: 0.55rem;
-  }
-
-  .pv-row { display: flex; gap: 1rem; align-items: baseline; margin-bottom: 0.3rem; }
-  .pv-label { color: #5a7a8a; width: 14rem; flex-shrink: 0; }
-  .pv-value { color: var(--paper); }
-  .pv-value.granted { color: #4adf8a; }
-  .pv-value.denied { color: var(--first-aid); }
-  .pv-value.partial { color: var(--urgent); }
-  .pv-sep { border-top: 1px solid rgba(255,255,255,0.08); margin: 0.8rem 0; }
-
-  /* ── VINDICATE WALK ── */
-  .vindicate-walk {
-    background: rgba(0,0,0,0.03);
-    border: 1px solid var(--rule);
-    padding: 1.5rem;
-    margin: 1.5rem 0;
-  }
-
-  .vw-step {
-    display: grid;
-    grid-template-columns: 1.4rem 10rem 1fr;
-    gap: 1rem;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
-    font-size: 0.88rem;
-    align-items: baseline;
-  }
-
-  .vw-step:last-child { border-bottom: none; }
-  .vw-letter { font-family: var(--mono); font-weight: 700; color: var(--g-acc); }
-  .vw-cat { font-weight: 700; }
-  .vw-ex { color: var(--muted); font-style: italic; }
-
-  /* ── ROUND TABLE ── */
-  .round-table {
-    width: 100%;
-    margin: 1.5rem 0;
-  }
-
-  .rt-row {
-    display: grid;
-    grid-template-columns: 1.5fr 2fr 2fr;
-    gap: 1px;
-    background: var(--rule);
-    margin-bottom: 1px;
-  }
-
-  .rt-head { background: transparent; }
-  .rt-head .rt-cell {
-    background: var(--ink);
-    color: var(--paper);
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-  }
-
-  .rt-cell {
-    background: var(--paper);
-    padding: 0.8rem;
-    font-size: 0.88rem;
-    line-height: 1.55;
-  }
-
-  /* ── UKUBONA API FLOW ── */
-  .api-flow {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    margin: 1.5rem 0;
-    overflow-x: auto;
-    padding-bottom: 0.5rem;
-  }
-
-  .api-node {
-    flex-shrink: 0;
-    padding: 0.8rem 1rem;
-    text-align: center;
-    min-width: 8rem;
-  }
-
-  .api-node.patient { background: var(--twin-acc); color: white; }
-  .api-node.ukubona { background: var(--ink); color: var(--paper); }
-  .api-node.llm { background: var(--g-acc); color: white; }
-  .api-node.system { background: var(--o-acc); color: white; }
-  .api-node.ehr { background: var(--muted); color: white; }
-
-  .api-node-label {
-    font-family: var(--mono);
-    font-size: 0.55rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    opacity: 0.7;
-    margin-bottom: 0.2rem;
-  }
-
-  .api-node-name {
-    font-family: var(--serif);
-    font-size: 0.85rem;
-    font-weight: 700;
-  }
-
-  .api-arrow {
-    flex-shrink: 0;
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    color: var(--muted);
-    padding: 0 0.3rem;
-    text-align: center;
-  }
-
-  .api-arrow span {
-    display: block;
-    font-size: 1.2rem;
-    line-height: 1;
-    color: var(--rule);
-  }
-
-  /* ── DEMOCRATISATION GRID ── */
-  .demo-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--rule);
-    margin: 1.5rem 0;
-  }
-
-  .demo-cell {
-    background: var(--cream);
-    padding: 1.4rem;
-  }
-
-  .demo-cell h4 {
-    font-family: var(--serif);
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-  }
-
-  .demo-cell h4 em {
-    font-size: 0.75rem;
-    font-family: var(--mono);
-    font-style: normal;
-    color: var(--muted);
-    display: block;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    font-weight: 400;
-    margin-bottom: 0.3rem;
-  }
-
-  .demo-cell p {
-    font-size: 0.88rem;
-    line-height: 1.65;
-    color: var(--muted);
-  }
-
-  /* ── FADE IN ── */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(16px);
-    animation: fadeUp 0.6s ease forwards;
-  }
-
-  @keyframes fadeUp {
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* staggered */
-  .fade-in:nth-child(1) { animation-delay: 0.1s; }
-  .fade-in:nth-child(2) { animation-delay: 0.2s; }
-  .fade-in:nth-child(3) { animation-delay: 0.3s; }
-  .fade-in:nth-child(4) { animation-delay: 0.4s; }
-  .fade-in:nth-child(5) { animation-delay: 0.5s; }
-
-  /* ── FOOTER ── */
-  footer {
-    background: var(--ink);
-    color: #6a6050;
-    padding: 2rem 3rem;
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
-    margin-top: 4rem;
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 720px) {
-    .timestack-hero { grid-template-columns: 1fr 1fr; }
-    .timestack-hero .ts-cell[data-tier="V"] { grid-column: span 2; }
-    .twin-architecture { grid-template-columns: 1fr; }
-    .demo-grid { grid-template-columns: 1fr; }
-    .rt-row { grid-template-columns: 1fr; }
-    .cipher-line { grid-template-columns: 2rem 1fr; }
-    .cl-verb, .cl-key { display: none; }
-    .api-flow { flex-direction: column; }
-  }
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:var(--serif); font-size:18px; line-height:1.9;
+  transition:background .3s,color .3s;
+}
+body::before{
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── THEME TOGGLE ── */
+.theme-toggle{position:fixed;top:1.2rem;right:1.5rem;z-index:999;display:flex;align-items:center;gap:.55rem;font-family:var(--mono);font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink3)}
+.toggle-switch{position:relative;width:2.6rem;height:1.3rem;background:var(--toggle-bg);border:1px solid var(--rule);border-radius:0;cursor:pointer;transition:background .25s}
+.toggle-switch::after{content:'';position:absolute;top:.2rem;left:.2rem;width:.75rem;height:.75rem;background:var(--toggle-knob);transition:transform .25s}
+[data-theme="dark"] .toggle-switch::after{transform:translateX(1.25rem)}
+
+/* ── PAGE ── */
+.page{max-width:880px;margin:0 auto;padding:0 2.4rem 12rem;position:relative;z-index:1}
+
+/* ── MASTHEAD ── */
+.masthead{padding:8rem 0 4rem;border-bottom:4px double var(--ink);margin-bottom:5rem;animation:drop 1.1s cubic-bezier(.16,1,.3,1) both}
+.mast-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.38em;text-transform:uppercase;color:var(--ink3);margin-bottom:2.5rem}
+.mast-numeral{font-family:var(--display);font-size:clamp(5rem,18vw,14rem);font-weight:900;line-height:.85;color:transparent;-webkit-text-stroke:2px var(--rule);letter-spacing:-.04em;margin-bottom:-1rem;user-select:none;opacity:.4}
+.mast-title{font-family:var(--display);font-size:clamp(2rem,5vw,3.8rem);font-weight:700;line-height:1.1;color:var(--ink);margin-bottom:1rem}
+.mast-title em{font-style:italic;font-weight:400;color:var(--accent)}
+.mast-sub{font-family:var(--mono);font-size:.58rem;color:var(--ink3);letter-spacing:.1em;line-height:2.2;margin-bottom:3rem}
+.mast-sub em{color:var(--accent2);font-style:normal}
+
+/* ── MASTER ALIGN TABLE ── */
+.align-strip{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.6rem;margin:2rem 0;border:1px solid var(--rule)}
+.align-strip thead{background:rgba(180,140,60,.1)}
+.align-strip th{padding:.5rem .7rem;font-size:.46rem;letter-spacing:.26em;text-transform:uppercase;color:var(--ink3);border-bottom:2px solid var(--rule);border-right:1px solid var(--rule2);text-align:left}
+.align-strip th:last-child{border-right:none}
+.align-strip td{padding:.45rem .7rem;border-bottom:1px solid var(--rule2);border-right:1px solid var(--rule2);vertical-align:top;line-height:1.5}
+.align-strip td:last-child{border-right:none}
+.align-strip tr:last-child td{border-bottom:none}
+.align-strip tr.rg  td{color:var(--g-acc)}
+.align-strip tr.ro  td{color:var(--o-acc)}
+.align-strip tr.ra  td{color:var(--a-acc)}
+.align-strip tr.rx  td{color:var(--x-acc)}
+.align-strip tr.rtw td{color:var(--tw-acc)}
+.align-strip tr.rt  td{color:var(--t-acc)}
+.align-strip tr.rd  td{color:var(--d-acc)}
+.align-strip tr td:first-child{font-weight:600}
+
+/* ── CIPHER GRID ── */
+.cipher-grid{margin-top:3rem;border-top:1px solid var(--rule)}
+.cipher-line{display:grid;grid-template-columns:4rem 1.3fr 2.1fr .85fr;align-items:baseline;padding:.8rem 0;border-bottom:1px solid var(--rule2);gap:1rem;transition:background .15s}
+.cipher-line:hover{background:rgba(180,140,60,.05)}
+.cl-roman{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;color:var(--rule)}
+.cl-noun{font-family:var(--display);font-size:.82rem;letter-spacing:.06em;font-weight:700;color:var(--ink2)}
+.cl-verb{font-family:var(--serif);font-size:.88rem;font-style:italic;color:var(--ink)}
+.cl-key{font-family:var(--mono);font-size:.5rem;letter-spacing:.18em;border:1px solid;padding:.16rem .38rem;justify-self:end;align-self:center}
+
+.cipher-line.cg .cl-roman,.cipher-line.cg .cl-noun,.cipher-line.cg .cl-verb{color:var(--g-acc)}
+.cipher-line.cg .cl-key{border-color:var(--g-acc);color:var(--g-acc);background:rgba(64,144,176,.08)}
+.cipher-line.co .cl-roman,.cipher-line.co .cl-noun,.cipher-line.co .cl-verb{color:var(--o-acc)}
+.cipher-line.co .cl-key{border-color:var(--o-acc);color:var(--o-acc);background:rgba(90,160,96,.08)}
+.cipher-line.ca .cl-roman,.cipher-line.ca .cl-noun,.cipher-line.ca .cl-verb{color:var(--a-acc)}
+.cipher-line.ca .cl-key{border-color:var(--a-acc);color:var(--a-acc);background:rgba(128,96,200,.08)}
+.cipher-line.cx .cl-roman,.cipher-line.cx .cl-noun,.cipher-line.cx .cl-verb{color:var(--x-acc)}
+.cipher-line.cx .cl-key{border-color:var(--x-acc);color:var(--x-acc);background:rgba(208,128,48,.08)}
+.cipher-line.ctw .cl-roman,.cipher-line.ctw .cl-noun,.cipher-line.ctw .cl-verb{color:var(--tw-acc)}
+.cipher-line.ctw .cl-key{border-color:var(--tw-acc);color:var(--tw-acc);background:rgba(32,144,160,.08)}
+.cipher-line.ct .cl-roman,.cipher-line.ct .cl-noun,.cipher-line.ct .cl-verb{color:var(--t-acc)}
+.cipher-line.ct .cl-key{border-color:var(--t-acc);color:var(--t-acc);background:rgba(144,96,224,.08)}
+.cipher-line.cd .cl-roman,.cipher-line.cd .cl-noun,.cipher-line.cd .cl-verb{color:var(--d-acc)}
+.cipher-line.cd .cl-key{border-color:var(--d-acc);color:var(--d-acc);background:rgba(192,144,48,.08)}
+
+/* ── SEC RULE ── */
+.sec-rule{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:1.2rem;margin:5.5rem 0 2.5rem}
+.sec-rule-label{font-family:var(--mono);font-size:.52rem;letter-spacing:.4em;text-transform:uppercase;white-space:nowrap;padding:.28rem .8rem;border:1px solid}
+.sec-rule hr{border:none;border-top:1px solid var(--rule);width:100%}
+.sec-rule-label.tier1 {border-color:var(--t1-acc);color:var(--t1-acc);background:rgba(200,48,48,.06)}
+.sec-rule-label.tier2 {border-color:var(--t2-acc);color:var(--t2-acc);background:rgba(200,96,32,.06)}
+.sec-rule-label.tier3 {border-color:var(--t3-acc);color:var(--t3-acc);background:rgba(176,144,32,.06)}
+.sec-rule-label.tier4 {border-color:var(--t4-acc);color:var(--t4-acc);background:rgba(64,144,64,.06)}
+.sec-rule-label.tier5 {border-color:var(--t5-acc);color:var(--t5-acc);background:rgba(48,112,192,.06)}
+.sec-rule-label.sg    {border-color:var(--g-acc);color:var(--g-acc);background:rgba(64,144,176,.06)}
+.sec-rule-label.so    {border-color:var(--o-acc);color:var(--o-acc);background:rgba(90,160,96,.06)}
+.sec-rule-label.sa    {border-color:var(--a-acc);color:var(--a-acc);background:rgba(128,96,200,.06)}
+.sec-rule-label.sx    {border-color:var(--x-acc);color:var(--x-acc);background:rgba(208,128,48,.06)}
+.sec-rule-label.stw   {border-color:var(--tw-acc);color:var(--tw-acc);background:rgba(32,144,160,.06)}
+.sec-rule-label.st    {border-color:var(--t-acc);color:var(--t-acc);background:rgba(144,96,224,.06)}
+.sec-rule-label.sd    {border-color:var(--d-acc);color:var(--d-acc);background:rgba(192,144,48,.06)}
+.sec-rule-label.schema{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* ── MODEL BLOCKS ── */
+.model-block{border-left:3px solid;padding:2.4rem 2.8rem;margin:0 0 3rem;position:relative}
+.model-stamp{position:absolute;top:1rem;right:1.4rem;font-family:var(--mono);font-size:.44rem;letter-spacing:.38em;text-transform:uppercase;opacity:.6;border:1px solid;padding:.15rem .5rem}
+.model-block h2{font-family:var(--display);font-size:1.4rem;font-weight:700;margin-bottom:.5rem;line-height:1.2}
+.model-block .model-sub{font-family:var(--mono);font-size:.54rem;letter-spacing:.22em;margin-bottom:2rem}
+.model-block h3{font-family:var(--display);font-size:1.05rem;font-weight:700;margin:2.2rem 0 .6rem;padding-top:1.4rem;border-top:1px solid}
+.model-prose{font-size:.9rem;line-height:1.85;margin-bottom:1.2rem}
+.model-prose p{margin-bottom:1rem}
+.model-prose ul,.model-prose ol{padding-left:1.4rem;margin-bottom:1rem}
+.model-prose li{margin-bottom:.35rem;line-height:1.7}
+.model-prose blockquote{border-left:2px solid;margin:1.2rem 0;padding:.6rem 1.2rem;font-style:italic;opacity:.85}
+.model-pull{border-top:1px solid;border-bottom:1px solid;padding:1.2rem 0;margin:1.8rem 0;font-family:var(--display);font-style:italic;font-size:1.05rem;line-height:1.65}
+
+/* block themes — tier */
+.t1-block{background:var(--t1-bg);border-color:var(--t1-acc)}.t1-block .model-stamp{color:var(--t1-acc);border-color:var(--t1-acc)}.t1-block h2,.t1-block h3{color:var(--t1-text)}.t1-block h3{border-color:rgba(200,48,48,.2)}.t1-block .model-sub{color:var(--t1-acc)}.t1-block .model-prose{color:var(--t1-text)}.t1-block .model-prose strong{color:#ffe0e0}.t1-block .model-prose em{color:var(--t1-acc)}.t1-block .model-prose blockquote{border-color:var(--t1-acc)}.t1-block .model-pull{color:var(--t1-acc);border-color:rgba(200,48,48,.3)}
+.t2-block{background:var(--t2-bg);border-color:var(--t2-acc)}.t2-block .model-stamp{color:var(--t2-acc);border-color:var(--t2-acc)}.t2-block h2,.t2-block h3{color:var(--t2-text)}.t2-block h3{border-color:rgba(200,96,32,.2)}.t2-block .model-sub{color:var(--t2-acc)}.t2-block .model-prose{color:var(--t2-text)}.t2-block .model-prose strong{color:#fff0d0}.t2-block .model-prose em{color:var(--t2-acc)}.t2-block .model-prose blockquote{border-color:var(--t2-acc)}.t2-block .model-pull{color:var(--t2-acc);border-color:rgba(200,96,32,.3)}
+.t3-block{background:var(--t3-bg);border-color:var(--t3-acc)}.t3-block .model-stamp{color:var(--t3-acc);border-color:var(--t3-acc)}.t3-block h2,.t3-block h3{color:var(--t3-text)}.t3-block h3{border-color:rgba(176,144,32,.2)}.t3-block .model-sub{color:var(--t3-acc)}.t3-block .model-prose{color:var(--t3-text)}.t3-block .model-prose strong{color:#fff8c0}.t3-block .model-prose em{color:var(--t3-acc)}.t3-block .model-prose blockquote{border-color:var(--t3-acc)}.t3-block .model-pull{color:var(--t3-acc);border-color:rgba(176,144,32,.3)}
+.t4-block{background:var(--t4-bg);border-color:var(--t4-acc)}.t4-block .model-stamp{color:var(--t4-acc);border-color:var(--t4-acc)}.t4-block h2,.t4-block h3{color:var(--t4-text)}.t4-block h3{border-color:rgba(64,144,64,.2)}.t4-block .model-sub{color:var(--t4-acc)}.t4-block .model-prose{color:var(--t4-text)}.t4-block .model-prose strong{color:#d0ffd0}.t4-block .model-prose em{color:var(--t4-acc)}.t4-block .model-prose blockquote{border-color:var(--t4-acc)}.t4-block .model-pull{color:var(--t4-acc);border-color:rgba(64,144,64,.3)}
+.t5-block{background:var(--t5-bg);border-color:var(--t5-acc)}.t5-block .model-stamp{color:var(--t5-acc);border-color:var(--t5-acc)}.t5-block h2,.t5-block h3{color:var(--t5-text)}.t5-block h3{border-color:rgba(48,112,192,.2)}.t5-block .model-sub{color:var(--t5-acc)}.t5-block .model-prose{color:var(--t5-text)}.t5-block .model-prose strong{color:#d0e8ff}.t5-block .model-prose em{color:var(--t5-acc)}.t5-block .model-prose blockquote{border-color:var(--t5-acc)}.t5-block .model-pull{color:var(--t5-acc);border-color:rgba(48,112,192,.3)}
+
+/* block themes — pedagogy */
+.g-block{background:var(--g-bg);border-color:var(--g-acc)}.g-block .model-stamp{color:var(--g-acc);border-color:var(--g-acc)}.g-block h2,.g-block h3{color:var(--g-text)}.g-block h3{border-color:rgba(64,144,176,.2)}.g-block .model-sub{color:var(--g-acc)}.g-block .model-prose{color:var(--g-text)}.g-block .model-prose strong{color:#d0eeff}.g-block .model-prose em{color:var(--g-acc)}.g-block .model-prose blockquote{border-color:var(--g-acc)}.g-block .model-pull{color:var(--g-acc);border-color:rgba(64,144,176,.3)}
+.o-block{background:var(--o-bg);border-color:var(--o-acc)}.o-block .model-stamp{color:var(--o-acc);border-color:var(--o-acc)}.o-block h2,.o-block h3{color:var(--o-text)}.o-block h3{border-color:rgba(90,160,96,.2)}.o-block .model-sub{color:var(--o-acc)}.o-block .model-prose{color:var(--o-text)}.o-block .model-prose strong{color:#d0f8c0}.o-block .model-prose em{color:var(--o-acc)}.o-block .model-prose blockquote{border-color:var(--o-acc)}.o-block .model-pull{color:var(--o-acc);border-color:rgba(90,160,96,.3)}
+.a-block{background:var(--a-bg);border-color:var(--a-acc)}.a-block .model-stamp{color:var(--a-acc);border-color:var(--a-acc)}.a-block h2,.a-block h3{color:var(--a-text)}.a-block h3{border-color:rgba(128,96,200,.2)}.a-block .model-sub{color:var(--a-acc)}.a-block .model-prose{color:var(--a-text)}.a-block .model-prose strong{color:#e8d8ff}.a-block .model-prose em{color:var(--a-acc)}.a-block .model-prose blockquote{border-color:var(--a-acc)}.a-block .model-pull{color:var(--a-acc);border-color:rgba(128,96,200,.3)}
+.x-block{background:var(--x-bg);border-color:var(--x-acc)}.x-block .model-stamp{color:var(--x-acc);border-color:var(--x-acc)}.x-block h2,.x-block h3{color:var(--x-text)}.x-block h3{border-color:rgba(208,128,48,.2)}.x-block .model-sub{color:var(--x-acc)}.x-block .model-prose{color:var(--x-text)}.x-block .model-prose strong{color:#fff0c0}.x-block .model-prose em{color:var(--x-acc)}.x-block .model-prose blockquote{border-color:var(--x-acc)}.x-block .model-pull{color:var(--x-acc);border-color:rgba(208,128,48,.3)}
+.tw-block{background:var(--tw-bg);border-color:var(--tw-acc)}.tw-block .model-stamp{color:var(--tw-acc);border-color:var(--tw-acc)}.tw-block h2,.tw-block h3{color:var(--tw-text)}.tw-block h3{border-color:rgba(32,144,160,.2)}.tw-block .model-sub{color:var(--tw-acc)}.tw-block .model-prose{color:var(--tw-text)}.tw-block .model-prose strong{color:#c0f0f8}.tw-block .model-prose em{color:var(--tw-acc)}.tw-block .model-prose blockquote{border-color:var(--tw-acc)}.tw-block .model-pull{color:var(--tw-acc);border-color:rgba(32,144,160,.3)}
+.t-block{background:var(--t-bg);border-color:var(--t-acc)}.t-block .model-stamp{color:var(--t-acc);border-color:var(--t-acc)}.t-block h2,.t-block h3{color:var(--t-text)}.t-block h3{border-color:rgba(144,96,224,.2)}.t-block .model-sub{color:var(--t-acc)}.t-block .model-prose{color:var(--t-text)}.t-block .model-prose strong{color:#e8d8ff}.t-block .model-prose em{color:var(--t-acc)}.t-block .model-prose blockquote{border-color:var(--t-acc)}.t-block .model-pull{color:var(--t-acc);border-color:rgba(144,96,224,.3)}
+.d-block{background:var(--d-bg);border-color:var(--d-acc)}.d-block .model-stamp{color:var(--d-acc);border-color:var(--d-acc)}.d-block h2,.d-block h3{color:var(--d-text)}.d-block h3{border-color:rgba(192,144,48,.2)}.d-block .model-sub{color:var(--d-acc)}.d-block .model-prose{color:var(--d-text)}.d-block .model-prose strong{color:#fff8c0}.d-block .model-prose em{color:var(--d-acc)}.d-block .model-prose blockquote{border-color:var(--d-acc)}.d-block .model-pull{color:var(--d-acc);border-color:rgba(192,144,48,.3)}
+
+/* ── TABLES ── */
+.model-prose table{width:100%;border-collapse:collapse;font-size:.72rem;margin:1.4rem 0;font-family:var(--mono)}
+.model-prose th{font-size:.54rem;letter-spacing:.16em;text-transform:uppercase;padding:.48rem .65rem;border-bottom:2px solid;text-align:left}
+.model-prose td{padding:.44rem .65rem;border-bottom:1px solid;vertical-align:top;line-height:1.5}
+.model-prose tr:last-child td{border-bottom:none}
+
+/* ── STACK VISUALIZER (fractal tiers) ── */
+.stack-vis{margin:2.5rem 0;border:1px solid var(--rule);position:relative}
+.stack-layer{
+  display:grid;grid-template-columns:1.4rem 11rem 1fr 7rem;
+  align-items:center;gap:0;
+  border-bottom:1px solid var(--rule2);
+  transition:filter .2s;
+}
+.stack-layer:last-child{border-bottom:none}
+.stack-layer:hover{filter:brightness(1.15)}
+.sl-num{font-family:var(--mono);font-size:.52rem;letter-spacing:.2em;color:var(--ink3);padding:.7rem .5rem;border-right:1px solid var(--rule2);text-align:center}
+.sl-name{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;padding:.7rem .9rem;border-right:1px solid var(--rule2);font-weight:500}
+.sl-desc{font-family:var(--serif);font-size:.82rem;font-style:italic;padding:.7rem 1rem;border-right:1px solid var(--rule2);color:var(--ink3)}
+.sl-alpha{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;padding:.7rem .8rem;text-align:right}
+
+.stack-layer.lt1{background:rgba(200,48,48,.08)}.stack-layer.lt1 .sl-num,.stack-layer.lt1 .sl-name,.stack-layer.lt1 .sl-alpha{color:var(--t1-acc)}
+.stack-layer.lt2{background:rgba(200,96,32,.08)}.stack-layer.lt2 .sl-num,.stack-layer.lt2 .sl-name,.stack-layer.lt2 .sl-alpha{color:var(--t2-acc)}
+.stack-layer.lt3{background:rgba(176,144,32,.08)}.stack-layer.lt3 .sl-num,.stack-layer.lt3 .sl-name,.stack-layer.lt3 .sl-alpha{color:var(--t3-acc)}
+.stack-layer.lt4{background:rgba(64,144,64,.08)}.stack-layer.lt4 .sl-num,.stack-layer.lt4 .sl-name,.stack-layer.lt4 .sl-alpha{color:var(--t4-acc)}
+.stack-layer.lt5{background:rgba(48,112,192,.08)}.stack-layer.lt5 .sl-num,.stack-layer.lt5 .sl-name,.stack-layer.lt5 .sl-alpha{color:var(--t5-acc)}
+
+/* badge for "most critical" tier */
+.stuck-badge{
+  position:absolute;right:-1px;top:50%;transform:translateY(-50%);
+  font-family:var(--mono);font-size:.44rem;letter-spacing:.28em;
+  text-transform:uppercase;padding:.2rem .55rem;
+  background:var(--t1-acc);color:#fff;white-space:nowrap;
+}
+
+/* ── VINDICATE WALK ── */
+.vindicate-walk{margin:2rem 0;border:1px solid var(--rule)}
+.vw-header{font-family:var(--mono);font-size:.44rem;letter-spacing:.38em;text-transform:uppercase;color:var(--g-acc);opacity:.8;padding:.6rem 1rem;border-bottom:1px solid var(--rule)}
+.vw-step{
+  display:grid;grid-template-columns:1.4rem 11rem 1fr;
+  align-items:baseline;gap:.8rem;
+  padding:.55rem 1rem;border-bottom:1px solid var(--rule2);
+  font-size:.82rem;
+}
+.vw-step:last-child{border-bottom:none}
+.vw-step:hover{background:rgba(64,144,176,.05)}
+.vw-letter{font-family:var(--mono);font-weight:700;color:var(--g-acc)}
+.vw-cat{font-weight:600;color:var(--g-text, var(--ink2))}
+.vw-ex{font-style:italic;color:var(--ink3)}
+
+/* ── PASSCODE VIZ ── */
+.passcode-viz{
+  background:#060c0e;
+  font-family:var(--mono);font-size:.68rem;line-height:1.9;
+  padding:1.4rem 1.8rem;margin:1.5rem 0;
+  border-left:3px solid var(--tw-acc);
+}
+.passcode-viz::before{
+  content:'⬛ UKUBONA · DIGITAL TWIN · ACCESS CONTROL LAYER';
+  display:block;color:var(--tw-acc);
+  font-size:.46rem;letter-spacing:.38em;opacity:.8;margin-bottom:.8rem;
+}
+.pv-row{display:flex;gap:1rem;align-items:baseline;margin-bottom:.25rem}
+.pv-label{color:#2a5060;width:16rem;flex-shrink:0}
+.pv-value{color:#a8d8cc}
+.pv-value.granted{color:var(--ok-acc)}
+.pv-value.denied{color:var(--t1-acc)}
+.pv-value.partial{color:var(--t3-acc)}
+.pv-sep{border-top:1px solid rgba(32,144,160,.15);margin:.7rem 0}
+
+/* ── API FLOW CHAIN ── */
+.chain{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;color:var(--ink3);margin:1.5rem 0}
+.chain .node{color:var(--ink);background:rgba(180,140,60,.08);border:1px solid var(--rule);padding:.2em .55em}
+.chain .arr{color:var(--accent2)}
+.chain .node.twin{background:rgba(32,144,160,.12);border-color:var(--tw-acc);color:var(--tw-acc)}
+.chain .node.llm{background:rgba(64,144,176,.12);border-color:var(--g-acc);color:var(--g-acc)}
+.chain .node.system{background:rgba(90,160,96,.12);border-color:var(--o-acc);color:var(--o-acc)}
+.chain .node.deprecated{background:rgba(128,96,200,.08);border-color:var(--a-acc);color:var(--a-acc);text-decoration:line-through;opacity:.6}
+
+/* ── ROUND TABLE ── */
+.round-table{margin:2.5rem 0;border:1px solid var(--rule)}
+.rt-row{display:grid;grid-template-columns:9rem 1fr 1fr 1fr 1fr;gap:0;border-bottom:1px solid var(--rule2)}
+.rt-row:last-child{border-bottom:none}
+.rt-row.rt-head{background:rgba(180,140,60,.08)}
+.rt-cell{padding:.55rem .9rem;font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;line-height:1.6;border-right:1px solid var(--rule2)}
+.rt-cell:last-child{border-right:none}
+.rt-head .rt-cell{font-size:.46rem;letter-spacing:.26em;text-transform:uppercase;color:var(--ink3)}
+
+/* ── LATENCY SPECTRUM ── */
+.latency-spectrum{margin:2rem 0}
+.lat-row{display:flex;align-items:center;gap:1rem;margin:.65rem 0}
+.lat-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;color:var(--ink3);min-width:140px}
+.lat-track{flex:1;height:3px;background:var(--rule2);position:relative}
+.lat-fill{height:100%;transition:width .4s}
+.lat-note{font-family:var(--mono);font-size:.52rem;letter-spacing:.06em;color:var(--ink3);font-style:italic;max-width:300px}
+
+/* ── VERSE ── */
+.verse-block{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;line-height:2.2;color:var(--ink3);border-left:3px solid var(--rule);padding:.8rem 1.6rem;margin:2rem 0;font-style:italic}
+.verse-block cite{display:block;margin-top:.8rem;font-style:normal;font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ink3);opacity:.7}
+
+/* ── ANNOTATION ── */
+.annotation{margin:1.5rem 0;border-left:3px solid var(--rule);padding:.9rem 1.4rem;background:rgba(196,168,100,.06);font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;color:var(--ink3);line-height:1.9}
+.annotation::before{content:'♜  DIAGNOSTIC CARTOGRAPHY · TIME-STACK FRACTAL · DIGITAL TWIN · UKUBONA LLC';display:block;font-size:.44rem;letter-spacing:.4em;opacity:.7;margin-bottom:.4rem}
+
+/* ── INTERLUDE ── */
+.interlude{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:2rem 0;margin:3.5rem 0;font-family:var(--display);font-style:italic;font-size:1.1rem;line-height:1.7;color:var(--ink2);text-align:center}
+
+/* ── CODA ── */
+.coda{border:2px solid var(--ink);padding:3.2rem 3.8rem;margin:6rem 0;position:relative}
+.coda-label{position:absolute;top:-.75rem;left:2rem;font-family:var(--mono);font-size:.48rem;letter-spacing:.45em;text-transform:uppercase;background:var(--paper);padding:0 .75rem;color:var(--ink)}
+.coda h2{font-family:var(--display);font-size:1.3rem;font-weight:700;font-style:italic;color:var(--ink);margin-bottom:1.4rem}
+.coda p{color:var(--ink2);margin-bottom:1.1rem;line-height:1.85}
+.coda strong{color:var(--ink)}
+
+/* ── FOOTER ── */
+footer{border-top:3px double var(--ink);padding:3rem 0 7rem}
+.foot-chain{font-family:var(--mono);font-size:.54rem;letter-spacing:.28em;color:var(--ink3);margin-bottom:.8rem}
+.foot-chain span{color:var(--accent2)}
+.foot-note{font-family:var(--mono);font-size:.48rem;letter-spacing:.1em;color:var(--ink3);line-height:2.5}
+
+/* ── ANIMATIONS ── */
+.fade-in{opacity:0;transform:translateY(14px);transition:opacity .65s ease,transform .65s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+@keyframes drop{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:640px){
+  .mast-numeral{font-size:6rem}.mast-title{font-size:1.9rem}
+  .cipher-line{grid-template-columns:3rem 1fr;gap:.2rem}.cl-verb,.cl-key{grid-column:2}
+  .coda,.model-block{padding:1.8rem 1.6rem}
+  .theme-toggle{top:.7rem;right:.9rem}
+  .stack-layer{grid-template-columns:1.4rem 1fr}.sl-desc,.sl-alpha{display:none}
+  .lat-row{flex-wrap:wrap}.lat-note{min-width:100%}
+  .rt-row{grid-template-columns:1fr}.rt-cell{border-right:none;border-bottom:1px solid var(--rule2)}
+  .chain{gap:.3rem}
+}
 </style>
 </head>
 <body>
@@ -679,187 +332,187 @@
 
 <div class="page">
 
+  <!-- ══ MASTHEAD ══ -->
+  <header class="masthead">
+    <br><br><br>
+    <div class="mast-eyebrow">Ukubona LLC · Diagnostic Cartography · Low vs High Learning Rate · Time-Stack Fractals · Digital Twin · G · O · A · X · T · D</div>
+    <div class="mast-numeral" aria-hidden="true">♜</div>
+    <h1 class="mast-title">
+      Diagnostic Cartography<br>
+      <em>Time-Stack Fractals, Latency Bounds,<br>Epistemic Infrastructure &amp; the Ukubona Digital Twin</em>
+    </h1>
+    <p class="mast-sub">
+      // I.&nbsp; First Aid — <em>0–60 sec · pure System 1 · reflex scripts · no differential · stop the catastrophe</em><br>
+      // II.&nbsp; Emergency — <em>1–10 min · illness scripts + forced System 2 interrupt · what kills fastest if I'm wrong?</em><br>
+      // III.&nbsp; Urgent — <em>10 min–24 h · VINDICATE-lite · fractal reasoning becomes visible · hybrid cognition</em><br>
+      // IV.&nbsp; Outpatient — <em>days–weeks · differential as living document · narrative time · diagnosis emerges</em><br>
+      // V.&nbsp; In-Patient — <em>hours–months · distributed System 2 · coherence across teams · cartography under load</em><br>
+      // T.&nbsp; Time &amp; Fractal — <em>same diagnostic act at different resolutions · map → test → revise · latency bounded by epistemic safety</em><br>
+      // D.&nbsp; Democratisation — <em>seeing blindly · foraging stochastically · rehearsing consequentially · systems as partial observers</em>
+    </p>
 
-<!-- ══ MASTHEAD ══ -->
-<header class="masthead">
-  <div class="mast-eyebrow">Ukubona LLC · Diagnostic Cartography · Time-Stack Fractal · Digital Twin · G · O · A · X</div>
-  <div class="mast-numeral" aria-hidden="true">♜</div>
+    <!-- master alignment table -->
+    <table class="align-strip">
+      <thead>
+        <tr><th>#</th><th>Voice</th><th>Low Learning Rate (Analytical)</th><th>High Learning Rate (Heuristic)</th><th>The Risk</th></tr>
+      </thead>
+      <tbody>
+        <tr class="rg"><td>G</td><td>PBL Pioneers</td><td>McMaster &amp; Harvard · exhaustive DDx · topographic map first</td><td>Pattern recognition · illness scripts · pathognomonic cues</td><td>Analysis paralysis vs premature closure</td></tr>
+        <tr class="ro"><td>O</td><td>Clinical Reasoning</td><td>UCSF · Hopkins · VINDICATE · cartography-first · delayed closure</td><td>EM residencies · high-volume · efficiency</td><td>Implicit curriculum contradicts explicit</td></tr>
+        <tr class="ra"><td>A</td><td>Broad Differential</td><td>Schools teach System 2 · PBL · CPC · diagnostic safety movement</td><td>Clinical culture rewards System 1 · attendings seen as fast</td><td>Speed is earned, not shortcut</td></tr>
+        <tr class="rx"><td>X</td><td>PBL Roster</td><td>McMaster · Cleveland Clinic · LECOM · JABSOM · Mercer · New Mexico</td><td>Step-prep curricula · procedural programs</td><td>PBL is slower, not gentler</td></tr>
+        <tr class="rt"><td>T</td><td>Time-Stack Fractal</td><td>Same diagnostic act at every resolution · map → test → revise · latency bounded by epistemic safety</td><td>Staged transition is temporal, not only educational · acute demands speed</td><td>Fractal drift: Tier IV patient silently migrating to Tier III</td></tr>
+        <tr class="rd"><td>D</td><td>Democratisation</td><td>Seeing blindly · foraging stochastically · rehearsing consequentially · systems as partial observers</td><td>Alert routing · tier-migration detection · no lost history at transitions</td><td>Speed masquerading as intelligence · story reset at transitions</td></tr>
+        <tr class="rtw"><td>⊕</td><td>Digital Twin</td><td>Longitudinal biosocial map · full VINDICATE traversal · uncertainty surfaced</td><td>Rapid hypothesis pruning · 90-sec brief · emergency unlock</td><td>Privacy erosion vs signal loss without data</td></tr>
+      </tbody>
+    </table>
 
-  <h1 class="mast-title">
-    Diagnostic Cartography<br>
-    <em>Time-Stack Fractals · Latency Bounds · Digital Twins</em>
-  </h1>
-
-  <p class="mast-sub">
-    // I.&nbsp; First Aid — <em>seconds to minutes · bystander · pre-system · latency ≤ 4 min</em><br>
-    // II.&nbsp; Emergency — <em>minutes to 1 hour · triage-driven · door-to-needle · latency ≤ 60 min</em><br>
-    // III.&nbsp; Urgent — <em>hours · same-day · ambulatory crisis · latency ≤ 24 h</em><br>
-    // IV.&nbsp; Outpatient — <em>days to weeks · chronic-longitudinal · scheduled cadence · latency ≤ 2 wk</em><br>
-    // V.&nbsp; In-Patient — <em>hours to weeks · continuous monitoring · system-orchestrated · latency: continuous</em>
-  </p>
-
-  <!-- TIME STACK HERO -->
-  <div class="timestack-hero">
-    <div class="ts-cell" data-tier="I">
-      <div class="ts-roman">Tier I</div>
-      <div class="ts-label">First Aid</div>
-      <div class="ts-latency">Admissible latency<br><strong>0 – 4 minutes</strong><br>BLS window · irreversible after</div>
+    <div class="cipher-grid">
+      <div class="cipher-line cg">
+        <span class="cl-roman">G</span>
+        <span class="cl-noun">PBL Pioneers</span>
+        <span class="cl-verb">McMaster &amp; Harvard · deconstruct from the ground up · topographic map before the diagnosis</span>
+        <span class="cl-key">SYSTEM 2</span>
+      </div>
+      <div class="cipher-line co">
+        <span class="cl-roman">O</span>
+        <span class="cl-noun">Clinical Reasoning</span>
+        <span class="cl-verb">UCSF · Hopkins · Mayo · cartography-first · uncertainty tolerated · reasoning structure rewarded</span>
+        <span class="cl-key">CARTOGRAPHY</span>
+      </div>
+      <div class="cipher-line ca">
+        <span class="cl-roman">A</span>
+        <span class="cl-noun">Broad Differential</span>
+        <span class="cl-verb">Schools teach System 2 · clinical culture rewards System 1 · the implicit curriculum contradicts the explicit</span>
+        <span class="cl-key">TENSION</span>
+      </div>
+      <div class="cipher-line cx">
+        <span class="cl-roman">X</span>
+        <span class="cl-noun">PBL Roster</span>
+        <span class="cl-verb">McMaster · Cleveland Clinic · LECOM · JABSOM · Mercer · New Mexico · case-driven map-making</span>
+        <span class="cl-key">INSTITUTIONS</span>
+      </div>
+      <div class="cipher-line ctw">
+        <span class="cl-roman">⊕</span>
+        <span class="cl-noun">Digital Twin</span>
+        <span class="cl-verb">Ukubona LLC · passcode-gated · voice &amp; chat · EHR → living biosocial map · democratised seeing · foraging · rehearsing</span>
+        <span class="cl-key">TWIN</span>
+      </div>
+      <div class="cipher-line ct">
+        <span class="cl-roman">T</span>
+        <span class="cl-noun">Time &amp; Fractal</span>
+        <span class="cl-verb">Healthcare time is stacked institutionally · fractal cognitively · same diagnostic act at different temporal resolutions · map → test → revise</span>
+        <span class="cl-key">FRACTAL</span>
+      </div>
+      <div class="cipher-line cd">
+        <span class="cl-roman">D</span>
+        <span class="cl-noun">Democratisation</span>
+        <span class="cl-verb">Seeing blindly · foraging stochastically · rehearsing consequentially · clinics and hospitals as partial observers of a shared twin</span>
+        <span class="cl-key">ACCESS</span>
+      </div>
     </div>
-    <div class="ts-cell" data-tier="II">
-      <div class="ts-roman">Tier II</div>
-      <div class="ts-label">Emergency</div>
-      <div class="ts-latency">Admissible latency<br><strong>4 – 60 minutes</strong><br>Door-to-needle · code protocols</div>
-    </div>
-    <div class="ts-cell" data-tier="III">
-      <div class="ts-roman">Tier III</div>
-      <div class="ts-label">Urgent</div>
-      <div class="ts-latency">Admissible latency<br><strong>1 – 24 hours</strong><br>Same-day · urgent care window</div>
-    </div>
-    <div class="ts-cell" data-tier="IV">
-      <div class="ts-roman">Tier IV</div>
-      <div class="ts-label">Outpatient</div>
-      <div class="ts-latency">Admissible latency<br><strong>1 day – 2 weeks</strong><br>Scheduled · longitudinal cadence</div>
-    </div>
-    <div class="ts-cell" data-tier="V">
-      <div class="ts-roman">Tier V</div>
-      <div class="ts-label">In-Patient</div>
-      <div class="ts-latency">Admissible latency<br><strong>Continuous (≤ 1 h alerts)</strong><br>Telemetry · nursing rounds</div>
-    </div>
-  </div>
-
-  <!-- MASTER ALIGNMENT TABLE -->
-  <table class="align-strip">
-    <thead>
-      <tr>
-        <th>#</th><th>Concept</th><th>Low Learning Rate (Analytical)</th><th>High Learning Rate (Heuristic)</th><th>The Risk</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="rg"><td>I</td><td>Focus</td><td>Biological mechanisms &amp; exhaustive DDx</td><td>Pattern recognition &amp; Illness Scripts</td><td>Analysis paralysis vs premature closure</td></tr>
-      <tr class="ro"><td>II</td><td>Strength</td><td>Rare/complex cases; avoids cognitive bias</td><td>Efficiency; high volume; emergency settings</td><td>Each excels only in its own terrain</td></tr>
-      <tr class="ra"><td>III</td><td>Digital Twin</td><td>Longitudinal map of the person · full biosocial context</td><td>Alert routing · acute signal detection</td><td>Privacy erosion vs signal-loss without data</td></tr>
-      <tr class="rx"><td>IV</td><td>The paradox</td><td>Students look slow but build deep cartography</td><td>Experts look fast because they already built the map</td><td>Speed is earned, not shortcut</td></tr>
-    </tbody>
-  </table>
-
-  <!-- CIPHER GRID -->
-  <div class="cipher-grid">
-    <div class="cipher-line g-voice">
-      <span class="cl-roman">G</span>
-      <span class="cl-noun">PBL Pioneers</span>
-      <span class="cl-verb">McMaster &amp; Harvard · deconstruct from the ground up · topographic map before the diagnosis</span>
-      <span class="cl-key">SYSTEM 2</span>
-    </div>
-    <div class="cipher-line o-voice">
-      <span class="cl-roman">O</span>
-      <span class="cl-noun">Clinical Reasoning</span>
-      <span class="cl-verb">UCSF · Hopkins · Mayo · cartography-first · uncertainty tolerated · reasoning structure rewarded</span>
-      <span class="cl-key">CARTOGRAPHY</span>
-    </div>
-    <div class="cipher-line a-voice">
-      <span class="cl-roman">A</span>
-      <span class="cl-noun">Broad Differential</span>
-      <span class="cl-verb">Schools teach System 2 · clinical culture rewards System 1 · implicit curriculum contradicts explicit</span>
-      <span class="cl-key">TENSION</span>
-    </div>
-    <div class="cipher-line x-voice">
-      <span class="cl-roman">X</span>
-      <span class="cl-noun">Digital Twin</span>
-      <span class="cl-verb">Ukubona LLC · passcode-gated · voice &amp; chat interface · EHR → living biosocial map · democratised seeing</span>
-      <span class="cl-key">TWIN</span>
-    </div>
-  </div>
-</header>
-
-<!-- ══ BODY ══ -->
-<div class="page-body">
+  </header>
 
   <div class="verse-block fade-in">
     The diagnosis is not spotted.<br>
-    It <em>emerges</em> — from a high-resolution map<br>
+    It emerges — from a high-resolution map<br>
     of the patient's history, anatomy, and physiology.<br>
     The cartographer arrives at the answer<br>
     only after surveying every province.<br><br>
     The digital twin does not replace the map.<br>
-    It <em>is</em> the map — living, passcode-gated,<br>
+    It is the map — living, passcode-gated,<br>
     foraging stochastically through time.
     <cite>— after the low-learning-rate tradition · McMaster → UCSF → Hopkins → Ukubona LLC</cite>
   </div>
 
   <div class="annotation fade-in">
-    What PBL schools and clinical reasoning specialists share — a deliberate insistence that the differential is a living document — finds its computational analog in the Ukubona digital twin: a continuously updated biosocial map of a person, accessible through voice and chat, liasing with LLM APIs, gated by the patient's own passcode. The time-stack fractal (First Aid → Emergency → Urgent → Outpatient → Inpatient) is not merely a triage taxonomy; it is a <em>latency grammar</em> — each tier defines the outer boundary of tolerable silence before irreversible harm accrues. To reason clinically is to know which fractal you are inside.
+    The time-stack fractal is not merely a triage taxonomy. It is a latency grammar — each tier defines the outer boundary of tolerable silence before irreversible harm accrues. To reason clinically is to know which fractal you are inside. The cartographic tradition of medicine — building the full differential before hunting the diagnosis — is the cognitive training that prepares a clinician to read tier migrations. A high-learning-rate system misses the fractal drift. A low-learning-rate system catches it, because it has pre-surveyed the territory of possible deterioration. The Ukubona digital twin institutionalizes that low-learning-rate approach at the infrastructure level: the map is always open.
   </div>
 
 
   <!-- ══ TIME-STACK FRACTAL ══ -->
   <div class="sec-rule fade-in">
-    <span class="sec-rule-label ts-lbl">TIME-STACK FRACTAL · Five Tiers · Latency Bounds · Admissible Silence</span>
+    <span class="sec-rule-label tier1">TIME-STACK FRACTAL · Five Tiers · Latency Bounds · Admissible Silence</span>
     <hr>
   </div>
 
-  <div class="model-block ts-block fade-in">
+  <div class="model-block t1-block fade-in">
     <div class="model-stamp">LATENCY GRAMMAR</div>
     <h2>The Five-Tier Time-Stack</h2>
     <p class="model-sub">First Aid · Emergency · Urgent · Outpatient · In-Patient · Each tier is a fractal of the one above · Each defines a maximum tolerable latency</p>
 
     <div class="model-prose">
-      <p>Medical care does not exist on a single temporal scale. It is fractal — each tier of the care system operates at a qualitatively different clock speed, and the clinician (or the digital twin) must always know <em>which clock is running</em>. Latency — the time between a clinical event and a corrective response — is the central design variable. Exceed the admissible latency of a tier and you are no longer in that tier: you have silently migrated upward into a more acute fractal, often without a system-level alert.</p>
-      <p>The provocation below defines not just the tiers but their <strong>outer latency bounds</strong> — the time beyond which the cost of inaction becomes categorically irreversible.</p>
+      <p>Medical care does not exist on a single temporal scale. It is fractal — each tier operates at a qualitatively different clock speed, and the clinician must always know <em>which clock is running</em>. Latency — the time between a clinical event and a corrective response — is the central design variable. Exceed the admissible latency of a tier and you have silently migrated your patient upward into a more acute fractal, often without a system-level alert.</p>
     </div>
 
-    <table class="fractal-table">
-      <thead>
-        <tr>
-          <th>Tier</th>
-          <th>Care Setting</th>
-          <th>Admissible Latency</th>
-          <th>Irreversibility Threshold</th>
-          <th>Clock Metaphor</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><span class="tier-badge tb-I">I</span></td>
-          <td><strong>First Aid</strong><br><span style="font-size:0.8rem;color:var(--muted)">Bystander · pre-system · scene</span></td>
-          <td><span class="latency-value lv-I">0 – 4 min</span></td>
-          <td>Cardiac arrest: brain death begins at ~4 min without CPR. Severe hemorrhage: exsanguination in 3–5 min. Anaphylaxis: laryngeal closure in 2–5 min.</td>
-          <td>Stopwatch. Every second is a neuron.</td>
-        </tr>
-        <tr>
-          <td><span class="tier-badge tb-II">II</span></td>
-          <td><strong>Emergency</strong><br><span style="font-size:0.8rem;color:var(--muted)">ED · EMS · code teams</span></td>
-          <td><span class="latency-value lv-II">4 – 60 min</span></td>
-          <td>STEMI: door-to-balloon ≤90 min (ACC/AHA). Stroke: door-to-needle ≤60 min (tPA window 4.5h total). Septic shock: antibiotics within 1h reduces mortality ~7% per hour delayed.</td>
-          <td>Countdown clock. Protocols over prose.</td>
-        </tr>
-        <tr>
-          <td><span class="tier-badge tb-III">III</span></td>
-          <td><strong>Urgent</strong><br><span style="font-size:0.8rem;color:var(--muted)">Urgent care · same-day clinic · telehealth triage</span></td>
-          <td><span class="latency-value lv-III">1 – 24 hours</span></td>
-          <td>Appendicitis: perforation risk rises sharply after 24–36h. Cellulitis with systemic signs: sepsis evolution within 12–24h. Hypertensive urgency: end-organ damage if untreated &gt;24h.</td>
-          <td>Alarm clock. Hours matter, minutes less so.</td>
-        </tr>
-        <tr>
-          <td><span class="tier-badge tb-IV">IV</span></td>
-          <td><strong>Outpatient</strong><br><span style="font-size:0.8rem;color:var(--muted)">Clinic · primary care · specialist follow-up</span></td>
-          <td><span class="latency-value lv-IV">1 day – 2 weeks</span></td>
-          <td>New cancer symptoms: diagnostic delay &gt;2 weeks statistically worsens staging. Depression/suicidality: unaddressed beyond 1 week in crisis escalates risk. Diabetic foot: untreated ulcer → osteomyelitis in days to weeks.</td>
-          <td>Calendar. Slots and cadences.</td>
-        </tr>
-        <tr>
-          <td><span class="tier-badge tb-V">V</span></td>
-          <td><strong>In-Patient</strong><br><span style="font-size:0.8rem;color:var(--muted)">Hospital ward · ICU · telemetry · step-down</span></td>
-          <td><span class="latency-value lv-V">Continuous (≤1h alert)</span></td>
-          <td>ICU: vital sign deterioration predictive of cardiac arrest &gt;6–8h before event (EWS systems). Medication errors: peak harm in first 24h of admission. PE/DVT: prophylaxis failure detectable within 48h of admission.</td>
-          <td>Telemetry feed. No clock — the clock is the patient.</td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- latency spectrum visualization -->
+    <div class="latency-spectrum fade-in">
+      <div class="lat-row">
+        <span class="lat-label">I · First Aid</span>
+        <div class="lat-track"><div class="lat-fill" style="width:100%;background:var(--t1-acc)"></div></div>
+        <span class="lat-note">0–4 min · brain death begins · every second is a neuron</span>
+      </div>
+      <div class="lat-row">
+        <span class="lat-label">II · Emergency</span>
+        <div class="lat-track"><div class="lat-fill" style="width:82%;background:var(--t2-acc)"></div></div>
+        <span class="lat-note">4–60 min · door-to-needle · sepsis mortality +7%/h</span>
+      </div>
+      <div class="lat-row">
+        <span class="lat-label">III · Urgent</span>
+        <div class="lat-track"><div class="lat-fill" style="width:58%;background:var(--t3-acc)"></div></div>
+        <span class="lat-note">1–24 h · appendicitis perforation · same-day window</span>
+      </div>
+      <div class="lat-row">
+        <span class="lat-label">IV · Outpatient</span>
+        <div class="lat-track"><div class="lat-fill" style="width:32%;background:var(--t4-acc)"></div></div>
+        <span class="lat-note">1 day–2 wk · diagnostic delay worsens cancer staging</span>
+      </div>
+      <div class="lat-row">
+        <span class="lat-label">V · In-Patient</span>
+        <div class="lat-track"><div class="lat-fill" style="width:14%;background:var(--t5-acc)"></div></div>
+        <span class="lat-note">continuous · ≤1 h for deterioration alerts · no clock</span>
+      </div>
+    </div>
+
+    <!-- tier stack visualizer -->
+    <div class="stack-vis fade-in">
+      <div class="stack-layer lt5">
+        <span class="sl-num">V</span>
+        <span class="sl-name">In-Patient</span>
+        <span class="sl-desc">Continuous monitoring · telemetry · ward rounds · no clock — the patient is the clock</span>
+        <span class="sl-alpha">≤1 h alerts</span>
+      </div>
+      <div class="stack-layer lt4">
+        <span class="sl-num">IV</span>
+        <span class="sl-name">Outpatient</span>
+        <span class="sl-desc">Scheduled cadence · primary care · specialist follow-up · longitudinal map evolves here</span>
+        <span class="sl-alpha">1 d – 2 wk</span>
+      </div>
+      <div class="stack-layer lt3">
+        <span class="sl-num">III</span>
+        <span class="sl-name">Urgent</span>
+        <span class="sl-desc">Same-day · urgent care · telehealth triage · appendicitis perforation window</span>
+        <span class="sl-alpha">1 – 24 h</span>
+      </div>
+      <div class="stack-layer lt2">
+        <span class="sl-num">II</span>
+        <span class="sl-name">Emergency</span>
+        <span class="sl-desc">ED · EMS · code teams · door-to-balloon ≤90 min · stroke tPA window 4.5 h</span>
+        <span class="sl-alpha">4 – 60 min</span>
+      </div>
+      <div class="stack-layer lt1" style="position:relative">
+        <span class="sl-num">I</span>
+        <span class="sl-name">First Aid</span>
+        <span class="sl-desc">Bystander · pre-system · BLS · brain death begins at ~4 min without CPR</span>
+        <span class="sl-alpha">0 – 4 min</span>
+        <span class="stuck-badge">irreversibility threshold</span>
+      </div>
+    </div>
 
     <h3>The Fractal Property</h3>
     <div class="model-prose">
-      <p>What makes this a fractal rather than a simple hierarchy is the <strong>self-similarity</strong>: each tier contains within it a miniature version of the tier above. An inpatient deterioration event (Tier V) may suddenly demand Tier II responses. An urgent visit (Tier III) may reveal a Tier II emergency. A well-managed outpatient disease (Tier IV) is simply a prevented Tier III crisis. The digital twin must model this recursion — not merely flag the tier, but detect the <em>migration signal</em>: when is a Tier IV patient silently becoming Tier III?</p>
-      <p>The cartographic tradition of medicine — building the full differential before hunting the diagnosis — is the cognitive training that prepares a clinician to read these migrations. A high-learning-rate system (pure pattern matching) misses the fractal drift. A low-learning-rate system (exhaustive map first) catches it, because it has pre-surveyed the territory of possible deterioration.</p>
+      <p>What makes this a fractal rather than a simple hierarchy is self-similarity: each tier contains within it a miniature version of the tier above. An inpatient deterioration event (Tier V) may suddenly demand Tier II responses. An urgent visit (Tier III) may reveal a Tier II emergency. The digital twin must model this recursion — not merely flag the tier, but detect the <em>migration signal</em>: when is a Tier IV patient silently becoming Tier III?</p>
+      <p>The cartographic tradition prepares a clinician to read these migrations. A high-learning-rate system misses the fractal drift. A low-learning-rate system catches it, because it has pre-surveyed the territory of possible deterioration.</p>
     </div>
 
     <div class="model-pull">
@@ -870,36 +523,29 @@
 
   <!-- ══ I · G · PBL PIONEERS ══ -->
   <div class="sec-rule fade-in">
-    <span class="sec-rule-label g-lbl">G · PBL Pioneers · McMaster &amp; Harvard · Topographic Maps Before the Hunt</span>
+    <span class="sec-rule-label sg">G · PBL Pioneers · McMaster &amp; Harvard · Topographic Maps Before the Hunt</span>
     <hr>
   </div>
 
   <div class="model-block g-block fade-in">
     <div class="model-stamp">VOICE G</div>
     <h2>The Exhaustive Map Approach</h2>
-    <p class="model-sub">System 2 Thinking · Slow · Analytical · Anti-Heuristic by Design</p>
+    <p class="model-sub">System 2 Thinking · Slow · Analytical · Anti-Heuristic by Design · Low Learning Rate</p>
 
     <div class="model-prose">
       <p>In cognitive science terms: <strong>System 2 thinking</strong> — slow, analytical, exhaustive — versus <strong>System 1 thinking</strong> — fast, intuitive, pattern-based. While almost all medical schools eventually want students to develop clinical intuition, several institutions enforce a "low learning rate" approach: map the entire diagnostic landscape before hunting the answer.</p>
+
+      <p><strong>McMaster University</strong> pioneered Problem-Based Learning. Students deconstruct a patient case from the ground up — not "it's a heart attack" but the physiological why and the 15 things it could be instead. <strong>Harvard Medical School (Pathways Curriculum)</strong> moves away from rote pathognomonic buzzwords toward first principles: by the time you reach a diagnosis, you have drawn a topographic map of the organ system involved.</p>
     </div>
 
-    <h3>1. The PBL Pioneers: McMaster and Harvard</h3>
-    <div class="model-prose">
-      <p><strong>McMaster University</strong> pioneered PBL. Students deconstruct a patient case from the ground up — not just "it's a heart attack" but the physiological why and the 15 things it could be instead. <strong>Harvard Medical School (Pathways Curriculum)</strong> moves away from rote pathognomonic buzzwords; by the time you reach a diagnosis, you've drawn a topographic map of the organ system involved.</p>
-    </div>
-
-    <h3>2. Clinical Reasoning Specialists: UCSF and Hopkins</h3>
-    <div class="model-prose">
-      <p><strong>UCSF</strong> leads in teaching Diagnostic Reasoning — explicitly avoiding "premature closure." They use <strong>VINDICATE</strong> to ensure students survey every province of the medical map. <strong>Johns Hopkins</strong> builds high-resolution maps through exhaustive history-taking: the diagnosis emerges naturally from the map, rather than being spotted via shortcut.</p>
-    </div>
-
-    <h3>3. The Staged Transition</h3>
+    <h3>The Staged Transition</h3>
     <div class="model-prose">
       <ol>
         <li><strong>Years 1–2:</strong> Force a "low learning rate" — build the map.</li>
         <li><strong>Years 3–4:</strong> Transition to "high learning rate" — learn the shortcuts.</li>
-        <li><strong>Residency:</strong> Develop wisdom to return to the map when the shortcut leads to a dead end.</li>
+        <li><strong>Residency:</strong> Develop the wisdom to return to the map when the shortcut leads to a dead end.</li>
       </ol>
+      <p>The goal of medical education is a <strong>staged transition</strong>, not a permanent allegiance to either mode. The time-stack fractal clarifies when each mode is appropriate: Tier I–II demands System 1 (protocol over prose), Tier IV–V rewards System 2 (the longitudinal drift that precedes crisis is only visible from the full map).</p>
     </div>
 
     <div class="model-pull">
@@ -910,84 +556,83 @@
 
   <!-- ══ VINDICATE ══ -->
   <div class="sec-rule fade-in">
-    <span class="sec-rule-label g-lbl">G · Frameworks · VINDICATE+ &amp; I-M-A-D-E · GPS for Medical Cartography</span>
+    <span class="sec-rule-label sg">G · Frameworks · VINDICATE+ &amp; I-M-A-D-E · GPS for Medical Cartography</span>
     <hr>
   </div>
 
   <div class="model-block g-block fade-in">
     <div class="model-stamp">FRAMEWORKS</div>
     <h2>The GPS for Medical Cartography</h2>
-    <p class="model-sub">VINDICATE+ · I-M-A-D-E · Pathophysiological Sieves · Anatomic Localization</p>
+    <p class="model-sub">VINDICATE+ · Pathophysiological Sieve · Pour Symptoms → Catch What Remains</p>
 
     <div class="model-prose">
-      <p>These frameworks prevent a student from jumping to the obvious answer by forcing them to visit every neighborhood of pathology. They are the computational equivalent of the digital twin's requirement to traverse the full biosocial map of a patient before flagging an anomaly.</p>
+      <p>These frameworks prevent a student from jumping to the obvious answer by forcing them to visit every neighborhood of pathology. They are the computational equivalent of the digital twin's requirement to traverse the full biosocial map before flagging an anomaly — architecturally resistant to premature closure.</p>
     </div>
 
-    <h3>1. The VINDICATE+ Framework</h3>
     <div class="vindicate-walk fade-in">
-      <div style="font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--g-acc);margin-bottom:.8rem">VINDICATE+ · Pathophysiological Sieve · pour symptoms → catch what remains</div>
+      <div class="vw-header">VINDICATE+ · Pathophysiological Sieve · pour symptoms → catch what remains</div>
       <div class="vw-step"><span class="vw-letter">V</span><span class="vw-cat">Vascular</span><span class="vw-ex">Ischemia, hemorrhage, embolism, vasculitis.</span></div>
-      <div class="vw-step"><span class="vw-letter">I</span><span class="vw-cat">Infectious/Inflammatory</span><span class="vw-ex">Bacteria, viruses, fungi, or non-infectious inflammation.</span></div>
+      <div class="vw-step"><span class="vw-letter">I</span><span class="vw-cat">Infectious / Inflammatory</span><span class="vw-ex">Bacteria, viruses, fungi, or non-infectious inflammation.</span></div>
       <div class="vw-step"><span class="vw-letter">N</span><span class="vw-cat">Neoplastic</span><span class="vw-ex">Primary tumors or metastatic disease.</span></div>
-      <div class="vw-step"><span class="vw-letter">D</span><span class="vw-cat">Degenerative/Deficiency</span><span class="vw-ex">Alzheimer's, vitamin B12 deficiency, wear-and-tear.</span></div>
-      <div class="vw-step"><span class="vw-letter">I</span><span class="vw-cat">Iatrogenic/Intoxication</span><span class="vw-ex">Side effects of meds, toxins, or surgical complications.</span></div>
+      <div class="vw-step"><span class="vw-letter">D</span><span class="vw-cat">Degenerative / Deficiency</span><span class="vw-ex">Alzheimer's, vitamin B12 deficiency, wear-and-tear.</span></div>
+      <div class="vw-step"><span class="vw-letter">I</span><span class="vw-cat">Iatrogenic / Intoxication</span><span class="vw-ex">Side effects of meds, toxins, or surgical complications.</span></div>
       <div class="vw-step"><span class="vw-letter">C</span><span class="vw-cat">Congenital</span><span class="vw-ex">Genetic disorders or structural issues from birth.</span></div>
-      <div class="vw-step"><span class="vw-letter">A</span><span class="vw-cat">Autoimmune/Allergic</span><span class="vw-ex">Lupus, rheumatoid arthritis, anaphylaxis.</span></div>
+      <div class="vw-step"><span class="vw-letter">A</span><span class="vw-cat">Autoimmune / Allergic</span><span class="vw-ex">Lupus, rheumatoid arthritis, anaphylaxis.</span></div>
       <div class="vw-step"><span class="vw-letter">T</span><span class="vw-cat">Traumatic</span><span class="vw-ex">Physical injury, heat/cold, or radiation.</span></div>
-      <div class="vw-step"><span class="vw-letter">E</span><span class="vw-cat">Endocrine/Environmental</span><span class="vw-ex">Thyroid issues, diabetes, or altitude sickness.</span></div>
+      <div class="vw-step"><span class="vw-letter">E</span><span class="vw-cat">Endocrine / Environmental</span><span class="vw-ex">Thyroid issues, diabetes, or altitude sickness.</span></div>
     </div>
 
-    <h3>Why This Prevents Premature Closure</h3>
     <div class="model-prose">
       <p>Medical errors are rarely caused by a lack of knowledge — they are caused by <strong>search satisfaction</strong>: the moment you find a spot-on cue, your brain stops looking. VINDICATE forces the brain to keep walking the entire map even when the answer seems obvious. In the digital twin context, this is the design principle that prevents the LLM interface from prematurely routing a patient to a single diagnostic pathway before surveying the full VINDICATE space of their longitudinal data.</p>
     </div>
 
     <div class="model-pull">
-      Search satisfaction is the failure mode. The digital twin must be architecturally resistant to it — not by being slow, but by carrying the full VINDICATE map as a background traversal on every interaction.
+      Search satisfaction is the failure mode. The digital twin must be architecturally resistant to it — carrying the full VINDICATE map as a background traversal on every interaction.
     </div>
   </div>
 
 
   <!-- ══ III · O · CLINICAL REASONING ══ -->
   <div class="sec-rule fade-in">
-    <span class="sec-rule-label o-lbl">O · Clinical Reasoning · Cartography-First Medicine · The Hidden Selector</span>
+    <span class="sec-rule-label so">O · Clinical Reasoning · Cartography-First Medicine · The Hidden Selector</span>
     <hr>
   </div>
 
   <div class="model-block o-block fade-in">
     <div class="model-stamp">VOICE O</div>
     <h2>Institutional Culture &amp; Assessment Philosophy</h2>
-    <p class="model-sub">Analytic / Hypothetico-Deductive · System 2 · Comfort with Ambiguity · Delayed Closure</p>
+    <p class="model-sub">Analytic / Hypothetico-Deductive · Comfort with Ambiguity · Delayed Closure · System 2</p>
 
     <div class="model-prose">
-      <p>The distinction between "low learning rate" and "high learning rate" maps closely onto long-standing debates in clinical reasoning. Every medical school teaches both — the real difference is <strong>which one is privileged early, rewarded on exams, and modeled by attendings</strong>.</p>
+      <p>No school formally advertises "we prefer slow learning rates." But the real difference is <strong>which mode is privileged early, rewarded on exams, and modeled by attendings</strong>. Academic tertiary centers — Mayo, UCSF, Hopkins — attract high prevalence of zebras and atypical presentations. Attendings are subspecialists who expect expansive differentials. Diagnostic error is framed as <strong>premature closure</strong>, not inefficiency.</p>
     </div>
 
     <h3>The Hidden Selector: How Uncertainty Is Treated</h3>
     <div class="model-prose">
       <p>If you want a practical heuristic for identifying low-learning-rate cultures: Is uncertainty tolerated or penalized? Are students praised for saying "I don't know, but here's my differential"? Are wrong-but-well-reasoned answers rewarded? Where the answer is yes, cartography is being taught — even if no one names it that way.</p>
-      <p>This same test applies to the Ukubona digital twin: does the system surface uncertainty to the patient, or does it project false confidence? A well-designed twin — like a well-trained clinician — should be able to say: <em>I see three plausible patterns in your longitudinal data, and here is what would distinguish them.</em></p>
+      <p>This same test applies to the Ukubona digital twin: does the system surface uncertainty to the patient, or does it project false confidence? A well-designed twin — like a well-trained clinician — should say: <em>I see three plausible patterns in your longitudinal data, and here is what would distinguish them.</em></p>
     </div>
 
     <div class="model-pull">
-      True experts look fast because they are actually very slow thinkers who have already done the slow thinking in advance. The digital twin's latency advantage is the same: the map was built in all the prior interactions.
+      True experts look fast because they are very slow thinkers who have already done the slow thinking in advance. The digital twin's latency advantage is the same: the map was built in all the prior interactions.
     </div>
   </div>
 
 
   <!-- ══ IV · A · BROAD DIFFERENTIAL ══ -->
   <div class="sec-rule fade-in">
-    <span class="sec-rule-label a-lbl">A · The Deeper Tension · System 1 vs System 2 · The Implicit Curriculum</span>
+    <span class="sec-rule-label sa">A · The Deeper Tension · System 1 vs System 2 · The Implicit Curriculum</span>
     <hr>
   </div>
 
   <div class="model-block a-block fade-in">
     <div class="model-stamp">VOICE A</div>
     <h2>Schools Teach System 2, Clinical Culture Rewards System 1</h2>
-    <p class="model-sub">PBL · CPC · Diagnostic Safety Movement · The Implicit Curriculum</p>
+    <p class="model-sub">PBL · CPC · Diagnostic Safety Movement · The Implicit Curriculum · The Real Curriculum</p>
 
     <div class="model-prose">
       <p>The pedagogical problem: <strong>medical schools teach System 2, but clinical culture rewards System 1</strong>. Attendings who rattle off diagnoses in seconds are admired; students who generate 15-item differentials can seem indecisive. This is the implicit curriculum — and it is the curriculum that shapes practice.</p>
+
       <p>The Ukubona digital twin is a structural intervention against this drift. By making the full longitudinal biosocial map of a patient continuously available — through voice and chat, in plain language, at any tier of the time-stack fractal — it institutionalizes the low-learning-rate approach at the point of care. The system cannot prematurely close; the map is always open.</p>
     </div>
 
@@ -999,17 +644,26 @@
 
   <!-- ══ V · X · PBL ROSTER ══ -->
   <div class="sec-rule fade-in">
-    <span class="sec-rule-label x-lbl">X · PBL Roster · Case-Driven Schools · Differential Mapping as Core Method</span>
+    <span class="sec-rule-label sx">X · PBL Roster · Case-Driven Schools · Differential Mapping as Core Method</span>
     <hr>
   </div>
 
   <div class="model-block x-block fade-in">
     <div class="model-stamp">VOICE X</div>
     <h2>Schools with Strong PBL Emphasis</h2>
-    <p class="model-sub">McMaster · Cleveland Clinic · LECOM · JABSOM · Missouri · Mercer · New Mexico · Case-Driven Map-Making</p>
+    <p class="model-sub">McMaster · Cleveland Clinic · LECOM · JABSOM · Missouri · Mercer · New Mexico</p>
 
     <div class="model-prose">
-      <p>PBL schools are not running a gentler curriculum — they are running a deliberately slower one, in exactly the way that builds the internal cartography that experts rely on when they appear, deceptively, to be fast. McMaster (pioneered PBL in the 1960s), Cleveland Clinic Lerner, LECOM, JABSOM, University of Missouri, Mercer, and University of New Mexico all prioritize collaborative differential generation over pattern saturation.</p>
+      <p>PBL schools are not running a gentler curriculum — they are running a deliberately slower one, in exactly the way that builds the internal cartography that experts rely on when they appear, deceptively, to be fast.</p>
+
+      <ul>
+        <li><strong>McMaster University</strong> — pioneered PBL in the 1960s. Almost entirely case-driven. Students work in small groups to identify learning issues, generate hypotheses, and map broad differentials without lectures.</li>
+        <li><strong>Cleveland Clinic Lerner College of Medicine</strong> — PBL is the cornerstone of the first two years. Weekly clinical cases integrating basic and clinical sciences.</li>
+        <li><strong>LECOM</strong> — dedicated PBL pathway: over 70 patient cases across preclinical years, extensive differentials before diagnosis.</li>
+        <li><strong>JABSOM (University of Hawaii)</strong> — internationally recognized for PBL expertise. Small-group case discussions stimulate broad hypothesis generation and self-directed learning.</li>
+        <li><strong>University of Missouri, Mercer, University of New Mexico</strong> — early PBL adopters, patient-based learning, collaborative differential generation across preclinical years.</li>
+      </ul>
+
       <p>The principle that unites them — <em>reason through uncertainty before resolving it</em> — is the same principle that should govern the Ukubona digital twin's interaction design. The twin should not give a diagnosis. It should give a map.</p>
     </div>
 
@@ -1021,46 +675,31 @@
 
   <!-- ══ DIGITAL TWIN ══ -->
   <div class="sec-rule fade-in">
-    <span class="sec-rule-label twin-lbl">UKUBONA LLC · Digital Twin · Voice &amp; Chat · Passcode-Gated · EHR → Living Map</span>
+    <span class="sec-rule-label stw">UKUBONA LLC · Digital Twin · Voice &amp; Chat · Passcode-Gated · EHR → Living Map</span>
     <hr>
   </div>
 
-  <div class="model-block twin-block fade-in">
-    <div class="model-stamp">DIGITAL TWIN FRAMEWORK</div>
+  <div class="model-block tw-block fade-in">
+    <div class="model-stamp">DIGITAL TWIN</div>
     <h2>From EHR to Living Biosocial Map</h2>
-    <p class="model-sub">Ukubona APIs · LLM Liaison · Voice &amp; Chat Interface · Passcode-Gated · Democratised Seeing</p>
+    <p class="model-sub">Ukubona APIs · LLM Liaison · Voice &amp; Chat · Passcode-Gated Patient Control · Democratised Seeing</p>
 
     <div class="model-prose">
-      <p>The Electronic Health Record is an artifact of the high-learning-rate era: a database of discrete encounters, each a closed diagnostic episode. It is a collection of snapshots, not a map. The Ukubona digital twin is the low-learning-rate intervention at the infrastructure level: a continuously evolving, longitudinal, biosocial representation of a person — not a patient-when-sick, but a person-always — through which clinics, hospitals, and health systems can navigate via natural-language interfaces.</p>
+      <p>The Electronic Health Record is an artifact of the high-learning-rate era: a database of discrete encounters, each a closed diagnostic episode. It is a collection of snapshots, not a map. The Ukubona digital twin is the low-learning-rate intervention at the infrastructure level — a continuously evolving, longitudinal, biosocial representation of a person. Not a patient-when-sick, but a person-always — through which clinics, hospitals, and health systems can navigate via natural-language interfaces.</p>
     </div>
 
     <h3>Architecture: Ukubona API ↔ LLM API</h3>
 
-    <div class="api-flow">
-      <div class="api-node patient">
-        <div class="api-node-label">Entity</div>
-        <div class="api-node-name">Patient / Person</div>
-      </div>
-      <div class="api-arrow"><span>→</span>passcode</div>
-      <div class="api-node ukubona">
-        <div class="api-node-label">Twin Layer</div>
-        <div class="api-node-name">Ukubona LLC API</div>
-      </div>
-      <div class="api-arrow"><span>⇌</span>liaise</div>
-      <div class="api-node llm">
-        <div class="api-node-label">Intelligence</div>
-        <div class="api-node-name">LLM API</div>
-      </div>
-      <div class="api-arrow"><span>→</span>voice/chat</div>
-      <div class="api-node system">
-        <div class="api-node-label">Care System</div>
-        <div class="api-node-name">Clinic · Hospital</div>
-      </div>
-      <div class="api-arrow"><span>→</span>plug-in</div>
-      <div class="api-node ehr">
-        <div class="api-node-label">Legacy</div>
-        <div class="api-node-name">EHR (deprecated)</div>
-      </div>
+    <div class="chain fade-in">
+      <span class="node">Patient / Person</span>
+      <span class="arr">→ passcode →</span>
+      <span class="node twin">Ukubona LLC API</span>
+      <span class="arr">⇌ liaise ⇌</span>
+      <span class="node llm">LLM API</span>
+      <span class="arr">→ voice / chat →</span>
+      <span class="node system">Clinic · Hospital · Health System</span>
+      <span class="arr">→</span>
+      <span class="node deprecated">EHR (deprecated)</span>
     </div>
 
     <div class="model-prose">
@@ -1069,89 +708,38 @@
 
     <h3>Passcode-Gated Access Control</h3>
 
-    <div class="passcode-viz">
-      <div class="pv-row">
-        <span class="pv-label">PERSON</span>
-        <span class="pv-value">Maria O., DOB 1974-03-12</span>
-      </div>
-      <div class="pv-row">
-        <span class="pv-label">TWIN ID</span>
-        <span class="pv-value">ukb-twin-9a4f2c ·· active since 2024-01-08</span>
-      </div>
+    <div class="passcode-viz fade-in">
+      <div class="pv-row"><span class="pv-label">PERSON</span><span class="pv-value">Maria O., DOB 1974-03-12</span></div>
+      <div class="pv-row"><span class="pv-label">TWIN ID</span><span class="pv-value">ukb-twin-9a4f2c · active since 2024-01-08</span></div>
       <div class="pv-sep"></div>
-      <div class="pv-row">
-        <span class="pv-label">ACCESS · Self</span>
-        <span class="pv-value granted">FULL · all tiers · voice + chat · read/write</span>
-      </div>
-      <div class="pv-row">
-        <span class="pv-label">ACCESS · PCP (Dr. Nair)</span>
-        <span class="pv-value granted">FULL · longitudinal · granted 2024-01-08 · renewable 12 mo</span>
-      </div>
-      <div class="pv-row">
-        <span class="pv-label">ACCESS · Hopkins ED</span>
-        <span class="pv-value partial">PARTIAL · Tier I–II data only · 72h window · auto-expires</span>
-      </div>
-      <div class="pv-row">
-        <span class="pv-label">ACCESS · Insurer</span>
-        <span class="pv-value denied">DENIED · no passcode issued</span>
-      </div>
-      <div class="pv-row">
-        <span class="pv-label">ACCESS · Pharma research</span>
-        <span class="pv-value partial">ANONYMISED · aggregate signal only · opt-in 2024-06</span>
-      </div>
+      <div class="pv-row"><span class="pv-label">ACCESS · Self</span><span class="pv-value granted">FULL · all tiers · voice + chat · read/write</span></div>
+      <div class="pv-row"><span class="pv-label">ACCESS · PCP (Dr. Nair)</span><span class="pv-value granted">FULL · longitudinal · granted 2024-01-08 · renewable 12 mo</span></div>
+      <div class="pv-row"><span class="pv-label">ACCESS · Hopkins ED</span><span class="pv-value partial">PARTIAL · Tier I–II data only · 72 h window · auto-expires</span></div>
+      <div class="pv-row"><span class="pv-label">ACCESS · Insurer</span><span class="pv-value denied">DENIED · no passcode issued</span></div>
+      <div class="pv-row"><span class="pv-label">ACCESS · Pharma research</span><span class="pv-value partial">ANONYMISED · aggregate signal only · opt-in 2024-06</span></div>
       <div class="pv-sep"></div>
-      <div class="pv-row">
-        <span class="pv-label">TWIN STATUS</span>
-        <span class="pv-value">last updated 4 min ago · Tier IV (outpatient cadence) · no active escalation flags</span>
-      </div>
+      <div class="pv-row"><span class="pv-label">TWIN STATUS</span><span class="pv-value">last updated 4 min ago · Tier IV (outpatient cadence) · no active escalation flags</span></div>
     </div>
 
     <h3>The Three Democratisations</h3>
-
-    <div class="demo-grid">
-      <div class="demo-cell">
-        <h4><em>Democratisation I</em>Seeing, Blindly</h4>
-        <p>A person without medical training can now navigate their own biosocial map through voice and chat. The LLM interface translates clinical cartography into natural language. They see — not diagnoses, but the topography of their own data. Seeing, blindly: without needing to know what they are looking for.</p>
-      </div>
-      <div class="demo-cell">
-        <h4><em>Democratisation II</em>Foraging, Stochastically</h4>
-        <p>The twin does not wait for a scheduled visit. It forages: detecting signals, surfacing patterns, alerting to tier-fractal migrations. Stochastic foraging — not rule-based, but probabilistically attuned to the person's longitudinal map — replaces the passive EHR that speaks only when explicitly queried.</p>
-      </div>
-      <div class="demo-cell">
-        <h4><em>Democratisation III</em>Rehearsing, Consequentially</h4>
-        <p>The twin enables rehearsal: "what happens if I stop this medication?" "what does my blood pressure trend suggest for my 10-year cardiovascular risk?" Consequential rehearsal — simulating futures within the map — gives every person the diagnostic imagination previously reserved for the trained clinician.</p>
-      </div>
-    </div>
-
-    <h3>Plugging In: Clinics, Hospitals, Health Systems</h3>
     <div class="model-prose">
-      <p>The Ukubona digital twin is not a patient portal. It is an infrastructure layer. Clinics plug in to access the longitudinal map at Tier IV cadence — they do not receive a data dump, they receive a live consultation with the twin. Hospitals plug in at Tier V for continuous monitoring augmentation — the twin's longitudinal context enriches the real-time telemetry signal with the patient's full biosocial history. Emergency departments access Tier I–II data on a time-limited, passcode-gated basis.</p>
-      <p>Health systems that integrate the twin do not replace their existing workflows — they attach a semantic layer to them. The twin does not compete with the EHR; it deprecates the EHR's claim to be the primary representation of the person.</p>
+      <p><strong>Seeing, blindly</strong> — a person without medical training can now navigate their own biosocial map through voice and chat. The LLM interface translates clinical cartography into natural language. They see — not diagnoses, but the topography of their own data — without needing to know what they are looking for.</p>
+      <p><strong>Foraging, stochastically</strong> — the twin does not wait for a scheduled visit. It forages: detecting signals, surfacing patterns, alerting to tier-fractal migrations. Stochastic foraging — not rule-based, but probabilistically attuned to the person's longitudinal map — replaces the passive EHR that speaks only when explicitly queried.</p>
+      <p><strong>Rehearsing, consequentially</strong> — the twin enables rehearsal: "what happens if I stop this medication?" "what does my blood pressure trend suggest for my 10-year cardiovascular risk?" Consequential rehearsal — simulating futures within the map — gives every person the diagnostic imagination previously reserved for the trained clinician.</p>
     </div>
 
-    <h3>Digital Twin × Time-Stack Fractal: The Design Principle</h3>
-
-    <div class="twin-architecture">
-      <div class="twin-arch-cell">
-        <h4>Tier I · First Aid (0–4 min)</h4>
-        <p>Twin surfaces emergency data to bystanders and EMS via voice: current medications, allergies, DNR status, last known vitals. No login required for life-critical read. Patient pre-configures "emergency unlock" conditions.</p>
-      </div>
-      <div class="twin-arch-cell">
-        <h4>Tier II · Emergency (4–60 min)</h4>
-        <p>ED accesses full Tier II snapshot: chief complaint history, prior ED visits, critical diagnoses. LLM synthesises into 90-second verbal brief for receiving clinician. Time-limited passcode auto-expires at 72h.</p>
-      </div>
-      <div class="twin-arch-cell">
-        <h4>Tier III · Urgent (1–24 h)</h4>
-        <p>Twin proactively contacts patient when stochastic foraging detects Tier III migration signals. Voice/chat triage determines whether urgent care visit is warranted. Reduces unnecessary ED overload by keeping Tier III cases in their correct fractal.</p>
-      </div>
-      <div class="twin-arch-cell">
-        <h4>Tier IV · Outpatient (days–2 wk)</h4>
-        <p>Primary interface. Longitudinal cadence — twin checks in, surfaces trends, prepares patient for clinic visit. Clinician receives pre-visit brief: what has changed in the map since the last encounter. Replaces the blank-slate encounter.</p>
-      </div>
-      <div class="twin-arch-cell" style="grid-column: span 2;">
-        <h4>Tier V · In-Patient (continuous)</h4>
-        <p>Twin acts as longitudinal context layer for inpatient team. Night nurse asks: "What is this patient's baseline mental status?" — the twin answers from the map, not the admission H&amp;P. Discharge planning begins at admission because the twin already holds the post-acute care context. Reduces readmissions by maintaining Tier IV engagement post-discharge.</p>
-      </div>
+    <h3>Digital Twin × Time-Stack Fractal</h3>
+    <div class="model-prose">
+      <table>
+        <thead><tr><th>Tier</th><th>Twin Behavior</th><th>Latency Contract</th></tr></thead>
+        <tbody>
+          <tr><td><strong>I · First Aid</strong></td><td>Emergency unlock: medications, allergies, DNR status, last vitals surfaced to bystander / EMS via voice. Pre-configured by patient.</td><td>0 – 4 min · no login required for life-critical read</td></tr>
+          <tr><td><strong>II · Emergency</strong></td><td>Full Tier II snapshot to ED: prior visits, critical diagnoses. LLM synthesizes into 90-sec verbal brief. Time-limited passcode auto-expires 72 h.</td><td>4 – 60 min · protocol-compliant fast path</td></tr>
+          <tr><td><strong>III · Urgent</strong></td><td>Twin proactively contacts patient when stochastic foraging detects Tier III migration signals. Voice/chat triage determines if urgent care is warranted. Reduces unnecessary ED overload.</td><td>1 – 24 h · outbound alert on drift detection</td></tr>
+          <tr><td><strong>IV · Outpatient</strong></td><td>Primary interface. Twin checks in, surfaces trends, prepares patient for clinic visit. Clinician receives pre-visit brief: what has changed in the map since the last encounter. Replaces the blank-slate appointment.</td><td>1 d – 2 wk · longitudinal cadence</td></tr>
+          <tr><td><strong>V · In-Patient</strong></td><td>Longitudinal context layer for inpatient team. Night nurse asks: "What is this patient's baseline mental status?" Twin answers from the map, not the admission H&P. Discharge planning begins at admission. Reduces readmissions.</td><td>Continuous · ≤1 h deterioration alerts</td></tr>
+        </tbody>
+      </table>
     </div>
 
     <div class="model-pull">
@@ -1160,68 +748,239 @@
   </div>
 
 
-  <!-- ══ SYNTHESIS ══ -->
+  <!-- ══ VI · T · TIME AS STACK AND FRACTAL ══ -->
   <div class="sec-rule fade-in">
-    <span class="sec-rule-label schema">SYNTHESIS · One Terrain · Four Voices · One Pedagogical Question · One Infrastructure Answer</span>
+    <span class="sec-rule-label st">T · Time as Stack &amp; Fractal · Admissible Latency Per Tier · Epistemic Safety</span>
     <hr>
   </div>
 
-  <div class="model-block fade-in" style="border-left:4px solid var(--rule); background: var(--cream);">
-    <div class="model-stamp">SYNTHESIS</div>
-    <h2>The Map Is the Medium</h2>
-    <p class="model-sub">Low Learning Rate · High Learning Rate · Time-Stack Fractal · Digital Twin · All One Question</p>
+  <div class="model-block t-block fade-in">
+    <div class="model-stamp">VOICE T</div>
+    <h2>Time is Both Stack and Fractal — Why Both Are True</h2>
+    <p class="model-sub">Healthcare Time · Same Diagnostic Act at Different Resolutions · Latency Bounded by Epistemic Safety</p>
 
-    <div class="round-table">
-      <div class="rt-row rt-head">
-        <div class="rt-cell">Feature</div>
-        <div class="rt-cell">Low Learning Rate (Cartography)</div>
-        <div class="rt-cell">High Learning Rate (Pattern)</div>
-      </div>
-      <div class="rt-row">
-        <div class="rt-cell" style="color:var(--g-acc)">Cognitive mode</div>
-        <div class="rt-cell">System 2 · analytic · hypothetico-deductive</div>
-        <div class="rt-cell">System 1 · intuitive · pattern-matching</div>
-      </div>
-      <div class="rt-row">
-        <div class="rt-cell" style="color:var(--g-acc)">Exemplar schools</div>
-        <div class="rt-cell">McMaster · UCSF · Hopkins · Mayo · Harvard CPC</div>
-        <div class="rt-cell">EM residencies · Step-prep curricula · procedural programs</div>
-      </div>
-      <div class="rt-row">
-        <div class="rt-cell" style="color:var(--o-acc)">Time-stack fit</div>
-        <div class="rt-cell">Tier IV–V · outpatient + inpatient longitudinal reasoning</div>
-        <div class="rt-cell">Tier I–II · first aid + emergency · protocol-driven</div>
-      </div>
-      <div class="rt-row">
-        <div class="rt-cell" style="color:var(--a-acc)">Digital twin role</div>
-        <div class="rt-cell">Longitudinal biosocial map · foraging · rehearsal · context layer</div>
-        <div class="rt-cell">Alert routing · tier-migration detection · 90-sec brief</div>
-      </div>
-      <div class="rt-row">
-        <div class="rt-cell" style="color:var(--x-acc)">Failure mode</div>
-        <div class="rt-cell">Analysis paralysis · over-engineering the map · delayed action in Tier I–II</div>
-        <div class="rt-cell">Premature closure · missing tier migration · losing the person behind the pattern</div>
-      </div>
-      <div class="rt-row">
-        <div class="rt-cell" style="color:var(--twin-acc)">Ukubona design response</div>
-        <div class="rt-cell">Map is always open · VINDICATE traversal on every query · uncertainty surfaced</div>
-        <div class="rt-cell">Tier I–II emergency unlock · time-limited · protocol-compliant fast paths</div>
-      </div>
+    <div class="model-prose">
+      <p>Healthcare time is <strong>stacked</strong> institutionally (First Aid → Inpatient), but <strong>fractal</strong> cognitively and computationally: the same reasoning structure recurs at different temporal resolutions. The fractal claim is precise:</p>
+      <blockquote>The same diagnostic act — map → test → revise — repeats, with different admissible latencies.</blockquote>
+      <p>Latency here is not speed for its own sake. It is <em>time-to-action without unacceptable harm</em> — speed bounded by epistemic safety. Every tier has a threshold beyond which delay becomes irreversible harm. Below that threshold, slowness is a virtue. Above it, slowness is a crime.</p>
     </div>
 
-    <div class="model-prose" style="margin-top:2rem">
-      <p>The question of medical pedagogy — low learning rate vs high learning rate, cartography vs pattern, System 2 vs System 1 — is not resolved by choosing one. It is resolved by understanding the <strong>fractal in which you are operating</strong>. In Tier I and II, the clock demands System 1. In Tier IV and V, only System 2 can see the longitudinal drift that precedes a crisis.</p>
-      <p>The Ukubona digital twin is the infrastructure that makes this fractal-switching possible for every clinician, and every patient, at every tier. The passcode-gated architecture ensures the person remains the cartographer of their own map — not a passive repository of encounters, but an active agent who decides who forages through their territory and when.</p>
-      <p>This is the democratisation: not of data, but of <em>seeing</em>. Every person, carrying their own living atlas, navigable at any tier of the care fractal, by any party they choose to grant a key.</p>
+    <h3>I. First Aid · Latency: 0–60 seconds</h3>
+    <div class="model-prose">
+      <p><strong>Failure mode:</strong> Hesitation. <strong>Cognitive mode:</strong> Pure System 1. <strong>Admissible uncertainty:</strong> High.</p>
+      <p>Act on pattern primitives: bleeding, airway, seizure. There is no differential. Only <em>stop the catastrophe</em>. The Ukubona twin's role here is pre-loaded reflex scripts delivered via voice interface: <em>"Do this now."</em> No explanation required. This is medicine before medicine — pre-cartography survival.</p>
+    </div>
+
+    <h3>II. Emergency · Latency: 1–10 minutes</h3>
+    <div class="model-prose">
+      <p><strong>Failure mode:</strong> Premature closure or delay. <strong>Cognitive mode:</strong> System 1 with forced System 2 interrupts. <strong>Admissible uncertainty:</strong> Moderate.</p>
+      <p>Use illness scripts, but must actively ask: <em>What is the one thing that kills fastest if I'm wrong?</em> The differential is short but explicit. The twin role: live vitals + history fusion, LLM-assisted counterfactual prompts. <em>"What would disprove your top diagnosis?"</em> This is <strong>high learning rate with guardrails</strong>.</p>
+    </div>
+
+    <h3>III. Urgent · Latency: 10 minutes–24 hours</h3>
+    <div class="model-prose">
+      <p><strong>Failure mode:</strong> Search satisfaction. <strong>Cognitive mode:</strong> Hybrid. <strong>Admissible uncertainty:</strong> Lower.</p>
+      <p>Time exists to enumerate VINDICATE-lite. Cartography begins to matter. The twin expands the DDx probabilistically, forages stochastically through similar cases, simulates consequences of delay versus testing. This is where <strong>fractal reasoning becomes visible</strong> — the first tier where the full map starts to pay its investment.</p>
+    </div>
+
+    <h3>IV. Outpatient · Latency: Days–weeks</h3>
+    <div class="model-prose">
+      <p><strong>Failure mode:</strong> Diagnostic inertia. <strong>Cognitive mode:</strong> System 2 dominant. <strong>Admissible uncertainty:</strong> Low.</p>
+      <p>The differential is explicitly a living document. Narrative time matters: onset, evolution, response to prior treatment. The twin provides longitudinal memory — what EHRs catastrophically fail at — pattern <em>revision</em>, not recognition, and a patient-facing explanation engine. Here, diagnosis truly <strong>emerges</strong>.</p>
+    </div>
+
+    <h3>V. Inpatient · Latency: Hours–months</h3>
+    <div class="model-prose">
+      <p><strong>Failure mode:</strong> Fragmentation. <strong>Cognitive mode:</strong> Distributed System 2. <strong>Admissible uncertainty:</strong> Minimal.</p>
+      <p>Many specialists equals many partial maps. The danger is not ignorance but <strong>loss of coherence</strong>. The twin's role: single epistemic spine across all teams; continuous hypothesis updating; visibility of <em>why</em> decisions were made — not just what was done. This is <strong>cartography under load</strong>.</p>
+    </div>
+
+    <h3>The Reconciliation with Pedagogical Learning Rates</h3>
+    <div class="model-prose">
+      <table>
+        <thead><tr><th>Time Fractal</th><th>Learning Rate</th><th>Privileged Virtue</th><th>Twin Mode</th></tr></thead>
+        <tbody>
+          <tr><td>First Aid</td><td>Maximal</td><td>Speed</td><td>Reflex scripts · voice only</td></tr>
+          <tr><td>Emergency</td><td>High + guardrail</td><td>Pattern + veto</td><td>Counterfactual prompts · vitals fusion</td></tr>
+          <tr><td>Urgent</td><td>Transitional</td><td>Breadth</td><td>VINDICATE-lite · stochastic foraging</td></tr>
+          <tr><td>Outpatient</td><td>Low</td><td>Cartography</td><td>Longitudinal memory · revision engine</td></tr>
+          <tr><td>Inpatient</td><td>Lowest</td><td>Coherence</td><td>Epistemic spine · inter-team visibility</td></tr>
+        </tbody>
+      </table>
+      <p>The staged transition you describe in pedagogical terms — years 1–2 build the map, years 3–4 learn the shortcuts, residency learns when to return to the map — is not only educational. <strong>It is temporal.</strong> The clinician who masters this transition has internalized the fractal: they know, at every moment, which clock is running.</p>
     </div>
 
     <div class="model-pull">
-      The map is the medium. The medium is the person. The person is the passcode-holder. This is what it means to evolve from EHR to digital twin — not a better database, but a different ontology of what a patient is.
+      The staged transition is not educational — it is temporal. The fractal of time maps the fractal of cognition. To know which tier you are in is to know which learning rate is appropriate. Diagnosis is not an answer. It is a trajectory through time.
     </div>
   </div>
 
-</div><!-- /page-body -->
 
+  <!-- ══ VII · D · DEMOCRATISATION ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label sd">D · Democratisation · Four Verbs · Systems as Partial Observers · Epistemic Infrastructure</span>
+    <hr>
+  </div>
+
+  <div class="model-block d-block fade-in">
+    <div class="model-stamp">VOICE D</div>
+    <h2>Democratising the Four Verbs</h2>
+    <p class="model-sub">Seeing · Foraging · Rehearsing · Systems · From Partial Observers to Shared Twin</p>
+
+    <div class="model-prose">
+      <p>With Ukubona LLC, the digital twin is <strong>not a record</strong> but a <strong>model</strong>. The EHR was static, event-based, institution-owned, retrospective, and silent. The digital twin is continuously updating, causal, patient-owned, predictive, and conversational. Passcode-gated access does something radical: the patient becomes the root authority. Institutions query the twin, not the person. Consent is <em>computational</em>, not bureaucratic.</p>
+      <p>This architecture enables four verbs that were previously reserved for specialists and institutions. The democratisation is not of data — it is of <em>epistemic capacity</em>.</p>
+    </div>
+
+    <h3>1. Seeing — Blindly</h3>
+    <div class="model-prose">
+      <p>No clinician sees the whole patient. The twin does — by integrating signals no human can hold simultaneously: longitudinal vitals, medication histories, social determinants, genomic signals, behavioral patterns. Blindness is overcome not by better vision, but by <strong>structure</strong>. The patient who navigates their own twin through a voice interface is not pretending to be a clinician. They are reading their own atlas — and that is a different and more powerful thing.</p>
+    </div>
+
+    <h3>2. Foraging — Stochastically</h3>
+    <div class="model-prose">
+      <p>Instead of rigid guidelines that apply population statistics to individual trajectories, the twin samples nearby trajectories — <em>what happened to people like me with this signal pattern?</em> It explores rare-but-consequential branches that a time-pressured clinician would never follow. It avoids base-rate tyranny: the most common explanation is not always the right one for this person. This mirrors <strong>PBL thinking at scale</strong> — the same insistence on not collapsing the differential prematurely, now running as a continuous background process.</p>
+    </div>
+
+    <h3>3. Rehearsing — Consequentially</h3>
+    <div class="model-prose">
+      <p>Before a clinical decision is made, the twin enables simulation: <em>If wrong, then what?</em> Surface hidden costs of delay. Surface hidden costs of intervention. Practice the decision without causing harm. This is <strong>medical education embedded in care</strong> — not as a training exercise, but as a continuous epistemic discipline at the point of action. A patient can ask: <em>What does my blood pressure trend suggest for my 10-year cardiovascular risk if I make no change?</em> The answer is not a diagnosis. It is a rehearsal.</p>
+    </div>
+
+    <h3>4. Systems — Clinics, Hospitals, Health Systems</h3>
+    <div class="model-prose">
+      <p>All become <strong>partial observers</strong> of a shared twin. Not custodians of a patient's record, but visitors to a model the patient controls. The consequences: no more lost history at care transitions. No more resetting the story at every new encounter. No more speed masquerading as intelligence — the fast clinician who appears expert because they pattern-match quickly now has access to the full longitudinal map that would catch what pattern-matching misses.</p>
+      <p>The twin is the single epistemic spine that connects First Aid bystander to ICU specialist — the same model, seen at different resolutions, by different observers, each with their passcode-scoped view.</p>
+    </div>
+
+    <h3>From EHR to Twin: The Ontological Shift</h3>
+    <div class="model-prose">
+      <table>
+        <thead><tr><th>EHR</th><th>Ukubona Digital Twin</th></tr></thead>
+        <tbody>
+          <tr><td>Static</td><td>Continuously updating</td></tr>
+          <tr><td>Event-based</td><td>Causal model</td></tr>
+          <tr><td>Institution-owned</td><td>Patient-owned</td></tr>
+          <tr><td>Retrospective</td><td>Predictive</td></tr>
+          <tr><td>Silent until queried</td><td>Conversational · forages proactively</td></tr>
+          <tr><td>Loses history at transitions</td><td>Preserves epistemic spine across all care settings</td></tr>
+          <tr><td>Consent is bureaucratic (forms)</td><td>Consent is computational (passcode)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="model-pull">
+      Ukubona's wager: if you preserve the map — speed becomes safe, access becomes just, and expertise becomes shareable without becoming shallow. The twin is not a better EHR. It is a different claim about what a patient is.
+    </div>
+  </div>
+
+
+  <!-- ══ SYNTHESIS ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label schema">SYNTHESIS · One Terrain · Seven Voices · Pedagogy · Fractal Time · Epistemic Infrastructure</span>
+    <hr>
+  </div>
+
+  <div class="round-table fade-in">
+    <div class="rt-row rt-head">
+      <div class="rt-cell">Feature</div>
+      <div class="rt-cell">Low Learning Rate (Cartography)</div>
+      <div class="rt-cell">High Learning Rate (Pattern)</div>
+      <div class="rt-cell">Time-Stack Fractal (T)</div>
+      <div class="rt-cell">Democratisation (D)</div>
+    </div>
+    <div class="rt-row">
+      <div class="rt-cell" style="color:var(--g-acc)">Cognitive mode</div>
+      <div class="rt-cell">System 2 · analytic · hypothetico-deductive</div>
+      <div class="rt-cell">System 1 · intuitive · pattern-matching</div>
+      <div class="rt-cell">Fractal switching · tier determines mode · temporal not only educational</div>
+      <div class="rt-cell">Structural seeing · atlas not expertise</div>
+    </div>
+    <div class="rt-row">
+      <div class="rt-cell" style="color:var(--g-acc)">Exemplar</div>
+      <div class="rt-cell">McMaster · UCSF · Hopkins · Mayo · Harvard CPC</div>
+      <div class="rt-cell">EM residencies · Step-prep · procedural programs</div>
+      <div class="rt-cell">All tiers · each with its own latency grammar</div>
+      <div class="rt-cell">Ukubona LLC · patient as root authority</div>
+    </div>
+    <div class="rt-row">
+      <div class="rt-cell" style="color:var(--o-acc)">Time-stack fit</div>
+      <div class="rt-cell">Tier IV–V · outpatient + inpatient longitudinal</div>
+      <div class="rt-cell">Tier I–II · first aid + emergency · protocol-driven</div>
+      <div class="rt-cell">Tier III is the hinge · transitional · fractal reasoning visible here first</div>
+      <div class="rt-cell">All tiers · different passcode scope · same twin</div>
+    </div>
+    <div class="rt-row">
+      <div class="rt-cell" style="color:var(--a-acc)">Digital twin role</div>
+      <div class="rt-cell">Longitudinal map · VINDICATE traversal · uncertainty surfaced</div>
+      <div class="rt-cell">Alert routing · tier-migration detection · 90-sec brief</div>
+      <div class="rt-cell">Epistemic spine across teams · why decisions were made · coherence under load</div>
+      <div class="rt-cell">Seeing blindly · foraging stochastically · rehearsing consequentially</div>
+    </div>
+    <div class="rt-row">
+      <div class="rt-cell" style="color:var(--x-acc)">Failure mode</div>
+      <div class="rt-cell">Analysis paralysis · delayed action in Tier I–II</div>
+      <div class="rt-cell">Premature closure · missing tier migration · losing the person behind the pattern</div>
+      <div class="rt-cell">Fractal drift undetected · Tier IV patient silently migrating to Tier III</div>
+      <div class="rt-cell">Speed masquerading as intelligence · story reset at transitions</div>
+    </div>
+    <div class="rt-row">
+      <div class="rt-cell" style="color:var(--tw-acc)">Ukubona design response</div>
+      <div class="rt-cell">Map always open · uncertainty surfaced · no premature close</div>
+      <div class="rt-cell">Emergency unlock · time-limited · protocol-compliant fast paths</div>
+      <div class="rt-cell">Continuous fractal-tier detection · migration alerts · latency grammar encoded</div>
+      <div class="rt-cell">Passcode-gated · patient as root · institutions as partial observers</div>
+    </div>
+  </div>
+
+  <div class="interlude fade-in">
+    The question of medical pedagogy —<br>
+    low learning rate vs high learning rate,<br>
+    cartography vs pattern, System 2 vs System 1 —<br>
+    is not resolved by choosing one.<br>
+    <em>It is resolved by understanding the fractal in which you are operating.</em><br>
+    The staged transition is not educational. It is temporal.<br>
+    The Ukubona digital twin is the infrastructure<br>
+    that makes this fractal-switching possible for every clinician,<br>
+    and every patient, at every tier —<br>
+    with the map always open, and the person holding the key.
+  </div>
+
+
+  <!-- ══ CODA ══ -->
+  <div class="coda fade-in">
+    <span class="coda-label">Epilogue · Ukubona LLC · The Map Is the Medium · Diagnosis Is a Trajectory</span>
+    <h2>Diagnosis Is Not an Answer. It Is a Trajectory Through Time.</h2>
+    <p>The Electronic Health Record was built for the high-learning-rate era: encounter by encounter, each a closed episode, each a snapshot of a sick moment. It is a graveyard of premature closures. The Ukubona digital twin evolves from it not by adding features but by changing ontology — from <em>patient-when-sick</em> to <em>person-always</em>, from snapshot to living atlas, from passive repository to active forager, from bureaucratic consent to computational passcode.</p>
+    <p>The time-stack fractal is not an administrative taxonomy. It is a clinical design constraint written in the grammar of latency. The Tier I silence is 60 seconds. The Tier III silence is 24 hours. The Tier V silence is continuous. At each tier, the admissible uncertainty changes, the cognitive mode changes, the twin's behavior changes. The fractal property is what makes this navigable: the same diagnostic act — map → test → revise — repeats at every resolution. The clinician who has learned this does not switch modes consciously; they inhabit the fractal.</p>
+    <p>The pedagogical tradition — McMaster's PBL, UCSF's diagnostic reasoning, Hopkins's exhaustive history-taking — trains clinicians to inhabit the slow fractals before the fast ones. The digital twin instantiates this instrument at the infrastructure level, for every person, at every tier. The four verbs — seeing blindly, foraging stochastically, rehearsing consequentially, and connecting systems as partial observers — are not features. They are the democratisation of epistemic capacity: the cartographic skill that was previously available only to those who had completed the slow thinking in advance, now available through the twin's longitudinal memory to anyone who holds their passcode.</p>
+    <p><strong>Ukubona's wager: preserve the map, and speed becomes safe. Preserve access, and justice becomes structural. Preserve the person as root authority, and expertise becomes shareable without becoming shallow. The fractal of care, navigable. The map of the person, always open.</strong></p>
+  </div>
+
+
+  <footer class="fade-in">
+    <p class="foot-chain">Ukubona LLC · <span>First Aid → Emergency → Urgent → Outpatient → In-Patient</span> · Low Learning Rate (cartography) · High Learning Rate (pattern) · <span>Time is stack and fractal · Staged transition is temporal</span></p>
+    <p class="foot-note">
+      I · First Aid · 0–60 sec · pure System 1 · <span style="color:var(--t1-acc)">pre-cartography survival · reflex scripts · voice: "do this now"</span><br>
+      II · Emergency · 1–10 min · System 1 + forced System 2 interrupt · <span style="color:var(--t2-acc)">illness scripts + counterfactual prompts · high learning rate with guardrails</span><br>
+      III · Urgent · 10 min–24 h · hybrid cognition · <span style="color:var(--t3-acc)">VINDICATE-lite · fractal reasoning becomes visible here first</span><br>
+      IV · Outpatient · days–weeks · System 2 dominant · <span style="color:var(--t4-acc)">differential as living document · diagnosis emerges · longitudinal memory</span><br>
+      V · In-Patient · hours–months · distributed System 2 · <span style="color:var(--t5-acc)">cartography under load · epistemic spine across teams · coherence as virtue</span><br>
+      <br>
+      G · PBL Pioneers · McMaster &amp; Harvard · System 2 · topographic map before the diagnosis<br>
+      O · Clinical Reasoning · UCSF · Hopkins · VINDICATE · premature closure as cardinal sin<br>
+      A · Broad Differential · implicit curriculum · schools teach System 2 · culture rewards System 1<br>
+      X · PBL Roster · McMaster · Cleveland Clinic · LECOM · JABSOM · Mercer · New Mexico<br>
+      T · Time &amp; Fractal · same diagnostic act at different resolutions · latency bounded by epistemic safety · staged transition is temporal<br>
+      D · Democratisation · seeing blindly · foraging stochastically · rehearsing consequentially · systems as partial observers<br>
+      <br>
+      Digital Twin · Ukubona LLC · passcode-gated · voice &amp; chat · EHR deprecated · patient as root authority<br>
+      Ukubona's wager: preserve the map — speed becomes safe, access becomes just, expertise becomes shareable<br>
+      Source: Ukubona LLC · Diagnostic Cartography · © 2026 Ukubona LLC
+    </p>
+  </footer>
+
+</div><!-- .page -->
 
 <!-- CENTRALIZED ASSETS (Don't Update) -->
 <div class="scroll-indicator"><div class="scroll-progress"></div></div>
@@ -1232,10 +991,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
 <script src="../js/shared.js"></script>
 
-<footer>
-  <div>Ukubona LLC · Diagnostic Cartography · Time-Stack Fractal · Digital Twin Framework</div>
-  <div style="margin-top:0.5rem;color:#4a4030">G · O · A · X · McMaster → UCSF → Hopkins → Ukubona · Low Learning Rate → High Learning Rate → Fractal Switching · EHR → Living Biosocial Map</div>
-</footer>
+<script>
+const sw=document.getElementById('themeSwitch'),lbl=document.getElementById('toggle-label'),html=document.documentElement;
+const saved=localStorage.getItem('ukubona-theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
+const initDark=saved==='dark'||(!saved&&prefersDark);
+if(initDark){html.setAttribute('data-theme','dark');lbl.textContent='Dark';sw.setAttribute('aria-pressed','true')}
+function toggleTheme(){
+  const isDark=html.getAttribute('data-theme')==='dark';
+  if(isDark){html.removeAttribute('data-theme');lbl.textContent='Light';sw.setAttribute('aria-pressed','false');localStorage.setItem('ukubona-theme','light')}
+  else{html.setAttribute('data-theme','dark');lbl.textContent='Dark';sw.setAttribute('aria-pressed','true');localStorage.setItem('ukubona-theme','dark')}
+}
+sw.addEventListener('click',toggleTheme);
+sw.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleTheme()}});
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})
+},{threshold:.08});
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+</script>
 
 </body>
 </html>
