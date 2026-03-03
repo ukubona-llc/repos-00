@@ -264,8 +264,24 @@ body::before{
 .chain .node.llm{background:rgba(64,144,176,.12);border-color:var(--g-acc);color:var(--g-acc)}
 .chain .node.system{background:rgba(90,160,96,.12);border-color:var(--o-acc);color:var(--o-acc)}
 .chain .node.deprecated{background:rgba(128,96,200,.08);border-color:var(--a-acc);color:var(--a-acc);text-decoration:line-through;opacity:.6}
+.chain .node.sensor{background:rgba(200,48,48,.10);border-color:var(--t1-acc);color:var(--t1-acc)}
+.chain .node.world{background:rgba(144,96,224,.10);border-color:var(--t-acc);color:var(--t-acc)}
 
-/* ── ROUND TABLE ── */
+/* ── PENTAD STRIP ── */
+.pentad-strip{margin:2rem 0;border:1px solid var(--rule)}
+.pentad-layer{display:grid;grid-template-columns:1.4rem 2.2rem 10rem 1fr 6rem;align-items:center;gap:0;border-bottom:1px solid var(--rule2);transition:filter .2s}
+.pentad-layer:last-child{border-bottom:none}
+.pentad-layer:hover{filter:brightness(1.14)}
+.pl-num{font-family:var(--mono);font-size:.52rem;letter-spacing:.18em;padding:.65rem .5rem;border-right:1px solid var(--rule2);text-align:center}
+.pl-roman{font-family:var(--mono);font-size:.56rem;font-weight:700;padding:.65rem .4rem;border-right:1px solid var(--rule2);text-align:center}
+.pl-name{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;padding:.65rem .9rem;border-right:1px solid var(--rule2);font-weight:500}
+.pl-desc{font-family:var(--serif);font-size:.82rem;font-style:italic;padding:.65rem 1rem;border-right:1px solid var(--rule2);color:var(--ink3)}
+.pl-loss{font-family:var(--mono);font-size:.56rem;letter-spacing:.06em;padding:.65rem .8rem;text-align:right}
+.pentad-layer.pl1{background:rgba(200,48,48,.08)}.pentad-layer.pl1 .pl-num,.pentad-layer.pl1 .pl-roman,.pentad-layer.pl1 .pl-name,.pentad-layer.pl1 .pl-loss{color:var(--t1-acc)}
+.pentad-layer.pl2{background:rgba(144,96,224,.07)}.pentad-layer.pl2 .pl-num,.pentad-layer.pl2 .pl-roman,.pentad-layer.pl2 .pl-name,.pentad-layer.pl2 .pl-loss{color:var(--t-acc)}
+.pentad-layer.pl3{background:rgba(32,144,160,.07)}.pentad-layer.pl3 .pl-num,.pentad-layer.pl3 .pl-roman,.pentad-layer.pl3 .pl-name,.pentad-layer.pl3 .pl-loss{color:var(--tw-acc)}
+.pentad-layer.pl4{background:rgba(64,144,176,.07)}.pentad-layer.pl4 .pl-num,.pentad-layer.pl4 .pl-roman,.pentad-layer.pl4 .pl-name,.pentad-layer.pl4 .pl-loss{color:var(--g-acc)}
+.pentad-layer.pl5{background:rgba(90,160,96,.07)}.pentad-layer.pl5 .pl-num,.pentad-layer.pl5 .pl-roman,.pentad-layer.pl5 .pl-name,.pentad-layer.pl5 .pl-loss{color:var(--o-acc)}
 .round-table{margin:2.5rem 0;border:1px solid var(--rule)}
 .rt-row{display:grid;grid-template-columns:9rem 1fr 1fr 1fr 1fr;gap:0;border-bottom:1px solid var(--rule2)}
 .rt-row:last-child{border-bottom:none}
@@ -395,8 +411,8 @@ footer{border-top:3px double var(--ink);padding:3rem 0 7rem}
       <div class="cipher-line ctw">
         <span class="cl-roman">⊕</span>
         <span class="cl-noun">Digital Twin</span>
-        <span class="cl-verb">Ukubona LLC · passcode-gated · voice &amp; chat · EHR → living biosocial map · democratised seeing · foraging · rehearsing</span>
-        <span class="cl-key">TWIN</span>
+        <span class="cl-verb">Layer I: wearables · implantables · EHR · deprecated sensors → Layer II: world model → Layer III: Ukubona API → Layer IV: LLM → Layer V: person · clinic · outcome</span>
+        <span class="cl-key">PENTAD</span>
       </div>
       <div class="cipher-line ct">
         <span class="cl-roman">T</span>
@@ -673,37 +689,95 @@ footer{border-top:3px double var(--ink);padding:3rem 0 7rem}
   </div>
 
 
-  <!-- ══ DIGITAL TWIN ══ -->
+  <!-- ══ DIGITAL TWIN · PENTAD ══ -->
   <div class="sec-rule fade-in">
-    <span class="sec-rule-label stw">UKUBONA LLC · Digital Twin · Voice &amp; Chat · Passcode-Gated · EHR → Living Map</span>
+    <span class="sec-rule-label stw">UKUBONA LLC · Pentadic Stack · Layer I: Loss Landscape · Wearables · Implantables · Legacy Data</span>
     <hr>
   </div>
 
   <div class="model-block tw-block fade-in">
-    <div class="model-stamp">DIGITAL TWIN</div>
-    <h2>From EHR to Living Biosocial Map</h2>
-    <p class="model-sub">Ukubona APIs · LLM Liaison · Voice &amp; Chat · Passcode-Gated Patient Control · Democratised Seeing</p>
+    <div class="model-stamp">DIGITAL TWIN · PENTAD</div>
+    <h2>The Full Pentadic Stack</h2>
+    <p class="model-sub">I · Loss Landscape · II · World Model · III · Ukubona API · IV · LLM API · V · Person / Clinic / System</p>
 
     <div class="model-prose">
-      <p>The Electronic Health Record is an artifact of the high-learning-rate era: a database of discrete encounters, each a closed diagnostic episode. It is a collection of snapshots, not a map. The Ukubona digital twin is the low-learning-rate intervention at the infrastructure level — a continuously evolving, longitudinal, biosocial representation of a person. Not a patient-when-sick, but a person-always — through which clinics, hospitals, and health systems can navigate via natural-language interfaces.</p>
+      <p>The chain — Patient / Person → passcode → Ukubona LLC API ⇌ LLM API → Clinic — covers layers II through V of the Ukubona pentad. What is missing is <strong>Layer I: the loss landscape</strong>. Before anything can be modeled, liaised, or voiced, there must be a substrate of continuous signal from the physical world. That substrate is wearables, implantables, deprecated data-collecting infrastructure, and existing EHRs — not as archival records, but as raw loss functions: the ground truth that no amount of language can fake.</p>
+      <p>The EHR is not deprecated as a <em>data source</em>. It is deprecated as a <em>model</em>. Its encounter data, lab values, imaging reports, medication records — all of this is Layer I material: real signals from the real body, timestamped, noisy, incomplete, and irreplaceable. Wearables and implantables add continuous Layer I signal where the EHR has only episodic snapshots. Together, they constitute the <strong>loss landscape</strong> of the person — the ground truth that the world model (Layer II) must fit, and that the LLM (Layer IV) is forbidden from hallucinating away.</p>
     </div>
 
-    <h3>Architecture: Ukubona API ↔ LLM API</h3>
+    <h3>The Ukubona Pentad: All Five Layers</h3>
+
+    <div class="pentad-strip fade-in">
+      <div class="pentad-layer pl1">
+        <span class="pl-num">I</span>
+        <span class="pl-roman">𝓛</span>
+        <span class="pl-name">Loss Landscape</span>
+        <span class="pl-desc">Wearables · implantables · legacy EHR · deprecated sensors · PRO voice · the raw ground truth that cannot be hallucinated · atoms, not tokens</span>
+        <span class="pl-loss">𝓛 = reality</span>
+      </div>
+      <div class="pentad-layer pl2">
+        <span class="pl-num">II</span>
+        <span class="pl-roman">θ</span>
+        <span class="pl-name">World Model</span>
+        <span class="pl-desc">Digital twin · continuously updated · fits Layer I signals · simulates trajectories · the map that is not the territory but must answer to it</span>
+        <span class="pl-loss">𝓛 = fit to I</span>
+      </div>
+      <div class="pentad-layer pl3">
+        <span class="pl-num">III</span>
+        <span class="pl-roman">⊕</span>
+        <span class="pl-name">Ukubona API</span>
+        <span class="pl-desc">Authoritative longitudinal store · passcode-gated access control · integrates Layer I into the world model · the epistemic spine of the system</span>
+        <span class="pl-loss">𝓛 = coherence</span>
+      </div>
+      <div class="pentad-layer pl4">
+        <span class="pl-num">IV</span>
+        <span class="pl-roman">λ</span>
+        <span class="pl-name">LLM API</span>
+        <span class="pl-desc">Interface intelligence · translates world model into voice and chat · corrected by Layers I–III · positioned below reality, not above it</span>
+        <span class="pl-loss">𝓛 = plausibility</span>
+      </div>
+      <div class="pentad-layer pl5">
+        <span class="pl-num">V</span>
+        <span class="pl-roman">∇</span>
+        <span class="pl-name">Person · System</span>
+        <span class="pl-desc">Patient · clinician · clinic · hospital · health system · partial observers of the shared twin · each passcode-scoped · the loss function that ultimately matters</span>
+        <span class="pl-loss">𝓛 = outcome</span>
+      </div>
+    </div>
+
+    <h3>Layer I: The Loss Landscape in Detail</h3>
+    <div class="model-prose">
+      <p>Layer I is not a single device or database. It is a heterogeneous substrate of continuous and episodic signal, stratified by fidelity, latency, and provenance. The key insight: <strong>all of it constitutes a loss function</strong> — a ground truth the world model must respect, and the LLM is forbidden from substituting with plausible text.</p>
+
+      <table>
+        <thead><tr><th>Source</th><th>Signal Type</th><th>Latency</th><th>Fidelity</th><th>Twin Role</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Implantables</strong><br><em>Pacemakers · CGMs · neural probes · cochlear</em></td><td>Continuous physiological · sub-second resolution · real-time arrhythmia, glucose, pressure</td><td>Milliseconds</td><td>Highest · direct body signal</td><td>Tier I–II primary ground truth · cannot be fabricated</td></tr>
+          <tr><td><strong>Wearables</strong><br><em>Apple Watch · Oura · CGM patch · ECG vest · SpO₂</em></td><td>Semi-continuous physiological · HR, HRV, SpO₂, sleep, activity, temperature</td><td>Seconds–minutes</td><td>High · validated against clinical instruments</td><td>Tier III–IV foraging substrate · detects drift before symptoms</td></tr>
+          <tr><td><strong>Existing EHR</strong><br><em>Epic · Cerner · AllScripts · legacy FHIR exports</em></td><td>Episodic clinical · labs, imaging, medications, diagnoses, procedures, notes</td><td>Days–months</td><td>Medium · curated but incomplete · ICD codes lose nuance</td><td>Historical map substrate · deprecated as model, retained as signal · longitudinal anchor</td></tr>
+          <tr><td><strong>Deprecated sensors</strong><br><em>Old Fitbits · discontinued devices · research-grade datasets · CSV exports</em></td><td>Irregular · variable quality · orphaned from context</td><td>Varies</td><td>Low–medium · must be calibrated against drift</td><td>Longitudinal archaeology · signals that predate the twin · valuable precisely because they are pre-twin</td></tr>
+          <tr><td><strong>Patient-reported (PRO)</strong><br><em>Voice check-ins · symptom logs · mood · adherence</em></td><td>Subjective continuous · pain, fatigue, cognition, function · the patient's own loss function</td><td>Real-time via voice</td><td>Variable · high signal-to-noise longitudinally</td><td>The dimension EHRs most catastrophically omit · the person's experience of their own body</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>The Full Pentadic Chain</h3>
 
     <div class="chain fade-in">
-      <span class="node">Patient / Person</span>
+      <span class="node sensor">Wearables · Implantables · EHR · Deprecated Sensors · PRO</span>
+      <span class="arr">→ 𝓛 →</span>
+      <span class="node world">World Model (Twin)</span>
       <span class="arr">→ passcode →</span>
       <span class="node twin">Ukubona LLC API</span>
       <span class="arr">⇌ liaise ⇌</span>
       <span class="node llm">LLM API</span>
       <span class="arr">→ voice / chat →</span>
-      <span class="node system">Clinic · Hospital · Health System</span>
-      <span class="arr">→</span>
-      <span class="node deprecated">EHR (deprecated)</span>
+      <span class="node system">Person · Clinic · Hospital · Health System</span>
     </div>
 
     <div class="model-prose">
-      <p>The Ukubona API is the authoritative longitudinal store — it holds the evolving biosocial map. The LLM API is the interface intelligence — it translates the map into voice and chat interactions that any person, clinician, or system can navigate. The patient holds the passcode: they decide who sees what, at what granularity, and for how long. This is not privacy as policy — it is privacy as architecture.</p>
+      <p>The critical architectural principle: <strong>the LLM is at Layer IV, not Layer I</strong>. It receives a world model already fitted to real signals. When it generates a response about a patient's blood pressure trend, that response is constrained by the Layer I ground truth — the actual Oura ring readings, the actual CGM trace, the actual most-recent labs from the EHR ingestion. The LLM cannot hallucinate a trend that the wearable contradicts. The world model is the correction layer between reality and language.</p>
+      <p>The deprecated EHR data is not junk. It is <strong>longitudinal archaeology</strong>. A 10-year-old HbA1c series from a retired Epic instance is a loss function signal that no amount of fresh wearable data can replicate. The twin ingests it, calibrates against known measurement conventions, and integrates it into the longitudinal map. What was deprecated as a <em>model</em> becomes indispensable as a <em>signal</em>.</p>
     </div>
 
     <h3>Passcode-Gated Access Control</h3>
@@ -712,38 +786,44 @@ footer{border-top:3px double var(--ink);padding:3rem 0 7rem}
       <div class="pv-row"><span class="pv-label">PERSON</span><span class="pv-value">Maria O., DOB 1974-03-12</span></div>
       <div class="pv-row"><span class="pv-label">TWIN ID</span><span class="pv-value">ukb-twin-9a4f2c · active since 2024-01-08</span></div>
       <div class="pv-sep"></div>
-      <div class="pv-row"><span class="pv-label">ACCESS · Self</span><span class="pv-value granted">FULL · all tiers · voice + chat · read/write</span></div>
+      <div class="pv-row"><span class="pv-label">LAYER I · CGM (Dexcom G7)</span><span class="pv-value granted">STREAMING · 288 readings/day · last sync 3 min ago</span></div>
+      <div class="pv-row"><span class="pv-label">LAYER I · Apple Watch</span><span class="pv-value granted">STREAMING · HR · HRV · SpO₂ · sleep · activity · since 2021-03</span></div>
+      <div class="pv-row"><span class="pv-label">LAYER I · Epic EHR (legacy)</span><span class="pv-value partial">INGESTED · 2014–2023 · FHIR export · calibrated · read-only</span></div>
+      <div class="pv-row"><span class="pv-label">LAYER I · Fitbit (deprecated)</span><span class="pv-value partial">INGESTED · 2016–2020 · CSV archaeology · low confidence · flagged</span></div>
+      <div class="pv-row"><span class="pv-label">LAYER I · Voice PRO</span><span class="pv-value granted">ACTIVE · daily check-in · symptom + mood · since 2024-01-08</span></div>
+      <div class="pv-sep"></div>
+      <div class="pv-row"><span class="pv-label">ACCESS · Self</span><span class="pv-value granted">FULL · all layers · voice + chat · read/write</span></div>
       <div class="pv-row"><span class="pv-label">ACCESS · PCP (Dr. Nair)</span><span class="pv-value granted">FULL · longitudinal · granted 2024-01-08 · renewable 12 mo</span></div>
-      <div class="pv-row"><span class="pv-label">ACCESS · Hopkins ED</span><span class="pv-value partial">PARTIAL · Tier I–II data only · 72 h window · auto-expires</span></div>
+      <div class="pv-row"><span class="pv-label">ACCESS · Hopkins ED</span><span class="pv-value partial">PARTIAL · Tier I–II care-time data only · 72 h window · auto-expires</span></div>
       <div class="pv-row"><span class="pv-label">ACCESS · Insurer</span><span class="pv-value denied">DENIED · no passcode issued</span></div>
       <div class="pv-row"><span class="pv-label">ACCESS · Pharma research</span><span class="pv-value partial">ANONYMISED · aggregate signal only · opt-in 2024-06</span></div>
       <div class="pv-sep"></div>
-      <div class="pv-row"><span class="pv-label">TWIN STATUS</span><span class="pv-value">last updated 4 min ago · Tier IV (outpatient cadence) · no active escalation flags</span></div>
+      <div class="pv-row"><span class="pv-label">TWIN STATUS</span><span class="pv-value">last updated 3 min ago · Tier IV cadence · Layer I fully streaming · no active escalation flags</span></div>
     </div>
 
     <h3>The Three Democratisations</h3>
     <div class="model-prose">
-      <p><strong>Seeing, blindly</strong> — a person without medical training can now navigate their own biosocial map through voice and chat. The LLM interface translates clinical cartography into natural language. They see — not diagnoses, but the topography of their own data — without needing to know what they are looking for.</p>
-      <p><strong>Foraging, stochastically</strong> — the twin does not wait for a scheduled visit. It forages: detecting signals, surfacing patterns, alerting to tier-fractal migrations. Stochastic foraging — not rule-based, but probabilistically attuned to the person's longitudinal map — replaces the passive EHR that speaks only when explicitly queried.</p>
-      <p><strong>Rehearsing, consequentially</strong> — the twin enables rehearsal: "what happens if I stop this medication?" "what does my blood pressure trend suggest for my 10-year cardiovascular risk?" Consequential rehearsal — simulating futures within the map — gives every person the diagnostic imagination previously reserved for the trained clinician.</p>
+      <p><strong>Seeing, blindly</strong> — a person without medical training can now navigate their own biosocial map through voice and chat. The LLM interface translates clinical cartography into natural language. They see — not diagnoses, but the topography of their own Layer I data — without needing to know what they are looking for.</p>
+      <p><strong>Foraging, stochastically</strong> — the twin forages through the continuous Layer I stream: detecting drift, surfacing patterns, alerting to tier-fractal migrations before they become crises. The wearable's HRV trend that presages a Tier III deterioration is caught at Tier IV, because the loss landscape was always open.</p>
+      <p><strong>Rehearsing, consequentially</strong> — the twin enables rehearsal against a real loss function. "What happens if I stop this medication?" is simulated not against population statistics but against the patient's own Layer I trajectory — their actual CGM response, their actual sleep architecture, their actual prior medication trial from the legacy EHR. Consequential rehearsal, constrained by ground truth.</p>
     </div>
 
-    <h3>Digital Twin × Time-Stack Fractal</h3>
+    <h3>Digital Twin × Time-Stack Fractal × Layer I Source</h3>
     <div class="model-prose">
       <table>
-        <thead><tr><th>Tier</th><th>Twin Behavior</th><th>Latency Contract</th></tr></thead>
+        <thead><tr><th>Tier</th><th>Layer I Source</th><th>Twin Behavior</th><th>Latency Contract</th></tr></thead>
         <tbody>
-          <tr><td><strong>I · First Aid</strong></td><td>Emergency unlock: medications, allergies, DNR status, last vitals surfaced to bystander / EMS via voice. Pre-configured by patient.</td><td>0 – 4 min · no login required for life-critical read</td></tr>
-          <tr><td><strong>II · Emergency</strong></td><td>Full Tier II snapshot to ED: prior visits, critical diagnoses. LLM synthesizes into 90-sec verbal brief. Time-limited passcode auto-expires 72 h.</td><td>4 – 60 min · protocol-compliant fast path</td></tr>
-          <tr><td><strong>III · Urgent</strong></td><td>Twin proactively contacts patient when stochastic foraging detects Tier III migration signals. Voice/chat triage determines if urgent care is warranted. Reduces unnecessary ED overload.</td><td>1 – 24 h · outbound alert on drift detection</td></tr>
-          <tr><td><strong>IV · Outpatient</strong></td><td>Primary interface. Twin checks in, surfaces trends, prepares patient for clinic visit. Clinician receives pre-visit brief: what has changed in the map since the last encounter. Replaces the blank-slate appointment.</td><td>1 d – 2 wk · longitudinal cadence</td></tr>
-          <tr><td><strong>V · In-Patient</strong></td><td>Longitudinal context layer for inpatient team. Night nurse asks: "What is this patient's baseline mental status?" Twin answers from the map, not the admission H&P. Discharge planning begins at admission. Reduces readmissions.</td><td>Continuous · ≤1 h deterioration alerts</td></tr>
+          <tr><td><strong>I · First Aid</strong></td><td>Implantables (pacemaker, CGM) · pre-loaded emergency profile</td><td>Emergency unlock: medications, allergies, DNR, last vitals. Voice: "do this now." No login required for life-critical read.</td><td>0–60 sec · reflex scripts</td></tr>
+          <tr><td><strong>II · Emergency</strong></td><td>Streaming implantables · wearable alerts · recent CGM trace</td><td>Full snapshot to ED: critical diagnoses, active medications, real-time vitals context. LLM brief grounded in Layer I, not in memory.</td><td>1–10 min · counterfactual prompts</td></tr>
+          <tr><td><strong>III · Urgent</strong></td><td>Wearable drift signals · PRO symptom log · HRV anomaly</td><td>Twin proactively contacts patient when Layer I foraging detects Tier III migration. Triage grounded in actual signal, not just reported symptoms.</td><td>10 min–24 h · stochastic foraging</td></tr>
+          <tr><td><strong>IV · Outpatient</strong></td><td>Continuous wearable stream · EHR labs · voice PRO cadence</td><td>Pre-visit brief synthesizes Layer I trends since last encounter. Clinician sees what changed in the map, grounded in data, not patient recall.</td><td>Days–weeks · longitudinal cadence</td></tr>
+          <tr><td><strong>V · In-Patient</strong></td><td>Hospital telemetry (ingested back to Layer I) · nursing charting</td><td>Twin integrates inpatient telemetry with longitudinal Layer I context. Night nurse's question answered from the full biosocial history, not the admission H&amp;P.</td><td>Continuous · ≤1 h deterioration alerts</td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="model-pull">
-      The EHR is a graveyard of closed encounters. The Ukubona digital twin is a living atlas — foraging, seeing, rehearsing — gated by the person it represents. The fractal of care becomes navigable only when the map of the person is always open.
+      The EHR is deprecated as a model. It is indispensable as a signal. The wearable stream is the loss landscape that corrects the LLM. The implantable is the ground truth that no language can fake. Layer I is what makes the twin a world model rather than a language model with a memory problem.
     </div>
   </div>
 
@@ -949,12 +1029,13 @@ footer{border-top:3px double var(--ink);padding:3rem 0 7rem}
 
   <!-- ══ CODA ══ -->
   <div class="coda fade-in">
-    <span class="coda-label">Epilogue · Ukubona LLC · The Map Is the Medium · Diagnosis Is a Trajectory</span>
+    <span class="coda-label">Epilogue · Ukubona LLC · The Pentad Is Complete · Diagnosis Is a Trajectory</span>
     <h2>Diagnosis Is Not an Answer. It Is a Trajectory Through Time.</h2>
-    <p>The Electronic Health Record was built for the high-learning-rate era: encounter by encounter, each a closed episode, each a snapshot of a sick moment. It is a graveyard of premature closures. The Ukubona digital twin evolves from it not by adding features but by changing ontology — from <em>patient-when-sick</em> to <em>person-always</em>, from snapshot to living atlas, from passive repository to active forager, from bureaucratic consent to computational passcode.</p>
-    <p>The time-stack fractal is not an administrative taxonomy. It is a clinical design constraint written in the grammar of latency. The Tier I silence is 60 seconds. The Tier III silence is 24 hours. The Tier V silence is continuous. At each tier, the admissible uncertainty changes, the cognitive mode changes, the twin's behavior changes. The fractal property is what makes this navigable: the same diagnostic act — map → test → revise — repeats at every resolution. The clinician who has learned this does not switch modes consciously; they inhabit the fractal.</p>
-    <p>The pedagogical tradition — McMaster's PBL, UCSF's diagnostic reasoning, Hopkins's exhaustive history-taking — trains clinicians to inhabit the slow fractals before the fast ones. The digital twin instantiates this instrument at the infrastructure level, for every person, at every tier. The four verbs — seeing blindly, foraging stochastically, rehearsing consequentially, and connecting systems as partial observers — are not features. They are the democratisation of epistemic capacity: the cartographic skill that was previously available only to those who had completed the slow thinking in advance, now available through the twin's longitudinal memory to anyone who holds their passcode.</p>
-    <p><strong>Ukubona's wager: preserve the map, and speed becomes safe. Preserve access, and justice becomes structural. Preserve the person as root authority, and expertise becomes shareable without becoming shallow. The fractal of care, navigable. The map of the person, always open.</strong></p>
+    <p>The Electronic Health Record was built for the high-learning-rate era: encounter by encounter, each a closed episode, each a snapshot of a sick moment. It is a graveyard of premature closures. The Ukubona digital twin evolves from it not by adding features but by changing ontology — from <em>patient-when-sick</em> to <em>person-always</em>, from snapshot to living atlas, from passive repository to active forager, from bureaucratic consent to computational passcode. And beneath all of it: <strong>Layer I</strong>, the loss landscape — wearables, implantables, deprecated sensors, legacy EHR signals — the ground truth that no language model can fake away.</p>
+    <p>The pentad is the architecture. Layer I is the loss function: atoms, not tokens, from CGMs and pacemakers and old Fitbit CSV exports and daily voice check-ins. Layer II is the world model that fits those signals and simulates trajectories. Layer III is the Ukubona API that holds the map, enforces the passcode, and maintains the epistemic spine. Layer IV is the LLM — fast, plausible, positioned correctly below the layers that will correct it. Layer V is the person and the systems they choose to let in: the partial observers who query the twin, not the patient.</p>
+    <p>The time-stack fractal is not an administrative taxonomy. It is a clinical design constraint written in the grammar of latency. At each tier, the admissible uncertainty changes, the cognitive mode changes, the Layer I source changes, the twin's behavior changes. The fractal property is what makes this navigable: the same diagnostic act — map → test → revise — repeats at every resolution, corrected at every level by the real loss function of the person's actual body.</p>
+    <p>The pedagogical tradition — McMaster's PBL, UCSF's diagnostic reasoning, Hopkins's exhaustive history-taking — trains clinicians to inhabit the slow fractals before the fast ones. The digital twin instantiates this at the infrastructure level for every person, at every tier, grounded in every layer. The four verbs — seeing blindly, foraging stochastically, rehearsing consequentially, connecting systems as partial observers — are the democratisation of epistemic capacity, now anchored in the one thing that cannot be democratised away: the continuous ground truth of a living body.</p>
+    <p><strong>Ukubona's wager: preserve the map, and speed becomes safe. Ground the LLM in Layer I, and plausibility becomes truth. Give the person the passcode, and expertise becomes shareable without becoming shallow. The pentad is complete. The fractal of care, navigable. The loss landscape, always open.</strong></p>
   </div>
 
 
