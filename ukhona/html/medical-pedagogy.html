@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnostic Cartography · Low vs High Learning Rate · Ukubona LLC</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link href="../css/variables.css?v=1.1" rel="stylesheet" />
+<link href="../css/head.css?v=1.1" rel="stylesheet" />
+<link href="../css/card.css?v=1.1" rel="stylesheet" />
+<link href="../css/footer.css" rel="stylesheet" />
+
+<style>
+:root {
+  color-scheme: light dark;
+  --paper:   #f5f0e8;
+  --ink:     #1a1208;
+  --ink2:    #2e200a;
+  --ink3:    #7a6840;
+  --rule:    #c4a060;
+  --rule2:   #e4d4b0;
+  --accent:  #6b1a1a;
+  --accent2: #a03010;
+  /* voice palettes — remapped to medical voices */
+  --g-bg:   #0c0e18; --g-text:  #c0c8f0; --g-acc:   #7080d8;  /* G · PBL Pioneers */
+  --o-bg:   #120808; --o-text:  #f0d0a0; --o-acc:   #d06020;  /* O · Clinical Reasoning */
+  --a-bg:   #08100c; --a-text:  #b0d8b8; --a-acc:   #50a868;  /* A · Broad Differential */
+  --x-bg:   #140c08; --x-text:  #f0c8a0; --x-acc:   #c07030;  /* X · PBL Roster */
+  --mono:   'IBM Plex Mono', monospace;
+  --serif:  'Source Serif 4', Georgia, serif;
+  --display:'Playfair Display', Georgia, serif;
+  --toggle-bg: #e0cdb0; --toggle-knob: #1a1208;
+}
+[data-theme="dark"] {
+  --paper:#0d0a10; --ink:#f0e8c8; --ink2:#d0c098; --ink3:#907850;
+  --rule:#3a2a08; --rule2:#221808; --accent:#e04028; --accent2:#f08840;
+  --toggle-bg:#1e1408; --toggle-knob:#f0e8c8;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:#0d0a10; --ink:#f0e8c8; --ink2:#d0c098; --ink3:#907850;
+    --rule:#3a2a08; --rule2:#221808; --accent:#e04028; --accent2:#f08840;
+    --toggle-bg:#1e1408; --toggle-knob:#f0e8c8;
+  }
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+html { scroll-behavior:smooth }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.9;
+  transition: background .3s ease, color .3s ease;
+}
+
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+body::after {
+  content:''; position:fixed; top:0; left:0; right:0; height:260px;
+  pointer-events:none; z-index:0; opacity:.04;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--ink) 0px, var(--ink) 1px,
+    transparent 1px, transparent 22px
+  );
+}
+
+/* ── THEME TOGGLE ── */
+.theme-toggle {
+  position:fixed; top:1.2rem; right:1.5rem; z-index:999;
+  display:flex; align-items:center; gap:.55rem;
+  font-family:var(--mono); font-size:.5rem; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--ink3);
+}
+.toggle-switch {
+  position:relative; width:2.6rem; height:1.3rem;
+  background:var(--toggle-bg); border:1px solid var(--rule);
+  border-radius:0; cursor:pointer; transition:background .25s;
+}
+.toggle-switch::after {
+  content:''; position:absolute; top:.2rem; left:.2rem;
+  width:.75rem; height:.75rem;
+  background:var(--toggle-knob); transition:transform .25s ease;
+}
+[data-theme="dark"] .toggle-switch::after { transform:translateX(1.25rem) }
+
+/* ── PAGE ── */
+.page { max-width:880px; margin:0 auto; padding:0 2.4rem 12rem; position:relative; z-index:1 }
+
+/* ── MASTHEAD ── */
+.masthead {
+  padding:8rem 0 4rem;
+  border-bottom:4px double var(--ink);
+  margin-bottom:5rem;
+  animation: drop 1.1s cubic-bezier(.16,1,.3,1) both;
+}
+.mast-eyebrow {
+  font-family:var(--mono); font-size:.5rem; letter-spacing:.38em;
+  text-transform:uppercase; color:var(--ink3); margin-bottom:2.5rem;
+}
+.mast-numeral {
+  font-family:var(--display);
+  font-size: clamp(5rem,18vw,14rem);
+  font-weight:900; line-height:.85;
+  color:transparent; -webkit-text-stroke:2px var(--rule);
+  letter-spacing:-.04em; margin-bottom:-1rem;
+  user-select:none; opacity:.45;
+}
+.mast-title {
+  font-family:var(--display);
+  font-size: clamp(2rem,5vw,3.8rem);
+  font-weight:700; line-height:1.1;
+  letter-spacing:.01em; color:var(--ink); margin-bottom:1rem;
+}
+.mast-title em { font-style:italic; font-weight:400; color:var(--accent) }
+.mast-sub {
+  font-family:var(--mono); font-size:.58rem;
+  color:var(--ink3); letter-spacing:.1em;
+  line-height:2.2; margin-bottom:3rem;
+}
+.mast-sub em { color:var(--accent2); font-style:normal }
+
+/* ── ALIGNMENT TABLE ── */
+.align-strip {
+  width:100%; border-collapse:collapse;
+  font-family:var(--mono); font-size:.6rem;
+  margin:2rem 0; border:1px solid var(--rule);
+}
+.align-strip thead { background:rgba(180,140,60,.1) }
+.align-strip th {
+  padding:.5rem .7rem; font-size:.46rem; letter-spacing:.26em;
+  text-transform:uppercase; color:var(--ink3);
+  border-bottom:2px solid var(--rule); border-right:1px solid var(--rule2);
+  text-align:left;
+}
+.align-strip th:last-child { border-right:none }
+.align-strip td {
+  padding:.45rem .7rem; border-bottom:1px solid var(--rule2);
+  border-right:1px solid var(--rule2); vertical-align:top; line-height:1.5;
+}
+.align-strip td:last-child { border-right:none }
+.align-strip tr:last-child td { border-bottom:none }
+.align-strip tr.rg td { color:var(--g-acc) }
+.align-strip tr.ro td { color:var(--o-acc) }
+.align-strip tr.ra td { color:var(--a-acc) }
+.align-strip tr.rx td { color:var(--x-acc) }
+.align-strip tr td:first-child { font-weight:600 }
+
+/* ── CIPHER GRID ── */
+.cipher-grid { margin-top:3rem; border-top:1px solid var(--rule) }
+.cipher-line {
+  display:grid; grid-template-columns:4rem 1.3fr 2.1fr .85fr;
+  align-items:baseline; padding:.8rem 0;
+  border-bottom:1px solid var(--rule2); gap:1rem;
+  transition:background .15s;
+}
+.cipher-line:hover { background:rgba(180,140,60,.05) }
+.cl-roman { font-family:var(--mono); font-size:.6rem; letter-spacing:.2em; color:var(--rule) }
+.cl-noun  { font-family:var(--display); font-size:.82rem; letter-spacing:.06em; font-weight:700; color:var(--ink2) }
+.cl-verb  { font-family:var(--serif); font-size:.88rem; font-style:italic; color:var(--ink) }
+.cl-key   {
+  font-family:var(--mono); font-size:.5rem; letter-spacing:.18em;
+  color:var(--accent); text-align:right; border:1px solid var(--accent);
+  padding:.16rem .38rem; justify-self:end; align-self:center;
+}
+.cipher-line.g-voice .cl-roman,.cipher-line.g-voice .cl-noun,.cipher-line.g-voice .cl-verb { color:var(--g-acc) }
+.cipher-line.g-voice .cl-key { border-color:var(--g-acc); color:var(--g-acc); background:rgba(112,128,216,.08) }
+.cipher-line.o-voice .cl-roman,.cipher-line.o-voice .cl-noun,.cipher-line.o-voice .cl-verb { color:var(--o-acc) }
+.cipher-line.o-voice .cl-key { border-color:var(--o-acc); color:var(--o-acc); background:rgba(208,96,32,.08) }
+.cipher-line.a-voice .cl-roman,.cipher-line.a-voice .cl-noun,.cipher-line.a-voice .cl-verb { color:var(--a-acc) }
+.cipher-line.a-voice .cl-key  { border-color:var(--a-acc); color:var(--a-acc); background:rgba(80,168,104,.08) }
+.cipher-line.x-voice .cl-roman,.cipher-line.x-voice .cl-noun,.cipher-line.x-voice .cl-verb { color:var(--x-acc) }
+.cipher-line.x-voice .cl-key  { border-color:var(--x-acc); color:var(--x-acc); background:rgba(192,112,48,.08) }
+
+/* ── SEC RULE ── */
+.sec-rule {
+  display:grid; grid-template-columns:auto 1fr; align-items:center;
+  gap:1.2rem; margin:5.5rem 0 2.5rem;
+}
+.sec-rule-label {
+  font-family:var(--mono); font-size:.52rem; letter-spacing:.4em;
+  text-transform:uppercase; white-space:nowrap;
+  padding:.28rem .8rem; border:1px solid var(--ink); color:var(--ink);
+}
+.sec-rule-label.g-lbl  { border-color:var(--g-acc); color:var(--g-acc); background:rgba(112,128,216,.06) }
+.sec-rule-label.o-lbl  { border-color:var(--o-acc); color:var(--o-acc); background:rgba(208,96,32,.06) }
+.sec-rule-label.a-lbl  { border-color:var(--a-acc); color:var(--a-acc); background:rgba(80,168,104,.06) }
+.sec-rule-label.x-lbl  { border-color:var(--x-acc); color:var(--x-acc); background:rgba(192,112,48,.06) }
+.sec-rule-label.schema { background:var(--ink); color:var(--paper); border-color:var(--ink) }
+.sec-rule hr { border:none; border-top:1px solid var(--rule); width:100% }
+
+/* ── MODEL BLOCKS ── */
+.model-block {
+  border-left:3px solid; padding:2.4rem 2.8rem;
+  margin:0 0 3rem; position:relative;
+}
+.model-stamp {
+  position:absolute; top:1rem; right:1.4rem;
+  font-family:var(--mono); font-size:.44rem; letter-spacing:.38em;
+  text-transform:uppercase; opacity:.6; border:1px solid; padding:.15rem .5rem;
+}
+.model-block h2 { font-family:var(--display); font-size:1.4rem; font-weight:700; margin-bottom:.5rem; line-height:1.2 }
+.model-block .model-sub { font-family:var(--mono); font-size:.54rem; letter-spacing:.22em; margin-bottom:2rem }
+.model-block h3 {
+  font-family:var(--display); font-size:1.05rem; font-weight:700;
+  margin:2.2rem 0 .6rem; padding-top:1.4rem; border-top:1px solid;
+}
+.model-prose { font-size:.9rem; line-height:1.85; margin-bottom:1.2rem }
+.model-prose p { margin-bottom:1rem }
+.model-prose ul,.model-prose ol { padding-left:1.4rem; margin-bottom:1rem }
+.model-prose li { margin-bottom:.35rem; line-height:1.7 }
+.model-prose blockquote { border-left:2px solid; margin:1.2rem 0; padding:.6rem 1.2rem; font-style:italic; opacity:.85 }
+.model-pull {
+  border-top:1px solid; border-bottom:1px solid; padding:1.2rem 0;
+  margin:1.8rem 0; font-family:var(--display); font-style:italic;
+  font-size:1.05rem; line-height:1.65;
+}
+
+/* block color schemes */
+.g-block { background:var(--g-bg); border-color:var(--g-acc) }
+.g-block .model-stamp { color:var(--g-acc); border-color:var(--g-acc) }
+.g-block h2,.g-block h3 { color:var(--g-text) }
+.g-block h3 { border-color:rgba(112,128,216,.2) }
+.g-block .model-sub { color:var(--g-acc) }
+.g-block .model-prose { color:var(--g-text) }
+.g-block .model-prose strong { color:#e0e8ff }
+.g-block .model-prose em { color:var(--g-acc) }
+.g-block .model-prose blockquote { border-color:var(--g-acc) }
+.g-block .model-pull { color:var(--g-acc); border-color:rgba(112,128,216,.3) }
+
+.o-block { background:var(--o-bg); border-color:var(--o-acc) }
+.o-block .model-stamp { color:var(--o-acc); border-color:var(--o-acc) }
+.o-block h2,.o-block h3 { color:var(--o-text) }
+.o-block h3 { border-color:rgba(208,96,32,.2) }
+.o-block .model-sub { color:var(--o-acc) }
+.o-block .model-prose { color:var(--o-text) }
+.o-block .model-prose strong { color:#fff0c8 }
+.o-block .model-prose em { color:var(--o-acc) }
+.o-block .model-prose blockquote { border-color:var(--o-acc) }
+.o-block .model-pull { color:var(--o-acc); border-color:rgba(208,96,32,.3) }
+
+.a-block { background:var(--a-bg); border-color:var(--a-acc) }
+.a-block .model-stamp { color:var(--a-acc); border-color:var(--a-acc) }
+.a-block h2,.a-block h3 { color:var(--a-text) }
+.a-block h3 { border-color:rgba(80,168,104,.2) }
+.a-block .model-sub { color:var(--a-acc) }
+.a-block .model-prose { color:var(--a-text) }
+.a-block .model-prose strong { color:#d0f0c8 }
+.a-block .model-prose em { color:var(--a-acc) }
+.a-block .model-prose blockquote { border-color:var(--a-acc) }
+.a-block .model-pull { color:var(--a-acc); border-color:rgba(80,168,104,.3) }
+
+.x-block { background:var(--x-bg); border-color:var(--x-acc) }
+.x-block .model-stamp { color:var(--x-acc); border-color:var(--x-acc) }
+.x-block h2,.x-block h3 { color:var(--x-text) }
+.x-block h3 { border-color:rgba(192,112,48,.2) }
+.x-block .model-sub { color:var(--x-acc) }
+.x-block .model-prose { color:var(--x-text) }
+.x-block .model-prose strong { color:#ffe8c8 }
+.x-block .model-prose em { color:var(--x-acc) }
+.x-block .model-prose blockquote { border-color:var(--x-acc) }
+.x-block .model-pull { color:var(--x-acc); border-color:rgba(192,112,48,.3) }
+
+/* ── TABLES inside model-prose ── */
+.model-prose table { width:100%; border-collapse:collapse; font-size:.72rem; margin:1.4rem 0; font-family:var(--mono) }
+.model-prose th { font-size:.54rem; letter-spacing:.16em; text-transform:uppercase; padding:.48rem .65rem; border-bottom:2px solid; text-align:left }
+.model-prose td { padding:.44rem .65rem; border-bottom:1px solid; vertical-align:top; line-height:1.5 }
+.model-prose tr:last-child td { border-bottom:none }
+
+/* ── VINDICATE WALK (mirrors descent-walk) ── */
+.vindicate-walk {
+  font-family:var(--mono); font-size:.65rem; letter-spacing:.06em;
+  margin:2rem 0; border-left:3px solid var(--rule); padding:1rem 1.6rem;
+  line-height:2.2;
+}
+.vw-step { display:flex; align-items:baseline; gap:.8rem; margin:.15rem 0 }
+.vw-letter { color:var(--o-acc); min-width:2rem; font-size:.7rem; font-weight:600 }
+.vw-cat    { color:var(--g-acc); min-width:9rem }
+.vw-ex     { color:var(--ink3); font-style:italic; font-size:.6rem }
+
+/* ── ROUND TABLE ── */
+.round-table { margin:2.5rem 0; border:1px solid var(--rule) }
+.rt-row {
+  display:grid; grid-template-columns:10rem 1fr 1fr;
+  gap:0; border-bottom:1px solid var(--rule2);
+}
+.rt-row:last-child { border-bottom:none }
+.rt-row.rt-head { background:rgba(180,140,60,.08) }
+.rt-cell {
+  padding:.55rem .9rem; font-family:var(--mono);
+  font-size:.55rem; letter-spacing:.08em; line-height:1.6;
+  border-right:1px solid var(--rule2);
+}
+.rt-cell:last-child { border-right:none }
+.rt-head .rt-cell { font-size:.46rem; letter-spacing:.26em; text-transform:uppercase; color:var(--ink3) }
+
+/* ── VERSE ── */
+.verse-block {
+  font-family:var(--mono); font-size:.72rem; letter-spacing:.08em;
+  line-height:2.2; color:var(--ink3); border-left:3px solid var(--rule);
+  padding:.8rem 1.6rem; margin:2rem 0; font-style:italic;
+}
+.verse-block cite {
+  display:block; margin-top:.8rem; font-style:normal;
+  font-size:.56rem; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--ink3); opacity:.7;
+}
+
+/* ── ANNOTATION ── */
+.annotation {
+  margin:1.5rem 0; border-left:3px solid var(--rule);
+  padding:.9rem 1.4rem; background:rgba(196,168,100,.06);
+  font-family:var(--mono); font-size:.56rem; letter-spacing:.1em;
+  color:var(--ink3); line-height:1.9;
+}
+.annotation::before {
+  content:'♜  G · O · A · X · LOW LEARNING RATE · HIGH LEARNING RATE · DIAGNOSTIC CARTOGRAPHY · PREMATURE CLOSURE';
+  display:block; font-size:.44rem; letter-spacing:.4em; opacity:.7; margin-bottom:.4rem;
+}
+
+/* ── INTERLUDE ── */
+.interlude {
+  border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+  padding:2rem 0; margin:3.5rem 0;
+  font-family:var(--display); font-style:italic;
+  font-size:1.1rem; line-height:1.7; color:var(--ink2); text-align:center;
+}
+
+/* ── CODA ── */
+.coda { border:2px solid var(--ink); padding:3.2rem 3.8rem; margin:6rem 0; position:relative }
+.coda-label {
+  position:absolute; top:-.75rem; left:2rem;
+  font-family:var(--mono); font-size:.48rem; letter-spacing:.45em;
+  text-transform:uppercase; background:var(--paper); padding:0 .75rem; color:var(--ink);
+}
+.coda h2 {
+  font-family:var(--display); font-size:1.3rem; font-weight:700;
+  font-style:italic; letter-spacing:.02em; color:var(--ink); margin-bottom:1.4rem;
+}
+.coda p { color:var(--ink2); margin-bottom:1.1rem; line-height:1.85 }
+.coda p:last-child { margin-bottom:0 }
+.coda strong { color:var(--ink) }
+
+/* ── FOOTER ── */
+footer { border-top:3px double var(--ink); padding:3rem 0 7rem }
+.foot-chain { font-family:var(--mono); font-size:.54rem; letter-spacing:.28em; color:var(--ink3); margin-bottom:.8rem }
+.foot-chain span { color:var(--accent2) }
+.foot-note { font-family:var(--mono); font-size:.48rem; letter-spacing:.1em; color:var(--ink3); line-height:2.5 }
+
+/* ── ANIMATIONS ── */
+.fade-in { opacity:0; transform:translateY(14px); transition:opacity .65s ease, transform .65s ease }
+.fade-in.visible { opacity:1; transform:translateY(0) }
+@keyframes drop { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── PULL QUOTE ── */
+.nietzsche {
+  font-family:var(--display); font-size:1.05rem; font-style:italic;
+  line-height:1.75; color:var(--ink2); margin:3rem 0;
+  padding:1.5rem 0; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+  text-align:center;
+}
+.nietzsche cite {
+  display:block; margin-top:.8rem;
+  font-family:var(--mono); font-size:.5rem;
+  letter-spacing:.3em; text-transform:uppercase; color:var(--ink3);
+  font-style:normal;
+}
+
+.staff-divider {
+  text-align:center; font-family:var(--mono); font-size:.6rem;
+  letter-spacing:.6em; color:var(--rule); margin:2rem 0; opacity:.7;
+  line-height:3;
+}
+
+@media (max-width:640px) {
+  .mast-numeral { font-size:6rem }
+  .mast-title   { font-size:1.9rem }
+  .cipher-line  { grid-template-columns:3rem 1fr; gap:.2rem }
+  .cl-verb,.cl-key { grid-column:2 }
+  .coda,.model-block { padding:1.8rem 1.6rem }
+  .theme-toggle { top:.7rem; right:.9rem }
+  .rt-row { grid-template-columns:1fr 1fr }
+  .align-strip { font-size:.52rem }
+}
+</style>
+</head>
+<body>
+
+<div class="theme-toggle" aria-label="Toggle dark/light mode">
+  <span id="toggle-label">Light</span>
+  <div class="toggle-switch" id="themeSwitch" role="button" tabindex="0" aria-pressed="false"></div>
+</div>
+
+<div class="page">
+
+  <!-- ══ MASTHEAD ══ -->
+  <header class="masthead">
+    <br><br><br>
+    <div class="mast-eyebrow">Ukubona LLC · Diagnostic Cartography · Low vs High Learning Rate · G · O · A · X</div>
+    <div class="mast-numeral" aria-hidden="true">♜</div>
+    <h1 class="mast-title">
+      Diagnostic Cartography<br>
+      <em>Low Learning Rate vs High Learning Rate in Medical Education</em>
+    </h1>
+    <p class="mast-sub">
+      // I.  Low Learning Rate — <em>exhaustive differential · vast map before the hunt · System 2 · cartography-first</em><br>
+      // II.  High Learning Rate — <em>pattern recognition · illness scripts · pathognomonic cues · System 1</em><br>
+      // III.  PBL Pioneers — <em>McMaster · Harvard · case-driven · first principles · no shortcut allowed</em><br>
+      // IV.  Clinical Reasoning Specialists — <em>UCSF · Hopkins · VINDICATE · premature closure as the cardinal sin</em><br>
+      // V.  The Staged Transition — <em>build the map · learn the shortcuts · know when to return to the map</em>
+    </p>
+
+    <!-- master alignment table -->
+    <table class="align-strip">
+      <thead>
+        <tr>
+          <th>#</th><th>Concept</th><th>Low Learning Rate (Analytical)</th><th>High Learning Rate (Heuristic)</th><th>The Risk</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="rg"><td>I</td><td>Focus</td><td>Biological mechanisms &amp; exhaustive DDx</td><td>Pattern recognition &amp; Illness Scripts</td><td>Analysis paralysis vs premature closure</td></tr>
+        <tr class="ro"><td>II</td><td>Strength</td><td>Rare/complex cases; avoids cognitive bias</td><td>Efficiency; high volume; emergency settings</td><td>Each excels only in its own terrain</td></tr>
+        <tr class="ra"><td>III</td><td>Who privileges it</td><td>McMaster, UCSF, Hopkins, Mayo · PBL programs</td><td>EM residencies · Step-prep curricula · procedural fields</td><td>Implicit curriculum often contradicts explicit</td></tr>
+        <tr class="rx"><td>IV</td><td>The paradox</td><td>Students look slow but build deep cartography</td><td>Experts look fast because they already built the map</td><td>Speed is earned, not shortcut</td></tr>
+      </tbody>
+    </table>
+
+    <div class="cipher-grid">
+      <div class="cipher-line g-voice">
+        <span class="cl-roman">G</span>
+        <span class="cl-noun">PBL Pioneers</span>
+        <span class="cl-verb">McMaster &amp; Harvard · deconstruct from the ground up · topographic map of the organ system before the diagnosis</span>
+        <span class="cl-key">SYSTEM 2</span>
+      </div>
+      <div class="cipher-line o-voice">
+        <span class="cl-roman">O</span>
+        <span class="cl-noun">Clinical Reasoning</span>
+        <span class="cl-verb">UCSF · Hopkins · Mayo · cartography-first medicine · uncertainty tolerated · reasoning structure rewarded over final answer</span>
+        <span class="cl-key">CARTOGRAPHY</span>
+      </div>
+      <div class="cipher-line a-voice">
+        <span class="cl-roman">A</span>
+        <span class="cl-noun">Broad Differential</span>
+        <span class="cl-verb">Schools teach System 2 · clinical culture rewards System 1 · the implicit curriculum contradicts the explicit</span>
+        <span class="cl-key">TENSION</span>
+      </div>
+      <div class="cipher-line x-voice">
+        <span class="cl-roman">X</span>
+        <span class="cl-noun">PBL Roster</span>
+        <span class="cl-verb">McMaster · Cleveland Clinic Lerner · LECOM · JABSOM · Missouri · Mercer · New Mexico · case-driven map-making</span>
+        <span class="cl-key">INSTITUTIONS</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="verse-block fade-in">
+    The diagnosis is not spotted.<br>
+    It <em>emerges</em> — from a high-resolution map<br>
+    of the patient's history, anatomy, and physiology.<br>
+    The cartographer arrives at the answer<br>
+    only after surveying every province.
+    <cite>— after the low-learning-rate tradition · McMaster → UCSF → Hopkins</cite>
+  </div>
+
+  <div class="annotation fade-in">
+    What PBL schools and clinical reasoning specialists share: a deliberate insistence that the differential diagnosis is a living document, not a hurdle to jump. They use VINDICATE to sieve symptoms through every pathophysiological category. They teach Anatomic Localization — "where is the lesion?" before "what is the lesion?" They reward wrong-but-well-reasoned answers. They frame diagnostic error as premature closure, not inefficiency. And they produce clinicians who eventually look fast because they already possess vast internal cartography — true experts who have already done the slow thinking in advance.
+  </div>
+
+
+  <!-- ══ I · G · PBL PIONEERS ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label g-lbl">G · PBL Pioneers · McMaster &amp; Harvard · Topographic Maps Before the Hunt</span>
+    <hr>
+  </div>
+
+  <div class="model-block g-block fade-in">
+    <div class="model-stamp">VOICE G</div>
+    <h2>The Exhaustive Map Approach</h2>
+    <p class="model-sub">System 2 Thinking · Slow · Analytical · Anti-Heuristic by Design</p>
+
+    <div class="model-prose">
+      <p>This is a fascinating way to frame medical pedagogy. In cognitive science terms, you're essentially asking which schools prioritize <strong>System 2 thinking</strong> (slow, analytical, exhaustive) over <strong>System 1 thinking</strong> (fast, intuitive, pattern-based).</p>
+      <p>While almost all medical schools eventually want you to develop "clinical intuition," several institutions are famous for enforcing a "low learning rate" approach—demanding that students map out the entire diagnostic landscape before they're allowed to "hunt" for the answer.</p>
+    </div>
+
+    <h3>1. The PBL Pioneers: McMaster and Harvard</h3>
+    <div class="model-prose">
+      <p>Schools that utilize <strong>Problem-Based Learning (PBL)</strong> or <strong>Case-Based Learning (CBL)</strong> are the primary champions of the "exhaustive map" approach.</p>
+      <ul>
+        <li><strong>McMaster University:</strong> As the pioneer of PBL, McMaster forces students to deconstruct a patient case from the ground up. You aren't allowed to just say "it's a heart attack"; you have to explain the physiological "why" and rule out the other 15 things it could be.</li>
+        <li><strong>Harvard Medical School (Pathways Curriculum):</strong> Harvard's curriculum is designed to move away from rote memorization of pathognomonic "buzzwords." They emphasize <strong>first principles</strong>. By the time you reach a diagnosis, you've essentially drawn a topographic map of the organ system involved.</li>
+      </ul>
+    </div>
+
+    <h3>2. The "Clinical Reasoning" Specialists: UCSF and Johns Hopkins</h3>
+    <div class="model-prose">
+      <p>Some schools have turned the "cartography of diagnosis" into a formal science. They treat the <strong>Differential Diagnosis (DDx)</strong> as a living document rather than a hurdle to jump over.</p>
+      <ul>
+        <li><strong>UCSF:</strong> They are leaders in teaching <strong>Diagnostic Reasoning</strong>. They explicitly teach students to avoid "premature closure" (picking a diagnosis too early). They use frameworks like <strong>VINDICATE</strong> (Vascular, Inflammatory, Neoplastic, etc.) to ensure the student has surveyed every "province" of the medical map.</li>
+        <li><strong>Johns Hopkins:</strong> Known for a rigorous "bedside manner" that involves exhaustive history-taking. The philosophy here is that if you build a high-resolution map of the patient's history, the diagnosis emerges naturally, rather than being "spotted" via a shortcut.</li>
+      </ul>
+    </div>
+
+    <h3>3. The "Low Learning Rate" Strategy: Why do it?</h3>
+    <div class="model-prose">
+      <p>The schools that emphasize this exhaustive approach do so to protect against <strong>cognitive biases</strong>. A "high learning rate" (relying on pathognomonic cues) works 90% of the time, but it fails in "Zebra" cases or when a patient has a comorbid condition that masks the classic signs.</p>
+      <table>
+        <thead><tr><th>Approach</th><th>"Low Learning Rate" (Analytical)</th><th>"High Learning Rate" (Heuristic)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Focus</strong></td><td>Biological mechanisms &amp; exhaustive DDx</td><td>Pattern recognition &amp; "Illness Scripts"</td></tr>
+          <tr><td><strong>Strength</strong></td><td>Rare/Complex cases; avoids bias</td><td>Efficiency; high volume; emergency settings</td></tr>
+          <tr><td><strong>Risk</strong></td><td>"Analysis paralysis"; slow</td><td>Premature closure; missing atypical presentations</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>The "Expertise" Paradox</h3>
+    <div class="model-prose">
+      <p>It's worth noting that the goal of medical education is actually a <strong>staged transition</strong>.</p>
+      <ol>
+        <li><strong>Years 1–2:</strong> Force a "low learning rate" (build the map).</li>
+        <li><strong>Years 3–4:</strong> Transition to "high learning rate" (learn the shortcuts).</li>
+        <li><strong>Residency:</strong> Develop the wisdom to know when to switch back to the map because the "shortcut" led to a dead end.</li>
+      </ol>
+      <p>If you're looking for a school that resists the "shortcut" culture the longest, look for programs with <strong>heavy emphasis on Pathophysiology</strong> over "Board Prep" style learning (which is almost entirely pathognomonic-cue driven).</p>
+    </div>
+
+    <div class="model-pull">
+      The deepest cartographers eventually become the fastest diagnosticians — not because they skipped the map, but because the map became internalized. Speed is earned, not shortcut.
+    </div>
+  </div>
+
+
+  <!-- ══ II · G · VINDICATE / I-M-A-D-E ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label g-lbl">G · Frameworks · VINDICATE+ &amp; I-M-A-D-E · GPS for Medical Cartography</span>
+    <hr>
+  </div>
+
+  <div class="model-block g-block fade-in">
+    <div class="model-stamp">FRAMEWORKS</div>
+    <h2>The GPS for Medical Cartography</h2>
+    <p class="model-sub">VINDICATE+ · I-M-A-D-E · Pathophysiological Sieves · Anatomic Localization</p>
+
+    <div class="model-prose">
+      <p>These frameworks are the "GPS" for medical cartography. They prevent a student from jumping straight to the obvious answer by forcing them to visit every "neighborhood" of pathology.</p>
+      <p>Here are the two most prominent models used by schools like UCSF and Harvard to build that vast differential diagnosis.</p>
+    </div>
+
+    <h3>1. The VINDICATE+ Framework</h3>
+    <div class="model-prose">
+      <p>This is the most exhaustive "map-making" tool in medicine. It is a <strong>pathophysiological sieve</strong>—you pour the patient's symptoms through it, and see what gets caught in each category.</p>
+    </div>
+
+    <div class="vindicate-walk fade-in">
+      <div style="font-size:.44rem;letter-spacing:.38em;text-transform:uppercase;color:var(--g-acc);margin-bottom:.6rem">
+        VINDICATE+ · Pathophysiological Sieve · pour symptoms → catch what remains
+      </div>
+      <div class="vw-step"><span class="vw-letter">V</span><span class="vw-cat">Vascular</span><span class="vw-ex">Ischemia, hemorrhage, embolism, vasculitis.</span></div>
+      <div class="vw-step"><span class="vw-letter">I</span><span class="vw-cat">Infectious/Inflammatory</span><span class="vw-ex">Bacteria, viruses, fungi, or non-infectious inflammation.</span></div>
+      <div class="vw-step"><span class="vw-letter">N</span><span class="vw-cat">Neoplastic</span><span class="vw-ex">Primary tumors or metastatic disease.</span></div>
+      <div class="vw-step"><span class="vw-letter">D</span><span class="vw-cat">Degenerative/Deficiency</span><span class="vw-ex">Alzheimer's, Vitamin B12 deficiency, wear-and-tear.</span></div>
+      <div class="vw-step"><span class="vw-letter">I</span><span class="vw-cat">Iatrogenic/Intoxication</span><span class="vw-ex">Side effects of meds, toxins, or surgical complications.</span></div>
+      <div class="vw-step"><span class="vw-letter">C</span><span class="vw-cat">Congenital</span><span class="vw-ex">Genetic disorders or structural issues from birth.</span></div>
+      <div class="vw-step"><span class="vw-letter">A</span><span class="vw-cat">Autoimmune/Allergic</span><span class="vw-ex">Lupus, rheumatoid arthritis, anaphylaxis.</span></div>
+      <div class="vw-step"><span class="vw-letter">T</span><span class="vw-cat">Traumatic</span><span class="vw-ex">Physical injury, heat/cold, or radiation.</span></div>
+      <div class="vw-step"><span class="vw-letter">E</span><span class="vw-cat">Endocrine/Environmental</span><span class="vw-ex">Thyroid issues, diabetes, or altitude sickness.</span></div>
+    </div>
+
+    <div class="model-prose">
+      <blockquote>
+        <strong>The "Low Learning Rate" Edge:</strong> By using VINDICATE+, a student isn't just looking for "Chest Pain." They are forced to ask: <em>"What is the Neoplastic cause of chest pain?"</em> (e.g., a lung mass) or <em>"What is the Congenital cause?"</em> (e.g., a bicuspid aortic valve).
+      </blockquote>
+    </div>
+
+    <h3>2. The I-M-A-D-E Framework</h3>
+    <div class="model-prose">
+      <p>While VINDICATE focuses on <strong>mechanisms</strong>, I-M-A-D-E is often used to map out <strong>localization</strong>. It's the "where" before the "what."</p>
+      <ul>
+        <li><strong>I — Inflammation/Infection:</strong> Is the tissue itself angry?</li>
+        <li><strong>M — Mechanical/Metabolic:</strong> Is there a blockage (stone/twist) or a chemical imbalance?</li>
+        <li><strong>A — Anatomy:</strong> Is the structure itself shifted, ruptured, or missing?</li>
+        <li><strong>D — Drugs/Degenerative:</strong> Is an outside substance or time the culprit?</li>
+        <li><strong>E — Endocrine/Extra-systemic:</strong> Is the problem actually coming from a different organ system entirely? (e.g., "The heart hurts because the stomach is bleeding.")</li>
+      </ul>
+    </div>
+
+    <h3>Why this prevents "Premature Closure"</h3>
+    <div class="model-prose">
+      <p>Medical errors are rarely caused by a lack of knowledge; they are usually caused by <strong>search satisfaction</strong>—the moment you find a "spot-on" cue (high learning rate), your brain stops looking.</p>
+      <p>Schools that emphasize these frameworks teach you to be "intentionally slow." Even if a patient walks in with a classic "crushing chest pain and sweaty brow" (pathognomonic for a heart attack), these schools require you to document the <strong>VINDICATE</strong> list to ensure you didn't miss a <strong>T</strong> (Trauma/Aortic dissection) or an <strong>I</strong> (Intoxication/Cocaine use).</p>
+    </div>
+
+    <h3>The "Cartography" of the Physical Exam</h3>
+    <div class="model-prose">
+      <p>Beyond mnemonics, these schools often teach <strong>Anatomic Localization</strong>.</p>
+      <ol>
+        <li><strong>Step 1:</strong> Where is the lesion? (e.g., "The upper motor neuron.")</li>
+        <li><strong>Step 2:</strong> What is the lesion? (Now apply VINDICATE).</li>
+      </ol>
+      <p>This prevents you from guessing "Multiple Sclerosis" just because the patient is a young woman with blurry vision. Instead, you map the vision loss to the optic nerve, then explore every possible mechanism that could affect that nerve.</p>
+    </div>
+
+    <div class="model-pull">
+      Search satisfaction is the failure mode: the moment you find a spot-on cue, your brain stops looking. VINDICATE forces the brain to keep walking the entire map — even when the answer seems obvious.
+    </div>
+  </div>
+
+
+  <!-- ══ III · O · CLINICAL REASONING ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label o-lbl">O · Clinical Reasoning · Cartography-First Medicine · The Hidden Selector</span>
+    <hr>
+  </div>
+
+  <div class="model-block o-block fade-in">
+    <div class="model-stamp">VOICE O</div>
+    <h2>Institutional Culture &amp; Assessment Philosophy</h2>
+    <p class="model-sub">Analytic / Hypothetico-Deductive · System 2 · Comfort with Ambiguity · Delayed Closure</p>
+
+    <div class="model-prose">
+      <p>Short answer: <strong>yes—but it's more about institutional culture and assessment philosophy than an explicit, labeled doctrine</strong>, and the distinction you're making ("low learning rate" vs "high learning rate") maps very closely onto long-standing debates in clinical reasoning.</p>
+    </div>
+
+    <h3>1. Translating your distinction into medical-education language</h3>
+    <div class="model-prose">
+      <p><strong>"Low learning rate"</strong> is often called analytic / hypothetico-deductive reasoning, exhaustive differential construction, or System 2 reasoning. Characteristics: broad, explicitly enumerated differentials; strong emphasis on <em>what you don't yet know</em>; comfort with ambiguity and delayed closure; heavy use of mechanisms, anatomy, and pathophysiology.</p>
+      <p><strong>"High learning rate"</strong> is often called pattern recognition, illness scripts, or System 1 reasoning. Characteristics: rapid narrowing based on key cues; reliance on prior exemplars; efficient, high-precision when correct; risky when base rates or context shift.</p>
+      <p>Every medical school <em>teaches both</em>. The real difference is <strong>which one is privileged early, rewarded on exams, and modeled by attendings</strong>.</p>
+    </div>
+
+    <h3>2. Schools and environments that reliably emphasize "cartography"</h3>
+    <div class="model-prose">
+      <p>No school will say "we prefer slow learning rates," but several ecosystems strongly bias toward it in practice.</p>
+      <p><strong>Academic tertiary / quaternary centers</strong> — Mayo Clinic Alix School of Medicine, University of California San Francisco School of Medicine, Johns Hopkins University School of Medicine — attract extremely high prevalence of <strong>zebras, atypical presentations, referral-filtered pathology</strong>. Attendings are often subspecialists who <em>expect</em> expansive differentials. Diagnostic error is framed as <strong>premature closure</strong>, not inefficiency.</p>
+      <p>These places train students to ask:</p>
+      <blockquote>"What <em>else</em> could this be, and what would disprove it?"</blockquote>
+      <p>rather than: "What's the most likely thing and how fast can we act?"</p>
+      <p><strong>Strong pathology- and mechanism-driven curricula</strong> signal themselves through heavy early pathology integration, long-form case conferences (CPCs, unknowns), and oral exams where <em>reasoning structure</em> matters more than the final answer.</p>
+      <p><strong>Problem-Based Learning (PBL) done <em>seriously</em></strong> — not checkbox PBL, but student-driven differential generation, faculty who resist giving "the answer," and assessment based on reasoning breadth, not just correctness — inherently slows the learning rate to build maps before heuristics.</p>
+    </div>
+
+    <h3>3. Where "high learning rate" is more strongly selected for</h3>
+    <div class="model-prose">
+      <p>This isn't bad—just different. Programs tightly coupled to <strong>emergency medicine</strong>, <strong>procedural fields</strong>, or <strong>high-throughput clinical environments</strong>; curricula optimized for <strong>Step performance</strong> via pattern saturation; clinical cultures that reward "calling it early" and moving on. These environments assume: "You'll build the map later; first learn the shortcuts."</p>
+    </div>
+
+    <h3>4. A crucial nuance: stage of training matters more than school name</h3>
+    <div class="model-prose">
+      <p>Across <em>all</em> schools: preclinical years favor analytic reasoning; clerkships increasingly reward pattern recognition; residency oscillates between the two depending on specialty; expert clinicians <em>appear</em> high learning rate, but only because they already possess vast internal cartography.</p>
+      <p>In other words: <strong>true experts look fast because they are actually very slow thinkers who have already done the slow thinking in advance.</strong></p>
+    </div>
+
+    <h3>5. The hidden selector: how uncertainty is treated</h3>
+    <div class="model-prose">
+      <p>If you want a practical heuristic for identifying "low learning rate" cultures, ask: Is <em>uncertainty</em> tolerated or penalized? Are students praised for saying "I don't know, but here's my differential"? Are wrong-but-well-reasoned answers rewarded? Where the answer is "yes," cartography is being taught—even if no one names it that way.</p>
+    </div>
+
+    <div class="model-pull">
+      No medical school formally advertises your distinction. Several elite academic centers implicitly privilege low learning rate early. Assessment style and attending behavior matter more than mission statements. The deepest cartographers eventually become the fastest diagnosticians.
+    </div>
+  </div>
+
+
+  <!-- ══ IV · A · BROAD DIFFERENTIAL TENSION ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label a-lbl">A · The Deeper Tension · System 1 vs System 2 · The Implicit Curriculum</span>
+    <hr>
+  </div>
+
+  <div class="model-block a-block fade-in">
+    <div class="model-stamp">VOICE A</div>
+    <h2>Schools Teach System 2, Clinical Culture Rewards System 1</h2>
+    <p class="model-sub">PBL · CPC · Diagnostic Safety Movement · The Implicit Curriculum</p>
+
+    <div class="model-prose">
+      <p>This is a genuinely interesting epistemological question about medical education philosophy. The short answer is: <strong>most top medical schools implicitly favor the "low learning rate" / broad differential approach</strong>, but few frame it that explicitly. Here's the landscape:</p>
+    </div>
+
+    <h3>Schools/Programs Known for Emphasizing Broad Differentials</h3>
+    <div class="model-prose">
+      <p><strong>Problem-Based Learning (PBL) schools</strong> — like McMaster (which essentially invented modern PBL), Case Western, and the older Flexner-reformed programs — build curriculum around <em>reasoning through uncertainty</em> rather than pattern recognition. The entire PBL philosophy is anti-heuristic by design: you get a case, you don't get a diagnosis, and you're rewarded for exhaustive hypothesis generation.</p>
+      <p><strong>Harvard Medical School</strong> has historically emphasized the "unknown diagnosis" case conference culture (the CPC — clinicopathological conference), which is fundamentally a low-learning-rate exercise: here are ambiguous findings, now map the entire differential.</p>
+      <p><strong>UCSF</strong> has a strong tradition in <em>diagnostic reasoning research</em> (Mark Graber, and later the UCSF diagnostic excellence program) that explicitly studies and teaches broad differential generation as a cognitive safety net against premature closure.</p>
+    </div>
+
+    <h3>The Deeper Tension</h3>
+    <div class="model-prose">
+      <p>Your framing maps almost perfectly onto a real cognitive science debate in medicine: <strong>System 1 / fast thinking</strong> — pattern recognition, pathognomonic cue spotting (what you call high learning rate); and <strong>System 2 / slow thinking</strong> — deliberate differential cartography. Slower, more exhaustive, better in atypical presentations.</p>
+      <p>The pedagogical problem is that <strong>medical schools teach System 2, but clinical culture rewards System 1</strong>. Attendings who rattle off diagnoses in seconds are admired; students who generate 15-item differentials can seem indecisive.</p>
+    </div>
+
+    <h3>Who Leans the Other Way?</h3>
+    <div class="model-prose">
+      <p>Some programs — particularly <strong>emergency medicine residencies</strong> and schools with strong EM ties (like UCLA's EM-heavy curriculum) — do train <em>heuristic</em> fast diagnosis more explicitly, because EM demands it. The ACGME milestones for EM literally include "uses heuristics appropriately."</p>
+      <p><strong>Osteopathic schools</strong> (DO programs) arguably emphasize a different kind of holistic differential — less pathognomonic cue spotting, more whole-patient reasoning — which ends up being a third model entirely.</p>
+    </div>
+
+    <h3>The Honest Bottom Line</h3>
+    <div class="model-prose">
+      <p>No school <em>officially</em> teaches "learn fast from a few cues." That would look like intellectual laziness in a curriculum. But the <strong>implicit curriculum</strong> — especially in procedural specialties and competitive residencies — absolutely rewards it. The schools that most genuinely resist this and institutionalize the broad-differential philosophy tend to be the PBL schools, UCSF, and programs influenced by the <strong>diagnostic safety movement</strong> (which is now formalized through organizations like the Society to Improve Diagnosis in Medicine).</p>
+    </div>
+
+    <div class="model-pull">
+      The implicit curriculum is the real curriculum. Attendings who rattle off diagnoses in seconds are admired; students who generate 15-item differentials can seem indecisive. The contest between what schools teach and what clinical culture rewards is never fully resolved.
+    </div>
+  </div>
+
+
+  <!-- ══ V · X · PBL ROSTER ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label x-lbl">X · PBL Roster · Case-Driven Schools · Differential Mapping as Core Method</span>
+    <hr>
+  </div>
+
+  <div class="model-block x-block fade-in">
+    <div class="model-stamp">VOICE X</div>
+    <h2>Schools with Strong PBL Emphasis</h2>
+    <p class="model-sub">McMaster · Cleveland Clinic · LECOM · JABSOM · Missouri · Mercer · New Mexico · Case-Driven Map-Making</p>
+
+    <div class="model-prose">
+      <p>Many medical schools incorporate elements of both analytical reasoning (building a broad differential diagnosis through systematic exploration, akin to your "low learning rate" concept) and intuitive pattern recognition (quick identification based on key cues, like your "high learning rate"). However, curricula rooted in problem-based learning (PBL) tend to prioritize the former, especially for early-stage students. PBL uses small-group discussions of real or simulated patient cases to encourage self-directed inquiry, hypothesis generation, and iterative refinement of differentials. This fosters a thorough "cartography" of possibilities before narrowing to a diagnosis, rather than jumping to spot recognitions.</p>
+      <p>This emphasis stems from educational theory: Novice learners (like medical students) benefit more from structured analytical processes to build foundational skills, while pattern recognition develops with clinical experience in later training (e.g., clerkships and residency). Traditional lecture-based curricula may introduce facts first and build toward patterns, but PBL integrates the broad differential approach from the start.</p>
+    </div>
+
+    <h3>Examples of Schools with Strong PBL Emphasis</h3>
+    <div class="model-prose">
+      <ul>
+        <li><strong>McMaster University Michael G. DeGroote School of Medicine (Canada)</strong>: Pioneered PBL in the 1960s. The curriculum is almost entirely case-driven, with students working in small groups to identify learning issues, generate hypotheses, and map broad differentials without lectures. This builds analytical depth over quick cues.</li>
+        <li><strong>Cleveland Clinic Lerner College of Medicine (USA)</strong>: PBL is the cornerstone of the first two years. Students tackle weekly clinical cases in groups, emphasizing inquiry, critical thinking, and comprehensive differentials to integrate basic and clinical sciences.</li>
+        <li><strong>Lake Erie College of Osteopathic Medicine (LECOM, USA)</strong>: Offers a dedicated PBL pathway where students analyze over 70 patient cases in small groups across the preclinical years. Focus is on gathering history, ordering tests, and developing extensive differentials before diagnosis.</li>
+        <li><strong>University of Hawaii John A. Burns School of Medicine (JABSOM, USA)</strong>: Renowned for PBL expertise. The curriculum uses small-group case discussions to stimulate broad hypothesis generation and self-directed learning, with international recognition for training others in this method.</li>
+        <li><strong>University of Missouri School of Medicine (USA)</strong>: Preclerkship years feature patient-based learning (a PBL variant) with weekly authentic cases. Students collaboratively build differentials, integrating basic science and clinical reasoning in about 10 hours of group work per week.</li>
+        <li><strong>Mercer University School of Medicine (USA)</strong>: One of the first U.S. adopters of full PBL. Cases drive the curriculum, prioritizing community-oriented primary care through thorough differential mapping.</li>
+        <li><strong>University of New Mexico School of Medicine (USA)</strong>: Early PBL adopter with case-based small groups that stress analytical processes for differentials, especially in underserved/rural contexts.</li>
+      </ul>
+      <p>Other schools like Northwestern University Feinberg School of Medicine and UTHealth McGovern Medical School integrate PBL heavily but blend it with lectures, still leaning toward broad differentials in early phases.</p>
+      <p>If you're considering applying, note that PBL suits self-motivated learners who thrive in collaborative, discussion-heavy environments. It may feel slower-paced initially but builds robust diagnostic skills. For contrast, schools with more traditional curricula (e.g., Oxford or Cambridge in the UK) might shift toward pattern recognition earlier via lectures and exams, but even they incorporate some PBL elements now.</p>
+    </div>
+
+    <div class="model-pull">
+      PBL is not a gentler curriculum. It is a deliberately slower one — slower in exactly the way that builds the internal cartography that experts rely on when they appear, deceptively, to be fast.
+    </div>
+  </div>
+
+
+  <!-- ══ SYNTHESIS ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label schema">SYNTHESIS · One Terrain · Four Voices · One Pedagogical Question</span>
+    <hr>
+  </div>
+
+  <div class="round-table fade-in">
+    <div class="rt-row rt-head">
+      <div class="rt-cell">Feature</div>
+      <div class="rt-cell">Low Learning Rate (Cartography)</div>
+      <div class="rt-cell">High Learning Rate (Pattern)</div>
+    </div>
+    <div class="rt-row">
+      <div class="rt-cell" style="color:var(--g-acc)">Cognitive mode</div>
+      <div class="rt-cell">System 2 · analytic · hypothetico-deductive</div>
+      <div class="rt-cell">System 1 · intuitive · pattern-matching</div>
+    </div>
+    <div class="rt-row">
+      <div class="rt-cell" style="color:var(--g-acc)">Exemplar schools</div>
+      <div class="rt-cell">McMaster · UCSF · Hopkins · Mayo · Harvard CPC</div>
+      <div class="rt-cell">EM residencies · Step-prep curricula · procedural programs</div>
+    </div>
+    <div class="rt-row">
+      <div class="rt-cell" style="color:var(--o-acc)">Assessment signal</div>
+      <div class="rt-cell">Reasoning structure rewarded; uncertainty tolerated</div>
+      <div class="rt-cell">Speed and correctness rewarded; efficiency valued</div>
+    </div>
+    <div class="rt-row">
+      <div class="rt-cell" style="color:var(--o-acc)">Failure mode</div>
+      <div class="rt-cell">Analysis paralysis; slow in high-volume settings</div>
+      <div class="rt-cell">Premature closure; zebras missed; atypicals lost</div>
+    </div>
+    <div class="rt-row">
+      <div class="rt-cell" style="color:var(--a-acc)">Framework tool</div>
+      <div class="rt-cell">VINDICATE+ · I-M-A-D-E · Anatomic Localization</div>
+      <div class="rt-cell">Illness scripts · pathognomonic cues · Spot diagnosis</div>
+    </div>
+    <div class="rt-row">
+      <div class="rt-cell" style="color:var(--x-acc)">Training stage</div>
+      <div class="rt-cell">Preclinical years → enforced map-building</div>
+      <div class="rt-cell">Clerkships + residency → shortcuts earned</div>
+    </div>
+    <div class="rt-row">
+      <div class="rt-cell">The paradox</div>
+      <div class="rt-cell" colspan="2" style="grid-column:span 1">True experts appear fast (System 1) because they have already done the vast slow work (System 2). Speed is earned cartography, not bypassed cartography.</div>
+    </div>
+  </div>
+
+  <div class="interlude fade-in">
+    Medical schools do not formally advertise a learning-rate philosophy.<br>
+    But the terrain reveals itself in how uncertainty is treated,<br>
+    in whether the wrong-but-well-reasoned answer is rewarded,<br>
+    in whether the attending <em>waits</em> for the full differential<br>
+    or calls the diagnosis in the doorway and moves on.<br>
+    <em>The implicit curriculum is always the real curriculum.</em>
+  </div>
+
+  <div class="nietzsche fade-in">
+    "The diagnosis is not spotted. It emerges —<br>
+    from a high-resolution map built before the hunt began."<br>
+    <em>The deepest cartographers eventually become the fastest diagnosticians.</em>
+    <cite>— after the low-learning-rate tradition · McMaster → UCSF → Hopkins → everywhere that waits</cite>
+  </div>
+
+  <div class="staff-divider fade-in">
+    — — — ♜ ♝ ♞ — — — ∇ — — — ♜ ♝ ♞ — — —
+  </div>
+
+
+  <!-- ══ CODA ══ -->
+  <div class="coda fade-in">
+    <span class="coda-label">Epilogue · Ukubona · Seeing the Map Before the Hunt</span>
+    <h2>The Cartographer Arrives at the Answer Last — and Soonest</h2>
+    <p>G, O, A, and X converge on the same architecture through different framings. G names the schools and their frameworks — McMaster, Harvard, UCSF, Hopkins — and the tools they wield: VINDICATE+, I-M-A-D-E, anatomic localization. O maps the institutional culture: the hidden selector is how uncertainty is treated, not what the mission statement says. A names the contradiction: schools teach System 2, clinical culture rewards System 1, and the implicit curriculum is always the real one. X counts the roster of PBL programs that have institutionalized the slow approach as their founding method.</p>
+    <p>What they all circle is this: <strong>the low learning rate is not a deficit. It is a discipline.</strong> The VINDICATE sieve, the exhaustive DDx, the refusal to call the diagnosis in the doorway — these are not the behaviors of a novice who hasn't yet learned the shortcuts. They are the behaviors of a system that has seen the failure mode of search satisfaction enough times to know that the shortcut kills the zebra.</p>
+    <p>The staged transition is real: build the map in years one and two, learn the shortcuts in years three and four, develop the wisdom in residency to know when the shortcut has led to a dead end and the map must be reopened. But the map must have been built first. You cannot return to a map you never drew.</p>
+    <p>The paradox that all four voices acknowledge: <strong>true experts look fast because they have already done the vast slow work.</strong> The attending who calls the diagnosis in thirty seconds has not bypassed the differential. She has internalized it. Speed is earned cartography — not the absence of cartography. The deepest cartographers eventually become the fastest diagnosticians. The fastest diagnosticians who skipped the cartography are the ones who miss the zebra.</p>
+  </div>
+
+
+  <footer class="fade-in">
+    <p class="foot-chain">Ukubona LLC · <span>G → O → A → X · Low Learning Rate → High Learning Rate → The Staged Transition</span> · Cartography → Pattern → Wisdom → <span>The Map</span></p>
+    <p class="foot-note">
+      G · PBL Pioneers · McMaster · Harvard · <span style="color:var(--g-acc)">VINDICATE+ · I-M-A-D-E · Anatomic Localization · topographic map before the hunt</span><br>
+      O · Clinical Reasoning · UCSF · Hopkins · Mayo · <span style="color:var(--o-acc)">uncertainty tolerated · reasoning structure rewarded · premature closure as cardinal sin</span><br>
+      A · Broad Differential · <span style="color:var(--a-acc)">System 2 taught · System 1 rewarded · implicit curriculum · diagnostic safety movement · SIDM</span><br>
+      X · PBL Roster · <span style="color:var(--x-acc)">McMaster · Cleveland Clinic Lerner · LECOM · JABSOM · Missouri · Mercer · New Mexico</span><br>
+      <br>
+      The hidden selector: how uncertainty is treated · wrong-but-well-reasoned answers · the doorway diagnosis<br>
+      The paradox: true experts look fast because they have already done the slow work<br>
+      <br>
+      Diagnostic Cartography · Low vs High Learning Rate · Medical Education · © 2025 Ukubona LLC
+    </p>
+  </footer>
+
+</div><!-- .page -->
+
+<!-- CENTRALIZED ASSETS (Don't Update) -->
+<div class="scroll-indicator"><div class="scroll-progress"></div></div>
+<div class="bg-pattern"></div>
+<header class="header" id="header"></header>
+<main class="page wrap-max"></main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+<script src="../js/shared.js"></script>
+
+<script>
+const sw=document.getElementById('themeSwitch'),lbl=document.getElementById('toggle-label'),html=document.documentElement;
+const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
+const initDark=saved==='dark'||(!saved&&prefersDark);
+if(initDark){html.setAttribute('data-theme','dark');lbl.textContent='Dark';sw.setAttribute('aria-pressed','true')}
+function toggleTheme(){
+  const isDark=html.getAttribute('data-theme')==='dark';
+  if(isDark){html.removeAttribute('data-theme');lbl.textContent='Light';sw.setAttribute('aria-pressed','false');localStorage.setItem('theme','light')}
+  else{html.setAttribute('data-theme','dark');lbl.textContent='Dark';sw.setAttribute('aria-pressed','true');localStorage.setItem('theme','dark')}
+}
+sw.addEventListener('click',toggleTheme);
+sw.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleTheme()}});
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})
+},{threshold:.08});
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+</script>
+
+</body>
+</html>
