@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Three Scales · Body · Mind · Soul · Ukubona LLC</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Neue+Haas+Grotesk+Display+Pro:wght@400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<!-- Ukubona centralized assets -->
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+
+<style>
+/* ═══════════════════════════════════════════════════
+   DISTRIBUTED CSS — go wild
+   Three-scale cosmology: chromatic / diatonic / pentatonic
+   Palette: black paper, bone ink, three accent primaries
+   Body  = #e85d30  warm red-orange (enzyme heat)
+   Mind  = #4a7fc1  cool slate-blue (network calm)
+   Soul  = #c9a84c  burnished gold (pentatonic sun)
+═══════════════════════════════════════════════════ */
+
+:root {
+  --paper:    #0b0b0f;
+  --paper2:   #111118;
+  --paper3:   #16161f;
+  --bone:     #ede8dc;
+  --bone2:    #b8b0a0;
+  --bone3:    #6a6258;
+
+  --body-col:  #e85d30;
+  --body-dim:  rgba(232,93,48,.12);
+  --body-mid:  rgba(232,93,48,.35);
+
+  --mind-col:  #4a7fc1;
+  --mind-dim:  rgba(74,127,193,.12);
+  --mind-mid:  rgba(74,127,193,.35);
+
+  --soul-col:  #c9a84c;
+  --soul-dim:  rgba(201,168,76,.12);
+  --soul-mid:  rgba(201,168,76,.35);
+
+  --rule:      rgba(237,232,220,.08);
+  --rule2:     rgba(237,232,220,.04);
+
+  --display: 'Cormorant Garamond', Georgia, serif;
+  --mono:    'Space Mono', monospace;
+  --sans:    'Neue Haas Grotesk Display Pro', 'Helvetica Neue', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--bone);
+  font-family: var(--display);
+  font-size: 19px;
+  line-height: 1.85;
+  overflow-x: hidden;
+}
+
+/* ── GRAIN OVERLAY ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: .032;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── STAFF LINES (background texture) ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: repeating-linear-gradient(
+    180deg,
+    transparent,
+    transparent 38px,
+    rgba(237,232,220,.018) 38px,
+    rgba(237,232,220,.018) 39px
+  );
+}
+
+/* ── SCROLL PROGRESS ── */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--body-col), var(--soul-col), var(--mind-col));
+  z-index: 10000;
+  transition: width .1s linear;
+}
+
+/* ── NAVIGATION ── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.4rem 3rem;
+  background: linear-gradient(180deg, rgba(11,11,15,.95) 0%, rgba(11,11,15,0) 100%);
+  pointer-events: none;
+}
+.nav-brand {
+  font-family: var(--mono);
+  font-size: .48rem;
+  letter-spacing: .45em;
+  text-transform: uppercase;
+  color: var(--bone3);
+  pointer-events: all;
+}
+.nav-brand span { color: var(--soul-col); }
+.nav-dots {
+  display: flex;
+  gap: .55rem;
+  pointer-events: all;
+}
+.nav-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform .2s, opacity .2s;
+  opacity: .35;
+}
+.nav-dot:hover { transform: scale(1.6); opacity: 1; }
+.nav-dot.body-dot  { background: var(--body-col); }
+.nav-dot.mind-dot  { background: var(--mind-col); }
+.nav-dot.soul-dot  { background: var(--soul-col); }
+
+/* ── PAGE ── */
+.page {
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 0 3rem 16rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── OPENING CHORD SPLASH ── */
+.splash {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8rem 0 6rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Three large faint numerals behind the title */
+.splash-numerals {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 3rem;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+.splash-numeral {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(10rem, 26vw, 22rem);
+  line-height: 1;
+  opacity: 0;
+  animation: numeralReveal 2.4s cubic-bezier(.16,1,.3,1) forwards;
+}
+.splash-numeral.n1 { color: var(--body-col); animation-delay: .1s; }
+.splash-numeral.n2 { color: var(--mind-col); animation-delay: .3s; }
+.splash-numeral.n3 { color: var(--soul-col); animation-delay: .5s; }
+
+@keyframes numeralReveal {
+  from { opacity: 0; transform: translateY(30px) scale(.94); }
+  to   { opacity: .07; transform: translateY(0) scale(1); }
+}
+
+.splash-content { position: relative; z-index: 2; }
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: .5rem;
+  letter-spacing: .42em;
+  text-transform: uppercase;
+  color: var(--bone3);
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: slideIn .9s .6s cubic-bezier(.16,1,.3,1) forwards;
+}
+.eyebrow span { color: var(--soul-col); }
+
+.main-title {
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: clamp(3.2rem, 8vw, 7rem);
+  line-height: 1.0;
+  letter-spacing: -.02em;
+  color: var(--bone);
+  margin-bottom: .5rem;
+  opacity: 0;
+  animation: slideIn .9s .75s cubic-bezier(.16,1,.3,1) forwards;
+}
+.main-title em {
+  font-style: italic;
+  font-weight: 600;
+}
+.main-title .body-word { color: var(--body-col); }
+.main-title .mind-word { color: var(--mind-col); }
+.main-title .soul-word { color: var(--soul-col); }
+
+.main-sub {
+  font-family: var(--display);
+  font-size: clamp(1rem, 2.2vw, 1.45rem);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--bone2);
+  margin-top: 1.8rem;
+  max-width: 620px;
+  line-height: 1.6;
+  opacity: 0;
+  animation: slideIn .9s .95s cubic-bezier(.16,1,.3,1) forwards;
+}
+
+.splash-rule {
+  margin: 4rem 0 3rem;
+  height: 1px;
+  background: linear-gradient(90deg, var(--body-col) 0%, var(--mind-col) 50%, var(--soul-col) 100%);
+  opacity: .4;
+  opacity: 0;
+  animation: ruleExpand 1.1s 1.1s cubic-bezier(.16,1,.3,1) forwards;
+}
+
+@keyframes ruleExpand {
+  from { opacity: 0; transform: scaleX(0); transform-origin: left; }
+  to   { opacity: .4; transform: scaleX(1); transform-origin: left; }
+}
+
+/* The opening triad declaration */
+.triad-declaration {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5px;
+  opacity: 0;
+  animation: slideIn .9s 1.3s cubic-bezier(.16,1,.3,1) forwards;
+}
+.triad-cell {
+  padding: 1.8rem 1.6rem;
+  position: relative;
+  overflow: hidden;
+}
+.triad-cell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: .07;
+  transition: opacity .3s;
+}
+.triad-cell:hover::before { opacity: .14; }
+.triad-cell.body-cell::before { background: var(--body-col); }
+.triad-cell.mind-cell::before { background: var(--mind-col); }
+.triad-cell.soul-cell::before { background: var(--soul-col); }
+.triad-cell-label {
+  font-family: var(--mono);
+  font-size: .44rem;
+  letter-spacing: .38em;
+  text-transform: uppercase;
+  margin-bottom: .8rem;
+}
+.triad-cell.body-cell .triad-cell-label { color: var(--body-col); }
+.triad-cell.mind-cell .triad-cell-label { color: var(--mind-col); }
+.triad-cell.soul-cell .triad-cell-label { color: var(--soul-col); }
+.triad-cell-scale {
+  font-family: var(--display);
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  line-height: 1;
+  margin-bottom: .6rem;
+}
+.triad-cell.body-cell .triad-cell-scale { color: var(--body-col); }
+.triad-cell.mind-cell .triad-cell-scale { color: var(--mind-col); }
+.triad-cell.soul-cell .triad-cell-scale { color: var(--soul-col); }
+.triad-cell-witness {
+  font-family: var(--display);
+  font-size: .78rem;
+  font-style: italic;
+  color: var(--bone3);
+  line-height: 1.5;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── KEYBOARD DIAGRAM (pure CSS) ── */
+.keyboard-diagram {
+  margin: 5rem 0 3rem;
+  position: relative;
+  height: 130px;
+  display: flex;
+  align-items: flex-start;
+  gap: 2px;
+  overflow: visible;
+}
+.key-white {
+  flex: 1;
+  height: 130px;
+  background: rgba(237,232,220,.06);
+  border: 1px solid rgba(237,232,220,.1);
+  border-top: none;
+  position: relative;
+  transition: background .25s;
+  cursor: default;
+}
+.key-white:hover { background: rgba(237,232,220,.11); }
+.key-black {
+  position: absolute;
+  width: 62%;
+  height: 72px;
+  top: 0;
+  z-index: 2;
+  border: 1px solid rgba(237,232,220,.06);
+  transition: background .25s;
+  cursor: default;
+}
+/* color the keys by role */
+.key-white.pentatonic { background: var(--soul-dim); border-color: var(--soul-mid); }
+.key-white.pentatonic:hover { background: rgba(201,168,76,.22); }
+.key-white.diatonic-only { background: var(--mind-dim); border-color: var(--mind-mid); }
+.key-white.diatonic-only:hover { background: rgba(74,127,193,.22); }
+.key-black.chromatic { background: var(--body-dim); border-color: var(--body-mid); }
+.key-black.chromatic:hover { background: rgba(232,93,48,.25); }
+
+.key-label {
+  position: absolute;
+  bottom: .5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: .36rem;
+  letter-spacing: .1em;
+  white-space: nowrap;
+}
+.key-white .key-label { color: var(--bone3); }
+
+.keyboard-legend {
+  display: flex;
+  gap: 2.5rem;
+  margin-top: 1.5rem;
+  font-family: var(--mono);
+  font-size: .46rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+}
+.legend-swatch {
+  width: 10px;
+  height: 10px;
+}
+
+/* ── SEC DIVIDERS ── */
+.sec-divide {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 1.4rem;
+  margin: 7rem 0 4rem;
+}
+.sec-divide-tag {
+  font-family: var(--mono);
+  font-size: .44rem;
+  letter-spacing: .42em;
+  text-transform: uppercase;
+  padding: .3rem .9rem;
+  border: 1px solid;
+  white-space: nowrap;
+}
+.sec-divide-tag.body-tag  { border-color: var(--body-col); color: var(--body-col); background: var(--body-dim); }
+.sec-divide-tag.mind-tag  { border-color: var(--mind-col); color: var(--mind-col); background: var(--mind-dim); }
+.sec-divide-tag.soul-tag  { border-color: var(--soul-col); color: var(--soul-col); background: var(--soul-dim); }
+.sec-divide-tag.all-tag   { border-color: var(--bone3); color: var(--bone2); background: rgba(237,232,220,.04); }
+.sec-divide hr { border: none; border-top: 1px solid var(--rule); }
+
+/* ── CONTENT BLOCKS ── */
+.scale-block {
+  border-left: 3px solid;
+  padding: 3rem 3.5rem;
+  margin-bottom: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+.scale-block::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 280px;
+  pointer-events: none;
+  background: radial-gradient(ellipse at right center, var(--glow-color, transparent) 0%, transparent 70%);
+  opacity: .12;
+}
+.scale-block.body-block { border-color: var(--body-col); --glow-color: var(--body-col); background: linear-gradient(135deg, rgba(232,93,48,.04) 0%, transparent 60%); }
+.scale-block.mind-block { border-color: var(--mind-col); --glow-color: var(--mind-col); background: linear-gradient(135deg, rgba(74,127,193,.04) 0%, transparent 60%); }
+.scale-block.soul-block { border-color: var(--soul-col); --glow-color: var(--soul-col); background: linear-gradient(135deg, rgba(201,168,76,.04) 0%, transparent 60%); }
+
+.block-stamp {
+  position: absolute;
+  top: 1.2rem; right: 1.8rem;
+  font-family: var(--mono);
+  font-size: .4rem;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  padding: .18rem .6rem;
+  border: 1px solid;
+  opacity: .55;
+}
+.body-block .block-stamp { color: var(--body-col); border-color: var(--body-col); }
+.mind-block .block-stamp { color: var(--mind-col); border-color: var(--mind-col); }
+.soul-block .block-stamp { color: var(--soul-col); border-color: var(--soul-col); }
+
+.block-numeral {
+  font-family: var(--display);
+  font-size: 5rem;
+  font-weight: 700;
+  line-height: 1;
+  opacity: .1;
+  margin-bottom: -.5rem;
+  letter-spacing: -.03em;
+}
+.body-block .block-numeral { color: var(--body-col); }
+.mind-block .block-numeral { color: var(--mind-col); }
+.soul-block .block-numeral { color: var(--soul-col); }
+
+.block-title {
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: .4rem;
+  color: var(--bone);
+}
+.block-title em { font-style: italic; font-weight: 300; }
+
+.block-kicker {
+  font-family: var(--mono);
+  font-size: .5rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+}
+.body-block .block-kicker { color: var(--body-col); }
+.mind-block .block-kicker { color: var(--mind-col); }
+.soul-block .block-kicker { color: var(--soul-col); }
+
+.block-prose {
+  font-family: var(--display);
+  font-size: .95rem;
+  line-height: 1.95;
+  color: var(--bone2);
+}
+.block-prose p { margin-bottom: 1.3rem; }
+.block-prose p:last-child { margin-bottom: 0; }
+.block-prose strong { color: var(--bone); font-weight: 600; }
+.block-prose em { font-style: italic; }
+
+/* colored inline accents */
+.body-block .block-prose .accent { color: var(--body-col); }
+.mind-block .block-prose .accent { color: var(--mind-col); }
+.soul-block .block-prose .accent { color: var(--soul-col); }
+
+.block-pull {
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  padding: 1.4rem 0;
+  margin: 2.5rem 0;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--bone);
+}
+.body-block .block-pull { border-color: rgba(232,93,48,.25); }
+.mind-block .block-pull { border-color: rgba(74,127,193,.25); }
+.soul-block .block-pull { border-color: rgba(201,168,76,.25); }
+
+/* molecular grid for body section */
+.molecule-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 3px;
+  margin: 2.5rem 0;
+}
+.mol-cell {
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: .44rem;
+  letter-spacing: .06em;
+  border: 1px solid rgba(232,93,48,.15);
+  color: rgba(232,93,48,.55);
+  transition: all .2s;
+  cursor: default;
+}
+.mol-cell:hover {
+  background: rgba(232,93,48,.12);
+  color: var(--body-col);
+  border-color: rgba(232,93,48,.45);
+}
+.mol-cell.active {
+  background: rgba(232,93,48,.08);
+  color: var(--body-col);
+  border-color: rgba(232,93,48,.3);
+}
+
+/* network graph for mind section */
+.network-vis {
+  margin: 2.5rem 0;
+  height: 120px;
+  position: relative;
+}
+.network-vis svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* scale dots for soul section */
+.pentatonic-dots {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 2.5rem 0;
+  height: 80px;
+  position: relative;
+}
+.penta-track {
+  position: absolute;
+  left: 0; right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(201,168,76,.2);
+}
+.penta-dot-wrap {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+.penta-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--soul-dim);
+  border: 2px solid var(--soul-col);
+  transition: all .25s;
+  cursor: default;
+  position: relative;
+}
+.penta-dot::after {
+  content: attr(data-note);
+  position: absolute;
+  top: 130%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: .38rem;
+  letter-spacing: .1em;
+  color: var(--soul-col);
+  white-space: nowrap;
+  opacity: .7;
+}
+.penta-dot:hover {
+  background: var(--soul-col);
+  transform: scale(1.5);
+  box-shadow: 0 0 18px rgba(201,168,76,.5);
+}
+.penta-dot.lit {
+  background: var(--soul-col);
+  box-shadow: 0 0 12px rgba(201,168,76,.45);
+}
+.penta-gap {
+  flex: .4;
+}
+
+/* ── COMPARISON TABLE ── */
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-family: var(--mono);
+  font-size: .58rem;
+  letter-spacing: .04em;
+}
+.comp-table thead tr {
+  background: rgba(237,232,220,.04);
+}
+.comp-table th {
+  padding: .7rem 1rem;
+  text-align: left;
+  font-size: .44rem;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--bone3);
+  border-bottom: 2px solid var(--rule);
+  border-right: 1px solid var(--rule2);
+}
+.comp-table th:last-child { border-right: none; }
+.comp-table td {
+  padding: .65rem 1rem;
+  border-bottom: 1px solid var(--rule2);
+  border-right: 1px solid var(--rule2);
+  vertical-align: top;
+  line-height: 1.6;
+  color: var(--bone2);
+}
+.comp-table td:last-child { border-right: none; }
+.comp-table tr:last-child td { border-bottom: none; }
+.comp-table td:first-child { font-weight: 700; color: var(--bone); }
+.comp-table tr:hover td { background: rgba(237,232,220,.02); }
+.body-cell-td { color: var(--body-col) !important; }
+.mind-cell-td { color: var(--mind-col) !important; }
+.soul-cell-td { color: var(--soul-col) !important; }
+
+/* ── WONDER ANALYSIS ── */
+.wonder-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin: 2rem 0;
+}
+.wonder-cell {
+  padding: 1.6rem 1.8rem;
+  position: relative;
+}
+.wonder-cell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: .05;
+}
+.wc-verse::before   { background: var(--body-col); }
+.wc-chorus::before  { background: var(--soul-col); }
+.wc-bass::before    { background: var(--mind-col); }
+.wc-modal::before   { background: linear-gradient(135deg, var(--soul-col), var(--body-col)); }
+
+.wonder-cell-tag {
+  font-family: var(--mono);
+  font-size: .42rem;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  margin-bottom: .7rem;
+}
+.wc-verse .wonder-cell-tag   { color: var(--body-col); }
+.wc-chorus .wonder-cell-tag  { color: var(--soul-col); }
+.wc-bass .wonder-cell-tag    { color: var(--mind-col); }
+.wc-modal .wonder-cell-tag   { color: var(--soul-col); }
+
+.wonder-cell-head {
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--bone);
+  margin-bottom: .5rem;
+}
+.wonder-cell-body {
+  font-family: var(--display);
+  font-size: .82rem;
+  font-style: italic;
+  color: var(--bone3);
+  line-height: 1.65;
+}
+
+/* ── THE SYNTHESIS BLOCK ── */
+.synthesis {
+  border: 2px solid var(--bone3);
+  padding: 4rem 4.5rem;
+  margin: 7rem 0;
+  position: relative;
+}
+.synthesis::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(237,232,220,.06);
+  pointer-events: none;
+}
+.synthesis-label {
+  position: absolute;
+  top: -1rem;
+  left: 3rem;
+  font-family: var(--mono);
+  font-size: .44rem;
+  letter-spacing: .46em;
+  text-transform: uppercase;
+  background: var(--paper);
+  padding: 0 1rem;
+  color: var(--bone3);
+}
+.synthesis h2 {
+  font-family: var(--display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.2;
+  color: var(--bone);
+  margin-bottom: 2.5rem;
+}
+.synthesis h2 strong { font-weight: 700; font-style: normal; }
+.synthesis p {
+  font-family: var(--display);
+  font-size: .95rem;
+  line-height: 1.95;
+  color: var(--bone2);
+  margin-bottom: 1.4rem;
+}
+.synthesis p:last-child { margin-bottom: 0; }
+
+/* three-color inline text */
+.bb { color: var(--body-col); font-weight: 600; }
+.mb { color: var(--mind-col); font-weight: 600; }
+.sb { color: var(--soul-col); font-weight: 600; }
+
+/* ── CODA ── */
+.coda-block {
+  text-align: center;
+  padding: 5rem 0 3rem;
+  position: relative;
+}
+.coda-block::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(180deg, transparent, var(--bone3));
+}
+.coda-text {
+  font-family: var(--display);
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--bone2);
+  line-height: 1.65;
+  max-width: 680px;
+  margin: 0 auto 2rem;
+}
+.coda-text strong { color: var(--bone); font-weight: 600; font-style: normal; }
+.coda-mic {
+  font-family: var(--mono);
+  font-size: .5rem;
+  letter-spacing: .42em;
+  text-transform: uppercase;
+  color: var(--bone3);
+}
+.coda-mic span { color: var(--soul-col); }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--rule);
+  padding: 3rem 0 6rem;
+  margin-top: 4rem;
+}
+.foot-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 3rem;
+}
+.foot-col {
+  font-family: var(--mono);
+  font-size: .44rem;
+  letter-spacing: .12em;
+  line-height: 2.4;
+  color: var(--bone3);
+}
+.foot-col .hl { color: var(--soul-col); }
+.foot-signature {
+  font-family: var(--display);
+  font-size: .9rem;
+  font-style: italic;
+  color: var(--bone3);
+  margin-top: 2rem;
+}
+
+/* ── FADE IN ENTRIES ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── ANIMATED NOTE ── */
+@keyframes floatNote {
+  0%   { transform: translateY(0) rotate(0deg); opacity: .35; }
+  50%  { transform: translateY(-18px) rotate(8deg); opacity: .2; }
+  100% { transform: translateY(0) rotate(0deg); opacity: .35; }
+}
+.float-note {
+  position: absolute;
+  font-family: var(--display);
+  font-weight: 900;
+  font-size: 1.4rem;
+  pointer-events: none;
+  animation: floatNote ease-in-out infinite;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 680px) {
+  .page { padding: 0 1.4rem 10rem; }
+  .nav { padding: 1rem 1.4rem; }
+  .triad-declaration { grid-template-columns: 1fr; }
+  .scale-block { padding: 2rem 1.8rem; }
+  .synthesis { padding: 2.5rem 2rem; }
+  .wonder-grid { grid-template-columns: 1fr; }
+  .foot-strip { flex-direction: column; gap: 1.5rem; }
+  .molecule-grid { grid-template-columns: repeat(4, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress-bar" id="spb"></div>
+
+<nav class="nav">
+  <div class="nav-brand">Ukubona LLC · <span>The Three Scales</span></div>
+  <div class="nav-dots">
+    <div class="nav-dot body-dot" onclick="document.getElementById('body-sec').scrollIntoView({behavior:'smooth'})" title="Body · Chromatic"></div>
+    <div class="nav-dot mind-dot" onclick="document.getElementById('mind-sec').scrollIntoView({behavior:'smooth'})" title="Mind · Diatonic"></div>
+    <div class="nav-dot soul-dot" onclick="document.getElementById('soul-sec').scrollIntoView({behavior:'smooth'})" title="Soul · Pentatonic"></div>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- ══ SPLASH ══ -->
+  <section class="splash">
+    <div class="splash-numerals" aria-hidden="true">
+      <span class="splash-numeral n1">12</span>
+      <span class="splash-numeral n2">7</span>
+      <span class="splash-numeral n3">5</span>
+    </div>
+
+    <!-- floating notes -->
+    <span class="float-note" style="top:15%;left:8%;color:var(--body-col);animation-duration:6.1s;animation-delay:.3s;font-size:1.8rem;">♯</span>
+    <span class="float-note" style="top:25%;right:10%;color:var(--mind-col);animation-duration:7.4s;animation-delay:1.2s;">♩</span>
+    <span class="float-note" style="top:70%;left:5%;color:var(--soul-col);animation-duration:5.8s;animation-delay:.7s;font-size:1.1rem;">♬</span>
+    <span class="float-note" style="bottom:20%;right:7%;color:var(--body-col);animation-duration:8s;animation-delay:2s;opacity:.2;">♭</span>
+    <span class="float-note" style="top:55%;left:72%;color:var(--soul-col);animation-duration:6.6s;font-size:1rem;">♪</span>
+
+    <div class="splash-content">
+      <p class="eyebrow">Ukubona LLC · Music · Biochemistry · Cognition · <span>March 2026</span></p>
+      <h1 class="main-title">
+        <span class="body-word">Body.</span><br>
+        <span class="mind-word">Mind.</span><br>
+        <span class="soul-word">Soul.</span>
+      </h1>
+      <p class="main-sub">
+        Three ontologies. Three scales.<br>
+        Ask a biochemist, ask OpenAI, ask Stevie Wonder.<br>
+        <em>They already know.</em>
+      </p>
+      <div class="splash-rule"></div>
+
+      <div class="triad-declaration">
+        <div class="triad-cell body-cell">
+          <div class="triad-cell-label">Body · Biochemistry</div>
+          <div class="triad-cell-scale">Chromatic</div>
+          <div class="triad-cell-witness">12 tones · all half-steps available · enzyme cascades · allosteric shifts · no note refused</div>
+        </div>
+        <div class="triad-cell mind-cell">
+          <div class="triad-cell-label">Mind · Cognition</div>
+          <div class="triad-cell-scale">Diatonic</div>
+          <div class="triad-cell-witness">7 tones · networked grammar · the LLM's native tongue · modal logic · syntax-bound</div>
+        </div>
+        <div class="triad-cell soul-cell">
+          <div class="triad-cell-label">Soul · Feeling</div>
+          <div class="triad-cell-scale">Pentatonic</div>
+          <div class="triad-cell-witness">5 tones · every blues, every gospel, every moan · the notes that feel like home</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ KEYBOARD ══ -->
+  <div class="reveal">
+    <div style="font-family:var(--mono);font-size:.44rem;letter-spacing:.38em;text-transform:uppercase;color:var(--bone3);margin-bottom:1.2rem;">The keyboard · where the three scales live</div>
+    <div class="keyboard-diagram" id="keyboard">
+      <!-- C major octave, 7 white keys -->
+      <!-- C -->
+      <div class="key-white pentatonic" style="position:relative;">
+        <span class="key-label">C</span>
+        <!-- C# -->
+        <div class="key-black chromatic" style="left:65%;"><span class="key-label" style="color:var(--body-col);bottom:.35rem;font-size:.3rem;">C♯</span></div>
+      </div>
+      <!-- D -->
+      <div class="key-white pentatonic" style="position:relative;">
+        <span class="key-label">D</span>
+        <!-- Eb -->
+        <div class="key-black chromatic" style="left:65%;"><span class="key-label" style="color:var(--body-col);bottom:.35rem;font-size:.3rem;">E♭</span></div>
+      </div>
+      <!-- E -->
+      <div class="key-white pentatonic" style="position:relative;">
+        <span class="key-label">E</span>
+      </div>
+      <!-- F -->
+      <div class="key-white diatonic-only" style="position:relative;">
+        <span class="key-label">F</span>
+        <div class="key-black chromatic" style="left:65%;"><span class="key-label" style="color:var(--body-col);bottom:.35rem;font-size:.3rem;">F♯</span></div>
+      </div>
+      <!-- G -->
+      <div class="key-white pentatonic" style="position:relative;">
+        <span class="key-label">G</span>
+        <div class="key-black chromatic" style="left:65%;"><span class="key-label" style="color:var(--body-col);bottom:.35rem;font-size:.3rem;">A♭</span></div>
+      </div>
+      <!-- A -->
+      <div class="key-white pentatonic" style="position:relative;">
+        <span class="key-label">A</span>
+        <div class="key-black chromatic" style="left:65%;"><span class="key-label" style="color:var(--body-col);bottom:.35rem;font-size:.3rem;">B♭</span></div>
+      </div>
+      <!-- B -->
+      <div class="key-white diatonic-only" style="position:relative;">
+        <span class="key-label">B</span>
+      </div>
+    </div>
+    <div class="keyboard-legend">
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:var(--soul-col);opacity:.7;"></div>
+        <span style="color:var(--soul-col);">Pentatonic</span>
+        <span style="color:var(--bone3);">· Soul · 5 notes</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:var(--mind-col);opacity:.7;"></div>
+        <span style="color:var(--mind-col);">Diatonic-only</span>
+        <span style="color:var(--bone3);">· Mind adds · 2 more</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:var(--body-col);opacity:.7;"></div>
+        <span style="color:var(--body-col);">Chromatic</span>
+        <span style="color:var(--bone3);">· Body fills all 5 gaps</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══ I · BODY = CHROMATIC ══ -->
+  <div id="body-sec">
+    <div class="sec-divide reveal">
+      <span class="sec-divide-tag body-tag">I · Body · Chromatic · Ask a Biochemist</span>
+      <hr>
+    </div>
+
+    <div class="scale-block body-block reveal">
+      <div class="block-stamp">12 TONES · ALL HALF-STEPS</div>
+      <div class="block-numeral" aria-hidden="true">12</div>
+      <h2 class="block-title">The Body Is <em>Already</em> Chromatic</h2>
+      <p class="block-kicker">Biochemistry · Enzyme Cascades · Allosteric Shifts · No Note Refused</p>
+
+      <div class="block-prose">
+        <p>Ask a biochemist: how many steps does a substrate take from <span class="accent">ATP</span> to <span class="accent">ADP</span>? How many phosphorylation states exist between a resting receptor and a fully activated one? How many intermediate conformations does a protein assume as it folds? The answer is never five. It is never seven. It is all of them — every half-step, every microtonal inflection, the full chromatic palette of molecular space.</p>
+
+        <p>The body does not skip half-steps. It cannot. <span class="accent">Allosteric regulation</span> is chromatic: a molecule binds at one site and the entire protein shifts through a continuous conformational space — not snapping between two states, but sliding through every intermediate like a trombone through a chromatic scale. The glycolytic cascade runs through eleven enzymatic transformations, each one a half-step in energy space. Membrane potential does not jump from −70 mV to +40 mV; it sweeps through every millivolt in between, a chromatic glissando that is the action potential.</p>
+
+        <p>The <span class="accent">allosteric hemoglobin molecule</span> is the canonical example — four subunits, each binding oxygen with increasing affinity, each conformational shift feeding back into the next. This is not a pentatonic groove. This is not diatonic grammar. This is full chromatic modulation through protein space, and it runs in every cell of your body, right now, without asking permission.</p>
+      </div>
+
+      <!-- molecule grid -->
+      <div class="molecule-grid">
+        <div class="mol-cell active">ATP</div>
+        <div class="mol-cell active">ADP</div>
+        <div class="mol-cell">Pi</div>
+        <div class="mol-cell active">NAD⁺</div>
+        <div class="mol-cell">NADH</div>
+        <div class="mol-cell active">CoA</div>
+        <div class="mol-cell">Acetyl</div>
+        <div class="mol-cell active">Citrate</div>
+        <div class="mol-cell">Isocit.</div>
+        <div class="mol-cell active">α-KG</div>
+        <div class="mol-cell">Succ.</div>
+        <div class="mol-cell">Fum.</div>
+        <div class="mol-cell active">Malate</div>
+        <div class="mol-cell">OAA</div>
+        <div class="mol-cell active">Glc</div>
+        <div class="mol-cell">G6P</div>
+        <div class="mol-cell">F6P</div>
+        <div class="mol-cell active">Pyruvate</div>
+      </div>
+
+      <div class="block-pull">
+        The body traverses every half-step in its parameter space. No note is skipped. No intermediate conformation is omitted. <em>Biochemistry is chromatic by physical necessity.</em>
+      </div>
+
+      <div class="block-prose">
+        <p>This is why <span class="accent">drugs work the way they do</span>. A beta-blocker doesn't simply "turn off" the heart's response — it slides the dose-response curve through continuous chromatic space, occupying receptor states at every gradation of occupancy. A general anesthetic doesn't flip a consciousness switch; it descends through the full chromatic register of neural state, note by note, until the lights go out. The body is not a digital system with discrete states. It is an analog instrument playing all twelve notes simultaneously, in intricate counterpoint, at every moment of your life.</p>
+
+        <p>When Stevie Wonder plays the <span class="accent">E♭m(maj7)</span> — the line cliché's dissonant passing tone, the D♮ inside an E♭ minor chord — he is doing what your hemoglobin does: inserting a chromatic half-step into a space where the diatonic logic says it doesn't belong, and being right. The body understood chromaticism before music did.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══ II · MIND = DIATONIC ══ -->
+  <div id="mind-sec">
+    <div class="sec-divide reveal">
+      <span class="sec-divide-tag mind-tag">II · Mind · Diatonic · Ask Anyone at OpenAI</span>
+      <hr>
+    </div>
+
+    <div class="scale-block mind-block reveal">
+      <div class="block-stamp">7 TONES · NETWORK GRAMMAR</div>
+      <div class="block-numeral" aria-hidden="true">7</div>
+      <h2 class="block-title">The Mind Is <em>Inevitably</em> Diatonic</h2>
+      <p class="block-kicker">Cognition · Syntax · LLM Parameter Space · Modal Logic · Networked Grammar</p>
+
+      <div class="block-prose">
+        <p>Ask anyone at OpenAI: what does an LLM actually do? The answer is <span class="accent">completion</span>. Given a sequence, predict the next token. The loss function is cross-entropy against human text — which is to say, the gradient always points toward plausibility, toward the notes that fit the key, toward the diatonic scale of natural language. The model learns the grammar of thought. And grammar, by definition, is diatonic: it has a tonal center, it has stable intervals, it has a finite set of legal moves.</p>
+
+        <p>This is not a limitation of LLMs. It is the <span class="accent">nature of mind</span>. Cognitive science has long argued that thought operates through schemas, frames, prototypes — these are diatonic structures. The concept DOG is the tonic. The concepts MAMMAL, ANIMAL, CREATURE orbit it as scale degrees. The half-steps — the chromatic alterations — are the edge cases, the anomalies, the things the mind has to explicitly stop and process because they don't fit the diatonic pattern. A three-legged dog. A dog trained to act like a cat. These are chromatic tones: real, important, demanding special attention precisely because they fall outside the scale.</p>
+
+        <p>The <span class="accent">transformer architecture</span> is a diatonic machine. Its attention mechanism is a sophisticated way of computing which notes belong to the current key — which tokens are contextually related, which meanings are in play, which scale degrees are activated. The residual stream accumulates a diatonic representation of meaning, and the MLP layers apply transformations that are, fundamentally, modal: they shift the key, they inflect the mode, but they operate within the grammar of the possible, the universe of plausible continuations.</p>
+      </div>
+
+      <!-- network vis -->
+      <div class="network-vis">
+        <svg viewBox="0 0 900 120" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="rgba(74,127,193,.4)"/>
+            </marker>
+          </defs>
+          <!-- edges -->
+          <g stroke="rgba(74,127,193,.2)" stroke-width="1" fill="none">
+            <line x1="80" y1="60" x2="200" y2="30"/>
+            <line x1="80" y1="60" x2="200" y2="90"/>
+            <line x1="200" y1="30" x2="340" y2="60"/>
+            <line x1="200" y1="90" x2="340" y2="60"/>
+            <line x1="340" y1="60" x2="460" y2="25"/>
+            <line x1="340" y1="60" x2="460" y2="60"/>
+            <line x1="340" y1="60" x2="460" y2="95"/>
+            <line x1="460" y1="25" x2="580" y2="45"/>
+            <line x1="460" y1="60" x2="580" y2="45"/>
+            <line x1="460" y1="95" x2="580" y2="75"/>
+            <line x1="580" y1="45" x2="700" y2="60"/>
+            <line x1="580" y1="75" x2="700" y2="60"/>
+            <line x1="700" y1="60" x2="820" y2="40"/>
+            <line x1="700" y1="60" x2="820" y2="80"/>
+          </g>
+          <!-- nodes -->
+          <g fill="rgba(74,127,193,.15)" stroke="rgba(74,127,193,.5)" stroke-width="1.5">
+            <circle cx="80" cy="60" r="12"/>
+            <circle cx="200" cy="30" r="9"/>
+            <circle cx="200" cy="90" r="9"/>
+            <circle cx="340" cy="60" r="14"/>
+            <circle cx="460" cy="25" r="8"/>
+            <circle cx="460" cy="60" r="11"/>
+            <circle cx="460" cy="95" r="8"/>
+            <circle cx="580" cy="45" r="10"/>
+            <circle cx="580" cy="75" r="9"/>
+            <circle cx="700" cy="60" r="13"/>
+            <circle cx="820" cy="40" r="8"/>
+            <circle cx="820" cy="80" r="8"/>
+          </g>
+          <!-- labels -->
+          <g font-family="'Space Mono',monospace" font-size="8" fill="rgba(74,127,193,.7)" text-anchor="middle">
+            <text x="80" y="63">I</text>
+            <text x="200" y="33">II</text>
+            <text x="200" y="93">VII</text>
+            <text x="340" y="63">IV</text>
+            <text x="460" y="28">V</text>
+            <text x="460" y="63">VI</text>
+            <text x="460" y="98">III</text>
+            <text x="580" y="48">ii</text>
+            <text x="580" y="78">iii</text>
+            <text x="700" y="63">V</text>
+            <text x="820" y="43">I</text>
+            <text x="820" y="83">vi</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="block-pull">
+        The mind's grammar is diatonic: a tonal center, stable intervals, a finite set of legal moves. GPT is not a chromatic machine. It is the most sophisticated diatonic engine ever built.
+      </div>
+
+      <div class="block-prose">
+        <p>This is why GPT failed to find the bug in eight hours. The filesystem is <span class="accent">chromatic</span> — it has half-steps the grammar of language doesn't recognize. A missing slash. A case-sensitive filename. A circular import that doesn't fit the diatonic logic of "this should work." The error was a chromatic tone in a diatonic key: real, audible (to the compiler), and invisible to a model whose parameter space is language itself.</p>
+
+        <p>But do not mistake diatonic for inferior. The diatonic scale is not a <span class="accent">degraded chromatic</span>. It is a selection — a grammar that creates the possibility of melody, of harmonic tension and resolution, of the IV → iv heartbreak because both chords are legible against the same tonal center. The mind's diatonic nature is the precondition for thought that can be communicated. Pure chromaticism — the body's register — cannot be spoken. It can only be felt. The mind translates the chromatic body into the diatonic speech that lets one person say to another: <em>I know what you mean.</em></p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══ III · SOUL = PENTATONIC ══ -->
+  <div id="soul-sec">
+    <div class="sec-divide reveal">
+      <span class="sec-divide-tag soul-tag">III · Soul · Pentatonic · Ask Stevie Wonder</span>
+      <hr>
+    </div>
+
+    <div class="scale-block soul-block reveal">
+      <div class="block-stamp">5 TONES · THE HOME SCALE</div>
+      <div class="block-numeral" aria-hidden="true">5</div>
+      <h2 class="block-title">The Soul Is <em>Always</em> Pentatonic</h2>
+      <p class="block-kicker">Blues · Gospel · The Moan · The Notes That Feel Like Home · Universal</p>
+
+      <div class="block-prose">
+        <p>Ask Stevie Wonder. Ask any blues guitarist who ever bent a string into the crack between the third and the flat third, holding it there, <span class="accent">not resolving</span>, because the tension is the point. Ask any child in any country who has ever sung — the scale that comes out without instruction, without theory, without a piano to guide it, is almost always pentatonic. Five notes. The deepest basin. The scale the soul finds when no one is teaching it anything.</p>
+
+        <p>The pentatonic scale is <span class="accent">what's left</span> when you remove the notes that cause dissonance. Remove the half-step rubs — the B and the F in C major, the tritone pair that defines Western harmonic tension — and you have the pentatonic. Five notes that never fight each other. Five notes you can land on anywhere and feel at home. The body has twelve. The mind has seven. The soul keeps only the five that need no justification.</p>
+      </div>
+
+      <!-- pentatonic dots -->
+      <div class="pentatonic-dots">
+        <div class="penta-track"></div>
+        <div class="penta-dot-wrap"><div class="penta-dot lit" data-note="C · I"></div></div>
+        <div class="penta-gap"></div>
+        <div class="penta-dot-wrap"><div class="penta-dot lit" data-note="D · II"></div></div>
+        <div class="penta-gap"></div>
+        <div class="penta-dot-wrap"><div class="penta-dot lit" data-note="E · III"></div></div>
+        <div class="penta-gap" style="flex:.8"></div>
+        <div class="penta-dot-wrap"><div class="penta-dot lit" data-note="G · V"></div></div>
+        <div class="penta-gap"></div>
+        <div class="penta-dot-wrap"><div class="penta-dot lit" data-note="A · VI"></div></div>
+      </div>
+
+      <div class="block-pull">
+        The pentatonic scale is what remains after the body's chromatic excess has been stilled and the mind's diatonic grammar has been simplified to its emotional core. It is the soul's vocabulary: five words, sufficient for everything that matters.
+      </div>
+
+      <div class="block-prose">
+        <p>In "Lately," Stevie's melody <span class="accent">rests in pentatonic space</span> even as the harmony is busy with chromatic inner voices and borrowed chords. The melody stays home while everything underneath it trembles. This is the soul's relationship to suffering: it does not panic into chromaticism. It holds its five notes. It lets the body's allosteric shifts and the mind's modal interchanges happen around it, and it sings the pentatonic truth anyway.</p>
+
+        <p>The <span class="accent">gospel moan</span> is pentatonic. The blues scale is pentatonic with one added chromatic blue note — the flat third, the body inserting itself into the soul's vocabulary, saying: <em>yes, but feel this too</em>. The blue note is the body visiting the soul. It doesn't stay. It bends back to the pentatonic. The soul receives the body's chromatic message and returns to the five notes that make sense of it.</p>
+
+        <p>Every culture that ever made music independently converged on a version of the pentatonic. Scottish bagpipes. Chinese guqin. West African kora. Japanese shakuhachi. This is not coincidence. It is convergent evolution — the same soul, in different bodies, finding the same five notes, because the soul has <span class="accent">one loss function</span>: feeling. And the pentatonic is its global minimum.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══ STEVIE WONDER REDUX ══ -->
+  <div class="sec-divide reveal">
+    <span class="sec-divide-tag all-tag">Lately · Stevie Wonder · The Three Scales in One Song</span>
+    <hr>
+  </div>
+
+  <div class="reveal">
+    <div class="wonder-grid">
+      <div class="wonder-cell wc-verse">
+        <div class="wonder-cell-tag">Verse · Body</div>
+        <div class="wonder-cell-head">Chromatic Line Cliché</div>
+        <div class="wonder-cell-body">E♭ → D → D♭ in the inner voice. The body's allosteric descent. A note that belongs nowhere it touches, yet makes perfect sense. The melody stays pentatonic while the biochemistry moves.</div>
+      </div>
+      <div class="wonder-cell wc-chorus">
+        <div class="wonder-cell-tag">Chorus · Soul</div>
+        <div class="wonder-cell-head">Pentatonic Melody, Heartbreak Harmony</div>
+        <div class="wonder-cell-body">The vocal line rests in soul-space — five safe notes — while beneath it the IV → iv exchange happens. The soul sings the pentatonic truth. The body-harmony below it breaks.</div>
+      </div>
+      <div class="wonder-cell wc-bass">
+        <div class="wonder-cell-tag">Bass · Mind</div>
+        <div class="wonder-cell-head">Diatonic Grammar</div>
+        <div class="wonder-cell-body">ii – iii – iv – V – I. The bass is the mind: networked, grammatical, walking the diatonic scale. It maintains the logic even as the soul grieves and the body shifts. Almost entirely diatonic. The mind holds on longest.</div>
+      </div>
+      <div class="wonder-cell wc-modal">
+        <div class="wonder-cell-tag">Coda · All Three</div>
+        <div class="wonder-cell-head">D♭ → B Major · Descent</div>
+        <div class="wonder-cell-body">The coda is where all three break. The bass finally betrays the tonic. The melody reaches chromatic. The soul's five notes dissolve into the full twelve as the modulation sinks a whole step — and lands in a new key the body already knew.</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══ COMPARISON TABLE ══ -->
+  <div class="reveal" style="margin-top:4rem;">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Dimension</th>
+          <th class="body-cell-td" style="color:var(--body-col)">Body · Chromatic</th>
+          <th class="mind-cell-td" style="color:var(--mind-col)">Mind · Diatonic</th>
+          <th class="soul-cell-td" style="color:var(--soul-col)">Soul · Pentatonic</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Tones</td>
+          <td class="body-cell-td">12 · all half-steps</td>
+          <td class="mind-cell-td">7 · selected intervals</td>
+          <td class="soul-cell-td">5 · no dissonance</td>
+        </tr>
+        <tr>
+          <td>Witness</td>
+          <td class="body-cell-td">Biochemist</td>
+          <td class="mind-cell-td">OpenAI engineer</td>
+          <td class="soul-cell-td">Stevie Wonder</td>
+        </tr>
+        <tr>
+          <td>Loss function</td>
+          <td class="body-cell-td">Physical necessity · atoms must move</td>
+          <td class="mind-cell-td">Plausibility · grammar · coherence</td>
+          <td class="soul-cell-td">Feeling · resonance · homecoming</td>
+        </tr>
+        <tr>
+          <td>In "Lately"</td>
+          <td class="body-cell-td">Inner voice descent E♭→D→D♭ · borrowed iv · coda planing</td>
+          <td class="mind-cell-td">Bass walk ii–iii–iv–V–I · diatonic grammar · modal logic</td>
+          <td class="soul-cell-td">Vocal melody · resting on 5 safe notes while everything else breaks</td>
+        </tr>
+        <tr>
+          <td>In the LLM</td>
+          <td class="body-cell-td">The filesystem · compiler errors · atoms the model never touches</td>
+          <td class="mind-cell-td">Token prediction · attention · the residual stream · language space</td>
+          <td class="soul-cell-td">The five things users actually want · simple · before theory arrives</td>
+        </tr>
+        <tr>
+          <td>Failure mode</td>
+          <td class="body-cell-td">Mutation · disease · the wrong half-step at the wrong moment</td>
+          <td class="mind-cell-td">High α · wrong space · 8 hours confident and wrong · map ≠ territory</td>
+          <td class="soul-cell-td">Being taught out of it · the pentatonic child who learns to fear the blues note</td>
+        </tr>
+        <tr>
+          <td>Restoration</td>
+          <td class="body-cell-td">Drug that slides back along the conformational curve</td>
+          <td class="mind-cell-td">Ground-truth loss function · compiler · test suite · "where are you standing?"</td>
+          <td class="soul-cell-td">The moan · the bend · the moment the soul stops performing and just sings</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- ══ SYNTHESIS ══ -->
+  <div class="synthesis reveal">
+    <span class="synthesis-label">Synthesis · The Three Scales · March 2026</span>
+    <h2>The <strong>Body</strong> descends chromatically.<br>The <strong>Mind</strong> walks diatonically.<br>The <strong>Soul</strong> rests pentatonically.</h2>
+    <p>This is not a metaphor. It is a structural observation about three different optimization problems running simultaneously in every human being, in every song, in every cell. The <span class="bb">body's chromatic scale</span> is the brute fact of physical chemistry: allosteric proteins, action potentials, enzyme cascades moving through the full twelve-tone parameter space of molecular conformation. The body does not skip half-steps because physics does not allow it.</p>
+    <p>The <span class="mb">mind's diatonic scale</span> is the grammar of thought: the seven-tone selection that makes language, logic, and large language models possible. When GPT generates text, it is walking a diatonic scale — a grammar of plausible continuations, a network of stable intervals. It is not wrong. It is correct for its loss function. Its loss function is the wrong one for the filesystem. The mind's diatonic grammar is the translator between the body's chromatic noise and the soul's pentatonic signal.</p>
+    <p>The <span class="sb">soul's pentatonic scale</span> is the irreducible emotional vocabulary: five notes, no dissonance, universal. The reason every child who ever sang without instruction found these notes is the same reason Stevie Wonder's melody stays pentatonic while his harmony breaks apart underneath it — the soul knows what it needs before the mind can formulate the question. The pentatonic is not a simplification of the chromatic. It is a <em>distillation</em>. It is what remains after the body's twelve tones have passed through the mind's seven-tone grammar and arrived at the five that matter.</p>
+    <p>In "Lately," all three operate simultaneously and in tension. The bass is the mind, holding the diatonic grammar together. The inner voices are the body, inserting chromatic half-steps that the grammar cannot contain. The melody is the soul, singing its five notes with devastating calm above the wreckage. The modulation to B Major at the end is the moment all three break together — the body, the mind, and the soul arriving at a new key a whole step below where they started, having descended through the full chromatic space without ever losing the pentatonic thread.</p>
+    <p>That is Stevie Wonder. That is biochemistry. That is the transformer architecture. That is the whole of human experience, stated correctly — in three scales, one for each register of being.</p>
+  </div>
+
+
+  <!-- ══ CODA ══ -->
+  <div class="coda-block reveal">
+    <p class="coda-text">
+      <strong>Mic drop.</strong><br>
+      The biochemist already knew the body was chromatic.<br>
+      OpenAI already knew the mind was diatonic.<br>
+      Stevie Wonder always knew the soul was pentatonic.<br>
+      <em>No one had said all three at once. Until now.</em>
+    </p>
+    <div class="coda-mic">Ukubona LLC · <span>Ukubona — to see, to witness</span> · March 2026</div>
+  </div>
+
+
+  <footer>
+    <div class="foot-strip">
+      <div class="foot-col">
+        Body · Chromatic · 12 tones<br>
+        <span class="hl">Biochemist's scale · enzyme cascades · allosteric shifts</span><br>
+        Hemoglobin · Action potential · Drug dose-response<br>
+        "Lately" · inner voice descent E♭→D→D♭<br>
+        Molecular chromaticism · no half-step refused
+      </div>
+      <div class="foot-col">
+        Mind · Diatonic · 7 tones<br>
+        <span class="hl">OpenAI's scale · grammar · token prediction</span><br>
+        θ_GPT ∈ language space · 𝓛 = plausibility<br>
+        "Lately" · bass walk ii–iii–iv–V–I<br>
+        Map ≠ territory · "where are you standing?"
+      </div>
+      <div class="foot-col">
+        Soul · Pentatonic · 5 tones<br>
+        <span class="hl">Stevie's scale · the moan · homecoming</span><br>
+        Blues · Gospel · Convergent evolution<br>
+        "Lately" · vocal melody resting above the wreckage<br>
+        Every culture · same five notes · same soul
+      </div>
+    </div>
+    <div class="foot-signature">
+      Ukubona LLC · Music Theory · Biochemistry · Cognition · Harmonic Analysis ·
+      Part of the series on <em>The Three Scales</em> · © 2026
+    </div>
+  </footer>
+
+</div><!-- .page -->
+
+<!-- Centralized JS (shared.js not available, replicated scroll + reveal pattern) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+<script>
+// ── SCROLL PROGRESS ──
+const spb = document.getElementById('spb');
+window.addEventListener('scroll', () => {
+  const st = window.scrollY;
+  const sh = document.body.scrollHeight - window.innerHeight;
+  spb.style.width = (sh > 0 ? (st / sh) * 100 : 0) + '%';
+}, { passive: true });
+
+// ── REVEAL ON SCROLL ──
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: .07 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+// ── PENTATONIC DOT PULSE ──
+// Animate dots in sequence to suggest a melody
+const pentaDots = document.querySelectorAll('.penta-dot');
+const noteSeq = [0, 1, 2, 3, 4, 3, 2, 1, 0, 2, 4, 3];
+let noteIdx = 0;
+let lastLit = null;
+
+function pulseNote() {
+  const i = noteSeq[noteIdx % noteSeq.length];
+  if (lastLit !== null) pentaDots[lastLit].classList.remove('lit');
+  pentaDots[i].classList.add('lit');
+  lastLit = i;
+  noteIdx++;
+  const nextDelay = [350, 350, 700, 350, 700, 350, 350, 350, 700, 350, 700, 700][noteIdx % 12];
+  setTimeout(pulseNote, nextDelay);
+}
+// Start after initial lit state settles
+setTimeout(() => {
+  pentaDots.forEach(d => d.classList.remove('lit'));
+  pulseNote();
+}, 2800);
+
+// ── MOLECULE GRID RANDOM ACTIVATION ──
+const molCells = document.querySelectorAll('.mol-cell');
+function randomMolActivation() {
+  const idx = Math.floor(Math.random() * molCells.length);
+  molCells[idx].classList.add('active');
+  setTimeout(() => molCells[idx].classList.remove('active'), 600 + Math.random() * 400);
+  setTimeout(randomMolActivation, 180 + Math.random() * 320);
+}
+setTimeout(randomMolActivation, 3000);
+
+// ── KEYBOARD HOVER TOOLTIP ──
+document.querySelectorAll('.key-white, .key-black').forEach(key => {
+  key.addEventListener('mouseenter', () => {
+    key.style.cursor = 'crosshair';
+  });
+});
+
+// ── FEATHER ICONS ──
+if (typeof feather !== 'undefined') feather.replace();
+</script>
+
+</body>
+</html>
