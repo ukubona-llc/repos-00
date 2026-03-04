@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lately — The Walk-Up Dissected</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,300;1,9..144,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0a08;
+    --surface: #141210;
+    --border: #2a2520;
+    --text: #e8e0d4;
+    --muted: #6a6058;
+    --gold: #d4a840;
+    --amber: #e87030;
+    --teal: #40c8b0;
+    --red: #e04848;
+    --blue: #4890e0;
+    --dim: #1e1c18;
+
+    /* Chord colors */
+    --c-ii: #4890e0;
+    --c-iii: #40b870;
+    --c-iv: #c850a8;
+    --c-V: #e87030;
+    --c-I: #d4a840;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ========== HERO ========== */
+  .hero {
+    padding: 80px 48px 60px;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  /* Vinyl groove lines */
+  .hero::before {
+    content: '';
+    position: absolute;
+    right: -100px;
+    top: -100px;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow:
+      0 0 0 1px rgba(212,168,64,0.04),
+      0 0 0 20px rgba(212,168,64,0.03),
+      0 0 0 40px rgba(212,168,64,0.025),
+      0 0 0 60px rgba(212,168,64,0.02),
+      0 0 0 80px rgba(212,168,64,0.015),
+      0 0 0 100px rgba(212,168,64,0.01),
+      0 0 0 120px rgba(212,168,64,0.008),
+      0 0 0 140px rgba(212,168,64,0.006),
+      0 0 0 160px rgba(212,168,64,0.005);
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 24px;
+    opacity: 0.8;
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3rem, 9vw, 8rem);
+    line-height: 0.92;
+    color: #fff;
+    margin-bottom: 0;
+    letter-spacing: -0.02em;
+  }
+
+  .hero h1 .artist {
+    font-style: italic;
+    color: var(--gold);
+    font-size: 0.55em;
+    display: block;
+    letter-spacing: 0.01em;
+    margin-bottom: 8px;
+  }
+
+  .hero-meta {
+    margin-top: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: flex-start;
+  }
+
+  .hero-stat {
+    border-left: 2px solid var(--border);
+    padding-left: 16px;
+  }
+
+  .hero-stat .hs-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .hero-stat .hs-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .lyric-banner {
+    margin-top: 40px;
+    padding: 20px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    color: rgba(232,224,212,0.5);
+    letter-spacing: 0.03em;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .lyric-inner {
+    display: inline-block;
+    animation: marquee 18s linear infinite;
+  }
+
+  .lyric-inner .beat {
+    color: rgba(232,224,212,0.9);
+    font-style: normal;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ========== MAIN ========== */
+  .main {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 40px 100px;
+  }
+
+  /* ========== PROGRESSION STRIP ========== */
+  .progression-section {
+    padding: 60px 0 48px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 36px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .section-head::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* CHORD CARDS */
+  .chord-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 3px;
+    margin-bottom: 16px;
+  }
+
+  .chord-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 22px 16px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+    border-top: 3px solid transparent;
+    overflow: hidden;
+  }
+
+  .chord-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .chord-card:hover { transform: translateY(-2px); }
+  .chord-card.active { transform: translateY(-4px); }
+
+  .chord-card.cc-ii { border-top-color: var(--c-ii); }
+  .chord-card.cc-iii { border-top-color: var(--c-iii); }
+  .chord-card.cc-iv { border-top-color: var(--c-iv); }
+  .chord-card.cc-V { border-top-color: var(--c-V); }
+  .chord-card.cc-I { border-top-color: var(--c-I); }
+
+  .chord-card.cc-ii.active { background: rgba(72,144,224,0.08); box-shadow: 0 0 24px rgba(72,144,224,0.15); }
+  .chord-card.cc-iii.active { background: rgba(64,184,112,0.08); box-shadow: 0 0 24px rgba(64,184,112,0.15); }
+  .chord-card.cc-iv.active { background: rgba(200,80,168,0.12); box-shadow: 0 0 24px rgba(200,80,168,0.2); }
+  .chord-card.cc-V.active { background: rgba(232,112,48,0.10); box-shadow: 0 0 24px rgba(232,112,48,0.18); }
+  .chord-card.cc-I.active { background: rgba(212,168,64,0.08); box-shadow: 0 0 24px rgba(212,168,64,0.15); }
+
+  .cc-beat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .cc-lyric {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: rgba(232,224,212,0.6);
+    display: block;
+    margin-bottom: 14px;
+    min-height: 1.5em;
+  }
+
+  .cc-roman {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+  }
+
+  .cc-ii .cc-roman { color: var(--c-ii); }
+  .cc-iii .cc-roman { color: var(--c-iii); }
+  .cc-iv .cc-roman { color: var(--c-iv); }
+  .cc-V .cc-roman { color: var(--c-V); }
+  .cc-I .cc-roman { color: var(--c-I); }
+
+  .cc-chord {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    color: #fff;
+    display: block;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  .cc-notes {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    display: block;
+    line-height: 1.8;
+  }
+
+  /* TENSION METER */
+  .cc-tension {
+    margin-top: 14px;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .cc-tension-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.6s ease;
+  }
+
+  .cc-ii .cc-tension-fill { background: var(--c-ii); width: 25%; }
+  .cc-iii .cc-tension-fill { background: var(--c-iii); width: 35%; }
+  .cc-iv .cc-tension-fill { background: var(--c-iv); width: 75%; }
+  .cc-V .cc-tension-fill { background: var(--c-V); width: 92%; }
+  .cc-I .cc-tension-fill { background: var(--c-I); width: 10%; }
+
+  .cc-tension-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* BASS LINE */
+  .bass-line {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 3px;
+    margin-top: 3px;
+  }
+
+  .bass-note {
+    background: var(--dim);
+    padding: 10px 16px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    position: relative;
+  }
+
+  .bass-note .bn-note { display: block; color: var(--text); font-size: 14px; }
+  .bass-note .bn-interval { font-size: 9px; letter-spacing: 0.2em; }
+
+  /* BASS ARROW */
+  .bass-arrows {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-top: 6px;
+  }
+
+  .ba-item {
+    flex: 1;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  .ba-arrow {
+    color: var(--text);
+    font-size: 16px;
+  }
+
+  .ba-arrow.whole { color: var(--c-iii); }
+  .ba-arrow.whole-label { color: var(--c-iii); }
+  .ba-arrow.half { color: var(--c-iv); }
+  .ba-arrow.half-label { color: var(--c-iv); }
+  .ba-arrow.whole2 { color: var(--c-V); }
+
+  /* ========== DETAIL PANEL ========== */
+  .detail-panel {
+    min-height: 160px;
+    background: var(--dim);
+    border: 1px solid var(--border);
+    padding: 28px 32px;
+    margin-top: 24px;
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .dp-chord-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem;
+    color: #fff;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+
+  .dp-roman-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 2px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  .dp-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .dp-analysis {
+    font-size: 1rem;
+    color: rgba(232,224,212,0.8);
+    max-width: 720px;
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .dp-analysis strong {
+    font-weight: 700;
+    color: #fff;
+  }
+
+  /* ========== PIANO KEYBOARD ========== */
+  .piano-section {
+    padding: 60px 0 48px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .piano-wrap {
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .piano {
+    display: flex;
+    position: relative;
+    height: 130px;
+    width: max-content;
+    margin: 20px 0;
+    gap: 0;
+  }
+
+  .white-key {
+    width: 40px;
+    height: 130px;
+    background: #f0ece4;
+    border: 1px solid #a09080;
+    border-radius: 0 0 5px 5px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.15s;
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  .white-key:hover { background: #e8e4dc; }
+
+  .white-key .key-label {
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: #888;
+    white-space: nowrap;
+  }
+
+  .black-key {
+    width: 26px;
+    height: 82px;
+    background: #1a1614;
+    position: absolute;
+    top: 0;
+    border-radius: 0 0 4px 4px;
+    cursor: pointer;
+    transition: background 0.15s;
+    z-index: 2;
+    border: 1px solid #000;
+  }
+
+  .black-key:hover { background: #2a2420; }
+
+  .black-key .key-label {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px;
+    color: #666;
+    white-space: nowrap;
+  }
+
+  /* KEY HIGHLIGHT STATES */
+  .white-key.lit-ii { background: rgba(72,144,224,0.5) !important; box-shadow: 0 0 12px rgba(72,144,224,0.4); }
+  .white-key.lit-iii { background: rgba(64,184,112,0.5) !important; box-shadow: 0 0 12px rgba(64,184,112,0.4); }
+  .white-key.lit-iv { background: rgba(200,80,168,0.5) !important; box-shadow: 0 0 12px rgba(200,80,168,0.4); }
+  .white-key.lit-V { background: rgba(232,112,48,0.5) !important; box-shadow: 0 0 12px rgba(232,112,48,0.4); }
+  .white-key.lit-I { background: rgba(212,168,64,0.5) !important; box-shadow: 0 0 12px rgba(212,168,64,0.4); }
+  .black-key.lit-ii { background: rgba(72,144,224,0.7) !important; box-shadow: 0 0 12px rgba(72,144,224,0.4); }
+  .black-key.lit-iii { background: rgba(64,184,112,0.7) !important; box-shadow: 0 0 12px rgba(64,184,112,0.4); }
+  .black-key.lit-iv { background: rgba(200,80,168,0.7) !important; box-shadow: 0 0 12px rgba(200,80,168,0.4); }
+  .black-key.lit-V { background: rgba(232,112,48,0.7) !important; box-shadow: 0 0 12px rgba(232,112,48,0.4); }
+  .black-key.lit-I { background: rgba(212,168,64,0.7) !important; box-shadow: 0 0 12px rgba(212,168,64,0.4); }
+
+  /* PIANO LEGEND */
+  .piano-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .pl-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--muted);
+  }
+
+  .pl-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ========== ANALYSIS GRID ========== */
+  .analysis-section {
+    padding: 60px 0 48px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .analysis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3px;
+    margin-top: 32px;
+  }
+
+  .ag-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px 24px;
+    position: relative;
+  }
+
+  .ag-card::before {
+    content: attr(data-num);
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 4rem;
+    color: rgba(255,255,255,0.03);
+    line-height: 1;
+    font-style: italic;
+  }
+
+  .ag-icon {
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .ag-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+
+  .ag-subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 14px;
+  }
+
+  .ag-1 .ag-subtitle { color: var(--c-iii); }
+  .ag-2 .ag-subtitle { color: var(--c-iv); }
+  .ag-3 .ag-subtitle { color: var(--c-V); }
+
+  .ag-text {
+    font-size: 13.5px;
+    color: rgba(232,224,212,0.7);
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .ag-text strong { color: #fff; font-weight: 700; }
+
+  /* ========== VOICE LEADING ========== */
+  .vl-section {
+    padding: 60px 0 48px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .vl-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 3px;
+    margin-top: 32px;
+  }
+
+  .vl-col {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px 12px;
+  }
+
+  .vl-head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 14px;
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cc-ii .vl-head { color: var(--c-ii); }
+  .vl-col:nth-child(1) .vl-head { color: var(--c-ii); }
+  .vl-col:nth-child(2) .vl-head { color: var(--c-iii); }
+  .vl-col:nth-child(3) .vl-head { color: var(--c-iv); }
+  .vl-col:nth-child(4) .vl-head { color: var(--c-V); }
+  .vl-col:nth-child(5) .vl-head { color: var(--c-I); }
+
+  .vl-voice {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+  }
+
+  .vl-voice .vn { color: var(--muted); font-size: 9px; }
+  .vl-voice .vp { color: var(--text); font-weight: 500; }
+  .vl-voice .vp.tension { color: var(--red); }
+  .vl-voice .vp.borrowed { color: var(--c-iv); }
+  .vl-voice .vp.resolve { color: var(--c-I); }
+  .vl-voice .vp.dominant { color: var(--c-V); }
+
+  /* ========== TENSION GRAPH ========== */
+  .graph-section {
+    padding: 60px 0 48px;
+  }
+
+  .tension-graph {
+    position: relative;
+    height: 140px;
+    margin: 32px 0 16px;
+    border-bottom: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+  }
+
+  .tg-label-y {
+    position: absolute;
+    left: -48px;
+    top: 50%;
+    transform: rotate(-90deg) translateX(50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .tg-bars {
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+    padding: 0 10%;
+    gap: 3%;
+  }
+
+  .tg-bar-wrap {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+  }
+
+  .tg-bar {
+    width: 100%;
+    border-radius: 2px 2px 0 0;
+    transition: height 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+  }
+
+  .tg-bar::after {
+    content: attr(data-pct) '%';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .tg-b-ii { background: linear-gradient(to top, var(--c-ii), rgba(72,144,224,0.3)); height: 25%; }
+  .tg-b-iii { background: linear-gradient(to top, var(--c-iii), rgba(64,184,112,0.3)); height: 35%; }
+  .tg-b-iv { background: linear-gradient(to top, var(--c-iv), rgba(200,80,168,0.3)); height: 75%; }
+  .tg-b-V { background: linear-gradient(to top, var(--c-V), rgba(232,112,48,0.3)); height: 92%; }
+  .tg-b-I { background: linear-gradient(to top, var(--c-I), rgba(212,168,64,0.3)); height: 10%; }
+
+  .tg-chord-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  /* ========== FOOTER ========== */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+  }
+
+  footer strong { color: var(--gold); }
+
+  /* ========== ANIMATIONS ========== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .chord-card { animation: fadeUp 0.4s ease both; }
+  .chord-card:nth-child(1) { animation-delay: 0.05s; }
+  .chord-card:nth-child(2) { animation-delay: 0.1s; }
+  .chord-card:nth-child(3) { animation-delay: 0.15s; }
+  .chord-card:nth-child(4) { animation-delay: 0.2s; }
+  .chord-card:nth-child(5) { animation-delay: 0.25s; }
+
+  @media (max-width: 700px) {
+    .chord-strip { grid-template-columns: 1fr 1fr; }
+    .bass-line { grid-template-columns: 1fr 1fr; }
+    .analysis-grid { grid-template-columns: 1fr; }
+    .vl-grid { grid-template-columns: 1fr 1fr; }
+    .main { padding: 0 20px 80px; }
+    .hero { padding: 48px 20px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <span class="hero-tag">Harmonic Analysis · Db Major · 1980</span>
+  <h1>
+    <span class="artist">Stevie Wonder</span>
+    Lately
+  </h1>
+  <div class="hero-meta">
+    <div class="hero-stat">
+      <span class="hs-label">Key</span>
+      <span class="hs-val">D♭ Major</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hs-label">Walk-up</span>
+      <span class="hs-val">ii7 → iii7 → iv7 → V7(♭9) → Imaj7</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hs-label">Device</span>
+      <span class="hs-val">Modal Interchange · Altered Dominant</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hs-label">Lyric moment</span>
+      <span class="hs-val">…always start to cry</span>
+    </div>
+  </div>
+  <div class="lyric-banner">
+    <div class="lyric-inner">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      "<span class="beat">'Cause</span> they 
+      <span class="beat">al</span>-ways 
+      <span class="beat">start</span> to 
+      <span class="beat">cry</span>"&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
+      E♭m7&nbsp;&nbsp;→&nbsp;&nbsp;Fm7&nbsp;&nbsp;→&nbsp;&nbsp;G♭m7&nbsp;&nbsp;→&nbsp;&nbsp;A♭7(♭9)&nbsp;&nbsp;→&nbsp;&nbsp;D♭maj7
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      "<span class="beat">'Cause</span> they 
+      <span class="beat">al</span>-ways 
+      <span class="beat">start</span> to 
+      <span class="beat">cry</span>"&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
+      E♭m7&nbsp;&nbsp;→&nbsp;&nbsp;Fm7&nbsp;&nbsp;→&nbsp;&nbsp;G♭m7&nbsp;&nbsp;→&nbsp;&nbsp;A♭7(♭9)&nbsp;&nbsp;→&nbsp;&nbsp;D♭maj7
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </div>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- PROGRESSION STRIP -->
+  <section class="progression-section">
+    <div class="section-head">The Walk-Up · Click Each Chord</div>
+
+    <div class="chord-strip" id="chordStrip">
+      <!-- ii7 -->
+      <div class="chord-card cc-ii" data-chord="ii" onclick="selectChord('ii', this)">
+        <span class="cc-beat">Beat 1</span>
+        <span class="cc-lyric">"'Cause they"</span>
+        <span class="cc-roman">ii min7</span>
+        <span class="cc-chord">E♭m7</span>
+        <span class="cc-notes">E♭ – G♭ – B♭ – D♭</span>
+        <div class="cc-tension"><div class="cc-tension-fill"></div></div>
+        <span class="cc-tension-label">Tension</span>
+      </div>
+      <!-- iii7 -->
+      <div class="chord-card cc-iii" data-chord="iii" onclick="selectChord('iii', this)">
+        <span class="cc-beat">Beat 2</span>
+        <span class="cc-lyric">"al-"</span>
+        <span class="cc-roman">iii min7</span>
+        <span class="cc-chord">Fm7</span>
+        <span class="cc-notes">F – A♭ – C – E♭</span>
+        <div class="cc-tension"><div class="cc-tension-fill"></div></div>
+        <span class="cc-tension-label">Tension</span>
+      </div>
+      <!-- iv7 -->
+      <div class="chord-card cc-iv" data-chord="iv" onclick="selectChord('iv', this)">
+        <span class="cc-beat">Beat 3 ★</span>
+        <span class="cc-lyric">"ways start"</span>
+        <span class="cc-roman">iv min7 ← BORROWED</span>
+        <span class="cc-chord">G♭m7</span>
+        <span class="cc-notes">G♭ – B♭♭ – D♭ – F♭</span>
+        <div class="cc-tension"><div class="cc-tension-fill"></div></div>
+        <span class="cc-tension-label">Tension</span>
+      </div>
+      <!-- V7b9 -->
+      <div class="chord-card cc-V" data-chord="V" onclick="selectChord('V', this)">
+        <span class="cc-beat">Beat 4</span>
+        <span class="cc-lyric">"to"</span>
+        <span class="cc-roman">V7(♭9)</span>
+        <span class="cc-chord">A♭7(♭9)</span>
+        <span class="cc-notes">A♭ – C – E♭ – G♭ – B♭♭</span>
+        <div class="cc-tension"><div class="cc-tension-fill"></div></div>
+        <span class="cc-tension-label">Tension</span>
+      </div>
+      <!-- Imaj7 -->
+      <div class="chord-card cc-I" data-chord="I" onclick="selectChord('I', this)">
+        <span class="cc-beat">Resolution</span>
+        <span class="cc-lyric">"cry"</span>
+        <span class="cc-roman">I maj7</span>
+        <span class="cc-chord">D♭maj7</span>
+        <span class="cc-notes">D♭ – F – A♭ – C</span>
+        <div class="cc-tension"><div class="cc-tension-fill"></div></div>
+        <span class="cc-tension-label">Tension</span>
+      </div>
+    </div>
+
+    <!-- BASS LINE -->
+    <div class="bass-line">
+      <div class="bass-note"><span class="bn-note">E♭</span><span class="bn-interval">bass</span></div>
+      <div class="bass-note"><span class="bn-note">F</span><span class="bn-interval">+whole step ↑</span></div>
+      <div class="bass-note" style="border: 1px solid rgba(200,80,168,0.4);"><span class="bn-note" style="color:var(--c-iv)">G♭</span><span class="bn-interval" style="color:var(--c-iv)">+half step ↑ ←!</span></div>
+      <div class="bass-note"><span class="bn-note">A♭</span><span class="bn-interval">+whole step ↑</span></div>
+      <div class="bass-note"><span class="bn-note">D♭</span><span class="bn-interval">resolves home</span></div>
+    </div>
+
+    <!-- DETAIL PANEL -->
+    <div class="detail-panel" id="detailPanel">
+      <div id="dpContent" style="opacity:0.4;">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:var(--muted);">← Click any chord above to analyze it</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PIANO KEYBOARD -->
+  <section class="piano-section">
+    <div class="section-head">Piano Keyboard · All Voices · Select a Chord Above</div>
+
+    <div class="piano-wrap">
+      <div class="piano" id="pianoKeyboard">
+        <!-- Generated by JS -->
+      </div>
+    </div>
+
+    <div class="piano-legend" id="pianoLegend">
+      <div class="pl-item"><div class="pl-dot" style="background:var(--c-ii)"></div>ii min7 — E♭m7</div>
+      <div class="pl-item"><div class="pl-dot" style="background:var(--c-iii)"></div>iii min7 — Fm7</div>
+      <div class="pl-item"><div class="pl-dot" style="background:var(--c-iv)"></div>iv min7 — G♭m7 (borrowed)</div>
+      <div class="pl-item"><div class="pl-dot" style="background:var(--c-V)"></div>V7(♭9) — A♭7(♭9)</div>
+      <div class="pl-item"><div class="pl-dot" style="background:var(--c-I)"></div>I maj7 — D♭maj7</div>
+    </div>
+  </section>
+
+  <!-- ANALYSIS CARDS -->
+  <section class="analysis-section">
+    <div class="section-head">Three Moves That Make You Cry</div>
+
+    <div class="analysis-grid">
+      <div class="ag-card ag-1" data-num="1">
+        <span class="ag-icon">→</span>
+        <div class="ag-title">The Deceptive Glide</div>
+        <span class="ag-subtitle">ii7 to iii7 · Diatonic Safety</span>
+        <p class="ag-text">The walk-up opens with a completely safe, diatonic move: E♭m7 to Fm7. Bass ascends a whole step. Chord quality stays the same (minor 7th to minor 7th). The ear registers this as comfortable, predictable forward motion — <strong>you feel securely anchored in D♭ major.</strong> Stevie is building trust so he can betray it.</p>
+      </div>
+      <div class="ag-card ag-2" data-num="2">
+        <span class="ag-icon">⚡</span>
+        <div class="ag-title">The Heartbreak</div>
+        <span class="ag-subtitle">iii7 to iv7 · Modal Interchange</span>
+        <p class="ag-text">Here is the twist. Instead of rising a <em>whole</em> step to the bright, expected IVmaj7 (G♭maj7), Stevie slides the same minor-7th shape up only a <strong>half step</strong> to G♭m7. This is the iv minor — borrowed from D♭ minor. The B♭♭ (enharmonic A) doesn't exist in D♭ major. <strong>It arrives on the lyric "start to cry."</strong> The dark cloud. The knife.</p>
+      </div>
+      <div class="ag-card ag-3" data-num="3">
+        <span class="ag-icon">↓</span>
+        <div class="ag-title">The Exhausted Sigh</div>
+        <span class="ag-subtitle">V7(♭9) to Imaj7 · Altered Dominant Release</span>
+        <p class="ag-text">To get home, he moves to A♭7 — but colors it with a <strong>♭9 (B♭♭/A natural)</strong>, another tone native to the minor scale. By stacking minor-key tensions over the dominant, the resolution to D♭maj7 feels not like triumph but like <strong>an exhausted, beautiful surrender.</strong> You have been crying. Now you breathe.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VOICE LEADING -->
+  <section class="vl-section">
+    <div class="section-head">Voice-by-Voice Movement</div>
+    <div class="vl-grid">
+      <div class="vl-col">
+        <span class="vl-head">E♭m7</span>
+        <div class="vl-voice"><span class="vn">7th</span><span class="vp">D♭</span></div>
+        <div class="vl-voice"><span class="vn">5th</span><span class="vp">B♭</span></div>
+        <div class="vl-voice"><span class="vn">3rd</span><span class="vp">G♭</span></div>
+        <div class="vl-voice"><span class="vn">root</span><span class="vp">E♭</span></div>
+      </div>
+      <div class="vl-col">
+        <span class="vl-head">Fm7</span>
+        <div class="vl-voice"><span class="vn">7th</span><span class="vp">E♭</span></div>
+        <div class="vl-voice"><span class="vn">5th</span><span class="vp">C</span></div>
+        <div class="vl-voice"><span class="vn">3rd</span><span class="vp">A♭</span></div>
+        <div class="vl-voice"><span class="vn">root</span><span class="vp">F</span></div>
+      </div>
+      <div class="vl-col" style="border-color: rgba(200,80,168,0.3);">
+        <span class="vl-head">G♭m7 ★</span>
+        <div class="vl-voice"><span class="vn">7th</span><span class="vp borrowed">F♭</span></div>
+        <div class="vl-voice"><span class="vn">5th</span><span class="vp borrowed">D♭</span></div>
+        <div class="vl-voice"><span class="vn">3rd</span><span class="vp borrowed">B♭♭ ←!</span></div>
+        <div class="vl-voice"><span class="vn">root</span><span class="vp borrowed">G♭</span></div>
+      </div>
+      <div class="vl-col">
+        <span class="vl-head">A♭7(♭9)</span>
+        <div class="vl-voice"><span class="vn">♭9</span><span class="vp tension">B♭♭/A</span></div>
+        <div class="vl-voice"><span class="vn">7th</span><span class="vp dominant">G♭</span></div>
+        <div class="vl-voice"><span class="vn">5th</span><span class="vp">E♭</span></div>
+        <div class="vl-voice"><span class="vn">3rd</span><span class="vp">C</span></div>
+        <div class="vl-voice"><span class="vn">root</span><span class="vp">A♭</span></div>
+      </div>
+      <div class="vl-col">
+        <span class="vl-head">D♭maj7</span>
+        <div class="vl-voice"><span class="vn">7th</span><span class="vp resolve">C ↑</span></div>
+        <div class="vl-voice"><span class="vn">5th</span><span class="vp resolve">A♭</span></div>
+        <div class="vl-voice"><span class="vn">3rd</span><span class="vp resolve">F</span></div>
+        <div class="vl-voice"><span class="vn">root</span><span class="vp resolve">D♭ ←home</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TENSION GRAPH -->
+  <section class="graph-section">
+    <div class="section-head">Tension Arc · The Walk-Up Visualized</div>
+    <div class="tension-graph">
+      <div class="tg-bars">
+        <div class="tg-bar-wrap">
+          <div class="tg-bar tg-b-ii" data-pct="25"></div>
+          <div class="tg-chord-label">E♭m7<br><span style="color:var(--c-ii); font-size:9px;">ii7</span></div>
+        </div>
+        <div class="tg-bar-wrap">
+          <div class="tg-bar tg-b-iii" data-pct="35"></div>
+          <div class="tg-chord-label">Fm7<br><span style="color:var(--c-iii); font-size:9px;">iii7</span></div>
+        </div>
+        <div class="tg-bar-wrap">
+          <div class="tg-bar tg-b-iv" data-pct="75"></div>
+          <div class="tg-chord-label">G♭m7<br><span style="color:var(--c-iv); font-size:9px;">iv7 ★</span></div>
+        </div>
+        <div class="tg-bar-wrap">
+          <div class="tg-bar tg-b-V" data-pct="92"></div>
+          <div class="tg-chord-label">A♭7(♭9)<br><span style="color:var(--c-V); font-size:9px;">V7♭9</span></div>
+        </div>
+        <div class="tg-bar-wrap">
+          <div class="tg-bar tg-b-I" data-pct="10"></div>
+          <div class="tg-chord-label">D♭maj7<br><span style="color:var(--c-I); font-size:9px;">Imaj7</span></div>
+        </div>
+      </div>
+    </div>
+    <p style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted); font-style:italic; max-width:600px; line-height:1.8;">
+      The borrowed iv minor (G♭m7) causes a tension spike that doesn't follow the expected diatonic curve. The altered dominant (A♭7♭9) holds it at near-maximum. The resolution to D♭maj7 is the drop — the "exhausted sigh." The drop is what makes you feel something.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <strong>"Lately"</strong> · Stevie Wonder · 1980 · Key of D♭ Major<br>
+  <span style="opacity:0.5; display:block; margin-top:6px;">ii7 → iii7 → iv7 (borrowed) → V7(♭9) (altered) → Imaj7 · The walk-up that taught a generation what borrowed chords feel like</span>
+</footer>
+
+<script>
+// ============ CHORD DATA ============
+const CHORD_DATA = {
+  ii: {
+    name: 'E♭m7',
+    roman: 'ii min7',
+    color: 'var(--c-ii)',
+    colorClass: 'cc-ii',
+    tag: 'Diatonic · Natural Minor 7th · Safe Motion',
+    analysis: `The walk-up opens with <strong>E♭m7 — the ii min7</strong>, a completely diatonic chord in D♭ major. The bass ascends from E♭ to F, a comfortable whole step. The chord quality is minor 7th → minor 7th. Your ear registers this as stable, forward-moving, and <strong>safe</strong>. Stevie is building trust. He needs you relaxed for what's coming. The melody note over this chord is already reaching toward the 7th — D♭ — creating the first flicker of yearning, but nothing alarming yet.`,
+    keys: ['Eb', 'Gb', 'Bb', 'Db'],
+  },
+  iii: {
+    name: 'Fm7',
+    roman: 'iii min7',
+    color: 'var(--c-iii)',
+    colorClass: 'cc-iii',
+    tag: 'Diatonic · The Setup · Whole Step Ascent',
+    analysis: `<strong>Fm7 — the iii min7</strong>. Still completely diatonic. Bass moves up another whole step (E♭ → F). The shape is the same — another minor 7th. The ear continues to feel the forward glide of a scale-based ascent, comfortable and inevitable. This is the "setup" chord: it establishes the expectation that the next move will also be a whole step up, arriving at G♭ major 7 (IVmaj7). That would be the <em>expected</em> continuation. Stevie knows exactly what you're expecting. He's about to do something else.`,
+    keys: ['F', 'Ab', 'C', 'Eb'],
+  },
+  iv: {
+    name: 'G♭m7',
+    roman: 'iv min7 — BORROWED',
+    color: 'var(--c-iv)',
+    colorClass: 'cc-iv',
+    tag: 'Modal Interchange · From D♭ Minor · The Heartbreak · ★',
+    analysis: `<strong>G♭m7 — the iv minor 7th. Borrowed from D♭ minor.</strong> This is the twist. Instead of the expected whole-step ascent to G♭<em>major</em>7 (IVmaj7), Stevie moves the same minor-7th shape up only a <strong>half step</strong> from Fm7. The result: G♭m7, a chord that does not exist in D♭ major. Its third — B♭♭ (enharmonic A natural) — is a flatted third in D♭ major. It comes from the parallel minor. The bass note is the same (G♭) you'd expect for the IV chord. But the quality is dark, minor, borrowed. This chord lands on the lyric <strong>"start to cry"</strong> — and the harmony does exactly what the lyric says.`,
+    keys: ['Gb', 'Bbb', 'Db', 'Fb'],
+  },
+  V: {
+    name: 'A♭7(♭9)',
+    roman: 'V7(♭9)',
+    color: 'var(--c-V)',
+    colorClass: 'cc-V',
+    tag: 'Altered Dominant · ♭9 from Minor · Maximum Tension',
+    analysis: `<strong>A♭7(♭9) — the altered dominant seventh.</strong> This is the dominant of D♭ major (A♭ being the fifth scale degree), but with a flattened ninth — B♭♭ (A natural) — added above. That ♭9 is also a tone native to the minor scale, meaning Stevie continues to layer minor-key color over a chord that should be pointing back toward the major tonic. The tritone inside A♭7 (C to G♭) already creates maximum dominant tension. The added ♭9 stacks <em>more</em> tension on top. The ear is now at maximum pressure. The resolution to D♭maj7 becomes not a triumphant arrival but an <strong>exhausted, beautiful exhale</strong> — you've been through something, and now you're allowed to breathe.`,
+    keys: ['Ab', 'C', 'Eb', 'Gb', 'A'],
+  },
+  I: {
+    name: 'D♭maj7',
+    roman: 'I maj7',
+    color: 'var(--c-I)',
+    colorClass: 'cc-I',
+    tag: 'Tonic Resolution · The Exhale · Home',
+    analysis: `<strong>D♭maj7 — home.</strong> The resolution. After three chords of accumulated tension — the borrowed iv minor, the altered dominant — the arrival at D♭maj7 is not a triumph. It's a <strong>collapse</strong>. The kind of release you feel when you stop fighting. The major 7th (C) in the chord adds a lush, bittersweet quality: you're home, but the home is soft, not hard. The melody note "cry" lands here — on the tonic — but the major 7th in the harmony keeps it from feeling fully resolved. The song knows it's not over. The heartbreak isn't solved. You've just been given a moment to breathe before it starts again.`,
+    keys: ['Db', 'F', 'Ab', 'C'],
+  }
+};
+
+// ============ PIANO SETUP ============
+// Note: we'll display keys from C3 to C6 (concert pitch)
+// In Db major context, flats are used
+
+const WHITE_NOTES = ['C','D','E','F','G','A','B'];
+const NOTE_SEQUENCE = ['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
+
+// Keys we want to show: 3 octaves from Bb2 to Eb5 covering all chord tones
+// We'll use a simplified approach: show 2.5 octaves from Bb2
+
+const NOTE_MIDI = {
+  'Bb2': 46, 'B2': 47,
+  'C3': 48, 'Db3': 49, 'D3': 50, 'Eb3': 51, 'E3': 52, 'F3': 53, 'Gb3': 54, 'G3': 55, 'Ab3': 56, 'A3': 57, 'Bb3': 58, 'B3': 59,
+  'C4': 60, 'Db4': 61, 'D4': 62, 'Eb4': 63, 'E4': 64, 'F4': 65, 'Gb4': 66, 'G4': 67, 'Ab4': 68, 'A4': 69, 'Bb4': 70, 'B4': 71,
+  'C5': 72, 'Db5': 73, 'D5': 74, 'Eb5': 75, 'E5': 76, 'F5': 77, 'Gb5': 78, 'G5': 79, 'Ab5': 80, 'A5': 81, 'Bb5': 82,
+};
+
+// Chord tones (note names without octave)
+const CHORD_TONES = {
+  ii:  ['Eb', 'Gb', 'Bb', 'Db'],
+  iii: ['F', 'Ab', 'C', 'Eb'],
+  iv:  ['Gb', 'Bbb', 'Db', 'Fb'],  // Bbb=A, Fb=E
+  V:   ['Ab', 'C', 'Eb', 'Gb', 'A'],  // A = Bbb enharmonic
+  I:   ['Db', 'F', 'Ab', 'C'],
+};
+
+// Enharmonic equivalents for keyboard matching
+const ENHARMONIC = {
+  'Bbb': 'A', 'Fb': 'E', 'Cb': 'B', 'Abb': 'G',
+};
+
+function buildPiano() {
+  const piano = document.getElementById('pianoKeyboard');
+  piano.innerHTML = '';
+  
+  // Define our range: Bb2 to Bb5
+  const whites = [
+    'B2','C3','D3','E3','F3','G3','A3','B3',
+    'C4','D4','E4','F4','G4','A4','B4',
+    'C5','D5','E5','F5','G5','A5','B5'
+  ];
+  
+  const pianoContainer = document.createElement('div');
+  pianoContainer.style.cssText = 'position:relative; display:flex;';
+  
+  let xPos = 0;
+  const wWidth = 40;
+  
+  whites.forEach((wNote, i) => {
+    const key = document.createElement('div');
+    key.className = 'white-key';
+    key.dataset.note = wNote;
+    const noteName = wNote.slice(0,-1); // strip octave
+    key.innerHTML = `<span class="key-label">${noteName}</span>`;
+    pianoContainer.appendChild(key);
+    
+    // Black key after this white?
+    const blackMap = {'C':'Db','D':'Eb','F':'Gb','G':'Ab','A':'Bb'};
+    const noteLetter = wNote.slice(0,-1);
+    const octave = wNote.slice(-1);
+    
+    if (blackMap[noteLetter]) {
+      const bNote = blackMap[noteLetter] + octave;
+      const blackKey = document.createElement('div');
+      blackKey.className = 'black-key';
+      blackKey.dataset.note = bNote;
+      const bName = bNote.slice(0,-1);
+      blackKey.innerHTML = `<span class="key-label">${bName}</span>`;
+      blackKey.style.left = ((i + 0.65) * wWidth) + 'px';
+      pianoContainer.appendChild(blackKey);
+    }
+  });
+  
+  pianoContainer.style.width = (whites.length * wWidth) + 'px';
+  piano.appendChild(pianoContainer);
+}
+
+function highlightPiano(chordKey) {
+  // Remove all lit classes
+  document.querySelectorAll('.white-key, .black-key').forEach(k => {
+    k.className = k.className.replace(/\s?lit-\w+/g, '');
+  });
+  
+  if (!chordKey) return;
+  
+  const tones = CHORD_TONES[chordKey] || [];
+  const normalized = tones.map(t => ENHARMONIC[t] || t);
+  const litClass = `lit-${chordKey}`;
+  
+  document.querySelectorAll('.white-key, .black-key').forEach(key => {
+    const noteOnKey = key.dataset.note;
+    if (!noteOnKey) return;
+    const noteName = noteOnKey.slice(0, -1); // strip octave
+    if (normalized.includes(noteName)) {
+      key.classList.add(litClass);
+    }
+  });
+}
+
+// ============ CHORD SELECTION ============
+let activeChord = null;
+
+function selectChord(chordKey, cardEl) {
+  // Deactivate all
+  document.querySelectorAll('.chord-card').forEach(c => c.classList.remove('active'));
+  cardEl.classList.add('active');
+  activeChord = chordKey;
+  
+  // Update detail panel
+  const data = CHORD_DATA[chordKey];
+  const panel = document.getElementById('dpContent');
+  panel.style.opacity = '1';
+  panel.innerHTML = `
+    <div class="dp-chord-name">
+      ${data.name}
+      <span class="dp-roman-badge" style="background: rgba(255,255,255,0.05); color:${data.color}; border: 1px solid ${data.color}40;">${data.roman}</span>
+    </div>
+    <span class="dp-tag" style="color:${data.color}">${data.tag}</span>
+    <p class="dp-analysis">${data.analysis}</p>
+  `;
+  
+  // Highlight piano
+  highlightPiano(chordKey);
+}
+
+// ============ INIT ============
+buildPiano();
+</script>
+
+</body>
+</html>
