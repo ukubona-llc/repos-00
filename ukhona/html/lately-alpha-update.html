@@ -1,1 +1,1054 @@
-.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Lately Fractal · Harmonic Pivot Points · Ukubona LLC</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+
+<!-- MathJax for rendered math -->
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+
+<style>
+/* ══════════════════════════════════════════════
+   UKUBONA DESIGN TOKENS
+══════════════════════════════════════════════ */
+:root {
+  color-scheme: light dark;
+  --paper:   #f3efe6;
+  --ink:     #18120a;
+  --ink2:    #2c1e08;
+  --ink3:    #7a6840;
+  --rule:    #c4a060;
+  --rule2:   #e4d4b0;
+  --accent:  #6b1a1a;
+  --accent2: #a03010;
+
+  /* tonal layer palette — each chord region gets its own color */
+  --db-bg:#0a0c18;  --db-text:#c0c8f0;  --db-acc:#6070d0;   /* Db Major — indigo  */
+  --wh-bg:#100a18;  --wh-text:#d4b8f0;  --wh-acc:#9060d0;   /* Wormhole — violet  */
+  --a-bg:#0a1410;   --a-text:#b0e8c8;   --a-acc:#40c080;    /* A Major  — jade    */
+  --gf-bg:#180e06;  --gf-text:#f0d090;  --gf-acc:#d08828;   /* Gb       — amber   */
+  --bv-bg:#100808;  --bv-text:#f0b8a0;  --bv-acc:#c04030;   /* bV7(#11) — crimson */
+
+  --mono:'IBM Plex Mono',monospace;
+  --serif:'Source Serif 4',Georgia,serif;
+  --display:'Playfair Display',Georgia,serif;
+  --toggle-bg:#e0cdb0; --toggle-knob:#18120a;
+}
+[data-theme="dark"] {
+  --paper:#090710; --ink:#f0e8c8; --ink2:#d0c090; --ink3:#907848;
+  --rule:#3a2a08; --rule2:#221808; --accent:#e04028; --accent2:#f08038;
+  --toggle-bg:#1e1408; --toggle-knob:#f0e8c0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:#090710; --ink:#f0e8c8; --ink2:#d0c090; --ink3:#907848;
+    --rule:#3a2a08; --rule2:#221808; --accent:#e04028; --accent2:#f08038;
+    --toggle-bg:#1e1408; --toggle-knob:#f0e8c0;
+  }
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+html { scroll-behavior:smooth }
+
+body {
+  background:var(--paper); color:var(--ink);
+  font-family:var(--serif); font-size:18px; line-height:1.9;
+  transition:background .3s, color .3s;
+  overflow-x:hidden;
+}
+
+/* grain overlay */
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.022;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* scrolling staff lines — pure decorative atmosphere */
+body::after {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.018;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 28px,
+    var(--ink) 28px,
+    var(--ink) 29px
+  );
+}
+
+/* ── THEME TOGGLE ── */
+.theme-toggle{position:fixed;top:1.2rem;right:1.5rem;z-index:999;display:flex;align-items:center;gap:.55rem;font-family:var(--mono);font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink3)}
+.toggle-switch{position:relative;width:2.6rem;height:1.3rem;background:var(--toggle-bg);border:1px solid var(--rule);border-radius:0;cursor:pointer;transition:background .25s}
+.toggle-switch::after{content:'';position:absolute;top:.2rem;left:.2rem;width:.75rem;height:.75rem;background:var(--toggle-knob);transition:transform .25s}
+[data-theme="dark"] .toggle-switch::after{transform:translateX(1.25rem)}
+
+/* ── PAGE ── */
+.page { max-width:900px; margin:0 auto; padding:0 2.4rem 12rem; position:relative; z-index:1 }
+
+/* ── MASTHEAD ── */
+.masthead {
+  padding:8rem 0 4rem;
+  border-bottom:4px double var(--ink);
+  margin-bottom:5rem;
+  animation:drop 1.1s cubic-bezier(.16,1,.3,1) both;
+}
+.mast-eyebrow {
+  font-family:var(--mono); font-size:.5rem; letter-spacing:.38em;
+  text-transform:uppercase; color:var(--ink3); margin-bottom:2.5rem;
+}
+.mast-numeral {
+  font-family:var(--display);
+  font-size:clamp(5rem,18vw,13rem);
+  font-weight:900; line-height:.85; color:transparent;
+  -webkit-text-stroke:2px var(--rule);
+  letter-spacing:-.04em; margin-bottom:-1rem;
+  user-select:none; opacity:.35;
+}
+.mast-title {
+  font-family:var(--display);
+  font-size:clamp(2rem,5vw,3.6rem);
+  font-weight:700; line-height:1.1; color:var(--ink); margin-bottom:1rem;
+}
+.mast-title em { font-style:italic; font-weight:400; color:var(--accent) }
+.mast-sub {
+  font-family:var(--mono); font-size:.58rem; color:var(--ink3);
+  letter-spacing:.1em; line-height:2.2; margin-bottom:3rem;
+}
+.mast-sub em { color:var(--accent2); font-style:normal }
+
+/* ── KEY SIGNATURE BADGE ── */
+.key-badge {
+  display:inline-flex; align-items:center; gap:.5rem;
+  font-family:var(--mono); font-size:.52rem; letter-spacing:.28em;
+  text-transform:uppercase; padding:.3rem .9rem;
+  border:1px solid var(--rule); color:var(--ink3);
+  margin:.3rem .2rem 0;
+}
+.key-badge.db { border-color:var(--db-acc); color:var(--db-acc); background:rgba(96,112,208,.08) }
+.key-badge.wh { border-color:var(--wh-acc); color:var(--wh-acc); background:rgba(144,96,208,.08) }
+.key-badge.a  { border-color:var(--a-acc);  color:var(--a-acc);  background:rgba(64,192,128,.08) }
+.key-badge.gf { border-color:var(--gf-acc); color:var(--gf-acc); background:rgba(208,136,40,.08) }
+.key-badge.bv { border-color:var(--bv-acc); color:var(--bv-acc); background:rgba(192,64,48,.08) }
+
+/* ── SEC RULE ── */
+.sec-rule { display:grid; grid-template-columns:auto 1fr; align-items:center; gap:1.2rem; margin:5.5rem 0 2.5rem }
+.sec-rule-label {
+  font-family:var(--mono); font-size:.52rem; letter-spacing:.4em;
+  text-transform:uppercase; white-space:nowrap; padding:.28rem .8rem; border:1px solid;
+}
+.sec-rule-label.db   { border-color:var(--db-acc); color:var(--db-acc); background:rgba(96,112,208,.06) }
+.sec-rule-label.wh   { border-color:var(--wh-acc); color:var(--wh-acc); background:rgba(144,96,208,.06) }
+.sec-rule-label.a    { border-color:var(--a-acc);  color:var(--a-acc);  background:rgba(64,192,128,.06) }
+.sec-rule-label.gf   { border-color:var(--gf-acc); color:var(--gf-acc); background:rgba(208,136,40,.06) }
+.sec-rule-label.bv   { border-color:var(--bv-acc); color:var(--bv-acc); background:rgba(192,64,48,.06) }
+.sec-rule-label.schema { background:var(--ink); color:var(--paper); border-color:var(--ink) }
+.sec-rule hr { border:none; border-top:1px solid var(--rule); width:100% }
+
+/* ── MODEL BLOCKS ── */
+.model-block { border-left:3px solid; padding:2.4rem 2.8rem; margin:0 0 3rem; position:relative }
+.model-stamp {
+  position:absolute; top:1rem; right:1.4rem;
+  font-family:var(--mono); font-size:.44rem; letter-spacing:.38em;
+  text-transform:uppercase; opacity:.6; border:1px solid; padding:.15rem .5rem;
+}
+.model-block h2 { font-family:var(--display); font-size:1.4rem; font-weight:700; margin-bottom:.5rem; line-height:1.2 }
+.model-block .model-sub { font-family:var(--mono); font-size:.54rem; letter-spacing:.22em; margin-bottom:2rem }
+.model-block h3 {
+  font-family:var(--display); font-size:1.05rem; font-weight:700;
+  margin:2.2rem 0 .6rem; padding-top:1.4rem; border-top:1px solid;
+}
+.model-prose { font-size:.9rem; line-height:1.85; margin-bottom:1.2rem }
+.model-prose p { margin-bottom:1rem }
+.model-prose ul,.model-prose ol { padding-left:1.4rem; margin-bottom:1rem }
+.model-prose li { margin-bottom:.5rem; line-height:1.75 }
+.model-prose blockquote {
+  border-left:2px solid; margin:1.2rem 0; padding:.6rem 1.2rem;
+  font-style:italic; opacity:.85;
+}
+.model-pull {
+  border-top:1px solid; border-bottom:1px solid;
+  padding:1.2rem 0; margin:1.8rem 0;
+  font-family:var(--display); font-style:italic;
+  font-size:1.05rem; line-height:1.65;
+}
+
+/* db block */
+.db-block { background:var(--db-bg); border-color:var(--db-acc) }
+.db-block .model-stamp { color:var(--db-acc); border-color:var(--db-acc) }
+.db-block h2,.db-block h3 { color:var(--db-text) }
+.db-block h3 { border-color:rgba(96,112,208,.2) }
+.db-block .model-sub { color:var(--db-acc) }
+.db-block .model-prose { color:var(--db-text) }
+.db-block .model-prose strong { color:#d8ddff }
+.db-block .model-prose em { color:var(--db-acc) }
+.db-block .model-prose blockquote { border-color:var(--db-acc) }
+.db-block .model-pull { color:var(--db-acc); border-color:rgba(96,112,208,.3) }
+
+/* wormhole block */
+.wh-block { background:var(--wh-bg); border-color:var(--wh-acc) }
+.wh-block .model-stamp { color:var(--wh-acc); border-color:var(--wh-acc) }
+.wh-block h2,.wh-block h3 { color:var(--wh-text) }
+.wh-block h3 { border-color:rgba(144,96,208,.2) }
+.wh-block .model-sub { color:var(--wh-acc) }
+.wh-block .model-prose { color:var(--wh-text) }
+.wh-block .model-prose strong { color:#ecd8ff }
+.wh-block .model-prose em { color:var(--wh-acc) }
+.wh-block .model-prose blockquote { border-color:var(--wh-acc) }
+.wh-block .model-pull { color:var(--wh-acc); border-color:rgba(144,96,208,.3) }
+
+/* A block */
+.a-block { background:var(--a-bg); border-color:var(--a-acc) }
+.a-block .model-stamp { color:var(--a-acc); border-color:var(--a-acc) }
+.a-block h2,.a-block h3 { color:var(--a-text) }
+.a-block h3 { border-color:rgba(64,192,128,.2) }
+.a-block .model-sub { color:var(--a-acc) }
+.a-block .model-prose { color:var(--a-text) }
+.a-block .model-prose strong { color:#c0ffd8 }
+.a-block .model-prose em { color:var(--a-acc) }
+.a-block .model-prose blockquote { border-color:var(--a-acc) }
+.a-block .model-pull { color:var(--a-acc); border-color:rgba(64,192,128,.3) }
+
+/* Gb block */
+.gf-block { background:var(--gf-bg); border-color:var(--gf-acc) }
+.gf-block .model-stamp { color:var(--gf-acc); border-color:var(--gf-acc) }
+.gf-block h2,.gf-block h3 { color:var(--gf-text) }
+.gf-block h3 { border-color:rgba(208,136,40,.2) }
+.gf-block .model-sub { color:var(--gf-acc) }
+.gf-block .model-prose { color:var(--gf-text) }
+.gf-block .model-prose strong { color:#fff0c0 }
+.gf-block .model-prose em { color:var(--gf-acc) }
+.gf-block .model-prose blockquote { border-color:var(--gf-acc) }
+.gf-block .model-pull { color:var(--gf-acc); border-color:rgba(208,136,40,.3) }
+
+/* bV7 block */
+.bv-block { background:var(--bv-bg); border-color:var(--bv-acc) }
+.bv-block .model-stamp { color:var(--bv-acc); border-color:var(--bv-acc) }
+.bv-block h2,.bv-block h3 { color:var(--bv-text) }
+.bv-block h3 { border-color:rgba(192,64,48,.2) }
+.bv-block .model-sub { color:var(--bv-acc) }
+.bv-block .model-prose { color:var(--bv-text) }
+.bv-block .model-prose strong { color:#ffe0d0 }
+.bv-block .model-prose em { color:var(--bv-acc) }
+.bv-block .model-prose blockquote { border-color:var(--bv-acc) }
+.bv-block .model-pull { color:var(--bv-acc); border-color:rgba(192,64,48,.3) }
+
+/* ── PIVOT DIAGRAM — the centerpiece ── */
+.pivot-diagram {
+  margin:3rem 0; position:relative;
+  font-family:var(--mono);
+}
+.pivot-track {
+  display:flex; align-items:stretch; gap:0;
+  border:1px solid var(--rule); overflow:hidden;
+}
+.pivot-cell {
+  flex:1; padding:1.2rem .8rem; text-align:center;
+  border-right:1px solid var(--rule2); position:relative;
+  transition:filter .2s;
+}
+.pivot-cell:last-child { border-right:none }
+.pivot-cell:hover { filter:brightness(1.15) }
+.pivot-cell-label {
+  font-size:.44rem; letter-spacing:.32em; text-transform:uppercase;
+  opacity:.7; margin-bottom:.4rem;
+}
+.pivot-cell-chord {
+  font-family:var(--display); font-size:1.1rem; font-weight:700;
+  line-height:1.2; margin-bottom:.3rem;
+}
+.pivot-cell-fn {
+  font-size:.52rem; letter-spacing:.1em;
+  opacity:.8; line-height:1.5;
+}
+.pivot-cell-key {
+  font-size:.44rem; letter-spacing:.22em; text-transform:uppercase;
+  margin-top:.5rem; opacity:.6;
+}
+.pivot-arrow {
+  position:absolute; right:-.5rem; top:50%; transform:translateY(-50%);
+  font-size:.7rem; color:var(--rule); z-index:2;
+}
+.pivot-cell.pc-db  { background:rgba(96,112,208,.12); color:var(--db-acc) }
+.pivot-cell.pc-wh  { background:rgba(144,96,208,.18); color:var(--wh-acc) }
+.pivot-cell.pc-a   { background:rgba(64,192,128,.10); color:var(--a-acc) }
+.pivot-cell.pc-gf  { background:rgba(208,136,40,.12); color:var(--gf-acc) }
+.pivot-cell.pc-bv  { background:rgba(192,64,48,.15);  color:var(--bv-acc) }
+.pivot-label-row {
+  display:flex; gap:0; font-size:.46rem; letter-spacing:.28em;
+  text-transform:uppercase; color:var(--ink3); margin-top:.2rem;
+}
+.pivot-label-row span {
+  flex:1; text-align:center; padding:.3rem;
+  border-right:1px solid var(--rule2);
+}
+.pivot-label-row span:last-child { border-right:none }
+
+/* ── WORMHOLE OVERLAY ── */
+.wormhole-band {
+  margin:2.5rem 0; padding:1.6rem 2rem;
+  background:linear-gradient(135deg, rgba(144,96,208,.12) 0%, rgba(64,192,128,.08) 100%);
+  border:1px solid var(--wh-acc); position:relative; overflow:hidden;
+}
+.wormhole-band::before {
+  content:''; position:absolute; top:0; left:0; right:0; bottom:0;
+  background:repeating-linear-gradient(
+    60deg, transparent, transparent 8px,
+    rgba(144,96,208,.04) 8px, rgba(144,96,208,.04) 9px
+  );
+  pointer-events:none;
+}
+.wormhole-band-label {
+  font-family:var(--mono); font-size:.44rem; letter-spacing:.38em;
+  text-transform:uppercase; color:var(--wh-acc); margin-bottom:.8rem;
+}
+.wormhole-equation {
+  font-family:var(--mono); font-size:.78rem; letter-spacing:.06em;
+  color:var(--wh-text); line-height:2;
+}
+.wormhole-equation .db  { color:var(--db-acc); font-weight:500 }
+.wormhole-equation .a   { color:var(--a-acc);  font-weight:500 }
+.wormhole-equation .gf  { color:var(--gf-acc); font-weight:500 }
+.wormhole-equation .bv  { color:var(--bv-acc); font-weight:500 }
+.wormhole-equation .eq  { color:var(--wh-acc); opacity:.7 }
+.wormhole-equation .arr { color:var(--rule); margin:0 .3rem }
+
+/* ── STEP-NUMBERED ANALYSIS ── */
+.step-list { margin:2rem 0; counter-reset:step }
+.step-item {
+  display:grid; grid-template-columns:2.4rem 1fr;
+  gap:0; margin-bottom:0;
+  border-bottom:1px solid var(--rule2);
+  transition:background .15s;
+}
+.step-item:first-child { border-top:1px solid var(--rule2) }
+.step-item:hover { background:rgba(180,140,60,.04) }
+.step-num {
+  counter-increment:step;
+  font-family:var(--mono); font-size:.5rem; letter-spacing:.2em;
+  color:var(--rule); padding:.9rem .4rem; border-right:1px solid var(--rule2);
+  display:flex; align-items:flex-start; justify-content:center;
+  padding-top:1rem;
+}
+.step-num::before { content:counter(step, decimal-leading-zero) }
+.step-body { padding:.9rem 1.2rem }
+.step-head {
+  font-family:var(--display); font-size:.9rem; font-weight:700;
+  margin-bottom:.3rem;
+}
+.step-text { font-family:var(--serif); font-size:.82rem; line-height:1.8; color:var(--ink2) }
+.step-tag {
+  display:inline-block; font-family:var(--mono); font-size:.42rem;
+  letter-spacing:.22em; text-transform:uppercase; border:1px solid;
+  padding:.12rem .4rem; margin-left:.5rem; vertical-align:middle;
+}
+
+.step-item.s-db .step-num { color:var(--db-acc) }
+.step-item.s-db .step-head { color:var(--db-acc) }
+.step-item.s-db .step-tag { border-color:var(--db-acc); color:var(--db-acc) }
+.step-item.s-wh .step-num { color:var(--wh-acc) }
+.step-item.s-wh .step-head { color:var(--wh-acc) }
+.step-item.s-wh .step-tag { border-color:var(--wh-acc); color:var(--wh-acc) }
+.step-item.s-a  .step-num { color:var(--a-acc) }
+.step-item.s-a  .step-head { color:var(--a-acc) }
+.step-item.s-a  .step-tag { border-color:var(--a-acc); color:var(--a-acc) }
+.step-item.s-gf .step-num { color:var(--gf-acc) }
+.step-item.s-gf .step-head { color:var(--gf-acc) }
+.step-item.s-gf .step-tag { border-color:var(--gf-acc); color:var(--gf-acc) }
+.step-item.s-bv .step-num { color:var(--bv-acc) }
+.step-item.s-bv .step-head { color:var(--bv-acc) }
+.step-item.s-bv .step-tag { border-color:var(--bv-acc); color:var(--bv-acc) }
+
+/* ── LYDIAN SHIMMER BAR ── */
+.shimmer-row {
+  display:flex; align-items:center; gap:1rem; margin:.8rem 0;
+}
+.shimmer-label {
+  font-family:var(--mono); font-size:.52rem; letter-spacing:.08em;
+  color:var(--ink3); min-width:160px;
+}
+.shimmer-track {
+  flex:1; height:4px; background:var(--rule2); position:relative;
+}
+.shimmer-fill { height:100%; transition:width .4s }
+.shimmer-note {
+  font-family:var(--mono); font-size:.5rem; letter-spacing:.06em;
+  color:var(--ink3); font-style:italic; max-width:260px;
+}
+
+/* ── CURRICULUM GUARDRAIL BOX ── */
+.guardrail {
+  margin:2.5rem 0; border:2px solid var(--bv-acc);
+  background:rgba(192,64,48,.06); padding:1.8rem 2.2rem; position:relative;
+}
+.guardrail-label {
+  position:absolute; top:-.7rem; left:1.4rem;
+  font-family:var(--mono); font-size:.44rem; letter-spacing:.42em;
+  text-transform:uppercase; background:var(--paper); padding:0 .6rem;
+  color:var(--bv-acc);
+}
+.guardrail h3 {
+  font-family:var(--display); font-size:1rem; font-weight:700;
+  color:var(--bv-acc); margin-bottom:1rem;
+}
+.guardrail ul { padding-left:1.2rem; list-style:none }
+.guardrail ul li {
+  font-family:var(--mono); font-size:.62rem; letter-spacing:.06em;
+  color:var(--bv-text); margin-bottom:.6rem; line-height:1.8;
+  padding-left:.8rem; position:relative;
+}
+.guardrail ul li::before {
+  content:'✦'; position:absolute; left:-.1rem; color:var(--bv-acc); font-size:.5rem;
+}
+.guardrail .guardrail-note {
+  margin-top:1rem; font-family:var(--mono); font-size:.54rem;
+  letter-spacing:.06em; color:var(--gf-acc); border-top:1px solid rgba(192,64,48,.2);
+  padding-top:.8rem; font-style:italic;
+}
+
+/* ── MATH DISPLAY REGION ── */
+.math-region {
+  margin:2rem 0; padding:1.4rem 2rem;
+  background:rgba(208,136,40,.06); border:1px solid var(--gf-acc);
+  font-family:var(--mono); font-size:.74rem; letter-spacing:.04em;
+  color:var(--gf-text); line-height:2.2; overflow-x:auto;
+}
+.math-region .math-label {
+  font-size:.44rem; letter-spacing:.38em; text-transform:uppercase;
+  color:var(--gf-acc); opacity:.8; margin-bottom:.6rem;
+}
+.math-region .MathJax { color:var(--gf-text) !important }
+
+/* ── CHORD CHAIN ── */
+.chord-chain {
+  display:flex; align-items:center; gap:.3rem; flex-wrap:wrap;
+  font-family:var(--mono); font-size:.66rem; letter-spacing:.06em;
+  margin:1.5rem 0;
+}
+.chord-chain .c-node {
+  padding:.22em .6em; border:1px solid; transition:all .15s;
+}
+.chord-chain .c-node:hover { transform:translateY(-2px) }
+.chord-chain .c-arr { color:var(--rule); margin:0 .1rem; font-size:.55rem }
+.chord-chain .c-node.c-db { background:rgba(96,112,208,.12); border-color:var(--db-acc); color:var(--db-acc) }
+.chord-chain .c-node.c-wh { background:rgba(144,96,208,.18); border-color:var(--wh-acc); color:var(--wh-acc) }
+.chord-chain .c-node.c-a  { background:rgba(64,192,128,.10); border-color:var(--a-acc);  color:var(--a-acc)  }
+.chord-chain .c-node.c-gf { background:rgba(208,136,40,.12); border-color:var(--gf-acc); color:var(--gf-acc) }
+.chord-chain .c-node.c-bv { background:rgba(192,64,48,.15);  border-color:var(--bv-acc); color:var(--bv-acc) }
+.chord-chain .c-note { font-size:.5rem; color:var(--ink3); font-style:italic; margin-left:.5rem }
+
+/* ── VERSE ── */
+.verse-block {
+  font-family:var(--mono); font-size:.72rem; letter-spacing:.08em;
+  line-height:2.2; color:var(--ink3); border-left:3px solid var(--rule);
+  padding:.8rem 1.6rem; margin:2rem 0; font-style:italic;
+}
+.verse-block cite {
+  display:block; margin-top:.8rem; font-style:normal;
+  font-size:.52rem; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--ink3); opacity:.7;
+}
+
+/* ── ANNOTATION ── */
+.annotation {
+  margin:1.5rem 0; border-left:3px solid var(--rule);
+  padding:.9rem 1.4rem; background:rgba(196,168,100,.06);
+  font-family:var(--mono); font-size:.56rem; letter-spacing:.1em;
+  color:var(--ink3); line-height:1.9;
+}
+.annotation::before {
+  content:'LATELY · HARMONIC PIVOT POINT · TONAL RE-CENTERING · Db → A → Gb · UKUBONA LLC';
+  display:block; font-size:.44rem; letter-spacing:.4em; opacity:.7; margin-bottom:.4rem;
+}
+
+/* ── INTERLUDE ── */
+.interlude {
+  border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+  padding:2rem 0; margin:3.5rem 0;
+  font-family:var(--display); font-style:italic;
+  font-size:1.1rem; line-height:1.7; color:var(--ink2); text-align:center;
+}
+
+/* ── CODA ── */
+.coda {
+  border:2px solid var(--ink); padding:3.2rem 3.8rem;
+  margin:6rem 0; position:relative;
+}
+.coda-label {
+  position:absolute; top:-.75rem; left:2rem;
+  font-family:var(--mono); font-size:.48rem; letter-spacing:.45em;
+  text-transform:uppercase; background:var(--paper); padding:0 .75rem; color:var(--ink);
+}
+.coda h2 {
+  font-family:var(--display); font-size:1.3rem; font-weight:700;
+  font-style:italic; color:var(--ink); margin-bottom:1.4rem;
+}
+.coda p { color:var(--ink2); margin-bottom:1.1rem; line-height:1.85 }
+.coda strong { color:var(--ink) }
+
+/* ── FOOTER ── */
+footer { border-top:3px double var(--ink); padding:3rem 0 7rem }
+.foot-chain { font-family:var(--mono); font-size:.54rem; letter-spacing:.28em; color:var(--ink3); margin-bottom:.8rem }
+.foot-chain span { color:var(--accent2) }
+.foot-note { font-family:var(--mono); font-size:.48rem; letter-spacing:.1em; color:var(--ink3); line-height:2.5 }
+
+/* ── ANIMATIONS ── */
+.fade-in { opacity:0; transform:translateY(14px); transition:opacity .65s ease,transform .65s ease }
+.fade-in.visible { opacity:1; transform:translateY(0) }
+@keyframes drop { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── PIANO KEY ART ── */
+.piano-strip {
+  display:flex; height:52px; margin:2rem 0;
+  border:1px solid var(--rule); overflow:hidden;
+}
+.p-key {
+  flex:1; border-right:1px solid var(--rule2);
+  transition:background .2s, transform .15s;
+  cursor:default; position:relative;
+}
+.p-key:last-child { border-right:none }
+.p-key:hover { transform:scaleY(1.06); transform-origin:top }
+.p-key.white { background:rgba(240,235,220,.9) }
+.p-key.black { background:#1a1408; flex:0.65 }
+.p-key.active-db { background:rgba(96,112,208,.5) }
+.p-key.active-wh { background:rgba(144,96,208,.5) }
+.p-key.active-a  { background:rgba(64,192,128,.5) }
+.p-key.active-gf { background:rgba(208,136,40,.5) }
+.p-key.active-bv { background:rgba(192,64,48,.5) }
+.piano-label {
+  font-family:var(--mono); font-size:.44rem; letter-spacing:.3em;
+  text-transform:uppercase; color:var(--ink3); margin-bottom:.4rem;
+}
+
+/* ── MOBILE ── */
+@media(max-width:640px) {
+  .mast-numeral { font-size:6rem }
+  .mast-title { font-size:1.9rem }
+  .pivot-track { flex-wrap:wrap }
+  .pivot-cell { flex:1 1 45% }
+  .coda,.model-block { padding:1.8rem 1.6rem }
+  .theme-toggle { top:.7rem; right:.9rem }
+  .shimmer-row { flex-wrap:wrap }
+  .shimmer-note { min-width:100% }
+  .step-item { grid-template-columns:1.8rem 1fr }
+}
+</style>
+</head>
+<body>
+
+<div class="theme-toggle" aria-label="Toggle dark/light mode">
+  <span id="toggle-label">Light</span>
+  <div class="toggle-switch" id="themeSwitch" role="button" tabindex="0" aria-pressed="false"></div>
+</div>
+
+<div class="page">
+
+  <!-- ══ MASTHEAD ══ -->
+  <header class="masthead">
+    <br><br><br>
+    <div class="mast-eyebrow">Ukubona LLC · Harmonic Analysis · The Lately Fractal · Tonal Re-Centering · March 2026</div>
+    <div class="mast-numeral" aria-hidden="true">♭</div>
+    <h1 class="mast-title">
+      The Lately Fractal<br>
+      <em>Tonal Re-Centering, the Wormhole Pivot,<br>and High-Dimensional Harmonic Geometry</em>
+    </h1>
+    <p class="mast-sub">
+      // Bridge map: <em>D♭ → A → G♭ · not modal interchange · constant tonal re-centering</em><br>
+      // G♭m7 as wormhole: <em>iv in D♭ · simultaneously vi in A · the b5 as gateway, not mistake</em><br>
+      // bV7(♯11): <em>Lydian Dominant shimmer · tritone sub · Berklee logic in full effect</em><br>
+      // Stevie doesn't stay in the house he builds: <em>burns it down · moves next door · every four bars</em><br>
+      // Student note: <em>never trust a resolution in a Stevie Wonder bridge</em>
+    </p>
+
+    <!-- key signatures as badges -->
+    <div style="margin-top:.5rem; display:flex; flex-wrap:wrap; gap:.3rem 0">
+      <span class="key-badge db">D♭ Home Base</span>
+      <span class="key-badge wh">Wormhole G♭m7</span>
+      <span class="key-badge a">A Major Pivot</span>
+      <span class="key-badge gf">G♭ Modulation</span>
+      <span class="key-badge bv">bV7(♯11) Killer</span>
+    </div>
+  </header>
+
+  <div class="verse-block fade-in">
+    You caught me playing the "easy" version.<br>
+    The standard ii–iii–iv analysis is the surface-level "pop" explanation,<br>
+    but Stevie doesn't stay in the house he builds —<br>
+    he burns it down and moves next door every four bars.
+    <cite>— Response · Octogoneans Session · March 2026</cite>
+  </div>
+
+  <div class="annotation fade-in">
+    If we're going to be rigorous for the Octogoneans and the math-heads, we have to look at the Harmonic Pivot Point. The map D♭ → A → G♭ is the actual structural truth of the "Lately" bridge. It's not just modal interchange; it's a constant tonal re-centering that treats the ♭5 as a gateway rather than a mistake.
+  </div>
+
+
+  <!-- ══ I · THE BRIDGE PIVOT DIAGRAM ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label db">I · The "Lately" Fractal · Tonal Re-Centering · D♭ → A → G♭</span>
+    <hr>
+  </div>
+
+  <!-- piano strip — decorative chromatic keys, highlighted pivot points -->
+  <div class="piano-label fade-in">Bridge pivot points — highlighted along the chromatic scale</div>
+  <div class="piano-strip fade-in" aria-hidden="true">
+    <div class="p-key white active-db" title="Db"></div>
+    <div class="p-key black" title="D"></div>
+    <div class="p-key white" title="Eb"></div>
+    <div class="p-key black" title="E"></div>
+    <div class="p-key white" title="F"></div>
+    <div class="p-key white active-wh" title="Gb — the wormhole"></div>
+    <div class="p-key black active-wh" title="G"></div>
+    <div class="p-key white" title="Ab"></div>
+    <div class="p-key black active-a" title="A — the pivot"></div>
+    <div class="p-key white active-a" title="Bb"></div>
+    <div class="p-key black" title="B"></div>
+    <div class="p-key white" title="C"></div>
+    <div class="p-key white active-db" title="Db again — return attempt"></div>
+    <div class="p-key black active-gf" title="D"></div>
+    <div class="p-key white active-gf" title="Eb — Gb territory"></div>
+    <div class="p-key black active-bv" title="E — bV7 shimmer"></div>
+    <div class="p-key white active-bv" title="F — tritone sub"></div>
+  </div>
+
+  <!-- main pivot diagram -->
+  <div class="pivot-diagram fade-in">
+    <div class="pivot-track">
+      <div class="pivot-cell pc-db">
+        <div class="pivot-cell-label">Home</div>
+        <div class="pivot-cell-chord">E♭m7–Fm7–G♭m7</div>
+        <div class="pivot-cell-fn">ii – iii – iv</div>
+        <div class="pivot-cell-key">D♭ Major</div>
+        <div class="pivot-arrow">→</div>
+      </div>
+      <div class="pivot-cell pc-wh">
+        <div class="pivot-cell-label">Wormhole</div>
+        <div class="pivot-cell-chord">G♭m7</div>
+        <div class="pivot-cell-fn">iv in D♭<br>= vi in A</div>
+        <div class="pivot-cell-key">The Pivot Chord</div>
+        <div class="pivot-arrow">→</div>
+      </div>
+      <div class="pivot-cell pc-a">
+        <div class="pivot-cell-label">New Tonic</div>
+        <div class="pivot-cell-chord">A Major (I)</div>
+        <div class="pivot-cell-fn">♭VI relative<br>to D♭</div>
+        <div class="pivot-cell-key">A Major</div>
+        <div class="pivot-arrow">→</div>
+      </div>
+      <div class="pivot-cell pc-gf">
+        <div class="pivot-cell-label">Modulation</div>
+        <div class="pivot-cell-chord">♭III7(♯11)</div>
+        <div class="pivot-cell-fn">Tritone sub<br>Lydian Dom.</div>
+        <div class="pivot-cell-key">G♭ Region</div>
+        <div class="pivot-arrow">→</div>
+      </div>
+      <div class="pivot-cell pc-bv">
+        <div class="pivot-cell-label">The Killer</div>
+        <div class="pivot-cell-chord">♭V7(♯11)</div>
+        <div class="pivot-cell-fn">Shimmer<br>Fractal edge</div>
+        <div class="pivot-cell-key">Berklee Logic</div>
+      </div>
+    </div>
+    <div class="pivot-label-row">
+      <span style="color:var(--db-acc)">D♭ ii–iii–iv</span>
+      <span style="color:var(--wh-acc)">The Wormhole</span>
+      <span style="color:var(--a-acc)">A Major Arrival</span>
+      <span style="color:var(--gf-acc)">G♭ Modulation</span>
+      <span style="color:var(--bv-acc)">bV7(♯11) Shimmer</span>
+    </div>
+  </div>
+
+  <div class="model-block db-block fade-in">
+    <div class="model-stamp">TONAL RE-CENTERING</div>
+    <h2>The Wormhole Pivot: G♭m7 as Dual Citizen</h2>
+    <p class="model-sub">iv in D♭ · vi in A · the ♭5 as Gateway, Not Mistake · Stochastic Gravity Jump</p>
+
+    <div class="model-prose">
+      <p>Stevie uses the <em>iv</em> chord (G♭m7) as a "wormhole" pivot. In D♭ Major, it's a borrowed chord; but it functions simultaneously as the <em>vi</em> chord of A Major (F♯m7). This is the "stochastic" jump that makes the ear lose its sense of gravity for a moment.</p>
+      <p>This is not just modal interchange. Modal interchange borrows from parallel modes; this is a full <strong>tonal re-centering</strong> — a recursive function where each step attempts to redefine the tonic. The ear has not simply borrowed a color; it has momentarily accepted a new home base and must decide whether to stay or return. Stevie never gives it long enough to decide.</p>
+    </div>
+
+    <div class="chord-chain fade-in">
+      <span class="c-node c-db">E♭m7</span>
+      <span class="c-arr">→</span>
+      <span class="c-node c-db">Fm7</span>
+      <span class="c-arr">→</span>
+      <span class="c-node c-wh">G♭m7</span>
+      <span class="c-arr">⟿</span>
+      <span class="c-node c-a">A Major (I)</span>
+      <span class="c-arr">→</span>
+      <span class="c-node c-gf">♭III7(♯11)</span>
+      <span class="c-arr">→</span>
+      <span class="c-node c-bv">♭V7(♯11)</span>
+      <span class="c-note">⟿ = wormhole crossing · tonal gravity lost</span>
+    </div>
+
+    <div class="model-pull">
+      The G♭m7 is held just long enough for the ear to accept it as vi in A. That is the entire mechanism. One held chord. One moment of ambiguity. One re-centering. Stevie does it with the casualness of someone changing lanes.
+    </div>
+  </div>
+
+
+  <!-- ══ II · THE BRIDGE BREAKDOWN ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label wh">II · The Bridge Breakdown · The Real Math · Recursive Tonic Redefinition</span>
+    <hr>
+  </div>
+
+  <div class="model-block wh-block fade-in">
+    <div class="model-stamp">RECURSIVE FUNCTION</div>
+    <h2>The Bridge Breakdown: Real Math</h2>
+    <p class="model-sub">Walk-Up as Recursive Function · Each Step Attempts to Redefine the Tonic</p>
+
+    <div class="model-prose">
+      <p>Following the pivot logic, the walk-up behaves like a recursive function where each step attempts to redefine the tonic. This is not a simple modulation from D♭ to some other key — it is a chain of <em>attempted</em> tonics, each one accepted provisionally by the ear before the ground shifts again.</p>
+    </div>
+
+    <div class="step-list fade-in">
+      <div class="step-item s-db">
+        <div class="step-num"></div>
+        <div class="step-body">
+          <div class="step-head">The D♭ Home Base <span class="step-tag">D♭ Major</span></div>
+          <div class="step-text">E♭m7 – Fm7 – G♭m7 (ii – iii – iv). The surface-level analysis ends here. The walk-up feels settled, orderly, almost inevitable. This is the house Stevie has built — and is about to burn.</div>
+        </div>
+      </div>
+      <div class="step-item s-wh">
+        <div class="step-num"></div>
+        <div class="step-body">
+          <div class="step-head">The Wormhole <span class="step-tag">Pivot Chord</span></div>
+          <div class="step-text">That G♭m7 is held just long enough for the ear to accept it as vi in A. The chord is a dual citizen: it belongs to D♭ as iv, and it belongs to A as vi (spelled F♯m7 enharmonically). The stochastic jump. Tonal gravity briefly suspended.</div>
+        </div>
+      </div>
+      <div class="step-item s-a">
+        <div class="step-num"></div>
+        <div class="step-body">
+          <div class="step-head">The A Major Pivot <span class="step-tag">♭VI of D♭</span></div>
+          <div class="step-text">You hit the I in A Major — the ♭VI relative to the original D♭. This is the arrival the ear was being pulled toward without knowing it. The ♭VI has a specific quality: it doesn't feel like a modulation because we've been gently escorted here through the wormhole chord.</div>
+        </div>
+      </div>
+      <div class="step-item s-gf">
+        <div class="step-num"></div>
+        <div class="step-body">
+          <div class="step-head">The G♭ Modulation <span class="step-tag">Tritone Sub</span></div>
+          <div class="step-text">You then treat the ♭III7(♯11) as a ♭V7 substitute — the Berklee Tritone Sub logic in full effect. This is where R&B stops being "soul" and starts being high-dimensional geometry. The ♭III7(♯11) has two functions simultaneously: it's a color chord in A, and it's a functional dominant substitute pointing back toward D♭.</div>
+        </div>
+      </div>
+      <div class="step-item s-bv">
+        <div class="step-num"></div>
+        <div class="step-body">
+          <div class="step-head">♭V7(♯11) — The Killer <span class="step-tag">Fractal Boundary</span></div>
+          <div class="step-text">The fractal boundary. The point where the D♭ and G♭ systems overlap before the final half-step ascent to the new key. This is not a preparation for resolution — it is a suspension of the very possibility of resolution. The Mixolydian ♭9, ♯9, ♭13 lives here.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- the full equation -->
+    <div class="math-region fade-in">
+      <div class="math-label">Formal bridge mapping — D♭ re-centering chain</div>
+      $$D\flat: [ii \rightarrow iii \rightarrow iv] \equiv A: [vi] \rightarrow I \rightarrow [ii \rightarrow iii] \rightarrow G\flat: [bV7(\sharp11)]$$
+    </div>
+
+    <div class="wormhole-band fade-in">
+      <div class="wormhole-band-label">Wormhole equation · dual identity of G♭m7</div>
+      <div class="wormhole-equation">
+        <span class="db">G♭m7</span> in D♭ Major = <span class="db">iv</span>  (borrowed · dark color · subdominant family)<br>
+        <span class="a">G♭m7</span> in A Major  = <span class="a">vi</span>  (enharmonic F♯m7 · relative minor feel · natural)<br>
+        <span class="eq">∴</span> holding G♭m7 causes the ear to <span class="wh-acc" style="color:var(--wh-acc)">re-reference its tonic</span><br>
+        <span class="arr">→</span> D♭ system briefly <span class="gf">suspended</span> · A system briefly <span class="a">established</span><br>
+        <span class="arr">→</span> <span class="bv">♭V7(♯11)</span> arrives as fractal boundary between both
+      </div>
+    </div>
+
+    <div class="model-pull">
+      The walk-up is not a scale. It is a recursive function where each step attempts to redefine the tonic. The "Eternal Recurrence" here isn't a return to the tonic, but a return to the process of modulation.
+    </div>
+  </div>
+
+
+  <!-- ══ III · WHY THE bV7(♯11) IS THE KILLER ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label gf">III · The ♭V7(♯11) · Lydian Dominant Shimmer · Why It's the Killer</span>
+    <hr>
+  </div>
+
+  <div class="model-block gf-block fade-in">
+    <div class="model-stamp">LYDIAN DOMINANT</div>
+    <h2>Why the ♭V7(♯11) Is the Killer</h2>
+    <p class="model-sub">♭III7 vs ♭V7 · Berklee Tritone Sub Logic · R&amp;B Stops Being Soul · Starts Being Geometry</p>
+
+    <div class="model-prose">
+      <p>Using the ♭V7(♯11) — or ♭III7 depending on your analytical perspective — provides that specific "shimmer" that standard V7 chords lack. It <strong>preserves the Lydian Dominant sound</strong>. In the context of the curriculum, this is the "special case" where R&amp;B stops being "soul" and starts being high-dimensional geometry.</p>
+
+      <p>The Lydian Dominant mode (Mixolydian ♯4 / 4th mode of melodic minor) is built for exactly this function. The raised 4th (= ♯11) creates a tritone with the root, which allows the chord to function as a tritone substitute <em>and</em> retain a forward-floating quality that a standard dominant doesn't have. It wants to resolve — but it also wants to hover. Stevie exploits both impulses simultaneously.</p>
+    </div>
+
+    <!-- shimmer spectrum -->
+    <div style="margin:2rem 0" class="fade-in">
+      <div class="shimmer-row">
+        <span class="shimmer-label">Standard V7</span>
+        <div class="shimmer-track"><div class="shimmer-fill" style="width:55%;background:var(--db-acc)"></div></div>
+        <span class="shimmer-note">resolves cleanly · no shimmer · too obvious</span>
+      </div>
+      <div class="shimmer-row">
+        <span class="shimmer-label">V7(♭9)</span>
+        <div class="shimmer-track"><div class="shimmer-fill" style="width:68%;background:var(--wh-acc)"></div></div>
+        <span class="shimmer-note">dark tension · Phrygian flavor · grief-adjacent</span>
+      </div>
+      <div class="shimmer-row">
+        <span class="shimmer-label">V7(♯9)</span>
+        <div class="shimmer-track"><div class="shimmer-fill" style="width:72%;background:var(--a-acc)"></div></div>
+        <span class="shimmer-note">Purple Haze chord · raw electric tension</span>
+      </div>
+      <div class="shimmer-row">
+        <span class="shimmer-label">♭V7(♯11) ← Stevie</span>
+        <div class="shimmer-track"><div class="shimmer-fill" style="width:96%;background:var(--bv-acc)"></div></div>
+        <span class="shimmer-note">Lydian Dominant · shimmer + float · tritone sub · the killer</span>
+      </div>
+      <div class="shimmer-row">
+        <span class="shimmer-label">Mixolydian ♭9,♯9,♭13</span>
+        <div class="shimmer-track"><div class="shimmer-fill" style="width:88%;background:var(--gf-acc)"></div></div>
+        <span class="shimmer-note">Section V · tensions between temporary keys · full Stevie mode</span>
+      </div>
+    </div>
+
+    <div class="model-prose">
+      <p>It's exactly why the point about the Mixolydian ♭9, ♯9, ♭13 is so vital — Stevie isn't just playing chords; <strong>he's playing the tensions between these temporary keys</strong>. Each chord is not a destination but a vector: it points toward a temporary tonic and simultaneously away from it. The ♭V7(♯11) is the most extreme expression of this — a chord whose entire identity is defined by what it is not resolving to.</p>
+
+      <p>The ♭III7 interpretation and the ♭V7 interpretation are not contradictory. They are two descriptions of the same chord's function from two different reference frames: from D♭'s frame it's a ♭III7; from the arriving key's frame it's a ♭V7 substitute. Stevie is operating in both frames simultaneously. That is the geometry.</p>
+    </div>
+
+    <div class="model-pull">
+      The ♭V7(♯11) acts as a fractal boundary. It is the point where the D♭ and G♭ systems overlap before the final half-step ascent to the new key. Standard V7 chords don't do this. The shimmer is the sound of two tonal systems co-existing for exactly one chord's duration.
+    </div>
+  </div>
+
+
+  <!-- ══ IV · CURRICULUM GUARDRAILS ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label bv">IV · Curriculum Guardrails · Student Notes · The Updated Framework</span>
+    <hr>
+  </div>
+
+  <div class="model-block bv-block fade-in">
+    <div class="model-stamp">STUDENT NOTES</div>
+    <h2>The Updated Curriculum Guardrails</h2>
+    <p class="model-sub">Never Trust a Resolution · The Eternal Recurrence Is the Process · Fractal Boundary Rules</p>
+
+    <div class="guardrail fade-in">
+      <span class="guardrail-label">Curriculum Update · Octogonean Guardrails</span>
+      <ul>
+        <li><strong>Student Note:</strong> Never trust a resolution in a Stevie Wonder bridge. The "Eternal Recurrence" here isn't a return to the tonic, but a return to the <em>process</em> of modulation.</li>
+        <li><strong>Technical Check:</strong> The ♭V7(♯11) acts as a fractal boundary. It is the point where the D♭ and G♭ systems overlap before the final half-step ascent to the new key.</li>
+        <li><strong>Analytical Frame:</strong> The ii–iii–iv analysis is the surface. The wormhole pivot is the structure. Never stop at the surface for a Stevie Wonder analysis.</li>
+        <li><strong>Chord Identity Rule:</strong> A chord that functions as both iv (D♭) and vi (A) simultaneously is not "ambiguous" — it is doing two jobs. Identify both. Describe the handoff.</li>
+        <li><strong>Mode Alert:</strong> When you see ♭V7(♯11) in an R&amp;B context, the mode is Lydian Dominant (4th mode of melodic minor). Not Mixolydian. The ♯11 is the tell.</li>
+      </ul>
+      <div class="guardrail-note">
+        Cross-reference: Section V (Mixolydian ♭9, ♯9, ♭13) · Section VII (Tchaikovsky half-diminished opening · proposed tritone-pivot parallel) · Berklee Tritone Substitution Theory
+      </div>
+    </div>
+
+    <div class="model-prose">
+      <p>The deeper structural principle: <strong>Stevie treats each chord as a temporary tonic candidate</strong>. This is not the same as floating tonality or polytonality. Each chord firmly suggests a key — it just suggests it for approximately four bars before the next suggestion arrives. The listener is always inside a key; they are just never inside the <em>same</em> key for long enough to settle.</p>
+
+      <p>This is what distinguishes the "Lately" bridge from ordinary modal interchange. Modal interchange borrows colors; this borrows <em>gravity</em>. The ear is not hearing exotic chords inside D♭ — it is briefly living inside A, then G♭, then a suspended zone between them. The result is that the "return to D♭" (if it comes) doesn't feel like a resolution. It feels like yet another temporary address.</p>
+    </div>
+
+    <h3>The Mixolydian ♭9, ♯9, ♭13 Connection</h3>
+    <div class="model-prose">
+      <p>The altered Mixolydian tensions (♭9, ♯9, ♭13) are the sound of a dominant chord that has accumulated too many alterations to feel like a functional dominant. It still wants to resolve — the tritone is still there — but the surrounding tensions make every resolution sound like a compromise. This is Stevie's philosophical position made harmonic: resolution is always available, but it costs something, and the cost is visible in the chord voicing.</p>
+      <blockquote>
+        "These are the tensions between temporary keys." — Not the tensions within a key. Between them. The chord lives in the space between two tonal frames, and its alterations are the sound of that in-between-ness.
+      </blockquote>
+    </div>
+
+    <div class="model-pull">
+      Stevie isn't playing chords. He's playing the tensions between temporary keys. Each altered dominant is a report from the border territory between two tonal centers. The ♭9 is a D♭ memory. The ♯9 is an A ambition. The ♭13 is the G♭ destination. All in one chord.
+    </div>
+  </div>
+
+
+  <!-- ══ V · THE TCHAIKOVSKY QUESTION ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label a">V · Open Question · Tchaikovsky 1893 · Half-Diminished Opening · Tritone-Pivot Parallel</span>
+    <hr>
+  </div>
+
+  <div class="model-block a-block fade-in">
+    <div class="model-stamp">PROPOSED PARALLEL</div>
+    <h2>Was Tchaikovsky the Stevie Wonder of 1893?</h2>
+    <p class="model-sub">Half-Diminished Opening · Harmonic Grief · Tritone-Pivot Logic · Section VII Candidate</p>
+
+    <div class="model-prose">
+      <p>The proposed rewrite of the Section VII Tchaikovsky analysis hinges on one question: does his half-diminished opening chord function as a tritone-pivot in the same structural sense that G♭m7 does in "Lately"? The answer is almost certainly yes — with one crucial difference in <em>intention direction</em>.</p>
+
+      <p>In Stevie's bridge, the wormhole pivot is used for escape: the goal is to keep moving, to keep re-centering, to prevent the ear from settling. In Tchaikovsky's Pathétique opening, the half-diminished chord is used for <em>suspension</em>: the harmonic grief is expressed precisely by the refusal to resolve, by the holding of ambiguity as an emotional statement rather than a structural maneuver.</p>
+
+      <p>Both composers are exploiting the same acoustic property — a chord whose identity depends entirely on context, and whose context is deliberately left unspecified. But Stevie uses this to keep moving. Tchaikovsky uses it to stop.</p>
+    </div>
+
+    <div class="chord-chain fade-in">
+      <span style="font-size:.52rem;color:var(--ink3);min-width:80px">Stevie:</span>
+      <span class="c-node c-db">D♭</span>
+      <span class="c-arr">→</span>
+      <span class="c-node c-wh">G♭m7⟿</span>
+      <span class="c-arr">→</span>
+      <span class="c-node c-a">A</span>
+      <span class="c-arr">→</span>
+      <span class="c-node c-bv">♭V7(♯11)</span>
+      <span class="c-note">motion · escape · re-centering · never settling</span>
+    </div>
+
+    <div class="chord-chain fade-in">
+      <span style="font-size:.52rem;color:var(--ink3);min-width:80px">Tchaik.:</span>
+      <span class="c-node c-wh">ø7 (held)</span>
+      <span class="c-arr">→</span>
+      <span class="c-node c-db">ambiguity</span>
+      <span class="c-arr">→</span>
+      <span class="c-node c-db">grief</span>
+      <span class="c-arr">→</span>
+      <span class="c-node c-a">delayed resolution</span>
+      <span class="c-note">suspension · harmonic grief · refusal · same tool · opposite use</span>
+    </div>
+
+    <div class="model-prose">
+      <p>The half-diminished (ø7) chord is structurally similar to the wormhole pivot in one key sense: it is a chord that belongs to <em>multiple keys simultaneously</em> and therefore serves as a pivot point between them. In Tchaikovsky's case, the opening chord of the Pathétique sits at the intersection of at least three tonal frames (B minor, D major, G major) — which is precisely what creates the sense of harmonic grief. You do not know where you are, and the music is not telling you.</p>
+
+      <p>The Section VII rewrite would map this: <strong>Tchaikovsky's ø7 as a tritone-pivot held for emotional rather than propulsive purposes.</strong> Where Stevie's wormhole lasts four bars before releasing into A, Tchaikovsky's wormhole is the <em>entire emotional statement</em> — the unresolved is the message.</p>
+    </div>
+
+    <div class="model-pull">
+      The "Stevie Wonder of 1893" framing holds. Both composers understood that a chord's power comes not from what it is but from what it refuses to be. The half-diminished, like the ♭V7(♯11), is a chord defined by its negations. Tchaikovsky turned those negations into grief. Stevie turned them into shimmer. Same geometry. Different temperature.
+    </div>
+  </div>
+
+
+  <!-- ══ SYNTHESIS ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label schema">SYNTHESIS · The Fractal Structure · What the Math-Heads Needed</span>
+    <hr>
+  </div>
+
+  <div class="interlude fade-in">
+    Stevie doesn't build houses.<br>
+    He builds houses with wormholes in the walls.<br>
+    <em>Every fourth bar the floor drops out —</em><br>
+    and you land somewhere that almost sounds like home<br>
+    but the key signature has changed<br>
+    and nobody told you.
+  </div>
+
+  <div class="coda fade-in">
+    <span class="coda-label">Synthesis · Harmonic Pivot Point · The Full Account</span>
+    <h2>What the "Lately" Bridge Actually Is</h2>
+    <p>The standard ii–iii–iv analysis is not wrong. It is a description of the surface. The surface is real. But Stevie builds surfaces over wormholes, and the wormhole is the point. The G♭m7 that functions simultaneously as iv in D♭ and vi in A is the structural center of the bridge — not because it's the most dramatic chord, but because it's the most <em>indeterminate</em> one. That indeterminacy is load-bearing.</p>
+    <p>The fractal framing is correct: the bridge is a recursive function where each step attempts to redefine the tonic. D♭ attempts the tonic, G♭m7 suspends it, A claims it, the ♭III7(♯11) disputes the claim, and the ♭V7(♯11) is the fractal boundary between the two competing systems — a chord that exists in D♭ and G♭ simultaneously, that resolves in both directions at once, that is the sound of two tonal centers overlapping at their edges.</p>
+    <p>The Lydian Dominant shimmer — the ♯11 that distinguishes ♭V7(♯11) from a standard tritone sub — is not ornamentation. It is the acoustic signature of this boundary condition. A standard ♭V7 substitutes. A ♭V7(♯11) <em>floats</em>. It keeps the resolution available while refusing to commit to it. That is Stevie's philosophical position: <strong>resolution is always one chord away, and he is always exactly one chord away from it.</strong></p>
+    <p>For the Tchaikovsky parallel: the half-diminished opening of the Pathétique is the same structural tool used for the opposite emotional end. Where Stevie's wormhole is propulsive — it keeps the music moving through tonal space — Tchaikovsky's is suspensive. The unresolved chord is not a way station; it is the destination. Same geometry. Same dual-membership in multiple tonal frames. Same exploitation of harmonic indeterminacy. Different temperature. Different century. Same high-dimensional thinking.</p>
+  </div>
+
+  <footer class="fade-in">
+    <p class="foot-chain">Ukubona LLC · <span>D♭ → Wormhole G♭m7 → A Major → G♭ Modulation → ♭V7(♯11) fractal boundary</span> · The Lately Bridge · Tonal Re-Centering · March 2026</p>
+    <p class="foot-note">
+      I · D♭ Home Base · E♭m7–Fm7–G♭m7 · ii–iii–iv · <span style="color:var(--db-acc)">the surface · the house Stevie builds · and burns</span><br>
+      II · The Wormhole · G♭m7 as iv in D♭ = vi in A · <span style="color:var(--wh-acc)">stochastic gravity jump · tonal re-centering · the mechanism</span><br>
+      III · A Major Pivot · ♭VI relative to D♭ · <span style="color:var(--a-acc)">new tonic claimed · four bars · ground shifts again</span><br>
+      IV · G♭ Modulation · ♭III7(♯11) as ♭V7 substitute · <span style="color:var(--gf-acc)">Berklee tritone sub · R&amp;B becomes geometry</span><br>
+      V · ♭V7(♯11) · Lydian Dominant shimmer · fractal boundary · <span style="color:var(--bv-acc)">D♭ and G♭ overlap · the killer · the point</span><br>
+      <br>
+      Student note: Never trust a resolution in a Stevie Wonder bridge<br>
+      Technical check: The ♭V7(♯11) acts as a fractal boundary — D♭ and G♭ systems overlap before final half-step ascent<br>
+      Proposed: Section VII rewrite — Tchaikovsky Pathétique ø7 opening as tritone-pivot · grief not shimmer · same geometry<br>
+      <br>
+      Harmonic Analysis: Ukubona LLC · Octogonean Session · March 2026<br>
+      Cross-reference: Section V (Mixolydian ♭9, ♯9, ♭13) · Section VII (Tchaikovsky 1893) · Berklee Tritone Substitution Theory<br>
+      Source: Response to rigorous Octogonean critique · © 2026 Ukubona LLC
+    </p>
+  </footer>
+
+</div><!-- .page -->
+
+<!-- CENTRALIZED ASSETS (Don't Update) -->
+<div class="scroll-indicator"><div class="scroll-progress"></div></div>
+<div class="bg-pattern"></div>
+<header class="header" id="header"></header>
+<main class="page wrap-max"></main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+
+<script>
+/* ── THEME TOGGLE ── */
+const sw=document.getElementById('themeSwitch'),
+      lbl=document.getElementById('toggle-label'),
+      html=document.documentElement;
+const saved=localStorage.getItem('theme'),
+      prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
+const initDark=saved==='dark'||(!saved&&prefersDark);
+if(initDark){html.setAttribute('data-theme','dark');lbl.textContent='Dark';sw.setAttribute('aria-pressed','true')}
+function toggleTheme(){
+  const isDark=html.getAttribute('data-theme')==='dark';
+  if(isDark){html.removeAttribute('data-theme');lbl.textContent='Light';sw.setAttribute('aria-pressed','false');localStorage.setItem('theme','light')}
+  else{html.setAttribute('data-theme','dark');lbl.textContent='Dark';sw.setAttribute('aria-pressed','true');localStorage.setItem('theme','dark')}
+}
+sw.addEventListener('click',toggleTheme);
+sw.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleTheme()}});
+
+/* ── FADE IN ON SCROLL ── */
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}
+  })
+},{threshold:.06});
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+
+/* ── PIANO KEY INTERACTION — subtle hover shimmer ── */
+document.querySelectorAll('.p-key').forEach(key=>{
+  key.addEventListener('mouseenter',()=>{
+    key.style.filter='brightness(1.25)';
+  });
+  key.addEventListener('mouseleave',()=>{
+    key.style.filter='';
+  });
+});
+
+/* ── PIVOT CELL PULSE on first view ── */
+let pivotAnimated=false;
+const pivotObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting && !pivotAnimated){
+      pivotAnimated=true;
+      const cells=document.querySelectorAll('.pivot-cell');
+      cells.forEach((cell,i)=>{
+        setTimeout(()=>{
+          cell.style.transition='transform .3s, filter .3s';
+          cell.style.transform='translateY(-4px)';
+          cell.style.filter='brightness(1.2)';
+          setTimeout(()=>{
+            cell.style.transform='';
+            cell.style.filter='';
+          },320);
+        },i*140);
+      });
+    }
+  });
+},{threshold:.4});
+const pivotDiagram=document.querySelector('.pivot-diagram');
+if(pivotDiagram)pivotObs.observe(pivotDiagram);
+</script>
+
+</body>
+</html>

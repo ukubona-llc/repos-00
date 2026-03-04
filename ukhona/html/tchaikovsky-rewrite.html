@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Harmonic Big Bang of Grief · Tchaikovsky vii°7 · Ukubona LLC</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+
+<style>
+/* ══════════════════════════════════════════════
+   DESIGN TOKENS — funeral palette, 1893 Russia
+   Black ice · ash · tarnished silver · deep crimson · mourning violet
+══════════════════════════════════════════════ */
+:root {
+  color-scheme: light dark;
+  --paper:   #f0ece0;
+  --ink:     #14100a;
+  --ink2:    #2a1e10;
+  --ink3:    #6e5c38;
+  --rule:    #b09060;
+  --rule2:   #ddd0b0;
+  --accent:  #5a0e1a;
+  --accent2: #8a2010;
+
+  /* movement-layer palette */
+  --void-bg:#060608;   --void-text:#b0b8d0;  --void-acc:#5060a8;   /* vii°7 abyss — cold blue-grey */
+  --bmin-bg:#080608;   --bmin-text:#c8b0d8;  --bmin-acc:#8848b8;   /* B minor — mournful violet */
+  --sigh-bg:#080408;   --sigh-text:#d4b8c0;  --sigh-acc:#b04060;   /* sighing voice leading — dusty rose */
+  --fate-bg:#0a0808;   --fate-text:#e8c8a0;  --fate-acc:#c07030;   /* Amor Fati — ember amber */
+  --reso-bg:#040808;   --reso-text:#a8d0c0;  --reso-acc:#308868;   /* delayed resolution — cold jade */
+
+  /* compare row colors */
+  --sw-acc:#6070d0;    /* Stevie — indigo */
+  --tc-acc:#b04060;    /* Tchaikovsky — dusty rose */
+
+  --mono:'IBM Plex Mono',monospace;
+  --serif:'Source Serif 4',Georgia,serif;
+  --display:'Playfair Display',Georgia,serif;
+  --toggle-bg:#ddd0b8; --toggle-knob:#14100a;
+}
+
+[data-theme="dark"] {
+  --paper:#080610; --ink:#f0e8d0; --ink2:#d0c090; --ink3:#907848;
+  --rule:#38280a; --rule2:#201608; --accent:#e04028; --accent2:#f08038;
+  --toggle-bg:#1e1408; --toggle-knob:#f0e8c0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:#080610; --ink:#f0e8d0; --ink2:#d0c090; --ink3:#907848;
+    --rule:#38280a; --rule2:#201608; --accent:#e04028; --accent2:#f08038;
+    --toggle-bg:#1e1408; --toggle-knob:#f0e8c0;
+  }
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+html { scroll-behavior:smooth }
+
+body {
+  background:var(--paper); color:var(--ink);
+  font-family:var(--serif); font-size:18px; line-height:1.9;
+  transition:background .3s, color .3s;
+  overflow-x:hidden;
+}
+
+/* grain */
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* score lines — closer, denser than the language basin */
+body::after {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.014;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px, transparent 22px,
+    var(--ink) 22px, var(--ink) 23px
+  );
+}
+
+/* ── THEME TOGGLE ── */
+.theme-toggle{position:fixed;top:1.2rem;right:1.5rem;z-index:999;display:flex;align-items:center;gap:.55rem;font-family:var(--mono);font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink3)}
+.toggle-switch{position:relative;width:2.6rem;height:1.3rem;background:var(--toggle-bg);border:1px solid var(--rule);border-radius:0;cursor:pointer;transition:background .25s}
+.toggle-switch::after{content:'';position:absolute;top:.2rem;left:.2rem;width:.75rem;height:.75rem;background:var(--toggle-knob);transition:transform .25s}
+[data-theme="dark"] .toggle-switch::after{transform:translateX(1.25rem)}
+
+/* ── PAGE ── */
+.page { max-width:900px; margin:0 auto; padding:0 2.4rem 12rem; position:relative; z-index:1 }
+
+/* ── MASTHEAD ── */
+.masthead {
+  padding:8rem 0 4rem;
+  border-bottom:4px double var(--ink);
+  margin-bottom:5rem;
+  animation:drop 1.2s cubic-bezier(.16,1,.3,1) both;
+}
+.mast-eyebrow {
+  font-family:var(--mono); font-size:.5rem; letter-spacing:.38em;
+  text-transform:uppercase; color:var(--ink3); margin-bottom:2.5rem;
+}
+.mast-numeral {
+  font-family:var(--display);
+  font-size:clamp(5rem,18vw,13rem);
+  font-weight:900; line-height:.82; color:transparent;
+  -webkit-text-stroke:2px var(--rule);
+  letter-spacing:-.06em; margin-bottom:-1rem;
+  user-select:none; opacity:.28;
+}
+.mast-title {
+  font-family:var(--display);
+  font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:700; line-height:1.1; color:var(--ink); margin-bottom:1rem;
+}
+.mast-title em { font-style:italic; font-weight:400; color:var(--accent) }
+.mast-sub {
+  font-family:var(--mono); font-size:.58rem; color:var(--ink3);
+  letter-spacing:.1em; line-height:2.2; margin-bottom:3rem;
+}
+.mast-sub em { color:var(--accent2); font-style:normal }
+
+/* ── SEC RULE ── */
+.sec-rule { display:grid; grid-template-columns:auto 1fr; align-items:center; gap:1.2rem; margin:5.5rem 0 2.5rem }
+.sec-rule-label {
+  font-family:var(--mono); font-size:.52rem; letter-spacing:.4em;
+  text-transform:uppercase; white-space:nowrap; padding:.28rem .8rem; border:1px solid;
+}
+.sec-rule-label.void  { border-color:var(--void-acc); color:var(--void-acc); background:rgba(80,96,168,.06) }
+.sec-rule-label.bmin  { border-color:var(--bmin-acc); color:var(--bmin-acc); background:rgba(136,72,184,.06) }
+.sec-rule-label.sigh  { border-color:var(--sigh-acc); color:var(--sigh-acc); background:rgba(176,64,96,.06) }
+.sec-rule-label.fate  { border-color:var(--fate-acc); color:var(--fate-acc); background:rgba(192,112,48,.06) }
+.sec-rule-label.reso  { border-color:var(--reso-acc); color:var(--reso-acc); background:rgba(48,136,104,.06) }
+.sec-rule-label.schema { background:var(--ink); color:var(--paper); border-color:var(--ink) }
+.sec-rule hr { border:none; border-top:1px solid var(--rule); width:100% }
+
+/* ── MODEL BLOCKS ── */
+.model-block { border-left:3px solid; padding:2.4rem 2.8rem; margin:0 0 3rem; position:relative }
+.model-stamp {
+  position:absolute; top:1rem; right:1.4rem;
+  font-family:var(--mono); font-size:.44rem; letter-spacing:.38em;
+  text-transform:uppercase; opacity:.6; border:1px solid; padding:.15rem .5rem;
+}
+.model-block h2 { font-family:var(--display); font-size:1.4rem; font-weight:700; margin-bottom:.5rem; line-height:1.2 }
+.model-block .model-sub { font-family:var(--mono); font-size:.54rem; letter-spacing:.22em; margin-bottom:2rem }
+.model-block h3 {
+  font-family:var(--display); font-size:1.05rem; font-weight:700;
+  margin:2.2rem 0 .6rem; padding-top:1.4rem; border-top:1px solid;
+}
+.model-prose { font-size:.9rem; line-height:1.85; margin-bottom:1.2rem }
+.model-prose p { margin-bottom:1rem }
+.model-prose ul { padding-left:1.4rem; margin-bottom:1rem }
+.model-prose li { margin-bottom:.5rem; line-height:1.75 }
+.model-prose blockquote {
+  border-left:2px solid; margin:1.2rem 0; padding:.6rem 1.2rem;
+  font-style:italic; opacity:.88;
+}
+.model-pull {
+  border-top:1px solid; border-bottom:1px solid;
+  padding:1.2rem 0; margin:1.8rem 0;
+  font-family:var(--display); font-style:italic;
+  font-size:1.05rem; line-height:1.65;
+}
+
+/* void block */
+.void-block{background:var(--void-bg);border-color:var(--void-acc)}
+.void-block .model-stamp{color:var(--void-acc);border-color:var(--void-acc)}
+.void-block h2,.void-block h3{color:var(--void-text)}
+.void-block h3{border-color:rgba(80,96,168,.2)}
+.void-block .model-sub{color:var(--void-acc)}
+.void-block .model-prose{color:var(--void-text)}
+.void-block .model-prose strong{color:#d8deff}
+.void-block .model-prose em{color:var(--void-acc)}
+.void-block .model-prose blockquote{border-color:var(--void-acc)}
+.void-block .model-pull{color:var(--void-acc);border-color:rgba(80,96,168,.3)}
+
+/* bmin block */
+.bmin-block{background:var(--bmin-bg);border-color:var(--bmin-acc)}
+.bmin-block .model-stamp{color:var(--bmin-acc);border-color:var(--bmin-acc)}
+.bmin-block h2,.bmin-block h3{color:var(--bmin-text)}
+.bmin-block h3{border-color:rgba(136,72,184,.2)}
+.bmin-block .model-sub{color:var(--bmin-acc)}
+.bmin-block .model-prose{color:var(--bmin-text)}
+.bmin-block .model-prose strong{color:#ecd8ff}
+.bmin-block .model-prose em{color:var(--bmin-acc)}
+.bmin-block .model-prose blockquote{border-color:var(--bmin-acc)}
+.bmin-block .model-pull{color:var(--bmin-acc);border-color:rgba(136,72,184,.3)}
+
+/* sigh block */
+.sigh-block{background:var(--sigh-bg);border-color:var(--sigh-acc)}
+.sigh-block .model-stamp{color:var(--sigh-acc);border-color:var(--sigh-acc)}
+.sigh-block h2,.sigh-block h3{color:var(--sigh-text)}
+.sigh-block h3{border-color:rgba(176,64,96,.2)}
+.sigh-block .model-sub{color:var(--sigh-acc)}
+.sigh-block .model-prose{color:var(--sigh-text)}
+.sigh-block .model-prose strong{color:#ffd8e0}
+.sigh-block .model-prose em{color:var(--sigh-acc)}
+.sigh-block .model-prose blockquote{border-color:var(--sigh-acc)}
+.sigh-block .model-pull{color:var(--sigh-acc);border-color:rgba(176,64,96,.3)}
+
+/* fate block */
+.fate-block{background:var(--fate-bg);border-color:var(--fate-acc)}
+.fate-block .model-stamp{color:var(--fate-acc);border-color:var(--fate-acc)}
+.fate-block h2,.fate-block h3{color:var(--fate-text)}
+.fate-block h3{border-color:rgba(192,112,48,.2)}
+.fate-block .model-sub{color:var(--fate-acc)}
+.fate-block .model-prose{color:var(--fate-text)}
+.fate-block .model-prose strong{color:#fff0c0}
+.fate-block .model-prose em{color:var(--fate-acc)}
+.fate-block .model-prose blockquote{border-color:var(--fate-acc)}
+.fate-block .model-pull{color:var(--fate-acc);border-color:rgba(192,112,48,.3)}
+
+/* reso block */
+.reso-block{background:var(--reso-bg);border-color:var(--reso-acc)}
+.reso-block .model-stamp{color:var(--reso-acc);border-color:var(--reso-acc)}
+.reso-block h2,.reso-block h3{color:var(--reso-text)}
+.reso-block h3{border-color:rgba(48,136,104,.2)}
+.reso-block .model-sub{color:var(--reso-acc)}
+.reso-block .model-prose{color:var(--reso-text)}
+.reso-block .model-prose strong{color:#c0ffd8}
+.reso-block .model-prose em{color:var(--reso-acc)}
+.reso-block .model-prose blockquote{border-color:var(--reso-acc)}
+.reso-block .model-pull{color:var(--reso-acc);border-color:rgba(48,136,104,.3)}
+
+/* ── CHORD ANATOMY DIAGRAM ── */
+.chord-anatomy {
+  margin:2.5rem 0; border:1px solid var(--rule); position:relative;
+}
+.chord-anatomy-label {
+  position:absolute; top:-.65rem; left:1.2rem;
+  font-family:var(--mono); font-size:.44rem; letter-spacing:.4em;
+  text-transform:uppercase; background:var(--paper); padding:0 .6rem;
+  color:var(--ink3);
+}
+.chord-anatomy-inner { padding:1.8rem 2rem; background:var(--void-bg); }
+.ca-notes {
+  display:flex; gap:.6rem; align-items:flex-end;
+  margin-bottom:1.4rem; flex-wrap:wrap;
+}
+.ca-note {
+  display:flex; flex-direction:column; align-items:center; gap:.3rem;
+}
+.ca-notehead {
+  width:2.6rem; height:2.6rem; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--display); font-size:1rem; font-weight:700;
+  border:2px solid; transition:transform .2s, filter .2s;
+  cursor:default;
+}
+.ca-notehead:hover { transform:scale(1.12); filter:brightness(1.3) }
+.ca-interval {
+  font-family:var(--mono); font-size:.46rem; letter-spacing:.1em;
+  color:var(--void-text); opacity:.7;
+}
+.ca-fn {
+  font-family:var(--mono); font-size:.44rem; letter-spacing:.18em;
+  text-transform:uppercase; padding:.14rem .4rem; border:1px solid;
+}
+
+.ca-note.root  .ca-notehead { background:rgba(80,96,168,.25); border-color:var(--void-acc); color:var(--void-acc) }
+.ca-note.root  .ca-fn { border-color:var(--void-acc); color:var(--void-acc) }
+.ca-note.m3    .ca-notehead { background:rgba(136,72,184,.25); border-color:var(--bmin-acc); color:var(--bmin-acc) }
+.ca-note.m3    .ca-fn { border-color:var(--bmin-acc); color:var(--bmin-acc) }
+.ca-note.p5    .ca-notehead { background:rgba(176,64,96,.25); border-color:var(--sigh-acc); color:var(--sigh-acc) }
+.ca-note.p5    .ca-fn { border-color:var(--sigh-acc); color:var(--sigh-acc) }
+.ca-note.d7    .ca-notehead { background:rgba(192,112,48,.25); border-color:var(--fate-acc); color:var(--fate-acc) }
+.ca-note.d7    .ca-fn { border-color:var(--fate-acc); color:var(--fate-acc) }
+
+.ca-sep { font-family:var(--mono); font-size:1.2rem; color:var(--rule); align-self:center; padding:0 .1rem }
+
+.ca-resolution {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:.4rem;
+  border-top:1px solid rgba(80,96,168,.2); padding-top:1.2rem; margin-top:.4rem;
+}
+.ca-res-cell {
+  font-family:var(--mono); font-size:.5rem; letter-spacing:.06em;
+  padding:.5rem .6rem; border:1px solid; text-align:center; line-height:1.7;
+}
+.ca-res-cell .res-label { font-size:.4rem; letter-spacing:.3em; text-transform:uppercase; opacity:.65; display:block; margin-bottom:.2rem }
+.ca-res-cell.r1 { border-color:var(--void-acc); color:var(--void-acc); background:rgba(80,96,168,.08) }
+.ca-res-cell.r2 { border-color:var(--bmin-acc); color:var(--bmin-acc); background:rgba(136,72,184,.08) }
+.ca-res-cell.r3 { border-color:var(--sigh-acc); color:var(--sigh-acc); background:rgba(176,64,96,.08) }
+.ca-res-cell.r4 { border-color:var(--fate-acc); color:var(--fate-acc); background:rgba(192,112,48,.08) }
+
+/* ── VOICE LEADING SIGH DIAGRAM ── */
+.sigh-diagram {
+  margin:2.5rem 0; padding:1.6rem 2rem;
+  background:var(--sigh-bg); border:1px solid var(--sigh-acc);
+  font-family:var(--mono); font-size:.64rem; letter-spacing:.06em;
+}
+.sigh-label { font-size:.44rem; letter-spacing:.38em; text-transform:uppercase; color:var(--sigh-acc); margin-bottom:1.2rem }
+.sigh-voice {
+  display:grid; grid-template-columns:100px 1fr 60px 1fr 60px;
+  align-items:center; margin:.5rem 0; gap:.3rem;
+}
+.sv-name { color:var(--sigh-text); font-size:.56rem; letter-spacing:.12em }
+.sv-from { font-size:.78rem; font-family:var(--display); font-weight:700 }
+.sv-arr  { color:var(--rule); text-align:center; font-size:.7rem }
+.sv-to   { font-size:.78rem; font-family:var(--display); font-weight:700 }
+.sv-note { font-size:.5rem; font-style:italic; color:var(--sigh-text); opacity:.75 }
+.sv-from.down,.sv-to.down { color:var(--sigh-acc) }
+.sv-from.up,.sv-to.up     { color:var(--reso-acc) }
+.sv-from.still,.sv-to.still{ color:var(--fate-acc) }
+
+/* ── COMPARISON TABLE ── */
+.compare-table {
+  width:100%; border-collapse:collapse;
+  font-family:var(--mono); font-size:.6rem;
+  margin:2rem 0; border:1px solid var(--rule);
+}
+.compare-table thead { background:rgba(180,140,60,.08) }
+.compare-table th {
+  padding:.55rem .8rem; font-size:.46rem; letter-spacing:.28em;
+  text-transform:uppercase; color:var(--ink3);
+  border-bottom:2px solid var(--rule); border-right:1px solid var(--rule2);
+  text-align:left;
+}
+.compare-table th:last-child { border-right:none }
+.compare-table td {
+  padding:.5rem .8rem; border-bottom:1px solid var(--rule2);
+  border-right:1px solid var(--rule2); vertical-align:top; line-height:1.7;
+}
+.compare-table td:last-child { border-right:none }
+.compare-table tr:last-child td { border-bottom:none }
+.compare-table .row-feature td:first-child { color:var(--ink3); font-size:.5rem; letter-spacing:.16em }
+.compare-table .sw-cell { color:var(--sw-acc) }
+.compare-table .tc-cell { color:var(--tc-acc) }
+.compare-table tr:hover td { background:rgba(180,140,60,.03) }
+
+/* ── MATH REGION ── */
+.math-region {
+  margin:2rem 0; padding:1.4rem 2rem;
+  background:var(--void-bg); border:1px solid var(--void-acc);
+  font-family:var(--mono); font-size:.74rem; letter-spacing:.04em;
+  color:var(--void-text); line-height:2.2; overflow-x:auto;
+}
+.math-region .math-label {
+  font-size:.44rem; letter-spacing:.38em; text-transform:uppercase;
+  color:var(--void-acc); opacity:.8; margin-bottom:.6rem;
+}
+
+/* ── ENTROPY SPECTRUM ── */
+.entropy-row { display:flex; align-items:center; gap:1rem; margin:.7rem 0 }
+.entropy-label { font-family:var(--mono); font-size:.52rem; letter-spacing:.08em; color:var(--ink3); min-width:180px }
+.entropy-track { flex:1; height:4px; background:var(--rule2); position:relative }
+.entropy-fill { height:100%; transition:width .4s }
+.entropy-note { font-family:var(--mono); font-size:.5rem; letter-spacing:.06em; color:var(--ink3); font-style:italic; max-width:240px }
+
+/* ── CHORD CHAIN ── */
+.chord-chain {
+  display:flex; align-items:center; gap:.3rem; flex-wrap:wrap;
+  font-family:var(--mono); font-size:.66rem; letter-spacing:.06em; margin:1.5rem 0;
+}
+.chord-chain .c-node { padding:.22em .6em; border:1px solid; transition:all .15s }
+.chord-chain .c-node:hover { transform:translateY(-2px) }
+.chord-chain .c-arr { color:var(--rule); margin:0 .1rem; font-size:.55rem }
+.chord-chain .c-note { font-size:.5rem; color:var(--ink3); font-style:italic; margin-left:.5rem }
+.chord-chain .c-void { background:rgba(80,96,168,.12); border-color:var(--void-acc); color:var(--void-acc) }
+.chord-chain .c-bmin { background:rgba(136,72,184,.12); border-color:var(--bmin-acc); color:var(--bmin-acc) }
+.chord-chain .c-sigh { background:rgba(176,64,96,.12);  border-color:var(--sigh-acc); color:var(--sigh-acc) }
+.chord-chain .c-fate { background:rgba(192,112,48,.12); border-color:var(--fate-acc); color:var(--fate-acc) }
+.chord-chain .c-reso { background:rgba(48,136,104,.12); border-color:var(--reso-acc); color:var(--reso-acc) }
+.chord-chain .c-sw   { background:rgba(96,112,208,.12); border-color:var(--sw-acc);   color:var(--sw-acc)   }
+
+/* ── CHAMELEON GRID ── */
+.chameleon-grid {
+  margin:2rem 0; display:grid;
+  grid-template-columns:repeat(4,1fr); gap:.4rem;
+}
+.chm-cell {
+  padding:.8rem .6rem; text-align:center;
+  font-family:var(--mono); font-size:.54rem; letter-spacing:.06em;
+  border:1px solid; line-height:1.7; transition:filter .2s;
+}
+.chm-cell:hover { filter:brightness(1.2) }
+.chm-cell .chm-key   { font-size:.44rem; letter-spacing:.28em; text-transform:uppercase; opacity:.65; display:block }
+.chm-cell .chm-chord { font-family:var(--display); font-size:.9rem; font-weight:700; display:block; margin:.2rem 0 }
+.chm-cell .chm-fn    { font-size:.48rem; display:block; opacity:.8 }
+.chm-c1 { border-color:var(--void-acc); color:var(--void-acc); background:rgba(80,96,168,.08) }
+.chm-c2 { border-color:var(--bmin-acc); color:var(--bmin-acc); background:rgba(136,72,184,.08) }
+.chm-c3 { border-color:var(--sigh-acc); color:var(--sigh-acc); background:rgba(176,64,96,.08) }
+.chm-c4 { border-color:var(--fate-acc); color:var(--fate-acc); background:rgba(192,112,48,.08) }
+
+/* ── VERSE ── */
+.verse-block {
+  font-family:var(--mono); font-size:.72rem; letter-spacing:.08em;
+  line-height:2.2; color:var(--ink3); border-left:3px solid var(--rule);
+  padding:.8rem 1.6rem; margin:2rem 0; font-style:italic;
+}
+.verse-block cite {
+  display:block; margin-top:.8rem; font-style:normal;
+  font-size:.52rem; letter-spacing:.3em; text-transform:uppercase; color:var(--ink3); opacity:.7;
+}
+
+/* ── ANNOTATION ── */
+.annotation {
+  margin:1.5rem 0; border-left:3px solid var(--rule);
+  padding:.9rem 1.4rem; background:rgba(176,144,80,.06);
+  font-family:var(--mono); font-size:.56rem; letter-spacing:.1em;
+  color:var(--ink3); line-height:1.9;
+}
+.annotation::before {
+  content:'vii°7 · B MINOR · PATHÉTIQUE FINALE · HARMONIC BIG BANG OF GRIEF · UKUBONA LLC';
+  display:block; font-size:.44rem; letter-spacing:.4em; opacity:.7; margin-bottom:.4rem;
+}
+
+/* ── INTERLUDE ── */
+.interlude {
+  border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+  padding:2rem 0; margin:3.5rem 0;
+  font-family:var(--display); font-style:italic;
+  font-size:1.1rem; line-height:1.7; color:var(--ink2); text-align:center;
+}
+
+/* ── CODA ── */
+.coda { border:2px solid var(--ink); padding:3.2rem 3.8rem; margin:6rem 0; position:relative }
+.coda-label {
+  position:absolute; top:-.75rem; left:2rem;
+  font-family:var(--mono); font-size:.48rem; letter-spacing:.45em;
+  text-transform:uppercase; background:var(--paper); padding:0 .75rem; color:var(--ink);
+}
+.coda h2 { font-family:var(--display); font-size:1.3rem; font-weight:700; font-style:italic; color:var(--ink); margin-bottom:1.4rem }
+.coda p { color:var(--ink2); margin-bottom:1.1rem; line-height:1.85 }
+.coda strong { color:var(--ink) }
+
+/* ── NEXT STEPS BOX ── */
+.next-box {
+  margin:2.5rem 0; border:1px solid var(--reso-acc);
+  background:rgba(48,136,104,.05); padding:1.8rem 2.2rem; position:relative;
+}
+.next-box-label {
+  position:absolute; top:-.7rem; left:1.4rem;
+  font-family:var(--mono); font-size:.44rem; letter-spacing:.42em;
+  text-transform:uppercase; background:var(--paper); padding:0 .6rem; color:var(--reso-acc);
+}
+.next-box ul { list-style:none; padding:0 }
+.next-box ul li {
+  font-family:var(--mono); font-size:.62rem; letter-spacing:.06em;
+  color:var(--reso-text); margin-bottom:.7rem; line-height:1.8;
+  padding-left:1rem; position:relative;
+}
+.next-box ul li::before { content:'→'; position:absolute; left:0; color:var(--reso-acc) }
+.next-box ul li strong { color:#c0ffd8 }
+
+/* ── FOOTER ── */
+footer { border-top:3px double var(--ink); padding:3rem 0 7rem }
+.foot-chain { font-family:var(--mono); font-size:.54rem; letter-spacing:.28em; color:var(--ink3); margin-bottom:.8rem }
+.foot-chain span { color:var(--accent2) }
+.foot-note { font-family:var(--mono); font-size:.48rem; letter-spacing:.1em; color:var(--ink3); line-height:2.5 }
+
+/* ── ANIMATIONS ── */
+.fade-in { opacity:0; transform:translateY(14px); transition:opacity .65s ease,transform .65s ease }
+.fade-in.visible { opacity:1; transform:translateY(0) }
+@keyframes drop { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── VOID PULSE — first-view animation on chord anatomy ── */
+@keyframes voidpulse {
+  0%   { box-shadow:0 0 0 0 rgba(80,96,168,.0) }
+  40%  { box-shadow:0 0 22px 4px rgba(80,96,168,.35) }
+  100% { box-shadow:0 0 0 0 rgba(80,96,168,.0) }
+}
+.chord-anatomy.pulsed .chord-anatomy-inner { animation:voidpulse 1.8s ease forwards }
+
+/* ── MOBILE ── */
+@media(max-width:640px) {
+  .mast-numeral { font-size:5.5rem }
+  .mast-title { font-size:1.85rem }
+  .coda,.model-block { padding:1.8rem 1.6rem }
+  .theme-toggle { top:.7rem; right:.9rem }
+  .ca-resolution { grid-template-columns:repeat(2,1fr) }
+  .chameleon-grid { grid-template-columns:repeat(2,1fr) }
+  .sigh-voice { grid-template-columns:80px 1fr 40px 1fr 50px }
+  .compare-table { font-size:.52rem }
+  .compare-table th { font-size:.4rem }
+}
+</style>
+</head>
+<body>
+
+<div class="theme-toggle" aria-label="Toggle dark/light mode">
+  <span id="toggle-label">Light</span>
+  <div class="toggle-switch" id="themeSwitch" role="button" tabindex="0" aria-pressed="false"></div>
+</div>
+
+<div class="page">
+
+  <!-- ══ MASTHEAD ══ -->
+  <header class="masthead">
+    <br><br><br>
+    <div class="mast-eyebrow">Ukubona LLC · Section VII · Tchaikovsky Symphony No. 6 · Pathétique Finale · March 2026</div>
+    <div class="mast-numeral" aria-hidden="true">vii°</div>
+    <h1 class="mast-title">
+      The Harmonic Big Bang of Grief<br>
+      <em>Tchaikovsky's vii°<sup>7</sup>, Tonal Collapse,<br>and the Geometry of Heartbreak</em>
+    </h1>
+    <p class="mast-sub">
+      // B Minor · Finale · <em>first sound = A♯°7 · no handshake · straight into the abyss</em><br>
+      // vii°7 as harmonic chameleon: <em>one half-step from a dozen resolutions · ground withheld</em><br>
+      // Voice leading: <em>E → D · G → F♯ · the bows sigh before the melody begins to weep</em><br>
+      // Amor Fati: <em>resolution is not delayed · it is revealed as the wrong question</em><br>
+      // Same geometry as Stevie Wonder 1982: <em>different temperature · different century · same abyss</em>
+    </p>
+  </header>
+
+  <div class="verse-block fade-in">
+    Most symphonies of the era begin with a firm handshake —<br>
+    a tonic chord that says, "Here is home."<br>
+    Tchaikovsky opens the door<br>
+    and throws you straight into the abyss.
+    <cite>— Section VII · Octogonean Curriculum · March 2026</cite>
+  </div>
+
+  <div class="annotation fade-in">
+    The movement is in B Minor. The very first sound is A♯ half-diminished seventh — the vii°7. It is functionally a dominant substitute, but because it lacks a root (F♯), it feels unanchored. Not dissonant. Unanchored. The difference is crucial. Dissonance asks to be resolved. Unanchored-ness asks: resolved into what? Tchaikovsky's answer, across the entire finale, is: into grief itself.
+  </div>
+
+
+  <!-- ══ I · THE CHORD ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label void">I · The A♯°7 · What It Is · Why It Has No Ground</span>
+    <hr>
+  </div>
+
+  <div class="model-block void-block fade-in">
+    <div class="model-stamp">vii°7 · THE ABYSS</div>
+    <h2>The Setup: No Handshake, No Home</h2>
+    <p class="model-sub">A♯ – C♯ – E – G · B Minor · vii°7 · Dominant Substitute Without the Root</p>
+
+    <div class="chord-anatomy fade-in" id="chordAnatomy">
+      <span class="chord-anatomy-label">A♯°7 chord anatomy · the four notes · their intervallic identity · their resolution tendencies</span>
+      <div class="chord-anatomy-inner">
+        <div class="ca-notes">
+          <div class="ca-note root">
+            <div class="ca-notehead">A♯</div>
+            <div class="ca-interval">root</div>
+            <div class="ca-fn">leading tone</div>
+          </div>
+          <div class="ca-sep">+</div>
+          <div class="ca-note m3">
+            <div class="ca-notehead">C♯</div>
+            <div class="ca-interval">m3 above</div>
+            <div class="ca-fn">minor third</div>
+          </div>
+          <div class="ca-sep">+</div>
+          <div class="ca-note p5">
+            <div class="ca-notehead">E</div>
+            <div class="ca-interval">d5 above</div>
+            <div class="ca-fn">diminished fifth</div>
+          </div>
+          <div class="ca-sep">+</div>
+          <div class="ca-note d7">
+            <div class="ca-notehead">G</div>
+            <div class="ca-interval">d7 above</div>
+            <div class="ca-fn">diminished seventh</div>
+          </div>
+        </div>
+        <div class="ca-resolution">
+          <div class="ca-res-cell r1">
+            <span class="res-label">In B minor</span>
+            vii°7 → i<br>resolves to B m
+          </div>
+          <div class="ca-res-cell r2">
+            <span class="res-label">Enharmonic 1</span>
+            = C♯°7<br>→ D minor (iv)
+          </div>
+          <div class="ca-res-cell r3">
+            <span class="res-label">Enharmonic 2</span>
+            = E°7<br>→ F major (♭VI)
+          </div>
+          <div class="ca-res-cell r4">
+            <span class="res-label">Enharmonic 3</span>
+            = G°7<br>→ A♭ major (♭VII)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="model-prose">
+      <p>The fully-diminished seventh chord is the harmonic chameleon of Western music. Its four notes are evenly spaced — each a minor third apart — which means it is <em>perfectly symmetrical</em>. A perfectly symmetrical chord has no intrinsic gravity. It does not pull toward one resolution any more than another. Given A♯–C♯–E–G, you can resolve credibly into B minor, D minor, F major, or A♭ major. The chord is one half-step away from a dominant seventh chord in four different keys simultaneously.</p>
+      <p>This is the exact mechanism Tchaikovsky exploits. By starting the finale with this chord, he ensures <strong>the listener has no tonal grounding until the melody has already begun to weep</strong>. The weeping is the answer to the question the opening chord refuses to pose directly. You don't know you're in B minor. You only know you are somewhere where grief is the organizing principle.</p>
+    </div>
+
+    <div class="math-region fade-in">
+      <div class="math-label">The chord · formal notation · position in B minor</div>
+      $$A\#^{\varnothing 7} = \{A\#, C\#, E, G\} \quad \text{in B minor} = vii^{\varnothing 7}$$
+      $$\text{Symmetry:} \quad A\# + m3 = C\#,\quad C\# + m3 = E,\quad E + m3 = G,\quad G + m3 = A\#$$
+      $$\text{Resolution options: } B_m,\ D_m,\ F_M,\ A\flat_M \quad \text{(all equally "available")}$$
+    </div>
+
+    <div class="model-pull">
+      The diminished seventh has no preferred resolution because it has no root in the conventional sense. It is all tension. It is the sound of being suspended between four possible homes and belonging to none of them. Tchaikovsky's opening movement begins here because grief is exactly that: an orientation toward an absence.
+    </div>
+  </div>
+
+
+  <!-- ══ II · THE WORMHOLE CONNECTION ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label bmin">II · The Stevie-esque Connection · Structural Instability · Same Tool, Different Temperature</span>
+    <hr>
+  </div>
+
+  <div class="model-block bmin-block fade-in">
+    <div class="model-stamp">TONAL DISPLACEMENT</div>
+    <h2>The Stevie-esque Connection: Structural Instability as Language</h2>
+    <p class="model-sub">D♭ → A → G♭ (Stevie) · A♯°7 suspended (Tchaikovsky) · Both: Ground Withheld</p>
+
+    <div class="model-prose">
+      <p>Just as the D♭ → A → G♭ jump in "Lately" is a form of tonal displacement — the ear loses its sense of home as the pivot chord briefly belongs to two keys simultaneously — Tchaikovsky uses the vii°7 to create a deeper, stiller version of the same structural instability. Both composers are withholding the ground. The mechanisms are different. The result is the same: you are standing somewhere but you don't know where.</p>
+      <p>In Stevie's case, the instability is <em>kinetic</em>: the wormhole chord is a vehicle, not a destination. You pass through it on the way from D♭ to A. The tonal displacement creates forward momentum — the music has to keep moving to find a new center. In Tchaikovsky's case, the instability is <em>static</em>: the vii°7 is the destination. You are placed there and left there. The question is not "where will we go?" but "can we accept that we are already where grief lives?"</p>
+    </div>
+
+    <div style="margin:2rem 0" class="fade-in">
+      <div class="entropy-row">
+        <span class="entropy-label">Stevie G♭m7 pivot</span>
+        <div class="entropy-track"><div class="entropy-fill" style="width:72%;background:var(--sw-acc)"></div></div>
+        <span class="entropy-note">kinetic · passes through · propulsive · re-centering in motion</span>
+      </div>
+      <div class="entropy-row">
+        <span class="entropy-label">Tchaikovsky A♯°7</span>
+        <div class="entropy-track"><div class="entropy-fill" style="width:94%;background:var(--tc-acc)"></div></div>
+        <span class="entropy-note">static · placed and held · total systems collapse · suspended in grief</span>
+      </div>
+      <div class="entropy-row">
+        <span class="entropy-label">Standard V7 (comparison)</span>
+        <div class="entropy-track"><div class="entropy-fill" style="width:28%;background:var(--reso-acc)"></div></div>
+        <span class="entropy-note">grounded · directional · resolution obvious · no shimmer · no grief</span>
+      </div>
+    </div>
+
+    <!-- chameleon resolutions -->
+    <h3>The Harmonic Chameleon: Four Keys, One Chord</h3>
+    <div class="model-prose">
+      <p>The diminished seventh's chameleon property — its ability to resolve credibly into four different tonal centers — is both its formal identity and its emotional content in this context. Tchaikovsky does not exploit the chameleon quality to modulate. He exploits it to prevent the listener from resolving at all. You hear the chord and your ear begins to pre-resolve it — toward one of four possible homes — and then the melody enters before the resolution arrives, and you are already weeping before you know why.</p>
+    </div>
+
+    <div class="chameleon-grid fade-in">
+      <div class="chm-cell chm-c1">
+        <span class="chm-key">Resolution 1</span>
+        <span class="chm-chord">B minor</span>
+        <span class="chm-fn">vii°7 → i · the "expected" answer · what the key signature promises</span>
+      </div>
+      <div class="chm-cell chm-c2">
+        <span class="chm-key">Resolution 2</span>
+        <span class="chm-chord">D minor</span>
+        <span class="chm-fn">enharmonic respelling · C♯°7 → Dm · plausible · darker</span>
+      </div>
+      <div class="chm-cell chm-c3">
+        <span class="chm-key">Resolution 3</span>
+        <span class="chm-chord">F major</span>
+        <span class="chm-fn">E°7 → FM · distant · dreamlike · Romantic era favorite</span>
+      </div>
+      <div class="chm-cell chm-c4">
+        <span class="chm-key">Resolution 4</span>
+        <span class="chm-chord">A♭ major</span>
+        <span class="chm-fn">G°7 → A♭M · the most displaced · maximum harmonic distance</span>
+      </div>
+    </div>
+
+    <div class="model-pull">
+      Tchaikovsky's genius is not that he uses a difficult chord. It is that he places a chord that the ear cannot pre-resolve, at the exact moment when the ear most wants to know where it is. The vii°7 opening is not a puzzle. It is a diagnosis: the listener's need for resolution is the subject of the symphony.
+    </div>
+  </div>
+
+
+  <!-- ══ III · THE SIGHING VOICE LEADING ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label sigh">III · The Voice Leading · E → D · G → F♯ · The Bows Sigh</span>
+    <hr>
+  </div>
+
+  <div class="model-block sigh-block fade-in">
+    <div class="model-stamp">SIGHING · PHYSICAL</div>
+    <h2>The Mechanics of the Sigh</h2>
+    <p class="model-sub">String Distribution · Physical Bow Movement · Grief as Acoustic Architecture</p>
+
+    <div class="model-prose">
+      <p>Tchaikovsky distributes the notes of the chord across the strings so that the physical movement of the bows — from the tension of the diminished chord to the partial resolution that follows — creates a "sighing" effect. The two most audible resolutions are E descending to D, and G descending to F♯. Both are half-step or whole-step descents. Both trace the same contour: a fall. The melody has not yet entered. The grief is already structurally present in the voice leading, in the physical arc of the bow.</p>
+    </div>
+
+    <div class="sigh-diagram fade-in">
+      <div class="sigh-label">Voice leading sigh · A♯°7 → B minor partial resolution · string distribution</div>
+      <div class="sigh-voice">
+        <span class="sv-name">Violin I</span>
+        <span class="sv-from down">E</span>
+        <span class="sv-arr">↘</span>
+        <span class="sv-to down">D</span>
+        <span class="sv-note">whole step descent · the exhale · bow weight into string</span>
+      </div>
+      <div class="sigh-voice">
+        <span class="sv-name">Violin II</span>
+        <span class="sv-from down">G</span>
+        <span class="sv-arr">↘</span>
+        <span class="sv-to down">F♯</span>
+        <span class="sv-note">half step descent · resolves to leading tone · still unresolved</span>
+      </div>
+      <div class="sigh-voice">
+        <span class="sv-name">Viola</span>
+        <span class="sv-from still">C♯</span>
+        <span class="sv-arr">→</span>
+        <span class="sv-to still">C♯</span>
+        <span class="sv-note">held · the one note that doesn't move · anchor in the grief</span>
+      </div>
+      <div class="sigh-voice">
+        <span class="sv-name">Cello / Bass</span>
+        <span class="sv-from up">A♯</span>
+        <span class="sv-arr">↗</span>
+        <span class="sv-to up">B</span>
+        <span class="sv-note">half step ascent · completes the i chord · but the sigh is already sounding above</span>
+      </div>
+    </div>
+
+    <div class="model-prose">
+      <p>The architecture of the sigh is precise. Three voices descend or hold while one voice — the bass — rises a half-step into the tonic. By the time the bass arrives at B, the upper voices have already performed their descent. The tonic arrives <em>after</em> the grief motion. Resolution follows weeping, not the other way around. This is Tchaikovsky's philosophical argument made harmonic: <strong>you don't weep because you've lost something; you recognize loss because you find yourself already weeping.</strong></p>
+      <p>The physical fact of the bow — a mass of horsehair and rosin pressing into a vibrating string — doing this motion is not incidental. The sigh is acoustic <em>because it is physical</em>. The grief is not metaphor applied to sound. The sound is the shape grief makes when it moves through wood and wire and air.</p>
+    </div>
+
+    <div class="model-pull">
+      He distributes the notes so the physical movement of the bows creates the sigh. The instrument doesn't illustrate grief — it instantiates it. E to D is not a metaphor for an exhale. It is an exhale that happens to produce a pitch.
+    </div>
+  </div>
+
+
+  <!-- ══ IV · THE COMPARISON TABLE ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label fate">IV · The Geometry of Heartbreak · Stevie vs. Tchaikovsky · Same Formula</span>
+    <hr>
+  </div>
+
+  <div class="model-block fate-block fade-in">
+    <div class="model-stamp">AMOR FATI</div>
+    <h2>The Geometry of Heartbreak: Side by Side</h2>
+    <p class="model-sub">Modal Interchange vs. Secondary Leading Tone · Tonal Vertigo vs. Immediate Grief · Same Architecture</p>
+
+    <table class="compare-table fade-in">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th style="color:var(--sw-acc)">Stevie Wonder — "Lately" Bridge</th>
+          <th style="color:var(--tc-acc)">Tchaikovsky — Symphony 6, Finale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-feature">
+          <td>Primary Tool</td>
+          <td class="sw-cell">Modal interchange / wormhole pivot · G♭m7 as dual-function chord</td>
+          <td class="tc-cell">Secondary leading tone · vii°7 as rootless dominant substitute</td>
+        </tr>
+        <tr class="row-feature">
+          <td>The Effect</td>
+          <td class="sw-cell">Tonal vertigo · losing the sense of "home" while still in motion</td>
+          <td class="tc-cell">Immediate grief · resolution is not delayed — it is revealed as the wrong question</td>
+        </tr>
+        <tr class="row-feature">
+          <td>The Math</td>
+          <td class="sw-cell">Recursive jump: $D\flat \rightarrow A \rightarrow G\flat$ · each step redefines tonic</td>
+          <td class="tc-cell">Fractal tension: symmetrical chord · four equal resolutions · none chosen</td>
+        </tr>
+        <tr class="row-feature">
+          <td>The "Why"</td>
+          <td class="sw-cell">To mirror the suspicion of infidelity · the self that cannot locate home</td>
+          <td class="tc-cell">To mirror the Amor Fati of inevitable tragedy · grief as the only true home</td>
+        </tr>
+        <tr class="row-feature">
+          <td>Instability Type</td>
+          <td class="sw-cell">Kinetic · moves through unstable zones · propulsive re-centering</td>
+          <td class="tc-cell">Static · placed in unstable zone · held · suspended until acceptance</td>
+        </tr>
+        <tr class="row-feature">
+          <td>The Listener</td>
+          <td class="sw-cell">Vertiginous · excited · disoriented forward · kept guessing</td>
+          <td class="tc-cell">Unmoored · stilled · pre-resolved into grief before knowing why</td>
+        </tr>
+        <tr class="row-feature">
+          <td>Temperature</td>
+          <td class="sw-cell">Warm · shimmer · Lydian Dominant glow · R&amp;B heartbreak</td>
+          <td class="tc-cell">Cold · dark · string resonance · Russian late-Romantic tragedy</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="model-prose">
+      <p>The table reveals the core structural isomorphism: both composers are using <em>tonal indeterminacy as emotional content</em>. The chord or chord sequence that belongs simultaneously to multiple tonal frames — and therefore to none — is the acoustic shape of disorientation, loss, the self that cannot locate home. Stevie's version moves. Tchaikovsky's version holds. But both are saying: <strong>the music cannot tell you where you are, because where you are is inside grief, and grief has no coordinates.</strong></p>
+    </div>
+
+    <div class="chord-chain fade-in">
+      <span style="font-size:.52rem;color:var(--ink3);min-width:60px">Stevie:</span>
+      <span class="c-node c-sw">D♭ I</span>
+      <span class="c-arr">→</span>
+      <span class="c-node c-void">G♭m7 ⟿</span>
+      <span class="c-arr">→</span>
+      <span class="c-node c-sw">A I</span>
+      <span class="c-arr">→</span>
+      <span class="c-node c-fate">♭V7(♯11)</span>
+      <span class="c-note">kinetic · shimmer · re-centering</span>
+    </div>
+
+    <div class="chord-chain fade-in">
+      <span style="font-size:.52rem;color:var(--ink3);min-width:60px">Tchaik.:</span>
+      <span class="c-node c-void">A♯°7 (held)</span>
+      <span class="c-arr">→</span>
+      <span class="c-node c-sigh">sigh</span>
+      <span class="c-arr">→</span>
+      <span class="c-node c-bmin">B minor (i)</span>
+      <span class="c-arr">→</span>
+      <span class="c-node c-sigh">grief</span>
+      <span class="c-note">static · dark · held until acceptance</span>
+    </div>
+
+    <div class="model-pull">
+      Same geometry. Different temperature. Different century. The formula is not a formula — it is a property of grief itself: the inability to locate a tonic. Great composers don't discover this property. They remember it, and find the precise chord that makes the listener remember it too.
+    </div>
+  </div>
+
+
+  <!-- ══ V · HARMONIC ENTROPY ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label reso">V · The Final Lesson · Harmonic Entropy · Tension as the Only Path to Meaning</span>
+    <hr>
+  </div>
+
+  <div class="model-block reso-block fade-in">
+    <div class="model-stamp">HARMONIC ENTROPY</div>
+    <h2>The Final Lesson: Harmonic Entropy</h2>
+    <p class="model-sub">Great Music Isn't About Staying in Key · It's About How Beautifully You Break It · To Find a Deeper Truth</p>
+
+    <div class="model-prose">
+      <p>The curriculum concludes with this realization: <strong>great music isn't about the chords that stay in key; it's about how beautifully the composer breaks the key to find a deeper truth.</strong> Whether it's a R&amp;B titan using a wormhole pivot chord to sell a ballad, or a Russian titan using a half-diminished chord to define an era of sorrow, the formula is the same: <em>tension is the only thing that makes the resolution meaningful.</em></p>
+      <p>A tonic chord with no preceding tension is not home — it is a fact. A tonic chord arrived at after a vii°7 opening, after the sighing voice leading, after the melody has already begun to weep — that B minor arrival is not a fact. It is a recognition. The arrival means something because the approach made home seem impossible. Tchaikovsky's Pathétique finale teaches the same lesson as Stevie's "Lately" bridge: <em>you cannot know where home is until you have been somewhere that is not home, and understood what it costs to be there.</em></p>
+    </div>
+
+    <!-- entropy spectrum — how far from key each device travels -->
+    <div style="margin:2rem 0" class="fade-in">
+      <div style="font-family:var(--mono);font-size:.44rem;letter-spacing:.38em;text-transform:uppercase;color:var(--reso-acc);margin-bottom:.8rem">Harmonic entropy spectrum · distance from tonal center · emotional cost</div>
+      <div class="entropy-row">
+        <span class="entropy-label">I–IV–V (stay in key)</span>
+        <div class="entropy-track"><div class="entropy-fill" style="width:12%;background:var(--reso-acc)"></div></div>
+        <span class="entropy-note">zero entropy · fact · no emotional cost · no meaning</span>
+      </div>
+      <div class="entropy-row">
+        <span class="entropy-label">Modal interchange ii–iii–iv</span>
+        <div class="entropy-track"><div class="entropy-fill" style="width:42%;background:var(--void-acc)"></div></div>
+        <span class="entropy-note">low-medium entropy · color borrowed · surface analysis</span>
+      </div>
+      <div class="entropy-row">
+        <span class="entropy-label">Stevie G♭m7 wormhole</span>
+        <div class="entropy-track"><div class="entropy-fill" style="width:74%;background:var(--sw-acc)"></div></div>
+        <span class="entropy-note">high entropy · tonal vertigo · shimmer · re-centering</span>
+      </div>
+      <div class="entropy-row">
+        <span class="entropy-label">Tchaikovsky vii°7 opening</span>
+        <div class="entropy-track"><div class="entropy-fill" style="width:96%;background:var(--tc-acc)"></div></div>
+        <span class="entropy-note">maximum entropy · no ground · four resolutions · total suspension</span>
+      </div>
+    </div>
+
+    <div class="model-prose">
+      <p>Harmonic entropy is not disorder. It is the measure of <em>how many futures a chord makes possible simultaneously</em>. A tonic chord has entropy of zero: there is one future, and you are in it. A diminished seventh has maximum entropy: there are four futures, all equally available, and you are suspended between them. The emotional content of a piece of music is, at a structural level, the management of harmonic entropy — its creation, its prolongation, and its resolution (or its refusal).</p>
+      <p>Tchaikovsky's finale maximizes harmonic entropy from the first sound and then manages it downward across the movement toward a B minor arrival that, by the time it comes, feels less like a resolution than a <em>surrender</em>. The tonic is not a reward. It is an acceptance. The vii°7 was not a problem to be solved. It was the truth, stated first, before the melody arrived to confirm it.</p>
+    </div>
+
+    <div class="model-pull">
+      Tension is the only thing that makes the resolution meaningful. Without the vii°7 opening — without being thrown into the abyss before the melody begins — B minor is just a key signature. After it, B minor is where grief lives. The chord made the home by showing what it means to be without one.
+    </div>
+  </div>
+
+
+  <!-- ══ NEXT STEPS ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label schema">NEXT · Where the Curriculum Goes · Open Paths</span>
+    <hr>
+  </div>
+
+  <div class="next-box fade-in">
+    <span class="next-box-label">Next Steps · Curriculum Branches · Open Questions</span>
+    <ul>
+      <li><strong>LaTeX Cheat Sheet:</strong> Seventh chord practice in all 12 keys — fully diminished, half-diminished, dominant, major, minor seventh — with resolution voicings, functional context, and entropy rating per chord type. Rigorous format for daily practice.</li>
+      <li><strong>Mixolydian ♭9, ♯9, ♭13 in R&amp;B:</strong> D'Angelo's "Untitled (How Does It Feel)" — the altered dominant at the center of neo-soul; or Musiq Soulchild's harmonic vocabulary. Both use altered Mixolydian extensions as the signature of "sophisticated melancholy." The same Stevie/Tchaikovsky entropy management, but post-2000 and from a different emotional angle.</li>
+      <li><strong>The Entropy Unification Thesis:</strong> A formal statement that harmonic entropy — measured as the number of simultaneous credible resolutions available to a given chord — is the common structural language of Stevie Wonder 1982 and Tchaikovsky 1893, and that this language is what distinguishes emotionally meaningful harmony from chord progression.</li>
+    </ul>
+  </div>
+
+
+  <div class="interlude fade-in">
+    Whether it is a wormhole pivot chord in an R&amp;B bridge<br>
+    or a half-diminished seventh held in the strings at the start of a finale —<br>
+    <em>the question is always the same:</em><br>
+    how many homes does this chord make possible,<br>
+    and how long can the composer keep you<br>
+    suspended between them?
+  </div>
+
+
+  <!-- ══ CODA ══ -->
+  <div class="coda fade-in">
+    <span class="coda-label">Synthesis · Section VII · Pathétique · The Stevie Wonder of 1893</span>
+    <h2>Tchaikovsky Was the Stevie Wonder of 1893 — and Vice Versa</h2>
+    <p>The comparison is not a provocation. It is a structural observation. Both composers understood that the most powerful emotional statement a piece of music can make is not about the notes that stay in place, but about the ones that refuse to. The vii°7 that opens the Pathétique finale and the G♭m7 wormhole at the center of the "Lately" bridge are both <em>chords that belong to more than one tonal world simultaneously</em>. Both use this dual citizenship to create a specific emotional state: the state of being between homes. Of knowing that resolution is available but not yet. Of existing in the space where grief and longing and uncertainty live, before the melody clarifies what kind of loss this is.</p>
+    <p>Stevie's version is warm and forward-moving — the tonal re-centering is propulsive, shimmering, Lydian. Tchaikovsky's version is cold and still — the tonal suspension is held, dark, resolved into weeping. Same geometry. Different temperature. The Russian titan and the Motown genius both understood that <strong>harmonic entropy is not a technical device; it is the acoustic shape of the human situation</strong> — suspended between what we had and what we are moving toward, unable to name where we are standing because the chord beneath us belongs to four different keys at once.</p>
+    <p>The curriculum's final lesson is not about chords. It is about what chords know that words often don't: that the most honest thing you can say about grief, or longing, or the uncertainty of love, is to place the listener in a diminished seventh and let them feel, before the melody even begins, that they are somewhere that has no single name — and that this, exactly this, is where the music has always been trying to go.</p>
+  </div>
+
+
+  <footer class="fade-in">
+    <p class="foot-chain">Ukubona LLC · <span>A♯°7 — C♯ — E — G · vii°7 · B Minor · Pathétique Finale · Harmonic Entropy · March 2026</span></p>
+    <p class="foot-note">
+      I · A♯°7 chord anatomy · {A♯, C♯, E, G} · <span style="color:var(--void-acc)">vii°7 · rootless dominant · four resolutions · no ground</span><br>
+      II · Wormhole connection · G♭m7 (Stevie) ↔ A♯°7 (Tchaikovsky) · <span style="color:var(--bmin-acc)">both: tonal indeterminacy as emotional content</span><br>
+      III · Voice leading sigh · E→D · G→F♯ · <span style="color:var(--sigh-acc)">physical bow motion as grief · architecture before the melody</span><br>
+      IV · Geometry of heartbreak · Stevie 1982 ↔ Tchaikovsky 1893 · <span style="color:var(--fate-acc)">same formula · different temperature · Amor Fati</span><br>
+      V · Harmonic entropy · zero (I–IV–V) → maximum (°7) · <span style="color:var(--reso-acc)">tension is the only thing that makes resolution meaningful</span><br>
+      <br>
+      Open: LaTeX cheat sheet · 7th chords all 12 keys · resolution voicings · entropy rating<br>
+      Open: Mixolydian ♭9,♯9,♭13 in D'Angelo or Musiq Soulchild · altered dominant as neo-soul signature<br>
+      Open: Entropy Unification Thesis · common structural language of R&amp;B and late-Romantic tragedy<br>
+      <br>
+      Section VII: Ukubona LLC · Octogonean Curriculum · March 2026<br>
+      Prior sections: "Lately" bridge analysis · D♭→A→G♭ wormhole pivot · ♭V7(♯11) Lydian Dominant<br>
+      Source: Tchaikovsky Symphony No. 6 in B minor, Op. 74 · Finale (Adagio lamentoso) · 1893<br>
+      © 2026 Ukubona LLC
+    </p>
+  </footer>
+
+</div><!-- .page -->
+
+<!-- CENTRALIZED ASSETS -->
+<div class="scroll-indicator"><div class="scroll-progress"></div></div>
+<div class="bg-pattern"></div>
+<header class="header" id="header"></header>
+<main class="page wrap-max"></main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+
+<script>
+/* ── THEME TOGGLE ── */
+const sw=document.getElementById('themeSwitch'),
+      lbl=document.getElementById('toggle-label'),
+      html=document.documentElement;
+const saved=localStorage.getItem('theme'),
+      prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
+const initDark=saved==='dark'||(!saved&&prefersDark);
+if(initDark){html.setAttribute('data-theme','dark');lbl.textContent='Dark';sw.setAttribute('aria-pressed','true')}
+function toggleTheme(){
+  const isDark=html.getAttribute('data-theme')==='dark';
+  if(isDark){html.removeAttribute('data-theme');lbl.textContent='Light';sw.setAttribute('aria-pressed','false');localStorage.setItem('theme','light')}
+  else{html.setAttribute('data-theme','dark');lbl.textContent='Dark';sw.setAttribute('aria-pressed','true');localStorage.setItem('theme','dark')}
+}
+sw.addEventListener('click',toggleTheme);
+sw.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleTheme()}});
+
+/* ── FADE IN ON SCROLL ── */
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}
+  })
+},{threshold:.06});
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+
+/* ── CHORD ANATOMY PULSE on first view ── */
+const chordEl=document.getElementById('chordAnatomy');
+if(chordEl){
+  const chordObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        chordEl.classList.add('pulsed');
+        /* stagger the note heads */
+        const heads=chordEl.querySelectorAll('.ca-notehead');
+        heads.forEach((h,i)=>{
+          setTimeout(()=>{
+            h.style.transition='transform .25s, box-shadow .25s';
+            h.style.transform='scale(1.18)';
+            h.style.boxShadow='0 0 14px 2px currentColor';
+            setTimeout(()=>{ h.style.transform=''; h.style.boxShadow='' }, 280);
+          }, i*160+200);
+        });
+        chordObs.unobserve(chordEl);
+      }
+    });
+  },{threshold:.5});
+  chordObs.observe(chordEl);
+}
+
+/* ── ENTROPY BARS animate on scroll ── */
+document.querySelectorAll('.entropy-fill').forEach(bar=>{
+  const target=bar.style.width;
+  bar.style.width='0%';
+  const barObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        bar.style.width=target;
+        barObs.unobserve(bar);
+      }
+    });
+  },{threshold:.8});
+  barObs.observe(bar);
+});
+
+/* ── COMPARE TABLE row highlight on hover already via CSS ── */
+/* extra: click a row to hold highlight */
+document.querySelectorAll('.compare-table tbody tr').forEach(row=>{
+  row.style.cursor='pointer';
+  row.addEventListener('click',()=>{
+    document.querySelectorAll('.compare-table tbody tr').forEach(r=>r.style.background='');
+    row.style.background='rgba(180,140,60,.06)';
+  });
+});
+</script>
+
+</body>
+</html>    
