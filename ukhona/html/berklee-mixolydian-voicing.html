@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The D'Angelo Voicing · Mixolydian ♭9 ♯9 ♭13 · Ukubona LLC</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+
+<style>
+/* ══════════════════════════════════════════════
+   DESIGN TOKENS
+   Neo-soul palette: deep indigo night · warm skin · amber shimmer
+   Dark + humid. The opposite of the Tchaikovsky cold.
+══════════════════════════════════════════════ */
+:root {
+  color-scheme: light dark;
+  --paper:   #f0ece2;
+  --ink:     #14100c;
+  --ink2:    #2a1e12;
+  --ink3:    #7a6644;
+  --rule:    #b89858;
+  --rule2:   #ddd0a8;
+  --accent:  #6b1a1a;
+  --accent2: #9a2c10;
+
+  /* neo-soul chord colors */
+  --root:#c05828;   /* root — burnt sienna */
+  --third:#4a80c0;  /* major 3rd — slate blue */
+  --flat7:#b08028;  /* ♭7 — gold */
+  --flat9:#6050a8;  /* ♭9 — deep violet */
+  --sharp9:#b04878; /* ♯9 — magenta rose */
+  --flat13:#389878; /* ♭13 — jade */
+
+  /* context blocks */
+  --neo-bg:#080608;  --neo-text:#e0d0c8;  --neo-acc:#c05828;
+  --scale-bg:#060810;--scale-text:#c8d0f0;--scale-acc:#6070c8;
+  --phryg-bg:#080608;--phryg-text:#d0c8e8;--phryg-acc:#8858c8;
+  --prac-bg:#060a08; --prac-text:#c8e0d0; --prac-acc:#389878;
+
+  --mono:'IBM Plex Mono',monospace;
+  --serif:'Source Serif 4',Georgia,serif;
+  --display:'Playfair Display',Georgia,serif;
+  --toggle-bg:#e0cdb0; --toggle-knob:#14100c;
+}
+[data-theme="dark"] {
+  --paper:#080610; --ink:#f0e8c8; --ink2:#d4c08c; --ink3:#908050;
+  --rule:#3a2a08; --rule2:#221808; --accent:#e04028; --accent2:#f08038;
+  --toggle-bg:#1e1408; --toggle-knob:#f0e8c0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:#080610; --ink:#f0e8c8; --ink2:#d4c08c; --ink3:#908050;
+    --rule:#3a2a08; --rule2:#221808; --accent:#e04028; --accent2:#f08038;
+    --toggle-bg:#1e1408; --toggle-knob:#f0e8c0;
+  }
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+html { scroll-behavior:smooth }
+body {
+  background:var(--paper); color:var(--ink);
+  font-family:var(--serif); font-size:18px; line-height:1.9;
+  transition:background .3s,color .3s; overflow-x:hidden;
+}
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.02;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+/* loose staff — wider spacing for this humid page */
+body::after {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.013;
+  background:repeating-linear-gradient(to bottom, transparent 0px, transparent 34px, var(--ink) 34px, var(--ink) 35px);
+}
+
+/* ── THEME TOGGLE ── */
+.theme-toggle{position:fixed;top:1.2rem;right:1.5rem;z-index:999;display:flex;align-items:center;gap:.55rem;font-family:var(--mono);font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink3)}
+.toggle-switch{position:relative;width:2.6rem;height:1.3rem;background:var(--toggle-bg);border:1px solid var(--rule);border-radius:0;cursor:pointer;transition:background .25s}
+.toggle-switch::after{content:'';position:absolute;top:.2rem;left:.2rem;width:.75rem;height:.75rem;background:var(--toggle-knob);transition:transform .25s}
+[data-theme="dark"] .toggle-switch::after{transform:translateX(1.25rem)}
+
+/* ── PAGE ── */
+.page { max-width:900px; margin:0 auto; padding:0 2.4rem 12rem; position:relative; z-index:1 }
+
+/* ── MASTHEAD ── */
+.masthead {
+  padding:8rem 0 4rem; border-bottom:4px double var(--ink);
+  margin-bottom:5rem; animation:drop 1.1s cubic-bezier(.16,1,.3,1) both;
+}
+.mast-eyebrow { font-family:var(--mono); font-size:.5rem; letter-spacing:.38em; text-transform:uppercase; color:var(--ink3); margin-bottom:2.5rem }
+.mast-numeral {
+  font-family:var(--display); font-size:clamp(5rem,17vw,12rem); font-weight:900;
+  line-height:.82; color:transparent; -webkit-text-stroke:2px var(--rule);
+  letter-spacing:-.05em; margin-bottom:-.5rem; user-select:none; opacity:.3;
+}
+.mast-title { font-family:var(--display); font-size:clamp(2rem,5vw,3.5rem); font-weight:700; line-height:1.1; color:var(--ink); margin-bottom:.9rem }
+.mast-title em { font-style:italic; font-weight:400; color:var(--accent) }
+.mast-sub { font-family:var(--mono); font-size:.57rem; color:var(--ink3); letter-spacing:.1em; line-height:2.2; margin-bottom:2.5rem }
+.mast-sub em { color:var(--accent2); font-style:normal }
+
+/* tension color legend */
+.tension-legend { display:flex; flex-wrap:wrap; gap:.3rem; margin-top:1rem }
+.tl-badge {
+  font-family:var(--mono); font-size:.48rem; letter-spacing:.18em; text-transform:uppercase;
+  padding:.22rem .7rem; border:1px solid;
+}
+.tl-badge.tl-root  { border-color:var(--root);   color:var(--root);   background:rgba(192,88,40,.08) }
+.tl-badge.tl-third { border-color:var(--third);  color:var(--third);  background:rgba(74,128,192,.08) }
+.tl-badge.tl-flat7 { border-color:var(--flat7);  color:var(--flat7);  background:rgba(176,128,40,.08) }
+.tl-badge.tl-flat9 { border-color:var(--flat9);  color:var(--flat9);  background:rgba(96,80,168,.08) }
+.tl-badge.tl-s9    { border-color:var(--sharp9); color:var(--sharp9); background:rgba(176,72,120,.08) }
+.tl-badge.tl-f13   { border-color:var(--flat13); color:var(--flat13); background:rgba(56,152,120,.08) }
+
+/* ── SEC RULE ── */
+.sec-rule { display:grid; grid-template-columns:auto 1fr; align-items:center; gap:1.2rem; margin:5.5rem 0 2.5rem }
+.sec-rule-label {
+  font-family:var(--mono); font-size:.52rem; letter-spacing:.4em;
+  text-transform:uppercase; white-space:nowrap; padding:.28rem .8rem; border:1px solid;
+}
+.sec-rule-label.neo   { border-color:var(--neo-acc);   color:var(--neo-acc);   background:rgba(192,88,40,.06) }
+.sec-rule-label.scale { border-color:var(--scale-acc); color:var(--scale-acc); background:rgba(96,112,200,.06) }
+.sec-rule-label.phryg { border-color:var(--phryg-acc); color:var(--phryg-acc); background:rgba(136,88,200,.06) }
+.sec-rule-label.prac  { border-color:var(--prac-acc);  color:var(--prac-acc);  background:rgba(56,152,120,.06) }
+.sec-rule-label.schema{ background:var(--ink); color:var(--paper); border-color:var(--ink) }
+.sec-rule hr { border:none; border-top:1px solid var(--rule); width:100% }
+
+/* ── MODEL BLOCKS ── */
+.model-block { border-left:3px solid; padding:2.4rem 2.8rem; margin:0 0 3rem; position:relative }
+.model-stamp {
+  position:absolute; top:1rem; right:1.4rem;
+  font-family:var(--mono); font-size:.44rem; letter-spacing:.38em;
+  text-transform:uppercase; opacity:.6; border:1px solid; padding:.15rem .5rem;
+}
+.model-block h2 { font-family:var(--display); font-size:1.4rem; font-weight:700; margin-bottom:.5rem; line-height:1.2 }
+.model-block .model-sub { font-family:var(--mono); font-size:.54rem; letter-spacing:.22em; margin-bottom:2rem }
+.model-block h3 { font-family:var(--display); font-size:1.05rem; font-weight:700; margin:2.2rem 0 .6rem; padding-top:1.4rem; border-top:1px solid }
+.model-prose { font-size:.9rem; line-height:1.88; margin-bottom:1.2rem }
+.model-prose p { margin-bottom:1rem }
+.model-prose ul { padding-left:1.4rem; margin-bottom:1rem }
+.model-prose li { margin-bottom:.5rem; line-height:1.75 }
+.model-prose blockquote { border-left:2px solid; margin:1.2rem 0; padding:.6rem 1.2rem; font-style:italic; opacity:.88 }
+.model-pull {
+  border-top:1px solid; border-bottom:1px solid; padding:1.2rem 0; margin:1.8rem 0;
+  font-family:var(--display); font-style:italic; font-size:1.05rem; line-height:1.65;
+}
+
+.neo-block   { background:var(--neo-bg);   border-color:var(--neo-acc)   }
+.neo-block   .model-stamp { color:var(--neo-acc);   border-color:var(--neo-acc)   }
+.neo-block   h2,.neo-block h3 { color:var(--neo-text) }
+.neo-block   h3 { border-color:rgba(192,88,40,.2) }
+.neo-block   .model-sub { color:var(--neo-acc) }
+.neo-block   .model-prose { color:var(--neo-text) }
+.neo-block   .model-prose strong { color:#ffd8b8 }
+.neo-block   .model-prose em { color:var(--neo-acc) }
+.neo-block   .model-prose blockquote { border-color:var(--neo-acc) }
+.neo-block   .model-pull { color:var(--neo-acc); border-color:rgba(192,88,40,.3) }
+
+.scale-block { background:var(--scale-bg); border-color:var(--scale-acc) }
+.scale-block .model-stamp { color:var(--scale-acc); border-color:var(--scale-acc) }
+.scale-block h2,.scale-block h3 { color:var(--scale-text) }
+.scale-block h3 { border-color:rgba(96,112,200,.2) }
+.scale-block .model-sub { color:var(--scale-acc) }
+.scale-block .model-prose { color:var(--scale-text) }
+.scale-block .model-prose strong { color:#d8e0ff }
+.scale-block .model-prose em { color:var(--scale-acc) }
+.scale-block .model-prose blockquote { border-color:var(--scale-acc) }
+.scale-block .model-pull { color:var(--scale-acc); border-color:rgba(96,112,200,.3) }
+
+.phryg-block { background:var(--phryg-bg); border-color:var(--phryg-acc) }
+.phryg-block .model-stamp { color:var(--phryg-acc); border-color:var(--phryg-acc) }
+.phryg-block h2,.phryg-block h3 { color:var(--phryg-text) }
+.phryg-block h3 { border-color:rgba(136,88,200,.2) }
+.phryg-block .model-sub { color:var(--phryg-acc) }
+.phryg-block .model-prose { color:var(--phryg-text) }
+.phryg-block .model-prose strong { color:#e8d8ff }
+.phryg-block .model-prose em { color:var(--phryg-acc) }
+.phryg-block .model-prose blockquote { border-color:var(--phryg-acc) }
+.phryg-block .model-pull { color:var(--phryg-acc); border-color:rgba(136,88,200,.3) }
+
+.prac-block  { background:var(--prac-bg);  border-color:var(--prac-acc)  }
+.prac-block  .model-stamp { color:var(--prac-acc);  border-color:var(--prac-acc)  }
+.prac-block  h2,.prac-block h3 { color:var(--prac-text) }
+.prac-block  h3 { border-color:rgba(56,152,120,.2) }
+.prac-block  .model-sub { color:var(--prac-acc) }
+.prac-block  .model-prose { color:var(--prac-text) }
+.prac-block  .model-prose strong { color:#c8fce8 }
+.prac-block  .model-prose em { color:var(--prac-acc) }
+.prac-block  .model-prose blockquote { border-color:var(--prac-acc) }
+.prac-block  .model-pull { color:var(--prac-acc); border-color:rgba(56,152,120,.3) }
+
+/* ── MATH REGION ── */
+.math-region {
+  margin:1.8rem 0; padding:1.2rem 1.8rem;
+  background:rgba(96,80,168,.08); border:1px solid var(--flat9);
+  font-family:var(--mono); font-size:.72rem; color:var(--ink2);
+  line-height:2; overflow-x:auto;
+}
+.math-region .math-label {
+  font-size:.44rem; letter-spacing:.38em; text-transform:uppercase;
+  color:var(--flat9); opacity:.8; margin-bottom:.5rem; display:block;
+}
+
+/* ── THE VOICING DIAGRAM — centrepiece ── */
+.voicing-diagram {
+  margin:2.5rem 0; display:grid; grid-template-columns:1fr 1fr;
+  gap:0; border:1px solid var(--rule); overflow:hidden;
+}
+.vd-hand {
+  padding:1.8rem 1.6rem; position:relative;
+}
+.vd-hand.lh { border-right:1px solid var(--rule); background:rgba(192,88,40,.06) }
+.vd-hand.rh { background:rgba(96,80,168,.06) }
+.vd-hand-label {
+  font-family:var(--mono); font-size:.44rem; letter-spacing:.42em;
+  text-transform:uppercase; margin-bottom:1.4rem; padding-bottom:.5rem;
+  border-bottom:1px solid var(--rule2);
+}
+.vd-hand.lh .vd-hand-label { color:var(--neo-acc) }
+.vd-hand.rh .vd-hand-label { color:var(--phryg-acc) }
+
+/* staff simulation — horizontal lines */
+.vd-staff {
+  position:relative; height:200px; margin-bottom:1rem;
+}
+.vd-staff-line {
+  position:absolute; left:0; right:0; height:1px;
+  background:var(--rule2); opacity:.6;
+}
+.vd-notehead {
+  position:absolute; display:flex; align-items:center; gap:.55rem;
+  transition:opacity .3s;
+}
+.vd-notehead:hover { opacity:.75 }
+.vd-notecircle {
+  width:2rem; height:1.15rem; border-radius:50%;
+  border:2px solid; display:flex; align-items:center; justify-content:center;
+  font-family:var(--display); font-size:.78rem; font-weight:700;
+  flex-shrink:0; transform:rotate(-12deg);
+  transition:transform .2s;
+}
+.vd-notehead:hover .vd-notecircle { transform:rotate(-12deg) scale(1.1) }
+.vd-notelabel {
+  font-family:var(--mono); font-size:.5rem; letter-spacing:.08em; line-height:1.5;
+}
+.vd-int { font-size:.44rem; letter-spacing:.18em; text-transform:uppercase; opacity:.7; display:block }
+
+/* note colors */
+.nc-root  { background:rgba(192,88,40,.25);  border-color:var(--root);   color:var(--root) }
+.nc-flat7 { background:rgba(176,128,40,.25); border-color:var(--flat7);  color:var(--flat7) }
+.nc-third { background:rgba(74,128,192,.25); border-color:var(--third);  color:var(--third) }
+.nc-f13   { background:rgba(56,152,120,.25); border-color:var(--flat13); color:var(--flat13) }
+.nc-flat9 { background:rgba(96,80,168,.25);  border-color:var(--flat9);  color:var(--flat9) }
+.nc-s9    { background:rgba(176,72,120,.25); border-color:var(--sharp9); color:var(--sharp9) }
+
+.nl-root  { color:var(--root) }
+.nl-flat7 { color:var(--flat7) }
+.nl-third { color:var(--third) }
+.nl-f13   { color:var(--flat13) }
+.nl-flat9 { color:var(--flat9) }
+.nl-s9    { color:var(--sharp9) }
+
+/* interval annotation below diagram */
+.vd-interval-row {
+  display:flex; gap:.3rem; align-items:stretch; margin-top:.5rem;
+}
+.vd-int-cell {
+  flex:1; padding:.4rem .3rem; text-align:center;
+  font-family:var(--mono); font-size:.46rem; letter-spacing:.1em;
+  border:1px solid; line-height:1.5;
+}
+.vi-root  { border-color:var(--root);   color:var(--root);   background:rgba(192,88,40,.08) }
+.vi-flat7 { border-color:var(--flat7);  color:var(--flat7);  background:rgba(176,128,40,.08) }
+.vi-third { border-color:var(--third);  color:var(--third);  background:rgba(74,128,192,.08) }
+.vi-f13   { border-color:var(--flat13); color:var(--flat13); background:rgba(56,152,120,.08) }
+.vi-flat9 { border-color:var(--flat9);  color:var(--flat9);  background:rgba(96,80,168,.08) }
+.vi-s9    { border-color:var(--sharp9); color:var(--sharp9); background:rgba(176,72,120,.08) }
+
+/* ── INTERVAL ANALYSIS TABLE ── */
+.interval-table {
+  width:100%; border-collapse:collapse; font-family:var(--mono); font-size:.6rem;
+  margin:1.8rem 0; border:1px solid var(--rule);
+}
+.interval-table thead { background:rgba(180,140,60,.07) }
+.interval-table th {
+  padding:.5rem .7rem; font-size:.44rem; letter-spacing:.26em; text-transform:uppercase;
+  color:var(--ink3); border-bottom:2px solid var(--rule); border-right:1px solid var(--rule2);
+  text-align:left;
+}
+.interval-table th:last-child { border-right:none }
+.interval-table td {
+  padding:.46rem .7rem; border-bottom:1px solid var(--rule2); border-right:1px solid var(--rule2);
+  vertical-align:middle; line-height:1.6;
+}
+.interval-table td:last-child { border-right:none }
+.interval-table tr:last-child td { border-bottom:none }
+.interval-table tr:hover td { background:rgba(180,140,60,.04) }
+.interval-table td.note-name { font-family:var(--display); font-size:.9rem; font-weight:700 }
+
+/* ── TENSION MAP — the "stink" diagram ── */
+.stink-map {
+  margin:2rem 0; padding:1.6rem 2rem;
+  background:rgba(176,72,120,.06); border:1px solid var(--sharp9);
+  position:relative;
+}
+.stink-label {
+  position:absolute; top:-.65rem; left:1.2rem;
+  font-family:var(--mono); font-size:.44rem; letter-spacing:.42em; text-transform:uppercase;
+  background:var(--paper); padding:0 .55rem; color:var(--sharp9);
+}
+.stink-row { display:flex; align-items:center; gap:1rem; margin:.65rem 0 }
+.stink-name { font-family:var(--mono); font-size:.54rem; letter-spacing:.06em; min-width:120px }
+.stink-track { flex:1; height:4px; background:var(--rule2) }
+.stink-fill  { height:100%; transition:width .55s cubic-bezier(.16,1,.3,1) }
+.stink-note  { font-family:var(--serif); font-size:.8rem; font-style:italic; color:var(--ink3); max-width:260px }
+
+/* ── SCALE DEGREE STRIP ── */
+.scale-strip {
+  display:flex; align-items:stretch; margin:2rem 0;
+  border:1px solid var(--rule); overflow:hidden;
+}
+.ss-cell {
+  flex:1; text-align:center; padding:.7rem .3rem;
+  font-family:var(--mono); font-size:.56rem; letter-spacing:.06em;
+  border-right:1px solid var(--rule2); transition:filter .2s; cursor:default;
+}
+.ss-cell:last-child { border-right:none }
+.ss-cell:hover { filter:brightness(1.2) }
+.ss-deg  { font-size:.42rem; letter-spacing:.28em; text-transform:uppercase; opacity:.65; display:block; margin-bottom:.25rem }
+.ss-note { font-family:var(--display); font-size:.9rem; font-weight:700; display:block; margin-bottom:.2rem }
+.ss-int  { font-size:.44rem; display:block; opacity:.75 }
+
+.ss-cell.sc-root  { background:rgba(192,88,40,.1);  color:var(--root) }
+.ss-cell.sc-2     { background:rgba(80,80,80,.06);  color:var(--ink3) }
+.ss-cell.sc-third { background:rgba(74,128,192,.1); color:var(--third) }
+.ss-cell.sc-4     { background:rgba(80,80,80,.06);  color:var(--ink3) }
+.ss-cell.sc-5     { background:rgba(80,80,80,.04);  color:var(--ink3); opacity:.6 }
+.ss-cell.sc-f13   { background:rgba(56,152,120,.1); color:var(--flat13) }
+.ss-cell.sc-flat7 { background:rgba(176,128,40,.1); color:var(--flat7) }
+.ss-cell.sc-flat9 { background:rgba(96,80,168,.1);  color:var(--flat9) }
+.ss-cell.sc-s9    { background:rgba(176,72,120,.1); color:var(--sharp9) }
+
+/* ── PRACTICE STEPS ── */
+.prac-steps { margin:1.8rem 0 }
+.prac-step {
+  display:flex; gap:1rem; align-items:flex-start;
+  padding:1rem 0; border-bottom:1px solid var(--rule2);
+}
+.prac-step:last-child { border-bottom:none }
+.prac-step-num {
+  font-family:var(--mono); font-size:.52rem; letter-spacing:.1em;
+  color:var(--prac-acc); flex-shrink:0; width:1.4rem; text-align:right; padding-top:.2rem;
+}
+.prac-step-body { flex:1; min-width:0 }
+.prac-step-head {
+  font-family:var(--display); font-size:.95rem; font-weight:700;
+  color:var(--prac-text); margin-bottom:.3rem;
+}
+.prac-step-desc {
+  font-family:var(--serif); font-size:.86rem; line-height:1.78;
+  color:var(--prac-text); opacity:.85;
+}
+.prac-step-tag {
+  display:inline-block; font-family:var(--mono); font-size:.42rem;
+  letter-spacing:.22em; text-transform:uppercase; border:1px solid;
+  padding:.1rem .38rem; margin-left:.5rem; vertical-align:middle;
+}
+
+/* chord chain */
+.chord-chain {
+  display:flex; align-items:center; gap:.3rem; flex-wrap:wrap;
+  font-family:var(--mono); font-size:.64rem; letter-spacing:.04em; margin:1rem 0;
+}
+.cc-node { padding:.22em .6em; border:1px solid; transition:transform .15s }
+.cc-node:hover { transform:translateY(-2px) }
+.cc-arr { color:var(--rule); font-size:.6rem }
+.cc-home  { background:rgba(56,152,120,.1);  border-color:var(--prac-acc); color:var(--prac-acc) }
+.cc-pre   { background:rgba(96,112,200,.1);  border-color:var(--scale-acc);color:var(--scale-acc) }
+.cc-alt   { background:rgba(176,72,120,.12); border-color:var(--sharp9);   color:var(--sharp9) }
+.cc-sigh  { background:rgba(56,152,120,.12); border-color:var(--flat13);   color:var(--flat13) }
+
+/* ── LIMIT ANALOGY BOX ── */
+.limit-box {
+  margin:2rem 0; padding:1.4rem 2rem;
+  background:rgba(96,112,200,.07); border:1px solid var(--scale-acc);
+  position:relative;
+}
+.limit-label {
+  position:absolute; top:-.65rem; left:1.2rem;
+  font-family:var(--mono); font-size:.44rem; letter-spacing:.42em; text-transform:uppercase;
+  background:var(--paper); padding:0 .55rem; color:var(--scale-acc);
+}
+.limit-math {
+  font-family:var(--mono); font-size:.72rem; letter-spacing:.04em;
+  color:var(--scale-text); line-height:2.2; overflow-x:auto;
+}
+
+/* ── NEXT STEPS ── */
+.next-box {
+  margin:2.5rem 0; border:1px solid var(--flat13);
+  background:rgba(56,152,120,.05); padding:1.8rem 2.2rem; position:relative;
+}
+.next-box-label {
+  position:absolute; top:-.68rem; left:1.4rem;
+  font-family:var(--mono); font-size:.44rem; letter-spacing:.42em; text-transform:uppercase;
+  background:var(--paper); padding:0 .6rem; color:var(--flat13);
+}
+.next-box ul { list-style:none; padding:0 }
+.next-box li {
+  display:flex; gap:.8rem; align-items:flex-start;
+  font-family:var(--serif); font-size:.88rem; line-height:1.78;
+  color:var(--ink2); margin-bottom:.8rem; padding-bottom:.8rem;
+  border-bottom:1px solid rgba(56,152,120,.15);
+}
+.next-box li:last-child { border-bottom:none; margin-bottom:0 }
+.next-box li::before { content:'→'; font-family:var(--mono); color:var(--flat13); flex-shrink:0; padding-top:.06rem }
+.next-box li strong { color:var(--ink) }
+
+/* ── VERSE / ANNOTATION ── */
+.verse-block {
+  font-family:var(--mono); font-size:.7rem; letter-spacing:.06em;
+  line-height:2.2; color:var(--ink3); border-left:3px solid var(--rule);
+  padding:.8rem 1.6rem; margin:2rem 0; font-style:italic;
+}
+.verse-block cite {
+  display:block; margin-top:.7rem; font-style:normal;
+  font-size:.5rem; letter-spacing:.3em; text-transform:uppercase; color:var(--ink3); opacity:.65;
+}
+.annotation {
+  margin:1.5rem 0; border-left:3px solid var(--rule); padding:.9rem 1.4rem;
+  background:rgba(196,168,100,.05); font-family:var(--mono); font-size:.55rem;
+  letter-spacing:.08em; color:var(--ink3); line-height:1.9;
+}
+.annotation::before {
+  content:'MIXOLYDIAN ♭9 ♯9 ♭13 · D\'ANGELO VOICING · ALTERED SCALE · NEO-SOUL HARMONY · UKUBONA LLC';
+  display:block; font-size:.42rem; letter-spacing:.38em; opacity:.65; margin-bottom:.35rem;
+}
+
+/* ── INTERLUDE ── */
+.interlude {
+  border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+  padding:2rem 0; margin:3.5rem 0; font-family:var(--display);
+  font-style:italic; font-size:1.1rem; line-height:1.7; color:var(--ink2); text-align:center;
+}
+
+/* ── CODA ── */
+.coda { border:2px solid var(--ink); padding:3.2rem 3.8rem; margin:6rem 0; position:relative }
+.coda-label {
+  position:absolute; top:-.75rem; left:2rem;
+  font-family:var(--mono); font-size:.48rem; letter-spacing:.45em; text-transform:uppercase;
+  background:var(--paper); padding:0 .75rem; color:var(--ink);
+}
+.coda h2 { font-family:var(--display); font-size:1.3rem; font-weight:700; font-style:italic; color:var(--ink); margin-bottom:1.4rem }
+.coda p { color:var(--ink2); margin-bottom:1rem; line-height:1.85; font-size:.9rem }
+.coda strong { color:var(--ink) }
+
+/* ── FOOTER ── */
+footer { border-top:3px double var(--ink); padding:3rem 0 7rem }
+.foot-chain { font-family:var(--mono); font-size:.52rem; letter-spacing:.28em; color:var(--ink3); margin-bottom:.7rem }
+.foot-chain span { color:var(--accent2) }
+.foot-note { font-family:var(--mono); font-size:.47rem; letter-spacing:.1em; color:var(--ink3); line-height:2.4 }
+
+/* ── ANIMATIONS ── */
+.fade-in { opacity:0; transform:translateY(12px); transition:opacity .65s ease,transform .65s ease }
+.fade-in.visible { opacity:1; transform:translateY(0) }
+@keyframes drop { from{opacity:0;transform:translateY(-14px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── MOBILE ── */
+@media(max-width:640px) {
+  .mast-numeral { font-size:5rem }
+  .mast-title { font-size:1.8rem }
+  .model-block,.coda { padding:1.8rem 1.5rem }
+  .theme-toggle { top:.7rem; right:.9rem }
+  .voicing-diagram { grid-template-columns:1fr }
+  .vd-hand.lh { border-right:none; border-bottom:1px solid var(--rule) }
+  .scale-strip { flex-wrap:wrap }
+  .ss-cell { flex:1 1 30% }
+  .interval-table { font-size:.52rem }
+}
+</style>
+</head>
+<body>
+
+<div class="theme-toggle" aria-label="Toggle dark/light mode">
+  <span id="toggle-label">Light</span>
+  <div class="toggle-switch" id="themeSwitch" role="button" tabindex="0" aria-pressed="false"></div>
+</div>
+
+<div class="page">
+
+  <!-- ══ MASTHEAD ══ -->
+  <header class="masthead">
+    <br><br><br>
+    <div class="mast-eyebrow">Ukubona LLC · The D'Angelo Voicing · Mixolydian ♭9 ♯9 ♭13 · Neo-Soul Harmony · March 2026</div>
+    <div class="mast-numeral" aria-hidden="true">♯9</div>
+    <h1 class="mast-title">
+      The D'Angelo Voicing<br>
+      <em>Mixolydian ♭9, ♯9, ♭13 · The Secret Sauce<br>of Neo-Soul Harmony</em>
+    </h1>
+    <p class="mast-sub">
+      // Derived from the Altered Scale — <em>7th mode of Melodic Minor · every tension that doesn't clash</em><br>
+      // Formula: <em>1 – 3 – ♭7 – ♭9 – ♯9 – ♭13 · six pitch classes · maximum chromatic coverage</em><br>
+      // G7(♭9,♯9,♭13): <em>LH: G–F · RH: B–E♭–A♭–B♭ · root omitted · air for the tensions to shimmer</em><br>
+      // "Untitled (How Does It Feel)": <em>hypnotic stagnant tension · V7 as infinite loop of yearning</em><br>
+      // The limit that approaches but never touches: <em>resolution avoided · tension as destination</em>
+    </p>
+    <div class="tension-legend">
+      <span class="tl-badge tl-root">Root — G</span>
+      <span class="tl-badge tl-third">3rd — B</span>
+      <span class="tl-badge tl-flat7">♭7 — F</span>
+      <span class="tl-badge tl-flat9">♭9 — A♭</span>
+      <span class="tl-badge tl-s9">♯9 — B♭</span>
+      <span class="tl-badge tl-f13">♭13 — E♭</span>
+    </div>
+  </header>
+
+  <div class="verse-block fade-in">
+    In "Untitled," the resolution is often delayed or avoided entirely,<br>
+    turning the tension itself into the destination.<br>
+    This is the musical equivalent of a limit in calculus<br>
+    that approaches a value but never quite touches it —<br>
+    the V7 becomes an infinite loop of yearning.
+    <cite>— Octogonean Curriculum · D'Angelo Session · March 2026</cite>
+  </div>
+
+  <div class="annotation fade-in">
+    This chord is derived from the Altered Scale — the 7th mode of Melodic Minor. It contains every possible tension that doesn't "clash" with the functional tritone of the dominant chord. The tritone (B–F in G7) is the structural skeleton that points toward resolution. The ♭9, ♯9, and ♭13 are the flesh and muscle — the chromatic tensions that make the skeleton ache before it arrives.
+  </div>
+
+
+  <!-- ══ I · THE ANATOMY ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label neo">I · The Anatomy · G7(♭9, ♯9, ♭13) · What Each Note Is Doing</span>
+    <hr>
+  </div>
+
+  <div class="model-block neo-block fade-in">
+    <div class="model-stamp">ALTERED DOMINANT</div>
+    <h2>The Anatomy of the Altered Dominant</h2>
+    <p class="model-sub">G7 as our V7 pivot · Core + Tensions · Six pitch classes · Maximum coverage</p>
+
+    <div class="math-region fade-in">
+      <span class="math-label">The formula · altered dominant · all tensions over dominant structure</span>
+      $$1 - 3 - \flat7 - \flat9 - \sharp9 - \flat13$$
+      <span style="font-size:.58rem;font-style:italic;color:var(--ink3);display:block;margin-top:.4rem">
+        In G: G (root) – B (3rd) – F (♭7) – A♭ (♭9) – B♭ (♯9) – E♭ (♭13)
+      </span>
+    </div>
+
+    <!-- scale degree strip showing altered scale context -->
+    <div class="scale-strip fade-in">
+      <div class="ss-cell sc-root">
+        <span class="ss-deg">1</span>
+        <span class="ss-note">G</span>
+        <span class="ss-int">Root</span>
+      </div>
+      <div class="ss-cell sc-flat9">
+        <span class="ss-deg">♭9</span>
+        <span class="ss-note">A♭</span>
+        <span class="ss-int">m2 above</span>
+      </div>
+      <div class="ss-cell sc-s9">
+        <span class="ss-deg">♯9</span>
+        <span class="ss-note">B♭</span>
+        <span class="ss-int">m3 above</span>
+      </div>
+      <div class="ss-cell sc-third">
+        <span class="ss-deg">3</span>
+        <span class="ss-note">B</span>
+        <span class="ss-int">M3 above</span>
+      </div>
+      <div class="ss-cell sc-5" style="opacity:.45">
+        <span class="ss-deg">♭5 / ♯11</span>
+        <span class="ss-note">D♭</span>
+        <span class="ss-int">omitted</span>
+      </div>
+      <div class="ss-cell sc-f13">
+        <span class="ss-deg">♭13</span>
+        <span class="ss-note">E♭</span>
+        <span class="ss-int">m6 above</span>
+      </div>
+      <div class="ss-cell sc-flat7">
+        <span class="ss-deg">♭7</span>
+        <span class="ss-note">F</span>
+        <span class="ss-int">m7 above</span>
+      </div>
+    </div>
+
+    <table class="interval-table fade-in">
+      <thead>
+        <tr>
+          <th>Note</th>
+          <th>Degree</th>
+          <th>Semitones</th>
+          <th>Function</th>
+          <th>Why it's here</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="note-name" style="color:var(--root)">G</td>
+          <td style="color:var(--root)">Root (1)</td>
+          <td>0</td>
+          <td>Foundation · names the chord</td>
+          <td>Left hand only — omitted from right hand voicing to create air</td>
+        </tr>
+        <tr>
+          <td class="note-name" style="color:var(--third)">B</td>
+          <td style="color:var(--third)">Major 3rd (3)</td>
+          <td>4</td>
+          <td>Guide tone · bottom of tritone</td>
+          <td>Cannot be omitted — it defines the dominant quality with the F</td>
+        </tr>
+        <tr>
+          <td class="note-name" style="color:var(--flat7)">F</td>
+          <td style="color:var(--flat7)">Minor 7th (♭7)</td>
+          <td>10</td>
+          <td>Guide tone · top of tritone</td>
+          <td>Left hand — the tritone B–F is the dominant's skeleton</td>
+        </tr>
+        <tr>
+          <td class="note-name" style="color:var(--flat9)">A♭</td>
+          <td style="color:var(--flat9)">Flat 9 (♭9)</td>
+          <td>13</td>
+          <td>Spanish Phrygian tension</td>
+          <td>Half-step above root — creates minor feel above major chord</td>
+        </tr>
+        <tr>
+          <td class="note-name" style="color:var(--sharp9)">B♭</td>
+          <td style="color:var(--sharp9)">Sharp 9 (♯9)</td>
+          <td>15</td>
+          <td>The "Hendrix note" · chromatic rub</td>
+          <td>Adjacent to B (3rd) — one semitone apart · the "stink" cluster</td>
+        </tr>
+        <tr>
+          <td class="note-name" style="color:var(--flat13)">E♭</td>
+          <td style="color:var(--flat13)">Flat 13 (♭13)</td>
+          <td>20</td>
+          <td>Lydian Dominant shimmer</td>
+          <td>P4 above the 3rd — haunting augmented feel against the root</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="model-pull">
+      The tritone B–F is the dominant chord's promise of resolution. The ♭9, ♯9, and ♭13 are everything that makes the promise feel unbearable to keep — and too beautiful to redeem.
+    </div>
+  </div>
+
+
+  <!-- ══ II · THE VOICING DIAGRAM ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label scale">II · The D'Angelo Voicing · Two-Hand Layout · Air for the Tensions to Shimmer</span>
+    <hr>
+  </div>
+
+  <div class="model-block scale-block fade-in">
+    <div class="model-stamp">THE VOICING</div>
+    <h2>G7(♭9, ♯9, ♭13): The Two-Hand Diagram</h2>
+    <p class="model-sub">Root omitted from right hand · bass handles foundation · maximum shimmer space</p>
+
+    <!-- THE MAIN VOICING DIAGRAM -->
+    <div class="voicing-diagram fade-in" id="voicingDiagram">
+      <!-- LEFT HAND -->
+      <div class="vd-hand lh">
+        <div class="vd-hand-label">Left Hand — Shell Voicing</div>
+        <div class="vd-staff">
+          <!-- staff lines -->
+          <div class="vd-staff-line" style="top:20%"></div>
+          <div class="vd-staff-line" style="top:35%"></div>
+          <div class="vd-staff-line" style="top:50%"></div>
+          <div class="vd-staff-line" style="top:65%"></div>
+          <div class="vd-staff-line" style="top:80%"></div>
+
+          <!-- G — root, low -->
+          <div class="vd-notehead" style="bottom:12%; left:8%">
+            <div class="vd-notecircle nc-root">G</div>
+            <div class="vd-notelabel nl-root">
+              G <span class="vd-int">Root · 1</span>
+            </div>
+          </div>
+
+          <!-- F — flat 7, higher -->
+          <div class="vd-notehead" style="bottom:52%; left:8%">
+            <div class="vd-notecircle nc-flat7">F</div>
+            <div class="vd-notelabel nl-flat7">
+              F <span class="vd-int">♭7 · min 7th</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="vd-interval-row">
+          <div class="vd-int-cell vi-root">G<br>Root</div>
+          <div class="vd-int-cell vi-flat7">F<br>♭7</div>
+        </div>
+
+        <p style="font-family:var(--serif);font-size:.82rem;color:var(--neo-text);line-height:1.75;margin-top:1rem;opacity:.85">
+          Two notes only. The root anchors the harmony in the bass register. The ♭7 completes the tritone structure with the right hand's 3rd. Together they form the skeleton — the promise the right hand will make unbearable.
+        </p>
+      </div>
+
+      <!-- RIGHT HAND -->
+      <div class="vd-hand rh">
+        <div class="vd-hand-label">Right Hand — Tension Cluster</div>
+        <div class="vd-staff">
+          <!-- staff lines -->
+          <div class="vd-staff-line" style="top:20%"></div>
+          <div class="vd-staff-line" style="top:35%"></div>
+          <div class="vd-staff-line" style="top:50%"></div>
+          <div class="vd-staff-line" style="top:65%"></div>
+          <div class="vd-staff-line" style="top:80%"></div>
+
+          <!-- B — major 3rd, lowest in RH -->
+          <div class="vd-notehead" style="bottom:8%; left:8%">
+            <div class="vd-notecircle nc-third">B</div>
+            <div class="vd-notelabel nl-third">
+              B <span class="vd-int">3rd · guide tone</span>
+            </div>
+          </div>
+
+          <!-- Eb — flat 13 -->
+          <div class="vd-notehead" style="bottom:30%; left:8%">
+            <div class="vd-notecircle nc-f13">E♭</div>
+            <div class="vd-notelabel nl-f13">
+              E♭ <span class="vd-int">♭13 · shimmer</span>
+            </div>
+          </div>
+
+          <!-- Ab — flat 9 -->
+          <div class="vd-notehead" style="bottom:54%; left:8%">
+            <div class="vd-notecircle nc-flat9">A♭</div>
+            <div class="vd-notelabel nl-flat9">
+              A♭ <span class="vd-int">♭9 · Phrygian</span>
+            </div>
+          </div>
+
+          <!-- Bb — sharp 9, top voice -->
+          <div class="vd-notehead" style="bottom:76%; left:8%">
+            <div class="vd-notecircle nc-s9">B♭</div>
+            <div class="vd-notelabel nl-s9">
+              B♭ <span class="vd-int">♯9 · the stink</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="vd-interval-row">
+          <div class="vd-int-cell vi-third">B<br>3rd</div>
+          <div class="vd-int-cell vi-f13">E♭<br>♭13</div>
+          <div class="vd-int-cell vi-flat9">A♭<br>♭9</div>
+          <div class="vd-int-cell vi-s9">B♭<br>♯9</div>
+        </div>
+
+        <p style="font-family:var(--serif);font-size:.82rem;color:var(--scale-text);line-height:1.75;margin-top:1rem;opacity:.85">
+          Bottom to top: B – E♭ – A♭ – B♭. The B and E♭ form a perfect fourth that sounds haunted against the G root. The A♭ and B♭ — a minor second apart — create the cluster rub that gives neo-soul its signature "stink."
+        </p>
+      </div>
+    </div>
+
+    <!-- stink map — interval analysis -->
+    <div class="stink-map fade-in">
+      <span class="stink-label">The "Stink" Map · What each interval pair is doing</span>
+      <div class="stink-row">
+        <span class="stink-name" style="color:var(--third)">B → E♭</span>
+        <div class="stink-track"><div class="stink-fill" data-w="62" style="width:0%;background:var(--flat13)"></div></div>
+        <span class="stink-note">Perfect 4th — but against G root, sounds augmented · haunting</span>
+      </div>
+      <div class="stink-row">
+        <span class="stink-name" style="color:var(--flat9)">A♭ → B♭</span>
+        <div class="stink-track"><div class="stink-fill" data-w="88" style="width:0%;background:var(--sharp9)"></div></div>
+        <span class="stink-note">Minor 2nd cluster · maximum rub · the R&amp;B "stink" · Hendrix adjacent</span>
+      </div>
+      <div class="stink-row">
+        <span class="stink-name" style="color:var(--root)">G → A♭</span>
+        <div class="stink-track"><div class="stink-fill" data-w="95" style="width:0%;background:var(--flat9)"></div></div>
+        <span class="stink-note">Root → ♭9: half-step · Spanish Phrygian · minor feel above dominant root</span>
+      </div>
+      <div class="stink-row">
+        <span class="stink-name" style="color:var(--third)">B → F</span>
+        <div class="stink-track"><div class="stink-fill" data-w="44" style="width:0%;background:var(--flat7)"></div></div>
+        <span class="stink-note">Tritone — the structural engine · resolution pointer · cannot be omitted</span>
+      </div>
+    </div>
+
+    <div class="model-pull">
+      Why omit the root from the right hand? Because the root is a ground. When you remove the ground from the upper register, the tensions have nothing to resolve against locally — they float. The bass provides the anchor; the right hand provides the cloud above it. That is the D'Angelo sound: anchored in the body, weightless above the shoulders.
+    </div>
+  </div>
+
+
+  <!-- ══ III · THE PHRYGIAN CONNECTION ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label phryg">III · The Phrygian Connection · Spanish Flamenco · Jazzed Into Neo-Soul</span>
+    <hr>
+  </div>
+
+  <div class="model-block phryg-block fade-in">
+    <div class="model-stamp">PHRYGIAN DOMINANT</div>
+    <h2>The Phrygian Connection</h2>
+    <p class="model-sub">Phrygian Dominant · Spanish Phrygian · Flamenco Guitarist · Jazz Function · Neo-Soul "Stink"</p>
+
+    <div class="model-prose">
+      <p>The ♭9 and ♭13 are the defining characteristics of the Phrygian mode — the mode built on the second degree of a major scale, or equivalently, the mode that uses a half-step above the tonic as its characteristic color. In its "Dominant" form (Phrygian Dominant = 5th mode of harmonic minor), it produces the sound universally recognized as flamenco: a dominant chord with a flat-nine that doesn't quite resolve, that circles the tonic and withdraws.</p>
+      <p>By placing the ♭9 and ♭13 over a jazz dominant seventh chord, the voicing is <em>"jazzing up" the sound of a flamenco guitarist</em>. The Spanish Phrygian is not borrowed or exotic in this context — it is the underlying grammar. The ♯9 (which is absent from pure Phrygian) is the jazz addition: the chromatic rub that makes the chord simultaneously ancient (Phrygian) and modern (altered dominant).</p>
+    </div>
+
+    <!-- limit analogy box -->
+    <div class="limit-box fade-in">
+      <span class="limit-label">The Calculus Analogy · D'Angelo's V7 as a Limit</span>
+      <div class="limit-math">
+        $$\lim_{t \to \text{resolution}} V7(\flat9,\sharp9,\flat13) = I_{\text{maj7}} \quad \text{but } t \text{ never arrives}$$
+      </div>
+      <p style="font-family:var(--serif);font-size:.88rem;line-height:1.8;color:var(--scale-text);margin-top:1rem;opacity:.88">
+        In "Untitled (How Does It Feel)," the V7 approaches resolution the way a limit approaches its value — arbitrarily close, never touching. The function is defined everywhere except at the resolution point itself. The yearning is the mathematics. The "stagnant tension" Vibe described is not a stall — it is an infinite approach. The destination exists. It is simply never occupied.
+      </p>
+    </div>
+
+    <div class="model-prose">
+      <p>This is also why "Untitled" creates a <em>hypnotic, almost stagnant tension</em>. A V7 that resolves creates forward motion. A V7 that refuses to resolve becomes a <strong>standing wave</strong> — it vibrates in place, producing the same harmonic energy repeatedly without dissipating it. The groove locks in because the harmonic tension never drops. The listener's body responds to the groove while their harmonic expectation remains perpetually suspended. That is the neo-soul mechanism: groove satisfies the body; unresolved harmony keeps the mind searching.</p>
+    </div>
+
+    <div class="model-pull">
+      The ♭9 and ♭13 are Phrygian. The ♯9 is jazz. Together they produce a dominant chord that feels simultaneously ancient and modern, Spanish and American, flamenco and funk. It is the oldest musical tension in Western tradition, rerouted through Detroit and Virginia Beach.
+    </div>
+  </div>
+
+
+  <!-- ══ IV · THE PRACTICE ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label prac">IV · Daily Practice · The "Stretched" Circle · I – ii – V(alt) – I</span>
+    <hr>
+  </div>
+
+  <div class="model-block prac-block fade-in">
+    <div class="model-stamp">THE STRETCHED CIRCLE</div>
+    <h2>Daily Practice: The "Stretched" Circle</h2>
+    <p class="model-sub">Replace every V7 in the cheat sheet with this altered voicing · four-step loop · the "Big Sigh"</p>
+
+    <div class="model-prose">
+      <p>Take the Diatonic Seventh Cheat Sheet and replace every V7 chord with this altered voicing. Practice the following four-step loop in every key, in Circle of Fifths order. The loop is short on purpose: the point is to experience the altered dominant's resolution — the "Big Sigh" — repeatedly, until the tension and release become motor memory rather than conscious calculation.</p>
+    </div>
+
+    <!-- chord chain preview in C -->
+    <div class="chord-chain fade-in">
+      <span style="font-family:var(--mono);font-size:.52rem;color:var(--ink3);flex-shrink:0">in C:</span>
+      <span class="cc-node cc-home">Cmaj7</span>
+      <span class="cc-arr">→</span>
+      <span class="cc-node cc-pre">Dm7</span>
+      <span class="cc-arr">→</span>
+      <span class="cc-node cc-alt">G7(♭9,♯9,♭13)</span>
+      <span class="cc-arr">→</span>
+      <span class="cc-node cc-sigh">Cmaj7 ← Big Sigh</span>
+    </div>
+
+    <div class="prac-steps">
+      <div class="prac-step">
+        <span class="prac-step-num">1.</span>
+        <div class="prac-step-body">
+          <div class="prac-step-head">Play Imaj7 <span class="prac-step-tag" style="border-color:var(--prac-acc);color:var(--prac-acc)">HOME</span></div>
+          <div class="prac-step-desc">The tonic — your base of operations. Feel its stability completely before you move. In C: Cmaj7 (C–E–G–B). Hold it long enough to establish "home" as a felt sense, not just a concept.</div>
+        </div>
+      </div>
+      <div class="prac-step">
+        <span class="prac-step-num">2.</span>
+        <div class="prac-step-body">
+          <div class="prac-step-head">Play ii−7 <span class="prac-step-tag" style="border-color:var(--scale-acc);color:var(--scale-acc)">PRE-TENSION</span></div>
+          <div class="prac-step-desc">The pre-dominant. This is where the harmonic motion begins — a gentle lean away from the tonic. In C: Dm7 (D–F–A–C). It introduces mild tension without committing to anything dramatic. Think of it as the question mark before the exclamation point.</div>
+        </div>
+      </div>
+      <div class="prac-step">
+        <span class="prac-step-num">3.</span>
+        <div class="prac-step-body">
+          <div class="prac-step-head">Play V7(♭9, ♯9, ♭13) <span class="prac-step-tag" style="border-color:var(--sharp9);color:var(--sharp9)">THE D'ANGELO MOMENT</span></div>
+          <div class="prac-step-desc">The altered dominant — the entire machinery described above. In C: G7(♭9,♯9,♭13). Left hand: G and F. Right hand: B – E♭ – A♭ – B♭. This is maximum harmonic entropy. Every tension the altered scale can offer, compressed into one chord. Sit in it. Let the stink settle. Don't rush to step 4.</div>
+        </div>
+      </div>
+      <div class="prac-step">
+        <span class="prac-step-num">4.</span>
+        <div class="prac-step-body">
+          <div class="prac-step-head">Resolve to Imaj7 <span class="prac-step-tag" style="border-color:var(--flat13);color:var(--flat13)">THE BIG SIGH</span></div>
+          <div class="prac-step-desc">The return. After the altered dominant's accumulated tension, the Imaj7 feels like physical relief — an exhale after held breath. In C: back to Cmaj7. This is the "Big Sigh." With enough practice, the sigh becomes automatic: your body will relax at the resolution before your mind registers what happened.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="model-prose" style="margin-top:1.5rem">
+      <p>Practice this loop in all 12 keys, Circle of Fifths order. When the altered dominant voicing is fully under your fingers, extend the loop: delay the resolution. Play step 3 twice. Three times. Sustain the G7(♭9,♯9,♭13) until the tension becomes a groove, not a discomfort. That is the D'Angelo move — not "I can't find the resolution" but "I don't need it yet." The yearning is the music.</p>
+    </div>
+
+    <div class="model-pull">
+      The "Stretched" Circle is a machine for building tolerance of harmonic entropy. The longer you can sustain the altered dominant before resolving, the more control you have over the listener's body. D'Angelo's genius is that he stays in step 3 for minutes at a time — and the listener follows willingly, because the groove makes the tension feel like home.
+    </div>
+  </div>
+
+
+  <!-- ══ NEXT STEPS ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label schema">NEXT · Where the Curriculum Goes · Two Open Paths</span>
+    <hr>
+  </div>
+
+  <div class="next-box fade-in">
+    <span class="next-box-label">Next Steps · Open Paths</span>
+    <ul>
+      <li>
+        <strong>Tritone Substitution:</strong> The altered dominant logic applied to the tritone sub — replacing G7(♭9,♯9,♭13) with D♭7(♯11) and discovering they share four of the same pitch classes. The substitution works because the two chords overlap at the tritone. This is the Berklee logic extended: not just altering the dominant, but replacing it with its mirror across the octave.
+      </li>
+      <li>
+        <strong>Bantu-Influenced Rhythmic Subdivisions — The "Dilla Feel":</strong> The chords shimmer because J Dilla's rhythmic feel places them in a grid that is slightly but deliberately off the beat. The "drunk" subdivision — where the snare lands fractionally late and the hi-hat sits in a pocket that doesn't correspond to any standard subdivision — creates a tension between rhythmic expectation and rhythmic delivery that mirrors the harmonic tension of the altered dominant. The chord yearns. The beat lurches. Together they produce the neo-soul feeling that no sequencer has fully replicated.
+      </li>
+    </ul>
+  </div>
+
+  <div class="interlude fade-in">
+    The ♭9 and the ♯9 are one semitone apart.<br>
+    They should not coexist in a chord.<br>
+    <em>That is exactly why they do.</em><br>
+    The "stink" is the sound of a rule being broken<br>
+    so precisely, so deliberately,<br>
+    that it becomes the new rule.
+  </div>
+
+  <div class="coda fade-in">
+    <span class="coda-label">Synthesis · The D'Angelo Voicing · What It All Means</span>
+    <h2>The Secret Sauce Is Not a Secret — It Is a Commitment</h2>
+    <p>The altered dominant is not a difficult chord. It is a commitment. A commitment to staying in maximum harmonic tension longer than is comfortable, longer than is safe, long enough that the listener's body stops waiting for the resolution and begins to inhabit the tension as if it were its own. That is what D'Angelo does in "Untitled." He does not delay the resolution as a compositional technique. He delays it until the listener forgets they were waiting — and then, when it comes, the sigh is larger than any resolution earned through conventional means could be.</p>
+    <p>The Phrygian connection is real. The Spanish Phrygian has been doing this for centuries in flamenco — <strong>building tension to the edge of unbearability and then refusing to cross it</strong>. Neo-soul is flamenco with a Fender Rhodes and a drum machine. The grammar is ancient. The vocabulary is American. The "stink" is the smell of two traditions recognizing each other across the octave.</p>
+    <p>The calculus analogy holds: the limit exists. The function approaches it. The value is never achieved. In mathematics this is a feature, not a failure. In music it is the same. The V7(♭9,♯9,♭13) is a function defined everywhere except at its own resolution. The yearning is the definition. The "Untitled" track is a five-minute proof that the most beautiful value a function can have is the one it never quite reaches.</p>
+  </div>
+
+  <footer class="fade-in">
+    <p class="foot-chain">Ukubona LLC · <span>G7(♭9,♯9,♭13) · LH: G–F · RH: B–E♭–A♭–B♭ · Altered Scale · 7th mode of Melodic Minor · Neo-Soul · March 2026</span></p>
+    <p class="foot-note">
+      I · Anatomy · 1–3–♭7–♭9–♯9–♭13 · <span style="color:var(--neo-acc)">G root + B (3rd) + F (♭7) + A♭ (♭9) + B♭ (♯9) + E♭ (♭13)</span><br>
+      II · D'Angelo voicing · LH shell + RH cluster · <span style="color:var(--scale-acc)">root omitted RH · air for tensions · B–E♭ P4 haunted · A♭–B♭ cluster = stink</span><br>
+      III · Phrygian connection · ♭9 + ♭13 = Phrygian · ♯9 = jazz addition · <span style="color:var(--phryg-acc)">flamenco + Fender Rhodes = neo-soul</span><br>
+      IV · Stretched Circle · I – ii – V7(alt) – I · <span style="color:var(--prac-acc)">sit in step 3 · delay the sigh · build tolerance of harmonic entropy</span><br>
+      <br>
+      Next: Tritone sub — D♭7(♯11) shares four pitch classes with G7alt · the mirror across the octave<br>
+      Next: Dilla Feel — rhythmic lurching as mirror of harmonic yearning · the drunk subdivision<br>
+      <br>
+      D'Angelo "Untitled (How Does It Feel)" — Voodoo, Virgin Records, 2000<br>
+      Altered Scale = 7th mode of Melodic Minor · Phrygian Dominant = 5th mode of Harmonic Minor<br>
+      Octogonean Curriculum · Section VIII · © 2026 Ukubona LLC
+    </p>
+  </footer>
+
+</div>
+
+<!-- CENTRALIZED ASSETS -->
+<div class="scroll-indicator"><div class="scroll-progress"></div></div>
+<div class="bg-pattern"></div>
+<header class="header" id="header"></header>
+<main class="page wrap-max"></main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+
+<script>
+/* ── THEME TOGGLE ── */
+const sw=document.getElementById('themeSwitch'),lbl=document.getElementById('toggle-label'),html=document.documentElement;
+const saved=localStorage.getItem('theme'),pD=window.matchMedia('(prefers-color-scheme: dark)').matches;
+if(saved==='dark'||(!saved&&pD)){html.setAttribute('data-theme','dark');lbl.textContent='Dark';sw.setAttribute('aria-pressed','true')}
+function toggleTheme(){
+  const d=html.getAttribute('data-theme')==='dark';
+  if(d){html.removeAttribute('data-theme');lbl.textContent='Light';sw.setAttribute('aria-pressed','false');localStorage.setItem('theme','light')}
+  else{html.setAttribute('data-theme','dark');lbl.textContent='Dark';sw.setAttribute('aria-pressed','true');localStorage.setItem('theme','dark')}
+}
+sw.addEventListener('click',toggleTheme);
+sw.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleTheme()}});
+
+/* ── FADE IN ── */
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})
+},{threshold:.05});
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+
+/* ── STINK BARS animate in ── */
+document.querySelectorAll('.stink-fill').forEach(bar=>{
+  const w=bar.dataset.w+'%'; bar.style.width='0%';
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){bar.style.width=w;obs.unobserve(bar)}})
+  },{threshold:.8});
+  obs.observe(bar);
+});
+
+/* ── VOICING DIAGRAM — staggered notehead entrance ── */
+const vd=document.getElementById('voicingDiagram');
+if(vd){
+  const vdObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const heads=vd.querySelectorAll('.vd-notehead');
+        heads.forEach((h,i)=>{
+          h.style.opacity='0';
+          h.style.transform='translateX(-8px)';
+          setTimeout(()=>{
+            h.style.transition='opacity .4s ease, transform .4s ease';
+            h.style.opacity='1';
+            h.style.transform='translateX(0)';
+          }, i*160 + 300);
+        });
+        vdObs.unobserve(vd);
+      }
+    });
+  },{threshold:.3});
+  vdObs.observe(vd);
+}
+
+/* ── SCALE STRIP — hover to show interval info ── */
+document.querySelectorAll('.ss-cell').forEach(cell=>{
+  cell.title = cell.querySelector('.ss-note')?.textContent + ' — ' + cell.querySelector('.ss-int')?.textContent;
+});
+
+/* ── CHORD CHAIN nodes — subtle pulse on first view ── */
+const ccObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.cc-node').forEach((n,i)=>{
+        setTimeout(()=>{
+          n.style.transition='transform .2s, box-shadow .2s';
+          n.style.transform='translateY(-3px)';
+          n.style.boxShadow='0 4px 12px rgba(0,0,0,.2)';
+          setTimeout(()=>{n.style.transform='';n.style.boxShadow=''},250);
+        },i*180+200);
+      });
+      ccObs.unobserve(e.target);
+    }
+  });
+},{threshold:.9});
+document.querySelectorAll('.chord-chain').forEach(el=>ccObs.observe(el));
+</script>
+
+</body>
+</html>

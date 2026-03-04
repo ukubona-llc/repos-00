@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Harmonic Mirror & Rhythmic Fractal · Tritone Sub + Dilla Feel · Ukubona LLC</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+
+<style>
+/* ══════════════════════════════════════════════
+   TOKENS — two competing palettes that merge
+   Harmonic Mirror: cold mercury / tritone geometry
+   Rhythmic Fractal: warm earth / Bantu pulse
+   They collide in the synthesis section.
+══════════════════════════════════════════════ */
+:root {
+  color-scheme: light dark;
+  --paper:   #f1ede0;
+  --ink:     #14100a;
+  --ink2:    #281c0c;
+  --ink3:    #7a6640;
+  --rule:    #c0a058;
+  --rule2:   #e2d0a8;
+  --accent:  #6b1a1a;
+  --accent2: #9a2c10;
+
+  /* tritone / harmonic mirror */
+  --g7:#4870c0;     /* G7 — cool blue */
+  --db7:#c04050;    /* Db7 — warm red */
+  --trit:#7858c8;   /* tritone interval — violet */
+  --share:#389878;  /* shared tritone — jade */
+  --bass:#b08828;   /* chromatic bass — amber */
+
+  /* rhythm / Bantu / Dilla */
+  --beat:#c05020;   /* on-beat — flame */
+  --drag:#8848a8;   /* behind beat — violet-rose */
+  --two:#4890a0;    /* duplet — teal */
+  --three:#b06828;  /* triplet — ochre */
+  --pulse:#389878;  /* pulse — jade */
+
+  /* synthesis */
+  --synth:#a03858;  /* hybrid — deep rose */
+
+  /* block backgrounds */
+  --mir-bg:#060810;
+  --rhy-bg:#0a0604;
+  --syn-bg:#080608;
+  --prac-bg:#040a06;
+
+  --mono:'IBM Plex Mono',monospace;
+  --serif:'Source Serif 4',Georgia,serif;
+  --display:'Playfair Display',Georgia,serif;
+  --toggle-bg:#e0cdb0; --toggle-knob:#14100a;
+}
+[data-theme="dark"] {
+  --paper:#080610; --ink:#f0e8c8; --ink2:#d0c08c; --ink3:#908050;
+  --rule:#382808; --rule2:#201808; --accent:#e04028; --accent2:#f08038;
+  --toggle-bg:#1e1408; --toggle-knob:#f0e8c0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:#080610; --ink:#f0e8c8; --ink2:#d0c08c; --ink3:#908050;
+    --rule:#382808; --rule2:#201808; --accent:#e04028; --accent2:#f08038;
+    --toggle-bg:#1e1408; --toggle-knob:#f0e8c0;
+  }
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+html { scroll-behavior:smooth }
+body {
+  background:var(--paper); color:var(--ink);
+  font-family:var(--serif); font-size:18px; line-height:1.9;
+  transition:background .3s,color .3s; overflow-x:hidden;
+}
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.02;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+body::after {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.012;
+  background:repeating-linear-gradient(to bottom,transparent 0px,transparent 30px,var(--ink) 30px,var(--ink) 31px);
+}
+
+/* ── THEME TOGGLE ── */
+.theme-toggle{position:fixed;top:1.2rem;right:1.5rem;z-index:999;display:flex;align-items:center;gap:.55rem;font-family:var(--mono);font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink3)}
+.toggle-switch{position:relative;width:2.6rem;height:1.3rem;background:var(--toggle-bg);border:1px solid var(--rule);border-radius:0;cursor:pointer;transition:background .25s}
+.toggle-switch::after{content:'';position:absolute;top:.2rem;left:.2rem;width:.75rem;height:.75rem;background:var(--toggle-knob);transition:transform .25s}
+[data-theme="dark"] .toggle-switch::after{transform:translateX(1.25rem)}
+
+/* ── PAGE ── */
+.page { max-width:900px; margin:0 auto; padding:0 2.4rem 12rem; position:relative; z-index:1 }
+
+/* ── MASTHEAD ── */
+.masthead {
+  padding:8rem 0 4rem; border-bottom:4px double var(--ink);
+  margin-bottom:5rem; animation:drop 1.1s cubic-bezier(.16,1,.3,1) both;
+}
+.mast-eyebrow { font-family:var(--mono); font-size:.5rem; letter-spacing:.38em; text-transform:uppercase; color:var(--ink3); margin-bottom:2.5rem }
+.mast-numeral {
+  font-family:var(--display); font-size:clamp(4rem,16vw,11rem); font-weight:900;
+  line-height:.82; color:transparent; -webkit-text-stroke:2px var(--rule);
+  letter-spacing:-.05em; margin-bottom:-.5rem; user-select:none; opacity:.28;
+}
+.mast-title { font-family:var(--display); font-size:clamp(1.9rem,4.5vw,3.4rem); font-weight:700; line-height:1.1; color:var(--ink); margin-bottom:.9rem }
+.mast-title em { font-style:italic; font-weight:400; color:var(--accent) }
+.mast-sub { font-family:var(--mono); font-size:.57rem; color:var(--ink3); letter-spacing:.1em; line-height:2.2; margin-bottom:2.5rem }
+.mast-sub em { color:var(--accent2); font-style:normal }
+
+/* dual legend */
+.dual-legend { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; margin-top:1rem }
+.dl-half { padding:.8rem 1rem; border:1px solid }
+.dl-half.dl-harm { border-color:var(--trit); background:rgba(120,88,200,.06) }
+.dl-half.dl-rhy  { border-color:var(--three); background:rgba(176,104,40,.06) }
+.dl-title { font-family:var(--mono); font-size:.44rem; letter-spacing:.38em; text-transform:uppercase; margin-bottom:.5rem }
+.dl-half.dl-harm .dl-title { color:var(--trit) }
+.dl-half.dl-rhy  .dl-title { color:var(--three) }
+.dl-items { display:flex; flex-wrap:wrap; gap:.25rem }
+.dl-badge { font-family:var(--mono); font-size:.46rem; letter-spacing:.14em; padding:.18rem .5rem; border:1px solid }
+
+/* ── SEC RULE ── */
+.sec-rule { display:grid; grid-template-columns:auto 1fr; align-items:center; gap:1.2rem; margin:5.5rem 0 2.5rem }
+.sec-rule-label { font-family:var(--mono); font-size:.52rem; letter-spacing:.4em; text-transform:uppercase; white-space:nowrap; padding:.28rem .8rem; border:1px solid }
+.sec-rule-label.mir   { border-color:var(--trit);  color:var(--trit);  background:rgba(120,88,200,.06) }
+.sec-rule-label.rhy   { border-color:var(--three); color:var(--three); background:rgba(176,104,40,.06) }
+.sec-rule-label.syn   { border-color:var(--synth); color:var(--synth); background:rgba(160,56,88,.06) }
+.sec-rule-label.prac  { border-color:var(--pulse); color:var(--pulse); background:rgba(56,152,120,.06) }
+.sec-rule-label.schema{ background:var(--ink); color:var(--paper); border-color:var(--ink) }
+.sec-rule hr { border:none; border-top:1px solid var(--rule); width:100% }
+
+/* ── MODEL BLOCKS ── */
+.model-block { border-left:3px solid; padding:2.4rem 2.8rem; margin:0 0 3rem; position:relative }
+.model-stamp { position:absolute; top:1rem; right:1.4rem; font-family:var(--mono); font-size:.44rem; letter-spacing:.38em; text-transform:uppercase; opacity:.6; border:1px solid; padding:.15rem .5rem }
+.model-block h2 { font-family:var(--display); font-size:1.4rem; font-weight:700; margin-bottom:.5rem; line-height:1.2 }
+.model-block .model-sub { font-family:var(--mono); font-size:.54rem; letter-spacing:.22em; margin-bottom:2rem }
+.model-block h3 { font-family:var(--display); font-size:1.05rem; font-weight:700; margin:2.2rem 0 .6rem; padding-top:1.4rem; border-top:1px solid }
+.model-prose { font-size:.9rem; line-height:1.88; margin-bottom:1.2rem }
+.model-prose p { margin-bottom:1rem }
+.model-prose ul { padding-left:1.4rem; margin-bottom:1rem }
+.model-prose li { margin-bottom:.5rem; line-height:1.75 }
+.model-prose blockquote { border-left:2px solid; margin:1.2rem 0; padding:.6rem 1.2rem; font-style:italic; opacity:.88 }
+.model-pull { border-top:1px solid; border-bottom:1px solid; padding:1.2rem 0; margin:1.8rem 0; font-family:var(--display); font-style:italic; font-size:1.05rem; line-height:1.65 }
+
+/* mirror block */
+.mir-block { background:var(--mir-bg); border-color:var(--trit) }
+.mir-block .model-stamp { color:var(--trit); border-color:var(--trit) }
+.mir-block h2,.mir-block h3 { color:#d0d8f8 }
+.mir-block h3 { border-color:rgba(120,88,200,.2) }
+.mir-block .model-sub { color:var(--trit) }
+.mir-block .model-prose { color:#c8d0f0 }
+.mir-block .model-prose strong { color:#e8e0ff }
+.mir-block .model-prose em { color:var(--trit) }
+.mir-block .model-prose blockquote { border-color:var(--trit) }
+.mir-block .model-pull { color:var(--trit); border-color:rgba(120,88,200,.3) }
+
+/* rhythm block */
+.rhy-block { background:var(--rhy-bg); border-color:var(--three) }
+.rhy-block .model-stamp { color:var(--three); border-color:var(--three) }
+.rhy-block h2,.rhy-block h3 { color:#f0dcc0 }
+.rhy-block h3 { border-color:rgba(176,104,40,.2) }
+.rhy-block .model-sub { color:var(--three) }
+.rhy-block .model-prose { color:#e8d8b8 }
+.rhy-block .model-prose strong { color:#fff0c8 }
+.rhy-block .model-prose em { color:var(--three) }
+.rhy-block .model-prose blockquote { border-color:var(--three) }
+.rhy-block .model-pull { color:var(--three); border-color:rgba(176,104,40,.3) }
+
+/* synthesis block */
+.syn-block { background:var(--syn-bg); border-color:var(--synth) }
+.syn-block .model-stamp { color:var(--synth); border-color:var(--synth) }
+.syn-block h2,.syn-block h3 { color:#f0c8d8 }
+.syn-block h3 { border-color:rgba(160,56,88,.2) }
+.syn-block .model-sub { color:var(--synth) }
+.syn-block .model-prose { color:#e8c0d0 }
+.syn-block .model-prose strong { color:#ffd8e8 }
+.syn-block .model-prose em { color:var(--synth) }
+.syn-block .model-prose blockquote { border-color:var(--synth) }
+.syn-block .model-pull { color:var(--synth); border-color:rgba(160,56,88,.3) }
+
+/* prac block */
+.prac-block { background:var(--prac-bg); border-color:var(--pulse) }
+.prac-block .model-stamp { color:var(--pulse); border-color:var(--pulse) }
+.prac-block h2,.prac-block h3 { color:#c8f0e0 }
+.prac-block h3 { border-color:rgba(56,152,120,.2) }
+.prac-block .model-sub { color:var(--pulse) }
+.prac-block .model-prose { color:#c0e8d8 }
+.prac-block .model-prose strong { color:#d8fff0 }
+.prac-block .model-prose em { color:var(--pulse) }
+.prac-block .model-prose blockquote { border-color:var(--pulse) }
+.prac-block .model-pull { color:var(--pulse); border-color:rgba(56,152,120,.3) }
+
+/* ── MATH REGION ── */
+.math-region {
+  margin:1.8rem 0; padding:1.2rem 1.8rem;
+  border:1px solid; font-family:var(--mono); font-size:.72rem;
+  line-height:2; overflow-x:auto;
+}
+.math-region .math-label { font-size:.44rem; letter-spacing:.38em; text-transform:uppercase; opacity:.8; margin-bottom:.5rem; display:block }
+.math-region.mr-trit { background:rgba(120,88,200,.08); border-color:var(--trit); color:#c8d0f0 }
+.math-region.mr-trit .math-label { color:var(--trit) }
+.math-region.mr-share { background:rgba(56,152,120,.06); border-color:var(--share); color:#c0e8d8 }
+.math-region.mr-share .math-label { color:var(--share) }
+
+/* ── TRITONE MIRROR DIAGRAM ── */
+.tritone-mirror {
+  margin:2rem 0; display:grid; grid-template-columns:1fr auto 1fr;
+  align-items:center; gap:1.2rem;
+}
+.tm-chord {
+  padding:1.4rem 1.2rem; border:1px solid; text-align:center;
+}
+.tm-chord.tm-g7  { background:rgba(72,112,192,.1); border-color:var(--g7) }
+.tm-chord.tm-db7 { background:rgba(192,64,80,.1);  border-color:var(--db7) }
+.tm-chord-name { font-family:var(--display); font-size:1.3rem; font-weight:700; margin-bottom:.6rem }
+.tm-chord.tm-g7  .tm-chord-name { color:var(--g7) }
+.tm-chord.tm-db7 .tm-chord-name { color:var(--db7) }
+.tm-note-row { display:flex; gap:.4rem; justify-content:center; margin:.3rem 0; flex-wrap:wrap }
+.tm-note {
+  font-family:var(--mono); font-size:.58rem; letter-spacing:.06em;
+  padding:.2rem .5rem; border:1px solid;
+}
+.tm-note.tn-g7  { border-color:var(--g7);    color:var(--g7);    background:rgba(72,112,192,.1) }
+.tm-note.tn-db7 { border-color:var(--db7);   color:var(--db7);   background:rgba(192,64,80,.1) }
+.tm-note.tn-shared { border-color:var(--share); color:var(--share); background:rgba(56,152,120,.15); font-weight:600 }
+.tm-label { font-family:var(--mono); font-size:.44rem; letter-spacing:.3em; text-transform:uppercase; color:var(--ink3); margin-top:.5rem }
+.tm-axis {
+  display:flex; flex-direction:column; align-items:center; gap:.5rem;
+  font-family:var(--mono); font-size:.52rem; letter-spacing:.08em; color:var(--trit);
+}
+.tm-axis-line { width:1px; flex:1; background:var(--trit); opacity:.4; min-height:40px }
+.tm-axis-label { font-size:.44rem; letter-spacing:.28em; text-transform:uppercase; text-align:center; line-height:1.6 }
+
+/* chromatic bass walk */
+.bass-walk {
+  display:flex; align-items:center; gap:.5rem; margin:1.5rem 0; flex-wrap:wrap;
+  font-family:var(--mono); font-size:.66rem; letter-spacing:.06em;
+}
+.bw-note {
+  display:flex; flex-direction:column; align-items:center; gap:.3rem;
+}
+.bw-circle {
+  width:2.4rem; height:2.4rem; border-radius:50%; border:2px solid;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--display); font-size:.9rem; font-weight:700;
+  transition:transform .2s;
+}
+.bw-circle:hover { transform:scale(1.12) }
+.bw-fn { font-family:var(--mono); font-size:.44rem; letter-spacing:.14em; text-transform:uppercase; text-align:center }
+.bw-arr { color:var(--rule); font-size:.9rem; align-self:center; padding-bottom:.8rem }
+
+.bw-circle.bc-eb  { background:rgba(56,152,120,.2); border-color:var(--pulse); color:var(--pulse) }
+.bw-circle.bc-d   { background:rgba(176,104,40,.2); border-color:var(--bass); color:var(--bass) }
+.bw-circle.bc-db  { background:rgba(192,64,80,.2);  border-color:var(--db7);  color:var(--db7) }
+.bw-fn.fn-eb  { color:var(--pulse) }
+.bw-fn.fn-d   { color:var(--bass) }
+.bw-fn.fn-db  { color:var(--db7) }
+
+/* ── POLYRHYTHM GRID ── */
+.poly-grid {
+  margin:2rem 0; border:1px solid var(--rule); overflow:hidden;
+}
+.pg-label {
+  font-family:var(--mono); font-size:.44rem; letter-spacing:.38em;
+  text-transform:uppercase; padding:.5rem .9rem;
+  border-bottom:1px solid var(--rule); color:var(--ink3);
+  background:rgba(180,140,60,.06);
+}
+.pg-row {
+  display:grid; border-bottom:1px solid var(--rule2);
+  position:relative; min-height:3rem; align-items:center;
+}
+.pg-row:last-child { border-bottom:none }
+.pg-row-label {
+  position:absolute; left:.7rem; top:50%; transform:translateY(-50%);
+  font-family:var(--mono); font-size:.46rem; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--ink3);
+}
+.pg-beats {
+  display:flex; padding:.55rem 6rem .55rem 6rem; gap:.3rem; align-items:center;
+}
+.pg-beat {
+  flex:1; display:flex; align-items:center; justify-content:center;
+  height:1.8rem; border:1px solid transparent; font-family:var(--mono);
+  font-size:.52rem; letter-spacing:.06em; transition:all .2s; cursor:default;
+  position:relative;
+}
+.pg-beat:hover { filter:brightness(1.2) }
+
+/* on-beat */
+.pg-beat.b-on  { background:rgba(192,80,32,.25); border-color:var(--beat); color:var(--beat); font-weight:600 }
+/* off — rest */
+.pg-beat.b-off { background:rgba(80,80,80,.06);  border-color:var(--rule2); color:var(--ink3); opacity:.4 }
+/* drag — behind beat */
+.pg-beat.b-drag { background:rgba(136,72,168,.2); border-color:var(--drag); color:var(--drag); font-style:italic }
+/* two-division */
+.pg-beat.b-two  { background:rgba(72,144,160,.2); border-color:var(--two); color:var(--two) }
+/* three-division */
+.pg-beat.b-thr  { background:rgba(176,104,40,.2); border-color:var(--three); color:var(--three) }
+/* pulse anchor */
+.pg-beat.b-pulse{ background:rgba(56,152,120,.25); border-color:var(--pulse); color:var(--pulse); font-weight:600 }
+
+/* micro-timing marker */
+.pg-beat.b-drag::after {
+  content:'↓'; position:absolute; bottom:-.1rem; right:.1rem;
+  font-size:.4rem; color:var(--drag); opacity:.8;
+}
+
+/* ── FRACTAL RATIO DIAGRAM ── */
+.ratio-diagram {
+  margin:2rem 0; padding:1.4rem 1.8rem;
+  background:rgba(176,104,40,.07); border:1px solid var(--three);
+  position:relative;
+}
+.ratio-label {
+  position:absolute; top:-.65rem; left:1.2rem;
+  font-family:var(--mono); font-size:.44rem; letter-spacing:.42em; text-transform:uppercase;
+  background:var(--paper); padding:0 .55rem; color:var(--three);
+}
+.ratio-visual {
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:.5rem;
+}
+.ratio-half { }
+.ratio-half-label {
+  font-family:var(--mono); font-size:.46rem; letter-spacing:.28em;
+  text-transform:uppercase; margin-bottom:.6rem;
+}
+.ratio-half.rh-2 .ratio-half-label { color:var(--two) }
+.ratio-half.rh-3 .ratio-half-label { color:var(--three) }
+.ratio-dots {
+  display:flex; gap:.4rem; align-items:center; flex-wrap:wrap;
+}
+.ratio-dot {
+  width:1.6rem; height:1.6rem; border-radius:50%; border:2px solid;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--mono); font-size:.48rem; font-weight:600;
+  transition:transform .2s; cursor:default;
+}
+.ratio-dot:hover { transform:scale(1.15) }
+.ratio-dot.rd-2 { background:rgba(72,144,160,.2); border-color:var(--two); color:var(--two) }
+.ratio-dot.rd-3 { background:rgba(176,104,40,.2); border-color:var(--three); color:var(--three) }
+.ratio-dot.rd-both { background:rgba(56,152,120,.25); border-color:var(--pulse); color:var(--pulse); font-weight:700 }
+
+/* ── TIMING DRAG SPECTRUM ── */
+.drag-row { display:flex; align-items:center; gap:1rem; margin:.65rem 0 }
+.drag-label { font-family:var(--mono); font-size:.52rem; letter-spacing:.06em; color:var(--ink3); min-width:160px }
+.drag-track { flex:1; height:4px; background:var(--rule2); position:relative }
+.drag-fill { height:100%; transition:width .5s cubic-bezier(.16,1,.3,1) }
+.drag-note { font-family:var(--serif); font-size:.8rem; font-style:italic; color:var(--ink3); max-width:240px }
+
+/* ── PRACTICE STEPS ── */
+.prac-steps { margin:1.8rem 0 }
+.prac-step { display:flex; gap:1rem; align-items:flex-start; padding:1rem 0; border-bottom:1px solid rgba(56,152,120,.2) }
+.prac-step:last-child { border-bottom:none }
+.prac-step-num { font-family:var(--mono); font-size:.52rem; letter-spacing:.1em; color:var(--pulse); flex-shrink:0; width:1.4rem; text-align:right; padding-top:.2rem }
+.prac-step-body { flex:1; min-width:0 }
+.prac-step-head { font-family:var(--display); font-size:.95rem; font-weight:700; color:#c8f0e0; margin-bottom:.3rem }
+.prac-step-desc { font-family:var(--serif); font-size:.86rem; line-height:1.78; color:#c0e8d8; opacity:.88 }
+.prac-step-tag { display:inline-block; font-family:var(--mono); font-size:.42rem; letter-spacing:.22em; text-transform:uppercase; border:1px solid; padding:.1rem .38rem; margin-left:.5rem; vertical-align:middle }
+
+/* ── SYNTHESIS TABLE ── */
+.syn-table { width:100%; border-collapse:collapse; font-family:var(--mono); font-size:.6rem; margin:2rem 0; border:1px solid var(--rule) }
+.syn-table thead { background:rgba(160,56,88,.1) }
+.syn-table th { padding:.52rem .7rem; font-size:.44rem; letter-spacing:.26em; text-transform:uppercase; color:var(--ink3); border-bottom:2px solid var(--rule); border-right:1px solid var(--rule2); text-align:left }
+.syn-table th:last-child { border-right:none }
+.syn-table td { padding:.48rem .7rem; border-bottom:1px solid var(--rule2); border-right:1px solid var(--rule2); vertical-align:top; line-height:1.65; font-family:var(--serif); font-size:.8rem }
+.syn-table td:last-child { border-right:none }
+.syn-table tr:last-child td { border-bottom:none }
+.syn-table tr:hover td { background:rgba(160,56,88,.04) }
+.syn-table td.syn-feature { font-family:var(--mono); font-size:.52rem; letter-spacing:.1em; color:var(--ink3) }
+.syn-table td.syn-harm { color:#e0c8f0 }
+.syn-table td.syn-rhy  { color:#f0d8c0 }
+
+/* ── CHORD CHAIN ── */
+.chord-chain { display:flex; align-items:center; gap:.3rem; flex-wrap:wrap; font-family:var(--mono); font-size:.64rem; letter-spacing:.04em; margin:1.2rem 0 }
+.cc-node { padding:.22em .6em; border:1px solid; transition:transform .15s }
+.cc-node:hover { transform:translateY(-2px) }
+.cc-arr { color:var(--rule); font-size:.6rem }
+.cc-g7  { background:rgba(72,112,192,.1); border-color:var(--g7);   color:var(--g7)   }
+.cc-db7 { background:rgba(192,64,80,.1);  border-color:var(--db7);  color:var(--db7)  }
+.cc-trit{ background:rgba(120,88,200,.1); border-color:var(--trit); color:var(--trit) }
+.cc-bass{ background:rgba(176,136,40,.1); border-color:var(--bass); color:var(--bass) }
+.cc-pulse{ background:rgba(56,152,120,.1);border-color:var(--pulse);color:var(--pulse)}
+.cc-synth{background:rgba(160,56,88,.1);  border-color:var(--synth);color:var(--synth)}
+
+/* ── VERSE / ANNOTATION ── */
+.verse-block {
+  font-family:var(--mono); font-size:.7rem; letter-spacing:.06em;
+  line-height:2.2; color:var(--ink3); border-left:3px solid var(--rule);
+  padding:.8rem 1.6rem; margin:2rem 0; font-style:italic;
+}
+.verse-block cite { display:block; margin-top:.7rem; font-style:normal; font-size:.5rem; letter-spacing:.3em; text-transform:uppercase; color:var(--ink3); opacity:.65 }
+.annotation {
+  margin:1.5rem 0; border-left:3px solid var(--rule); padding:.9rem 1.4rem;
+  background:rgba(196,168,100,.05); font-family:var(--mono); font-size:.55rem;
+  letter-spacing:.08em; color:var(--ink3); line-height:1.9;
+}
+.annotation::before {
+  content:'TRITONE SUB · SubV7 · DILLA FEEL · BANTU 3 vs 2 · HARMONIC MIRROR · RHYTHMIC FRACTAL · UKUBONA LLC';
+  display:block; font-size:.42rem; letter-spacing:.38em; opacity:.65; margin-bottom:.35rem;
+}
+
+/* ── INTERLUDE ── */
+.interlude {
+  border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+  padding:2rem 0; margin:3.5rem 0; font-family:var(--display);
+  font-style:italic; font-size:1.1rem; line-height:1.7; color:var(--ink2); text-align:center;
+}
+
+/* ── NEXT STEPS ── */
+.next-box { margin:2.5rem 0; border:1px solid var(--pulse); background:rgba(56,152,120,.05); padding:1.8rem 2.2rem; position:relative }
+.next-box-label { position:absolute; top:-.68rem; left:1.4rem; font-family:var(--mono); font-size:.44rem; letter-spacing:.42em; text-transform:uppercase; background:var(--paper); padding:0 .6rem; color:var(--pulse) }
+.next-box ul { list-style:none; padding:0 }
+.next-box li { display:flex; gap:.8rem; align-items:flex-start; font-family:var(--serif); font-size:.88rem; line-height:1.78; color:var(--ink2); margin-bottom:.8rem; padding-bottom:.8rem; border-bottom:1px solid rgba(56,152,120,.12) }
+.next-box li:last-child { border-bottom:none; margin-bottom:0 }
+.next-box li::before { content:'→'; font-family:var(--mono); color:var(--pulse); flex-shrink:0; padding-top:.06rem }
+.next-box li strong { color:var(--ink) }
+
+/* ── CODA ── */
+.coda { border:2px solid var(--ink); padding:3.2rem 3.8rem; margin:6rem 0; position:relative }
+.coda-label { position:absolute; top:-.75rem; left:2rem; font-family:var(--mono); font-size:.48rem; letter-spacing:.45em; text-transform:uppercase; background:var(--paper); padding:0 .75rem; color:var(--ink) }
+.coda h2 { font-family:var(--display); font-size:1.3rem; font-weight:700; font-style:italic; color:var(--ink); margin-bottom:1.4rem }
+.coda p { color:var(--ink2); margin-bottom:1rem; line-height:1.85; font-size:.9rem }
+.coda strong { color:var(--ink) }
+
+/* ── FOOTER ── */
+footer { border-top:3px double var(--ink); padding:3rem 0 7rem }
+.foot-chain { font-family:var(--mono); font-size:.52rem; letter-spacing:.28em; color:var(--ink3); margin-bottom:.7rem }
+.foot-chain span { color:var(--accent2) }
+.foot-note { font-family:var(--mono); font-size:.47rem; letter-spacing:.1em; color:var(--ink3); line-height:2.4 }
+
+/* ── ANIMATIONS ── */
+.fade-in { opacity:0; transform:translateY(12px); transition:opacity .65s ease,transform .65s ease }
+.fade-in.visible { opacity:1; transform:translateY(0) }
+@keyframes drop { from{opacity:0;transform:translateY(-14px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── BEAT PULSE ANIMATION ── */
+@keyframes beatpulse {
+  0%,100% { transform:scale(1);   opacity:1 }
+  50%      { transform:scale(1.08);opacity:.7 }
+}
+.pg-beat.b-on.animate { animation:beatpulse .5s ease infinite }
+
+/* ── MOBILE ── */
+@media(max-width:640px) {
+  .mast-numeral { font-size:4rem }
+  .mast-title { font-size:1.75rem }
+  .model-block,.coda { padding:1.8rem 1.4rem }
+  .theme-toggle { top:.7rem; right:.9rem }
+  .tritone-mirror { grid-template-columns:1fr; gap:.8rem }
+  .tm-axis { display:none }
+  .dual-legend { grid-template-columns:1fr }
+  .ratio-visual { grid-template-columns:1fr }
+  .syn-table { font-size:.5rem }
+}
+</style>
+</head>
+<body>
+
+<div class="theme-toggle" aria-label="Toggle dark/light mode">
+  <span id="toggle-label">Light</span>
+  <div class="toggle-switch" id="themeSwitch" role="button" tabindex="0" aria-pressed="false"></div>
+</div>
+
+<div class="page">
+
+  <!-- ══ MASTHEAD ══ -->
+  <header class="masthead">
+    <br><br><br>
+    <div class="mast-eyebrow">Ukubona LLC · Section IX · Tritone Substitution · The Dilla Feel · Bantu Polyrhythm · March 2026</div>
+    <div class="mast-numeral" aria-hidden="true">3:2</div>
+    <h1 class="mast-title">
+      The Harmonic Mirror<br>
+      <em>&amp; the Rhythmic Fractal</em>
+    </h1>
+    <p class="mast-sub">
+      // SubV7: <em>G7 and D♭7 share the same tritone · swap them · ear accepts both · the math of the mirror</em><br>
+      // Chromatic bass: <em>E♭ → D → D♭ · smooth descent · sophisticated · "Lately" walk-up extended</em><br>
+      // Dilla Feel: <em>not drunk — stochastic · snare behind the beat · hi-hat straight against swung kick</em><br>
+      // Bantu 3 vs 2: <em>duplet and triplet simultaneous · the pulse lives in their relationship</em><br>
+      // Synthesis: <em>chromaticism for color · micro-shifts for gravity · the quintessential R&amp;B sound</em>
+    </p>
+    <div class="dual-legend fade-in">
+      <div class="dl-half dl-harm">
+        <div class="dl-title">I · Harmonic Mirror</div>
+        <div class="dl-items">
+          <span class="dl-badge" style="border-color:var(--g7);color:var(--g7)">G7</span>
+          <span class="dl-badge" style="border-color:var(--trit);color:var(--trit)">Tritone axis</span>
+          <span class="dl-badge" style="border-color:var(--db7);color:var(--db7)">D♭7</span>
+          <span class="dl-badge" style="border-color:var(--share);color:var(--share)">Shared {B,F}</span>
+          <span class="dl-badge" style="border-color:var(--bass);color:var(--bass)">E♭→D→D♭</span>
+        </div>
+      </div>
+      <div class="dl-half dl-rhy">
+        <div class="dl-title">II · Rhythmic Fractal</div>
+        <div class="dl-items">
+          <span class="dl-badge" style="border-color:var(--beat);color:var(--beat)">On-beat</span>
+          <span class="dl-badge" style="border-color:var(--drag);color:var(--drag)">Drag ↓</span>
+          <span class="dl-badge" style="border-color:var(--two);color:var(--two)">÷2 duplet</span>
+          <span class="dl-badge" style="border-color:var(--three);color:var(--three)">÷3 triplet</span>
+          <span class="dl-badge" style="border-color:var(--pulse);color:var(--pulse)">Pulse anchor</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="verse-block fade-in">
+    The harmony is doing the high-dimensional math.<br>
+    The rhythm is where the soul resides.<br>
+    They are not separate systems.<br>
+    The chromatic bass descent and the micro-shifted snare<br>
+    are the same phenomenon — <em>gravity applied to different dimensions.</em>
+    <cite>— Octogonean Curriculum · Section IX · March 2026</cite>
+  </div>
+
+  <div class="annotation fade-in">
+    The Tritone Substitution and the Dilla Feel are the two pillars that transform a standard progression into something that feels truly alive. One operates in the frequency domain — replacing a chord with its harmonic mirror across the tritone axis. The other operates in the time domain — displacing events within the metric grid by amounts too small to notate but too large to ignore. Together they are the grammar of neo-soul, R&B, and the post-Dilla production tradition.
+  </div>
+
+
+  <!-- ══ I · THE TRITONE SUB ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label mir">I · The Tritone Substitution · SubV7 · The Math of the Mirror</span>
+    <hr>
+  </div>
+
+  <div class="model-block mir-block fade-in">
+    <div class="model-stamp">SubV7</div>
+    <h2>The Harmonic Mirror: G7 ↔ D♭7</h2>
+    <p class="model-sub">Dominant 7th tritone symmetry · shared guide tones · swap the chord · ear accepts both</p>
+
+    <div class="model-prose">
+      <p>The Tritone Substitution works because of a unique symmetry within the Dominant 7th chord. A Dominant 7th is defined by its tritone — the interval of exactly 6 semitones between its 3rd and its ♭7. This tritone is what creates the "urge" to resolve to the tonic. It is the structural engine of the chord.</p>
+      <p>The key insight: <strong>two dominant chords separated by a tritone share the exact same guide tones</strong> — just with their identities swapped. G7's 3rd (B) becomes D♭7's ♭7. G7's ♭7 (F) becomes D♭7's 3rd (enharmonically C♭). Same two notes. Same tritone tension. Same resolution urge. Different root. Ear hears one as a substitute for the other because the functional mechanism is identical.</p>
+    </div>
+
+    <div class="math-region mr-trit fade-in">
+      <span class="math-label">G7 tritone interval</span>
+      $$G7: \quad B \text{ (3rd)} \longleftrightarrow F \text{ (♭7)} \quad = \text{ tritone} \quad (6 \text{ semitones})$$
+    </div>
+
+    <div class="math-region mr-share fade-in">
+      <span class="math-label">D♭7 — the mirror chord — same tritone, swapped roles</span>
+      $$D\flat7: \quad F \text{ (3rd)} \longleftrightarrow C\flat \text{ (♭7)} \equiv B \quad \Rightarrow \quad \{B, F\} = \{B, F\}$$
+      <span style="font-size:.56rem;font-style:italic;color:var(--share);display:block;margin-top:.4rem">
+        The tritone is invariant under the substitution. Only the root moves — by exactly 6 semitones.
+      </span>
+    </div>
+
+    <!-- THE MIRROR DIAGRAM -->
+    <div class="tritone-mirror fade-in" id="tritMirror">
+      <div class="tm-chord tm-g7">
+        <div class="tm-chord-name">G7</div>
+        <div class="tm-note-row">
+          <span class="tm-note tn-g7">G</span>
+          <span class="tm-note tn-shared">B</span>
+          <span class="tm-note tn-g7">D</span>
+          <span class="tm-note tn-shared">F</span>
+        </div>
+        <div class="tm-label">Root · 3rd · 5th · ♭7</div>
+        <div class="tm-label" style="margin-top:.4rem;color:var(--share)">B = 3rd · F = ♭7 · shared tritone →</div>
+      </div>
+      <div class="tm-axis">
+        <div class="tm-axis-line"></div>
+        <div class="tm-axis-label">Tritone<br>axis<br>6 semi<br>tones</div>
+        <div class="tm-axis-line"></div>
+      </div>
+      <div class="tm-chord tm-db7">
+        <div class="tm-chord-name">D♭7</div>
+        <div class="tm-note-row">
+          <span class="tm-note tn-db7">D♭</span>
+          <span class="tm-note tn-shared">F</span>
+          <span class="tm-note tn-db7">A♭</span>
+          <span class="tm-note tn-shared">C♭≡B</span>
+        </div>
+        <div class="tm-label">Root · 3rd · 5th · ♭7</div>
+        <div class="tm-label" style="margin-top:.4rem;color:var(--share)">← F = 3rd · C♭(=B) = ♭7 · shared tritone</div>
+      </div>
+    </div>
+
+    <h3>The Chromatic Bass Descent: E♭ → D → D♭</h3>
+    <div class="model-prose">
+      <p>In the "Lately" walk-up context (key of D♭), the ♭V7 chord (A♭7) can be substituted with a D7 — its tritone mirror. This creates a chromatic bass line that descends by half-steps into the tonic D♭:</p>
+    </div>
+
+    <div class="bass-walk fade-in">
+      <div class="bw-note">
+        <div class="bw-circle bc-eb">E♭</div>
+        <div class="bw-fn fn-eb">ii−7<br>bass</div>
+      </div>
+      <div class="bw-arr">→</div>
+      <div class="bw-note">
+        <div class="bw-circle bc-d">D</div>
+        <div class="bw-fn fn-d">SubV7<br>(D7)</div>
+      </div>
+      <div class="bw-arr">→</div>
+      <div class="bw-note">
+        <div class="bw-circle bc-db">D♭</div>
+        <div class="bw-fn fn-db">Imaj7<br>tonic</div>
+      </div>
+      <span style="font-family:var(--serif);font-size:.82rem;font-style:italic;color:var(--ink3);margin-left:1rem;align-self:center">half-step · half-step · smooth · sophisticated · inevitable</span>
+    </div>
+
+    <div class="model-prose">
+      <p>The chromatic descent is not just smooth — it is <em>structurally inevitable</em> once you have the substitution in place. The SubV7's root (D) is a half-step above the tonic (D♭). Because bass lines create harmonic momentum through motion, a half-step approach from above is among the strongest possible preparations for a tonic arrival. The ear hears it as a landing, not a modulation. This is the "sophisticated yet smooth" quality: the listener experiences arrival, not the mechanism that produced it.</p>
+    </div>
+
+    <div class="model-pull">
+      The Tritone Sub doesn't change what the chord wants to do — resolve to the tonic. It changes <em>where the bass comes from</em> to get there. The guide tones stay. The resolution urge stays. The root descends by half-step instead of a fifth. The ear doesn't care which path you took. It only cares that you arrived.
+    </div>
+  </div>
+
+
+  <!-- ══ II · THE DILLA FEEL ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label rhy">II · The Dilla Feel · Stochastic Swing · Bantu 3 Against 2 · Not Drunk — Precise</span>
+    <hr>
+  </div>
+
+  <div class="model-block rhy-block fade-in">
+    <div class="model-stamp">3 : 2</div>
+    <h2>The "Dilla Feel": Not Drunk — Stochastic</h2>
+    <p class="model-sub">J Dilla · micro-timing · polyrhythmic subdivisions · probabilities between the grid lines</p>
+
+    <div class="model-prose">
+      <p>The Dilla Feel is often described as "drunk" or "lazy." This description is wrong in a specific, important way. A drunk musician is imprecise without intent. Dilla's placement is <em>precise with unconventional intent</em> — a deliberate distribution of rhythmic events across a probability space that no standard notation system represents. "Stochastic swing" is the better description: the snare doesn't land late because Dilla missed. It lands late because that is where Dilla decided the snare lives.</p>
+    </div>
+
+    <!-- polyrhythm grid -->
+    <div class="poly-grid fade-in" id="polyGrid">
+      <div class="pg-label">Rhythmic event grid — one bar of 4/4 · each column = one 16th note subdivision · color = event type</div>
+
+      <!-- Quantized / "classical" reference row -->
+      <div class="pg-row">
+        <span class="pg-row-label">Quantized ref.</span>
+        <div class="pg-beats" style="grid-template-columns:repeat(16,1fr)">
+          <div class="pg-beat b-pulse">1</div>
+          <div class="pg-beat b-off">e</div>
+          <div class="pg-beat b-off">+</div>
+          <div class="pg-beat b-off">a</div>
+          <div class="pg-beat b-on">2</div>
+          <div class="pg-beat b-off">e</div>
+          <div class="pg-beat b-off">+</div>
+          <div class="pg-beat b-off">a</div>
+          <div class="pg-beat b-on">3</div>
+          <div class="pg-beat b-off">e</div>
+          <div class="pg-beat b-off">+</div>
+          <div class="pg-beat b-off">a</div>
+          <div class="pg-beat b-on">4</div>
+          <div class="pg-beat b-off">e</div>
+          <div class="pg-beat b-off">+</div>
+          <div class="pg-beat b-off">a</div>
+        </div>
+      </div>
+
+      <!-- Kick drum -->
+      <div class="pg-row">
+        <span class="pg-row-label">Kick</span>
+        <div class="pg-beats">
+          <div class="pg-beat b-pulse">●</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-thr">●</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-thr">●</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-pulse">●</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-thr">●</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+        </div>
+      </div>
+
+      <!-- Snare — behind the beat -->
+      <div class="pg-row">
+        <span class="pg-row-label">Snare (drag)</span>
+        <div class="pg-beats">
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-drag">↓</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-drag">↓</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+        </div>
+      </div>
+
+      <!-- Hi-hat — straight 8ths against swung kick -->
+      <div class="pg-row">
+        <span class="pg-row-label">Hi-hat (straight)</span>
+        <div class="pg-beats">
+          <div class="pg-beat b-two">×</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-two">×</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-two">×</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-two">×</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-two">×</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-two">×</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-two">×</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-two">×</div>
+          <div class="pg-beat b-off">·</div>
+        </div>
+      </div>
+
+      <!-- Chord stab — harmonic drag -->
+      <div class="pg-row">
+        <span class="pg-row-label">Chord stab</span>
+        <div class="pg-beats">
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-drag">C</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-drag">C</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-drag">C</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+          <div class="pg-beat b-off">·</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- drag spectrum -->
+    <div style="margin:2rem 0" class="fade-in">
+      <div style="font-family:var(--mono);font-size:.44rem;letter-spacing:.34em;text-transform:uppercase;color:var(--three);margin-bottom:.7rem">Timing displacement spectrum · distance behind the notated beat</div>
+      <div class="drag-row">
+        <span class="drag-label">Classical quantized</span>
+        <div class="drag-track"><div class="drag-fill" data-w="0" style="width:0%;background:var(--pulse)"></div></div>
+        <span class="drag-note">Exactly on the grid · no drift · mechanical</span>
+      </div>
+      <div class="drag-row">
+        <span class="drag-label">Jazz swing (standard)</span>
+        <div class="drag-track"><div class="drag-fill" data-w="30" style="width:0%;background:var(--two)"></div></div>
+        <span class="drag-note">Notated as dotted-8th + 16th · predictable · human but legible</span>
+      </div>
+      <div class="drag-row">
+        <span class="drag-label">Dilla snare drag</span>
+        <div class="drag-track"><div class="drag-fill" data-w="68" style="width:0%;background:var(--drag)"></div></div>
+        <span class="drag-note">Behind the expected snare position · not notatable · felt not calculated</span>
+      </div>
+      <div class="drag-row">
+        <span class="drag-label">Chord "harmonic drag"</span>
+        <div class="drag-track"><div class="drag-fill" data-w="52" style="width:0%;background:var(--three)"></div></div>
+        <span class="drag-note">Right hand slightly behind bass note · creates harmonic weight · D'Angelo technique</span>
+      </div>
+    </div>
+
+    <h3>The Bantu Root: 3 Against 2</h3>
+    <div class="model-prose">
+      <p>The Dilla Feel is not a modern invention. It is a modern instance of a structural principle found throughout Bantu-speaking regions of Africa: the simultaneous existence of two incompatible metric subdivisions — the duplet (2) and the triplet (3). Neither subdivision is "correct." The pulse is defined by their <em>relationship</em>, not by either alone.</p>
+      <p>When Chris Dave or Questlove play behind the beat, they are not failing to land on the 2. They are navigating a fractal space where the 2-subdivision and the 3-subdivision are both active simultaneously, and their placement in the resulting grid is the musical statement. The forward lean — that quality that makes the groove feel like it is always about to arrive — comes from the perpetual tension between the two subdivisions.</p>
+    </div>
+
+    <!-- 3:2 ratio diagram -->
+    <div class="ratio-diagram fade-in">
+      <span class="ratio-label">Bantu 3 against 2 · simultaneous subdivisions · pulse at the intersection</span>
+      <div class="ratio-visual">
+        <div class="ratio-half rh-2">
+          <div class="ratio-half-label">Duplet (÷2)</div>
+          <div class="ratio-dots">
+            <div class="ratio-dot rd-both">1</div>
+            <div class="ratio-dot rd-2">·</div>
+            <div class="ratio-dot rd-2">2</div>
+            <div class="ratio-dot rd-2">·</div>
+            <div class="ratio-dot rd-both">1</div>
+            <div class="ratio-dot rd-2">·</div>
+            <div class="ratio-dot rd-2">2</div>
+            <div class="ratio-dot rd-2">·</div>
+          </div>
+          <p style="font-family:var(--serif);font-size:.82rem;color:var(--two);line-height:1.75;margin-top:.8rem;opacity:.85">Two equal divisions per beat. The hi-hat. The bass note. The left hand. Clean, regular, anchored.</p>
+        </div>
+        <div class="ratio-half rh-3">
+          <div class="ratio-half-label">Triplet (÷3)</div>
+          <div class="ratio-dots">
+            <div class="ratio-dot rd-both">1</div>
+            <div class="ratio-dot rd-3">·</div>
+            <div class="ratio-dot rd-3">·</div>
+            <div class="ratio-dot rd-3">2</div>
+            <div class="ratio-dot rd-3">·</div>
+            <div class="ratio-dot rd-3">·</div>
+            <div class="ratio-dot rd-both">1</div>
+            <div class="ratio-dot rd-3">·</div>
+          </div>
+          <p style="font-family:var(--serif);font-size:.82rem;color:var(--three);line-height:1.75;margin-top:.8rem;opacity:.85">Three equal divisions per beat. The snare ghost note. The kick syncopation. The chord stab. Swinging, leaning, unresolved.</p>
+        </div>
+      </div>
+      <p style="font-family:var(--serif);font-size:.86rem;color:var(--ink2);line-height:1.8;margin-top:1.2rem;opacity:.9">
+        The green dots are the <strong>pulse anchors</strong> — the moments where both subdivisions coincide. Everything else is in the space between. The Dilla Feel lives in that space. The "forward lean" is what the body feels when it is simultaneously tracking two incompatible grids and the music keeps sliding just ahead of where either grid says it should be.
+      </p>
+    </div>
+
+    <div class="model-pull">
+      The Dilla Feel and the Bantu 3:2 are the same principle at different scales. One is a production technique; the other is a cosmological view of time. Both say: the pulse is not a point. It is a relationship. The beat is not where the metronome clicks — it is where the two subdivisions agree.
+    </div>
+  </div>
+
+
+  <!-- ══ III · SYNTHESIS ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label syn">III · Synthesis · The "Lately" / "Untitled" Hybrid · Chromaticism + Gravity</span>
+    <hr>
+  </div>
+
+  <div class="model-block syn-block fade-in">
+    <div class="model-stamp">THE HYBRID</div>
+    <h2>Synthesis: The Quintessential R&amp;B Sound</h2>
+    <p class="model-sub">Tritone Sub (D♭7 for G7) + Dilla Feel (3-against-2) = chromaticism for color · micro-shifts for gravity</p>
+
+    <table class="syn-table fade-in">
+      <thead>
+        <tr>
+          <th>Dimension</th>
+          <th style="color:var(--trit)">Harmonic Mirror (Tritone Sub)</th>
+          <th style="color:var(--three)">Rhythmic Fractal (Dilla Feel)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="syn-feature">What it does</td>
+          <td class="syn-harm">Replaces a chord's root while preserving its functional mechanism</td>
+          <td class="syn-rhy">Displaces an event's timing while preserving its metric position</td>
+        </tr>
+        <tr>
+          <td class="syn-feature">The invariant</td>
+          <td class="syn-harm">The tritone {B, F} — the resolution urge does not change</td>
+          <td class="syn-rhy">The pulse anchor — the metric frame does not change</td>
+        </tr>
+        <tr>
+          <td class="syn-feature">The variable</td>
+          <td class="syn-harm">The root: G → D♭ (±6 semitones) · chromatic bass approach</td>
+          <td class="syn-rhy">The placement: on-grid → behind-beat · the stochastic offset</td>
+        </tr>
+        <tr>
+          <td class="syn-feature">The feeling</td>
+          <td class="syn-harm">Color · sophistication · the arrival feels earned from an unexpected direction</td>
+          <td class="syn-rhy">Gravity · weight · the groove feels heavy and pulled forward simultaneously</td>
+        </tr>
+        <tr>
+          <td class="syn-feature">Listener effect</td>
+          <td class="syn-harm">Hears the resolution as inevitable without knowing why the approach felt different</td>
+          <td class="syn-rhy">Feels the groove in the body before the mind registers the meter</td>
+        </tr>
+        <tr>
+          <td class="syn-feature">Ancestry</td>
+          <td class="syn-harm">Jazz functional theory · Berklee substitution logic · "Lately" ♭V7</td>
+          <td class="syn-rhy">Bantu polyrhythm · West African 3:2 · J Dilla's MPC programming</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="model-prose">
+      <p>The R&amp;B hybrid sound emerges when both systems operate simultaneously. The harmony uses chromaticism — altered tensions, tritone substitutions, Phrygian colors — to create <em>harmonic weight</em>: the sense that each chord is dense with implication, loaded with a resolution it may or may not deliver. The rhythm uses micro-timing — the stochastic snare, the harmonic drag, the 3:2 fractal underneath — to create <em>gravitational pull</em>: the sense that the groove is always leaning just past the beat, carrying the listener forward in their body even when the harmony is suspended in yearning.</p>
+      <p>Together: color and gravity. The harmony colors the tonal space; the rhythm applies gravity to it. The listener experiences a music that is simultaneously heady (because the chords are doing high-dimensional math) and physical (because the beats are landing in the body before the mind processes them). This is the neo-soul synthesis. This is what "Untitled" does. This is what the "Lately" bridge does in a different register.</p>
+    </div>
+
+    <!-- combined chain -->
+    <div class="chord-chain fade-in">
+      <span style="font-family:var(--mono);font-size:.52rem;color:var(--ink3);flex-shrink:0">hybrid:</span>
+      <span class="cc-node cc-pulse">Imaj7</span>
+      <span class="cc-arr">→</span>
+      <span class="cc-node cc-g7">ii−7</span>
+      <span class="cc-arr">→</span>
+      <span class="cc-node cc-db7">SubV7(♭9,♯9,♭13)</span>
+      <span class="cc-arr">→</span>
+      <span class="cc-node cc-bass">bass: ♭II → I</span>
+      <span class="cc-arr">→</span>
+      <span class="cc-node cc-pulse">Imaj7 ← sigh</span>
+      <span style="font-family:var(--serif);font-size:.78rem;font-style:italic;color:var(--ink3);margin-left:.5rem">all behind the beat · drag applied to every chord change</span>
+    </div>
+
+    <div class="model-pull">
+      Harmony uses chromaticism and altered tensions to create color. Rhythm uses micro-shifts to create gravity. Apply both simultaneously to the same progression, and the result is something that the body and the intellect must negotiate together — which is what it means for music to feel alive.
+    </div>
+  </div>
+
+
+  <!-- ══ IV · THE RHYTHMIC PIVOT PRACTICE ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label prac">IV · Daily Practice · The Rhythmic Pivot · Harmonic Drag Exercise</span>
+    <hr>
+  </div>
+
+  <div class="model-block prac-block fade-in">
+    <div class="model-stamp">HARMONIC DRAG</div>
+    <h2>Daily Practice: The Rhythmic Pivot</h2>
+    <p class="model-sub">60 BPM · straight quarters → harmonic drag · left hand anchors · right hand leans</p>
+
+    <div class="prac-steps">
+      <div class="prac-step">
+        <span class="prac-step-num">1.</span>
+        <div class="prac-step-body">
+          <div class="prac-step-head">Set a metronome to 60 BPM <span class="prac-step-tag" style="border-color:var(--pulse);color:var(--pulse)">THE ANCHOR</span></div>
+          <div class="prac-step-desc">Slow enough to hear every subdivision. At 60 BPM, one beat = one second. This means each 16th note is 250 milliseconds. The Dilla drag is typically 20–40 milliseconds behind the grid position — about one-tenth of a beat. At 60 BPM you can feel this as a physical sensation rather than a calculation.</div>
+        </div>
+      </div>
+      <div class="prac-step">
+        <span class="prac-step-num">2.</span>
+        <div class="prac-step-body">
+          <div class="prac-step-head">Play the chords as straight quarters <span class="prac-step-tag" style="border-color:var(--two);color:var(--two)">REFERENCE</span></div>
+          <div class="prac-step-desc">Four chord changes per bar, exactly on the beat. Both hands together on each click. Feel how mechanical this sounds — how the music has color (from the altered tensions) but no gravity. This is the baseline. The quantized version. Notice it consciously before you depart from it.</div>
+        </div>
+      </div>
+      <div class="prac-step">
+        <span class="prac-step-num">3.</span>
+        <div class="prac-step-body">
+          <div class="prac-step-head">Left-hand bass note exactly on the click <span class="prac-step-tag" style="border-color:var(--pulse);color:var(--pulse)">ANCHOR STAYS</span></div>
+          <div class="prac-step-desc">This is the crucial separation. The left-hand bass note — root or root + ♭7 — must land precisely on the metronome click. It is the pulse anchor. It does not move. It is the 2-subdivision. It is what makes the drag feel intentional rather than sloppy.</div>
+        </div>
+      </div>
+      <div class="prac-step">
+        <span class="prac-step-num">4.</span>
+        <div class="prac-step-body">
+          <div class="prac-step-head">Right-hand chord voicing fractionally after the click <span class="prac-step-tag" style="border-color:var(--drag);color:var(--drag)">THE DRAG</span></div>
+          <div class="prac-step-desc">The right-hand tension cluster — B–E♭–A♭–B♭ in G7alt — lands just a fraction of a second after the left hand. Not a 16th note late. Not a 32nd note late. A human amount late — the kind of delay that feels like weight, like the chord is settling into the beat rather than landing on it. This is the "harmonic drag." It creates the sensation that the harmony has physical mass.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="model-prose" style="margin-top:1.5rem">
+      <p>Once the two-hand separation is under your fingers, expand the practice: apply the drag to the chord changes themselves. Instead of changing the chord on the beat, hold the previous chord a fraction past the click before moving to the new one. This creates a brief moment of overlap — the harmonic equivalent of the 3:2 polyrhythm — where two chord identities coexist before the new one takes over. That overlap is the "heavy and emotional" quality. It is the music's weight made audible.</p>
+    </div>
+
+    <div class="model-pull">
+      The harmonic drag is not a technique. It is a posture. The posture of a musician who knows the beat is there, has no anxiety about landing on it, and therefore has the luxury of arriving slightly late — the way a person who knows they are loved has the luxury of not rushing toward the door.
+    </div>
+  </div>
+
+
+  <!-- ══ NEXT STEPS ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label schema">NEXT · Two Open Paths · The Curriculum's Final Fork</span>
+    <hr>
+  </div>
+
+  <div class="next-box fade-in">
+    <span class="next-box-label">Open Paths · Section X</span>
+    <ul>
+      <li>
+        <strong>"3 Against 2" Polyrhythm Mapped Over the Stevie Wonder Walk-Up:</strong> A specific exercise placing the D♭ → A → G♭ tonal re-centering inside a 3:2 rhythmic framework — where the harmonic pivots land on triplet divisions while the bass stays in duplet time. This is the complete synthesis of everything in the curriculum: the wormhole harmony of "Lately," the Bantu rhythmic structure, and the Dilla drag, all operating simultaneously over the same four bars.
+      </li>
+      <li>
+        <strong>Spanish Phrygian as Melodic Improvisation Tool:</strong> Moving from chord voicing into single-note melodic lines over the altered dominant. The Phrygian Dominant scale (E Phrygian Dominant over A7, for example) as the source for improvised melody — where the ♭9, ♭13, and natural 3rd create lines that sound simultaneously ancient (flamenco, Middle Eastern) and modern (neo-soul, jazz fusion). The melodic dimension of everything we have built harmonically.
+      </li>
+    </ul>
+  </div>
+
+  <div class="interlude fade-in">
+    The tritone substitution doesn't change what the chord wants.<br>
+    The Dilla drag doesn't change where the beat is.<br>
+    <em>They change how you arrive at things you were always going to.</em><br>
+    The destination is not the point.<br>
+    The texture of the approach is everything.
+  </div>
+
+  <div class="coda fade-in">
+    <span class="coda-label">Synthesis · Section IX · The Two Pillars · What They Share</span>
+    <h2>The Mirror and the Fractal Are the Same Idea Twice</h2>
+    <p>The Tritone Substitution and the Dilla Feel are structurally identical operations applied to different dimensions of the music. Both preserve a functional invariant — the tritone's resolution urge, the pulse's metric frame — while displacing the surface event away from where convention places it. The root moves by a tritone. The snare moves by 30 milliseconds. In both cases, the ear hears arrival. The body feels gravity. The mechanism is invisible because the invariant is intact.</p>
+    <p>This is also why they work together so naturally. A tritone-substituted progression already creates a slight sense of harmonic displacement — the chord is coming from an unexpected direction. When you add the rhythmic drag on top, the two displacements reinforce each other: the harmony arrives from the wrong harmonic direction, and the rhythm arrives from just behind the expected temporal position. The result is music that feels <strong>simultaneously inevitable and surprising</strong> — which is the only definition of beauty that has ever held across centuries and genres.</p>
+    <p>The Bantu root of the 3:2 polyrhythm and the jazz theory root of the tritone substitution are not separate traditions that happened to converge in neo-soul. They are two expressions of the same underlying insight: that the most alive thing a musical event can do is exist in tension with where the system expects it to be. The beat is more felt when the snare leans away from it. The resolution is more satisfying when the bass descends from a tritone away. The music is most alive at the edges of its own grammar.</p>
+  </div>
+
+  <footer class="fade-in">
+    <p class="foot-chain">Ukubona LLC · <span>G7 ↔ D♭7 · shared tritone {B,F} · E♭→D→D♭ bass · 3:2 Bantu polyrhythm · Dilla drag · harmonic drag · March 2026</span></p>
+    <p class="foot-note">
+      I · Tritone Sub · SubV7 · G7 ↔ D♭7 · <span style="color:var(--trit)">shared tritone invariant · root moves ±6 semitones · chromatic bass approach</span><br>
+      II · Dilla Feel · stochastic swing · <span style="color:var(--three)">snare behind beat · hi-hat straight vs swung kick · Bantu 3:2 · Chris Dave · Questlove</span><br>
+      III · Synthesis · <span style="color:var(--synth)">chromaticism for color · micro-shifts for gravity · the quintessential R&amp;B sound · "Lately"/"Untitled" hybrid</span><br>
+      IV · Harmonic drag practice · 60 BPM · <span style="color:var(--pulse)">left hand on click · right hand fractionally after · two-hand separation · weight and emotion</span><br>
+      <br>
+      Next: 3:2 polyrhythm over Stevie Wonder walk-up · harmonic pivots on triplet grid · bass in duplet<br>
+      Next: Spanish Phrygian melodic improvisation · Phrygian Dominant scale · single-note lines over altered dominant<br>
+      <br>
+      J Dilla (James Dewitt Yancey) · MPC3000 · Detroit · Bantu rhythmic tradition · Octogonean Curriculum · Section IX<br>
+      Cross-reference: "Lately" bridge (Section III) · D'Angelo voicing (Section VIII) · Tchaikovsky vii°7 (Section VII)<br>
+      © 2026 Ukubona LLC
+    </p>
+  </footer>
+
+</div>
+
+<!-- CENTRALIZED ASSETS -->
+<div class="scroll-indicator"><div class="scroll-progress"></div></div>
+<div class="bg-pattern"></div>
+<header class="header" id="header"></header>
+<main class="page wrap-max"></main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+
+<script>
+/* ── THEME TOGGLE ── */
+const sw=document.getElementById('themeSwitch'),lbl=document.getElementById('toggle-label'),html=document.documentElement;
+const saved=localStorage.getItem('theme'),pD=window.matchMedia('(prefers-color-scheme: dark)').matches;
+if(saved==='dark'||(!saved&&pD)){html.setAttribute('data-theme','dark');lbl.textContent='Dark';sw.setAttribute('aria-pressed','true')}
+function toggleTheme(){
+  const d=html.getAttribute('data-theme')==='dark';
+  if(d){html.removeAttribute('data-theme');lbl.textContent='Light';sw.setAttribute('aria-pressed','false');localStorage.setItem('theme','light')}
+  else{html.setAttribute('data-theme','dark');lbl.textContent='Dark';sw.setAttribute('aria-pressed','true');localStorage.setItem('theme','dark')}
+}
+sw.addEventListener('click',toggleTheme);
+sw.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleTheme()}});
+
+/* ── FADE IN ── */
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})
+},{threshold:.05});
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+
+/* ── DRAG BARS animate ── */
+document.querySelectorAll('.drag-fill').forEach(bar=>{
+  const w=bar.dataset.w+'%'; bar.style.width='0%';
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){bar.style.width=w;obs.unobserve(bar)}})
+  },{threshold:.8});
+  obs.observe(bar);
+});
+
+/* ── TRITONE MIRROR: stagger chord note reveals ── */
+const tm=document.getElementById('tritMirror');
+if(tm){
+  const tmObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const notes=tm.querySelectorAll('.tm-note');
+        notes.forEach((n,i)=>{
+          n.style.opacity='0';
+          n.style.transform='translateY(6px)';
+          setTimeout(()=>{
+            n.style.transition='opacity .35s, transform .35s';
+            n.style.opacity='1'; n.style.transform='';
+          },i*90+300);
+        });
+        tmObs.unobserve(tm);
+      }
+    });
+  },{threshold:.4});
+  tmObs.observe(tm);
+}
+
+/* ── POLYRHYTHM GRID: sequential beat pulse animation ── */
+const pg=document.getElementById('polyGrid');
+if(pg){
+  const pgObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        /* animate on-beat cells in kick row with stagger */
+        const kickRow=pg.querySelectorAll('.pg-row')[1];
+        if(kickRow){
+          const onBeats=kickRow.querySelectorAll('.pg-beat.b-pulse, .pg-beat.b-thr');
+          onBeats.forEach((b,i)=>{
+            setTimeout(()=>{ b.classList.add('animate') },i*120+400);
+            setTimeout(()=>{ b.classList.remove('animate') },i*120+1200);
+          });
+        }
+        pgObs.unobserve(pg);
+      }
+    });
+  },{threshold:.4});
+  pgObs.observe(pg);
+}
+
+/* ── RATIO DOTS: pulse on both-coincidence dots ── */
+document.querySelectorAll('.ratio-dot.rd-both').forEach(dot=>{
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        let count=0;
+        const pulse=setInterval(()=>{
+          dot.style.transform=count%2===0?'scale(1.18)':'scale(1)';
+          count++; if(count>5) clearInterval(pulse);
+        },300);
+        obs.unobserve(dot);
+      }
+    });
+  },{threshold:1});
+  obs.observe(dot);
+});
+
+/* ── CHORD CHAIN: staggered bounce ── */
+document.querySelectorAll('.chord-chain').forEach(chain=>{
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        chain.querySelectorAll('.cc-node').forEach((n,i)=>{
+          setTimeout(()=>{
+            n.style.transition='transform .2s, box-shadow .2s';
+            n.style.transform='translateY(-3px)';
+            n.style.boxShadow='0 4px 10px rgba(0,0,0,.18)';
+            setTimeout(()=>{n.style.transform='';n.style.boxShadow=''},240);
+          },i*160+200);
+        });
+        obs.unobserve(chain);
+      }
+    });
+  },{threshold:.9});
+  obs.observe(chain);
+});
+</script>
+
+</body>
+</html>

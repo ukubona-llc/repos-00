@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eternal Recurrence · Daily Practice Sheet · Ukubona LLC</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+
+<style>
+/* ══════════════════════════════════════════════
+   DESIGN TOKENS — practice sheet / workshop
+   Black manuscript · ruled paper · chalk on slate
+   Seven chord-function colors — one per diatonic degree
+══════════════════════════════════════════════ */
+:root {
+  color-scheme: light dark;
+  --paper:   #f2ede0;
+  --ink:     #16120a;
+  --ink2:    #2c200e;
+  --ink3:    #7a6840;
+  --rule:    #c4a060;
+  --rule2:   #e4d4b0;
+  --accent:  #6b1a1a;
+  --accent2: #a03010;
+
+  /* diatonic degree colors */
+  --d1:#4a7fc0;   /* Imaj7   — royal blue */
+  --d2:#5a9060;   /* ii−7    — sage green */
+  --d3:#8850b8;   /* iii−7   — violet */
+  --d4:#2a9898;   /* IVmaj7  — teal */
+  --d5:#c05020;   /* V7      — flame orange */
+  --d6:#b04080;   /* vi−7    — rose */
+  --d7:#707070;   /* vii∅7   — ash / half-dim */
+
+  /* pivot / wormhole */
+  --worm:#6070d0;
+  --berklee:#d08828;
+
+  --mono:'IBM Plex Mono',monospace;
+  --serif:'Source Serif 4',Georgia,serif;
+  --display:'Playfair Display',Georgia,serif;
+  --toggle-bg:#e0cdb0; --toggle-knob:#16120a;
+
+  /* table row alternation */
+  --row-odd:rgba(180,140,60,.04);
+  --row-even:transparent;
+}
+[data-theme="dark"] {
+  --paper:#09080f; --ink:#f0e8c0; --ink2:#d0c090; --ink3:#907848;
+  --rule:#3a2a08; --rule2:#221808; --accent:#e04028; --accent2:#f08038;
+  --toggle-bg:#1e1408; --toggle-knob:#f0e8c0;
+  --row-odd:rgba(180,140,60,.06); --row-even:transparent;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:#09080f; --ink:#f0e8c0; --ink2:#d0c090; --ink3:#907848;
+    --rule:#3a2a08; --rule2:#221808; --accent:#e04028; --accent2:#f08038;
+    --toggle-bg:#1e1408; --toggle-knob:#f0e8c0;
+    --row-odd:rgba(180,140,60,.06); --row-even:transparent;
+  }
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+html { scroll-behavior:smooth }
+body {
+  background:var(--paper); color:var(--ink);
+  font-family:var(--serif); font-size:17px; line-height:1.85;
+  transition:background .3s,color .3s; overflow-x:hidden;
+}
+
+/* ── grain texture ── */
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.022;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── staff rule lines ── */
+body::after {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.016;
+  background:repeating-linear-gradient(to bottom, transparent 0px, transparent 24px, var(--ink) 24px, var(--ink) 25px);
+}
+
+/* ── THEME TOGGLE ── */
+.theme-toggle{position:fixed;top:1.2rem;right:1.5rem;z-index:999;display:flex;align-items:center;gap:.55rem;font-family:var(--mono);font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink3)}
+.toggle-switch{position:relative;width:2.6rem;height:1.3rem;background:var(--toggle-bg);border:1px solid var(--rule);border-radius:0;cursor:pointer;transition:background .25s}
+.toggle-switch::after{content:'';position:absolute;top:.2rem;left:.2rem;width:.75rem;height:.75rem;background:var(--toggle-knob);transition:transform .25s}
+[data-theme="dark"] .toggle-switch::after{transform:translateX(1.25rem)}
+
+/* ── PAGE ── */
+.page { max-width:980px; margin:0 auto; padding:0 2rem 12rem; position:relative; z-index:1 }
+
+/* ── MASTHEAD ── */
+.masthead {
+  padding:7rem 0 3.5rem;
+  border-bottom:4px double var(--ink);
+  margin-bottom:4.5rem;
+  animation:drop 1.1s cubic-bezier(.16,1,.3,1) both;
+}
+.mast-eyebrow { font-family:var(--mono); font-size:.5rem; letter-spacing:.38em; text-transform:uppercase; color:var(--ink3); margin-bottom:2rem }
+.mast-numeral {
+  font-family:var(--display); font-size:clamp(5rem,16vw,11rem); font-weight:900;
+  line-height:.82; color:transparent; -webkit-text-stroke:2px var(--rule);
+  letter-spacing:-.05em; margin-bottom:-.5rem; user-select:none; opacity:.32;
+}
+.mast-title { font-family:var(--display); font-size:clamp(1.8rem,4.5vw,3.2rem); font-weight:700; line-height:1.1; color:var(--ink); margin-bottom:.8rem }
+.mast-title em { font-style:italic; font-weight:400; color:var(--accent) }
+.mast-sub { font-family:var(--mono); font-size:.56rem; color:var(--ink3); letter-spacing:.1em; line-height:2.2; margin-bottom:2.5rem }
+.mast-sub em { color:var(--accent2); font-style:normal }
+
+/* degree legend strip */
+.degree-strip {
+  display:flex; flex-wrap:wrap; gap:.3rem; margin-top:1.2rem;
+}
+.deg-badge {
+  font-family:var(--mono); font-size:.48rem; letter-spacing:.2em; text-transform:uppercase;
+  padding:.22rem .7rem; border:1px solid; white-space:nowrap;
+}
+.deg-badge.d1{border-color:var(--d1);color:var(--d1);background:rgba(74,127,192,.08)}
+.deg-badge.d2{border-color:var(--d2);color:var(--d2);background:rgba(90,144,96,.08)}
+.deg-badge.d3{border-color:var(--d3);color:var(--d3);background:rgba(136,80,184,.08)}
+.deg-badge.d4{border-color:var(--d4);color:var(--d4);background:rgba(42,152,152,.08)}
+.deg-badge.d5{border-color:var(--d5);color:var(--d5);background:rgba(192,80,32,.08)}
+.deg-badge.d6{border-color:var(--d6);color:var(--d6);background:rgba(176,64,128,.08)}
+.deg-badge.d7{border-color:var(--d7);color:var(--d7);background:rgba(112,112,112,.08)}
+
+/* ── SEC RULE ── */
+.sec-rule{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:1.2rem;margin:5rem 0 2.2rem}
+.sec-rule-label{font-family:var(--mono);font-size:.52rem;letter-spacing:.4em;text-transform:uppercase;white-space:nowrap;padding:.28rem .8rem;border:1px solid}
+.sec-rule-label.freq  {border-color:var(--d1);color:var(--d1);background:rgba(74,127,192,.06)}
+.sec-rule-label.table {border-color:var(--d5);color:var(--d5);background:rgba(192,80,32,.06)}
+.sec-rule-label.pivot {border-color:var(--worm);color:var(--worm);background:rgba(96,112,208,.06)}
+.sec-rule-label.berk  {border-color:var(--berklee);color:var(--berklee);background:rgba(208,136,40,.06)}
+.sec-rule-label.coda  {background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.sec-rule hr{border:none;border-top:1px solid var(--rule);width:100%}
+
+/* ── MATH REGION ── */
+.math-region {
+  margin:1.8rem 0; padding:1.2rem 1.8rem;
+  background:rgba(74,127,192,.06); border:1px solid var(--d1);
+  font-family:var(--mono); font-size:.72rem; color:var(--ink2);
+  line-height:2; overflow-x:auto;
+}
+.math-region .math-label {
+  font-size:.44rem; letter-spacing:.38em; text-transform:uppercase;
+  color:var(--d1); opacity:.8; margin-bottom:.5rem; display:block;
+}
+
+/* ── FREQUENCY VISUALIZER ── */
+.freq-vis {
+  margin:2rem 0; border:1px solid var(--rule);
+  background:rgba(74,127,192,.04); padding:1.4rem 1.6rem;
+}
+.freq-vis-label { font-family:var(--mono); font-size:.44rem; letter-spacing:.38em; text-transform:uppercase; color:var(--d1); margin-bottom:1rem }
+.freq-row { display:flex; align-items:center; gap:.8rem; margin:.5rem 0 }
+.freq-note { font-family:var(--display); font-size:.88rem; font-weight:700; min-width:2rem; color:var(--ink2); text-align:center }
+.freq-track { flex:1; height:3px; background:var(--rule2); position:relative }
+.freq-fill  { height:100%; background:var(--d1); transition:width .6s cubic-bezier(.16,1,.3,1) }
+.freq-hz    { font-family:var(--mono); font-size:.52rem; letter-spacing:.06em; color:var(--d1); min-width:70px; text-align:right }
+.freq-anchor { font-family:var(--mono); font-size:.44rem; letter-spacing:.2em; color:var(--d5); min-width:80px }
+
+/* ── THE MAIN CHEAT SHEET TABLE ── */
+.cheat-wrap { margin:2rem 0; overflow-x:auto; -webkit-overflow-scrolling:touch }
+.cheat-table {
+  width:100%; border-collapse:collapse;
+  font-family:var(--mono); font-size:.58rem;
+  border:1px solid var(--rule); min-width:740px;
+}
+.cheat-table thead { position:sticky; top:0; z-index:10 }
+.cheat-table thead tr { background:var(--paper) }
+.cheat-table th {
+  padding:.52rem .5rem; font-size:.44rem; letter-spacing:.24em;
+  text-transform:uppercase; border-bottom:2px solid var(--rule);
+  border-right:1px solid var(--rule2); text-align:center;
+  white-space:nowrap;
+}
+.cheat-table th:last-child { border-right:none }
+.cheat-table th.h1 { color:var(--d1) } .cheat-table th.h2 { color:var(--d2) }
+.cheat-table th.h3 { color:var(--d3) } .cheat-table th.h4 { color:var(--d4) }
+.cheat-table th.h5 { color:var(--d5) } .cheat-table th.h6 { color:var(--d6) }
+.cheat-table th.h7 { color:var(--d7) } .cheat-table th.hk { color:var(--ink3) }
+
+.cheat-table td {
+  padding:.46rem .5rem; border-bottom:1px solid var(--rule2);
+  border-right:1px solid var(--rule2); text-align:center;
+  vertical-align:middle; line-height:1.5; white-space:nowrap;
+  transition:background .15s, transform .15s;
+}
+.cheat-table td:last-child { border-right:none }
+.cheat-table tr:nth-child(odd)  td { background:var(--row-odd) }
+.cheat-table tr:nth-child(even) td { background:var(--row-even) }
+
+/* key column */
+.cheat-table td.key-col {
+  font-family:var(--display); font-weight:700; font-size:.8rem;
+  text-align:left; padding-left:.9rem; border-right:2px solid var(--rule);
+  color:var(--ink);
+}
+/* degree columns — colored text */
+.cheat-table td.c1 { color:var(--d1) } .cheat-table td.c2 { color:var(--d2) }
+.cheat-table td.c3 { color:var(--d3) } .cheat-table td.c4 { color:var(--d4) }
+.cheat-table td.c5 { color:var(--d5); font-weight:600 }
+.cheat-table td.c6 { color:var(--d6) } .cheat-table td.c7 { color:var(--d7) }
+
+/* hover highlight entire row */
+.cheat-table tbody tr { cursor:pointer }
+.cheat-table tbody tr:hover td { background:rgba(192,80,32,.07) !important; transform:none }
+.cheat-table tbody tr.active-row td { background:rgba(192,80,32,.13) !important }
+
+/* pivot highlight */
+.cheat-table td.pivot-cell {
+  background:rgba(96,112,208,.14) !important;
+  color:var(--worm) !important; font-weight:600;
+  box-shadow:inset 0 0 0 1px var(--worm);
+}
+
+/* ── CIRCLE OF FIFTHS TRACKER ── */
+.cof-track {
+  display:flex; flex-wrap:wrap; gap:.35rem;
+  margin:1.8rem 0; font-family:var(--mono); font-size:.58rem; letter-spacing:.06em;
+}
+.cof-key {
+  padding:.28rem .6rem; border:1px solid var(--rule2); color:var(--ink3);
+  cursor:pointer; transition:all .2s; user-select:none;
+}
+.cof-key:hover { border-color:var(--d5); color:var(--d5); background:rgba(192,80,32,.08) }
+.cof-key.cof-active { border-color:var(--d5); color:var(--d5); background:rgba(192,80,32,.14); font-weight:600 }
+.cof-key.cof-done   { border-color:var(--d2); color:var(--d2); background:rgba(90,144,96,.1) }
+.cof-key.sharps { color:var(--d1) }
+.cof-key.flats  { color:var(--d4) }
+.cof-label { font-family:var(--mono); font-size:.44rem; letter-spacing:.3em; text-transform:uppercase; color:var(--ink3); margin-bottom:.5rem }
+
+/* ── WORMHOLE EXERCISE ── */
+.worm-box {
+  margin:2.2rem 0; border:1px solid var(--worm);
+  background:rgba(96,112,208,.06); padding:1.8rem 2.2rem; position:relative;
+}
+.worm-label {
+  position:absolute; top:-.68rem; left:1.2rem;
+  font-family:var(--mono); font-size:.44rem; letter-spacing:.42em; text-transform:uppercase;
+  background:var(--paper); padding:0 .55rem; color:var(--worm);
+}
+.worm-steps { margin-top:1rem; }
+.worm-step {
+  display:flex; gap:.8rem;
+  margin:.9rem 0; align-items:flex-start;
+  padding-bottom:.9rem; border-bottom:1px solid rgba(96,112,208,.12);
+}
+.worm-step:last-child { border-bottom:none }
+.worm-step-num {
+  font-family:var(--mono); font-size:.52rem; letter-spacing:.1em; color:var(--worm);
+  padding-top:.18rem; flex-shrink:0; width:1.4rem; text-align:right;
+}
+.worm-step-body {
+  font-family:var(--serif); font-size:.86rem; letter-spacing:0;
+  color:var(--ink2); line-height:1.75; flex:1; min-width:0;
+}
+.worm-step-body strong { color:var(--worm); font-family:var(--mono); font-size:.78rem; letter-spacing:.04em }
+.worm-chain { display:flex; align-items:center; gap:.3rem; flex-wrap:wrap; margin:.5rem 0 }
+.wc-node { padding:.18em .5em; border:1px solid; font-family:var(--mono); font-size:.6rem; transition:all .15s }
+.wc-node:hover { transform:translateY(-2px) }
+.wc-node.wc-db  { border-color:var(--d1); color:var(--d1); background:rgba(74,127,192,.1) }
+.wc-node.wc-wh  { border-color:var(--worm); color:var(--worm); background:rgba(96,112,208,.14) }
+.wc-node.wc-a   { border-color:var(--d2); color:var(--d2); background:rgba(90,144,96,.1) }
+.wc-node.wc-gf  { border-color:var(--berklee); color:var(--berklee); background:rgba(208,136,40,.1) }
+.wc-arr { color:var(--rule); font-size:.65rem }
+
+/* ── ALTERED DOMINANT VOICING ── */
+.voicing-box {
+  margin:2.2rem 0; border:1px solid var(--berklee);
+  background:rgba(208,136,40,.05); padding:1.8rem 2.2rem; position:relative;
+}
+.voicing-label {
+  position:absolute; top:-.68rem; left:1.2rem;
+  font-family:var(--mono); font-size:.44rem; letter-spacing:.42em; text-transform:uppercase;
+  background:var(--paper); padding:0 .55rem; color:var(--berklee);
+}
+
+/* two-hand staff diagram */
+.hands-diagram { display:grid; grid-template-columns:1fr 1fr; gap:1.4rem; margin:1.4rem 0 }
+.hand-block { border:1px solid var(--rule2); padding:1.2rem; position:relative }
+.hand-title {
+  position:absolute; top:-.6rem; left:.8rem;
+  font-family:var(--mono); font-size:.44rem; letter-spacing:.32em; text-transform:uppercase;
+  background:var(--paper); padding:0 .4rem; color:var(--ink3);
+}
+.hand-notes {
+  display:flex; flex-direction:column-reverse; gap:.3rem; margin-top:.4rem;
+}
+.hn-row { display:flex; align-items:center; gap:.6rem }
+.hn-note {
+  width:2.2rem; height:2.2rem; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--display); font-size:.82rem; font-weight:700;
+  border:2px solid; flex-shrink:0; transition:transform .2s;
+  cursor:default;
+}
+.hn-note:hover { transform:scale(1.12) }
+.hn-fn { font-family:var(--mono); font-size:.5rem; letter-spacing:.1em; color:var(--ink3) }
+.hn-note.n-root { background:rgba(192,80,32,.2); border-color:var(--d5); color:var(--d5) }
+.hn-note.n-7    { background:rgba(208,136,40,.2); border-color:var(--berklee); color:var(--berklee) }
+.hn-note.n-3    { background:rgba(74,127,192,.2); border-color:var(--d1); color:var(--d1) }
+.hn-note.n-b13  { background:rgba(136,80,184,.2); border-color:var(--d3); color:var(--d3) }
+.hn-note.n-b9   { background:rgba(42,152,152,.2); border-color:var(--d4); color:var(--d4) }
+.hn-note.n-s9   { background:rgba(176,64,128,.2); border-color:var(--d6); color:var(--d6) }
+
+/* tension meter */
+.tension-row { display:flex; align-items:center; gap:.8rem; margin:.55rem 0 }
+.tension-label { font-family:var(--mono); font-size:.52rem; letter-spacing:.06em; color:var(--ink3); min-width:130px }
+.tension-track { flex:1; height:4px; background:var(--rule2) }
+.tension-fill  { height:100%; transition:width .5s }
+.tension-note  { font-family:var(--mono); font-size:.5rem; letter-spacing:.06em; color:var(--ink3); font-style:italic; max-width:220px }
+
+/* ── ANNOTATION ── */
+.annotation {
+  margin:1.4rem 0; border-left:3px solid var(--rule);
+  padding:.85rem 1.3rem; background:rgba(196,168,100,.05);
+  font-family:var(--mono); font-size:.55rem; letter-spacing:.1em;
+  color:var(--ink3); line-height:1.9;
+}
+.annotation::before {
+  content:'ETERNAL RECURRENCE · DAILY PRACTICE · A440 ORIGIN · 12 KEYS · CIRCLE OF FIFTHS · UKUBONA LLC';
+  display:block; font-size:.42rem; letter-spacing:.4em; opacity:.65; margin-bottom:.35rem;
+}
+
+/* ── VERSE ── */
+.verse-block {
+  font-family:var(--mono); font-size:.7rem; letter-spacing:.08em;
+  line-height:2.2; color:var(--ink3); border-left:3px solid var(--rule);
+  padding:.7rem 1.5rem; margin:1.8rem 0; font-style:italic;
+}
+.verse-block cite {
+  display:block; margin-top:.7rem; font-style:normal;
+  font-size:.5rem; letter-spacing:.3em; text-transform:uppercase; color:var(--ink3); opacity:.65;
+}
+
+/* ── MODEL PROSE BLOCKS ── */
+.prose-block { border-left:3px solid var(--rule); padding:1.8rem 2.4rem; margin:0 0 2.5rem; position:relative }
+.prose-stamp {
+  position:absolute; top:.85rem; right:1.2rem;
+  font-family:var(--mono); font-size:.44rem; letter-spacing:.38em;
+  text-transform:uppercase; opacity:.55; border:1px solid var(--rule); padding:.13rem .45rem; color:var(--ink3);
+}
+.prose-block h2 { font-family:var(--display); font-size:1.35rem; font-weight:700; margin-bottom:.45rem; line-height:1.2; color:var(--ink) }
+.prose-block h2 em { font-style:italic; font-weight:400; color:var(--accent) }
+.prose-sub { font-family:var(--mono); font-size:.53rem; letter-spacing:.22em; margin-bottom:1.8rem; color:var(--ink3) }
+.prose-p { font-size:.88rem; line-height:1.82; margin-bottom:.9rem; color:var(--ink2) }
+.prose-p strong { color:var(--ink) }
+.prose-pull {
+  border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+  padding:1rem 0; margin:1.6rem 0;
+  font-family:var(--display); font-style:italic; font-size:1rem; line-height:1.6; color:var(--ink2);
+}
+
+/* ── INTERLUDE ── */
+.interlude {
+  border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+  padding:1.8rem 0; margin:3rem 0;
+  font-family:var(--display); font-style:italic;
+  font-size:1.05rem; line-height:1.7; color:var(--ink2); text-align:center;
+}
+
+/* ── CODA ── */
+.coda { border:2px solid var(--ink); padding:3rem 3.5rem; margin:5rem 0; position:relative }
+.coda-label {
+  position:absolute; top:-.72rem; left:1.8rem;
+  font-family:var(--mono); font-size:.46rem; letter-spacing:.45em; text-transform:uppercase;
+  background:var(--paper); padding:0 .7rem; color:var(--ink);
+}
+.coda h2 { font-family:var(--display); font-size:1.25rem; font-weight:700; font-style:italic; color:var(--ink); margin-bottom:1.2rem }
+.coda p { color:var(--ink2); margin-bottom:1rem; line-height:1.82; font-size:.9rem }
+.coda strong { color:var(--ink) }
+
+/* ── FOOTER ── */
+footer { border-top:3px double var(--ink); padding:2.5rem 0 7rem }
+.foot-chain { font-family:var(--mono); font-size:.52rem; letter-spacing:.28em; color:var(--ink3); margin-bottom:.7rem }
+.foot-chain span { color:var(--accent2) }
+.foot-note { font-family:var(--mono); font-size:.47rem; letter-spacing:.1em; color:var(--ink3); line-height:2.4 }
+
+/* ── ANIMATIONS ── */
+.fade-in { opacity:0; transform:translateY(12px); transition:opacity .6s ease,transform .6s ease }
+.fade-in.visible { opacity:1; transform:translateY(0) }
+@keyframes drop { from{opacity:0;transform:translateY(-14px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── MOBILE ── */
+@media(max-width:640px) {
+  .mast-numeral { font-size:4.5rem }
+  .mast-title { font-size:1.7rem }
+  .prose-block { padding:1.6rem 1.4rem }
+  .coda { padding:1.8rem 1.6rem }
+  .hands-diagram { grid-template-columns:1fr }
+  .theme-toggle { top:.7rem; right:.9rem }
+  .worm-step { grid-template-columns:1.6rem 1fr }
+}
+
+/* ── PRINT ── */
+@media print {
+  body::before,body::after { display:none }
+  .theme-toggle { display:none }
+  .fade-in { opacity:1; transform:none }
+  .cheat-table { font-size:.54rem }
+}
+</style>
+</head>
+<body>
+
+<div class="theme-toggle" aria-label="Toggle dark/light mode">
+  <span id="toggle-label">Light</span>
+  <div class="toggle-switch" id="themeSwitch" role="button" tabindex="0" aria-pressed="false"></div>
+</div>
+
+<div class="page">
+
+  <!-- ══ MASTHEAD ══ -->
+  <header class="masthead">
+    <br><br><br>
+    <div class="mast-eyebrow">Ukubona LLC · Eternal Recurrence · Daily Practice Sheet · All 12 Keys · March 2026</div>
+    <div class="mast-numeral" aria-hidden="true">∞</div>
+    <h1 class="mast-title">
+      The Eternal Recurrence<br>
+      <em>Daily Practice Sheet · The Mathematical A440<br>From Which All Fractals Grow</em>
+    </h1>
+    <p class="mast-sub">
+      // f(n) = 440 · 2^((n−49)/12) — <em>every note a logarithmic step in an infinite geometric progression</em><br>
+      // Diatonic 7th chords in all 12 keys · <em>block chords and arpeggios · Circle of Fifths order</em><br>
+      // Pivot practice: <em>iv−7 → re-visualize as vi−7 in new key · navigate D♭→A→G♭ without math</em><br>
+      // Berklee R&amp;B extension: <em>V7 Mixolydian ♭9, ♯9, ♭13 · left: root + 7th · right: 3, ♭13, ♭9, ♯9</em><br>
+      // Goal: <em>tonal vertigo resistance through all 12 keys · absolute harmonic saturation</em>
+    </p>
+    <div class="degree-strip">
+      <span class="deg-badge d1">I — Imaj7</span>
+      <span class="deg-badge d2">II — ii−7</span>
+      <span class="deg-badge d3">III — iii−7</span>
+      <span class="deg-badge d4">IV — IVmaj7</span>
+      <span class="deg-badge d5">V — V7</span>
+      <span class="deg-badge d6">VI — vi−7</span>
+      <span class="deg-badge d7">VII — vii∅7</span>
+    </div>
+  </header>
+
+  <div class="verse-block fade-in">
+    Before you touch the keys, remember the physical constraint of the modern piano.<br>
+    Every note you play is a logarithmic step in an infinite geometric progression.<br>
+    The frequency is not a fact. It is a position in an orbit.<br>
+    A440 is not the origin. It is the <em>arbitrary origin</em> — which is the only kind there is.
+    <cite>— Ukubona LLC · Eternal Recurrence Practice · March 2026</cite>
+  </div>
+
+  <div class="annotation fade-in">
+    This sheet is designed to be the backbone of your musical existence. Not a reference. Not a cheat sheet. A practice object — the thing you return to every day, like a musician returns to scales, until the structures become automatic and you can navigate the "Stevie Wonder" tonal vertigo without conscious calculation. The Circle of Fifths ordering is not arbitrary: it maximizes the key distance between successive iterations, which builds the strongest tonal vertigo resistance.
+  </div>
+
+
+  <!-- ══ I · FREQUENCY DERIVATION ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label freq">I · The Fractal Origin · Frequency Derivation · f(n) = 440 · 2^((n−49)/12)</span>
+    <hr>
+  </div>
+
+  <div class="prose-block fade-in">
+    <div class="prose-stamp">A440 ORIGIN</div>
+    <h2>The Fractal Origin: <em>Every Note Is a Recursive Step</em></h2>
+    <p class="prose-sub">f(n) = 440 · 2^((n−49)/12) · logarithmic geometry · the piano as geometric series</p>
+
+    <div class="math-region fade-in">
+      <span class="math-label">Frequency formula · any note n relative to A4 (n = 49)</span>
+      $$f(n) = 440 \cdot 2^{\frac{n-49}{12}}$$
+      <span style="font-size:.58rem;color:var(--ink3);font-style:italic;display:block;margin-top:.4rem">
+        n = key number (A4 = 49) · each semitone = multiplication by $2^{1/12} \approx 1.05946$ · an octave = exactly ×2
+      </span>
+    </div>
+
+    <div class="freq-vis fade-in">
+      <div class="freq-vis-label">Selected notes · frequency ladder · positions relative to A4 = 440 Hz</div>
+      <div class="freq-row">
+        <span class="freq-note">C4</span>
+        <div class="freq-track"><div class="freq-fill" data-w="52" style="width:0%"></div></div>
+        <span class="freq-hz">261.6 Hz</span>
+        <span class="freq-anchor">n = 40</span>
+      </div>
+      <div class="freq-row">
+        <span class="freq-note">E4</span>
+        <div class="freq-track"><div class="freq-fill" data-w="62" style="width:0%"></div></div>
+        <span class="freq-hz">329.6 Hz</span>
+        <span class="freq-anchor">n = 44</span>
+      </div>
+      <div class="freq-row">
+        <span class="freq-note" style="color:var(--d5)">A4</span>
+        <div class="freq-track"><div class="freq-fill" data-w="86" style="width:0%;background:var(--d5)"></div></div>
+        <span class="freq-hz" style="color:var(--d5)">440.0 Hz ← A440</span>
+        <span class="freq-anchor" style="color:var(--d5)">n = 49</span>
+      </div>
+      <div class="freq-row">
+        <span class="freq-note">C5</span>
+        <div class="freq-track"><div class="freq-fill" data-w="72" style="width:0%"></div></div>
+        <span class="freq-hz">523.3 Hz</span>
+        <span class="freq-anchor">n = 52</span>
+      </div>
+      <div class="freq-row">
+        <span class="freq-note">A5</span>
+        <div class="freq-track"><div class="freq-fill" data-w="100" style="width:0%"></div></div>
+        <span class="freq-hz">880.0 Hz</span>
+        <span class="freq-anchor">n = 61 · ×2</span>
+      </div>
+    </div>
+
+    <p class="prose-p">The formula encodes a profound structural fact: the twelve-tone scale is a <strong>geometric sequence</strong>, not an arithmetic one. Equal temperament means each semitone is the same <em>ratio</em>, not the same distance. This is why the piano is a fractal instrument — the same chord shape, played anywhere on the keyboard, preserves all internal ratios. The intervals are scale-invariant. The geometry is self-similar. Every key is the same as every other key, rotated.</p>
+    <p class="prose-p">This is also why practicing in all 12 keys is not repetition. It is the <em>traversal of a geometric orbit</em>. You are not playing the same thing in a different place. You are visiting the same shape at a different frequency — and discovering what your hands and ears know about each position in the orbit.</p>
+
+    <div class="prose-pull">
+      A440 is not the origin. It is the arbitrary anchor point of an infinite recursive structure. The chords you practice today are not the content. They are the sampling of a function defined for all n.
+    </div>
+  </div>
+
+
+  <!-- ══ II · THE CHEAT SHEET ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label table">II · The Diatonic Seventh Cheat Sheet · All 12 Keys · Circle of Fifths Order</span>
+    <hr>
+  </div>
+
+  <div class="prose-block fade-in">
+    <div class="prose-stamp">THE TABLE</div>
+    <h2>The Diatonic Seventh Cheat Sheet</h2>
+    <p class="prose-sub">All 12 keys · block chords + arpeggios · click a row to lock it · Circle of Fifths order below</p>
+
+    <!-- circle of fifths key tracker -->
+    <div class="fade-in">
+      <div class="cof-label">Practice order — Circle of Fifths — click to mark done</div>
+      <div class="cof-track" id="cofTrack">
+        <span class="cof-key sharps" data-key="C">C</span>
+        <span class="cof-key sharps" data-key="G">G</span>
+        <span class="cof-key sharps" data-key="D">D</span>
+        <span class="cof-key sharps" data-key="A">A</span>
+        <span class="cof-key sharps" data-key="E">E</span>
+        <span class="cof-key sharps" data-key="B">B</span>
+        <span class="cof-key sharps" data-key="Gb">F♯/G♭</span>
+        <span class="cof-key flats"  data-key="Db">D♭</span>
+        <span class="cof-key flats"  data-key="Ab">A♭</span>
+        <span class="cof-key flats"  data-key="Eb">E♭</span>
+        <span class="cof-key flats"  data-key="Bb">B♭</span>
+        <span class="cof-key flats"  data-key="F">F</span>
+      </div>
+    </div>
+
+    <div class="cheat-wrap fade-in">
+      <table class="cheat-table" id="cheatTable">
+        <thead>
+          <tr>
+            <th class="hk" style="text-align:left;padding-left:.9rem">Key</th>
+            <th class="h1">Imaj7</th>
+            <th class="h2">ii−7</th>
+            <th class="h3">iii−7</th>
+            <th class="h4">IVmaj7</th>
+            <th class="h5">V7</th>
+            <th class="h6">vi−7</th>
+            <th class="h7">vii∅7</th>
+          </tr>
+        </thead>
+        <tbody id="cheatBody">
+          <!-- filled by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <p class="prose-p" style="margin-top:1rem"><strong>How to use:</strong> Click any key row to highlight it. Click a Circle-of-Fifths key above to mark it done (green). Practice each row as: (1) block chord voicing, root position; (2) first inversion; (3) second inversion; (4) third inversion; (5) arpeggio ascending; (6) arpeggio descending. Then move to the next key in Circle-of-Fifths order.</p>
+  </div>
+
+
+  <!-- ══ III · THE WORMHOLE EXERCISE ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label pivot">III · The Wildcard Strategy · Pivot Practice · Wormhole Exercise</span>
+    <hr>
+  </div>
+
+  <div class="worm-box fade-in">
+    <span class="worm-label">The Wormhole Exercise · Stevie Wonder Level Mastery</span>
+    <p style="font-family:var(--serif);font-size:.9rem;color:var(--ink2);line-height:1.8;margin-bottom:1.4rem">
+      Once the 12-key table is under your fingers, the "Stevie Wonder" level comes from <strong style="color:var(--worm)">Pivot Practice</strong> — the ability to re-visualize any chord as a different function in a different key, in real time, without stopping.
+    </p>
+    <div class="worm-steps">
+      <div class="worm-step">
+        <span class="worm-step-num">1.</span>
+        <div class="worm-step-body">
+          <strong>Pick a iv−7 chord.</strong> For example: G♭m7 in the key of D♭. You know this chord — it's the iv−7. You've just played it in the table above, in D♭'s row.
+          <div class="worm-chain" style="margin-top:.6rem">
+            <span class="wc-node wc-db">D♭ Major</span>
+            <span class="wc-arr">→</span>
+            <span class="wc-node wc-wh">G♭m7 (iv−7)</span>
+          </div>
+        </div>
+      </div>
+      <div class="worm-step">
+        <span class="worm-step-num">2.</span>
+        <div class="worm-step-body">
+          <strong>Immediately re-visualize.</strong> That same G♭m7 chord — same notes, same voicing — is also F♯m7 (enharmonic) and functions as the <strong>vi−7 in A Major</strong>. Do not change your hand. Change your mental frame.
+          <div class="worm-chain" style="margin-top:.6rem">
+            <span class="wc-node wc-wh">G♭m7 = F♯m7</span>
+            <span class="wc-arr">≡</span>
+            <span class="wc-node wc-a">vi−7 in A Major</span>
+          </div>
+        </div>
+      </div>
+      <div class="worm-step">
+        <span class="worm-step-num">3.</span>
+        <div class="worm-step-body">
+          <strong>Resolve into A Major.</strong> From your new mental frame, play the I chord — A Major (or Amaj7). You've just navigated the D♭ → A jump with no math. A single re-frame, held for one chord duration.
+          <div class="worm-chain" style="margin-top:.6rem">
+            <span class="wc-node wc-a">vi−7 in A</span>
+            <span class="wc-arr">→</span>
+            <span class="wc-node wc-a">Amaj7 (I)</span>
+          </div>
+        </div>
+      </div>
+      <div class="worm-step">
+        <span class="worm-step-num">4.</span>
+        <div class="worm-step-body">
+          <strong>Continue the chain.</strong> From A Major, find the ii−7 (Bm7) and the V7 (E7). Now pivot again: treat E7 as a ♭VII7 in G♭, or treat the whole A Major area as a temporary tonic before entering the G♭ system. This is how you navigate D♭ → A → G♭ in real time — without getting lost in the math.
+          <div class="worm-chain" style="margin-top:.6rem">
+            <span class="wc-node wc-db">D♭</span>
+            <span class="wc-arr">⟿</span>
+            <span class="wc-node wc-wh">G♭m7</span>
+            <span class="wc-arr">⟿</span>
+            <span class="wc-node wc-a">A Major</span>
+            <span class="wc-arr">⟿</span>
+            <span class="wc-node wc-gf">G♭ system</span>
+            <span style="font-size:.78rem;font-family:var(--serif);color:var(--ink3);font-style:italic;margin-left:.5rem">the full "Lately" bridge in real time</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prose-block fade-in">
+    <div class="prose-stamp">PIVOT LOGIC</div>
+    <h2>Why This Works: <em>The Chord Is Not the Key</em></h2>
+    <p class="prose-sub">Enharmonic re-spelling · functional re-framing · one chord · two (or four) tonal citizenships</p>
+    <p class="prose-p">The wormhole exercise works because a chord's <em>function</em> is not intrinsic to its notes — it is assigned by the tonal frame you are currently in. G♭m7 and F♯m7 are the same frequencies. They are different functions. Switching the function without changing the notes is a mental operation, not a physical one. This is what "tonal vertigo resistance" means: the ability to hold your physical position (the chord under your hands) while rotating your mental frame around it.</p>
+    <p class="prose-p">Practice this daily: for each V7 in the table, find its enharmonic partner chord one key away. Treat the V7 as a ♭VII7 in the key a half-step above. Treat the ii−7 as a iv−7 in the key a major third below. Build the habit of double-reading every chord — as its function in the current key, and as a potential pivot into an adjacent one.</p>
+  </div>
+
+
+  <!-- ══ IV · BERKLEE ALTERED DOMINANT ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label berk">IV · Berklee R&amp;B Extension · V7 Altered · Mixolydian ♭9, ♯9, ♭13 · Absolute Saturation</span>
+    <hr>
+  </div>
+
+  <div class="voicing-box fade-in">
+    <span class="voicing-label">Altered Dominant Voicing · Two-Hand Layout · Any V7 from the table above</span>
+    <p style="font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;color:var(--ink2);line-height:1.8;margin-bottom:1.4rem">
+      For every V7 in the table, practice this <strong style="color:var(--berklee)">Mixolydian ♭9, ♯9, ♭13</strong> voicing. This is the "Spanish Phrygian" sound converted into jazz-functional tension — the chromatic saturation point where R&amp;B becomes geometry.
+    </p>
+
+    <div class="hands-diagram">
+      <div class="hand-block">
+        <span class="hand-title">Left Hand</span>
+        <div class="hand-notes">
+          <div class="hn-row">
+            <div class="hn-note n-root">R</div>
+            <div class="hn-fn">Root · 1 · bass anchor · names the chord</div>
+          </div>
+          <div class="hn-row">
+            <div class="hn-note n-7">♭7</div>
+            <div class="hn-fn">Minor 7th · the dominant quality · points toward I</div>
+          </div>
+        </div>
+        <p style="font-family:var(--mono);font-size:.5rem;letter-spacing:.06em;color:var(--ink3);margin-top:1rem;line-height:1.7">
+          Two-note shell voicing. Root in the bass. The ♭7 creates the dominant quality without any upper tension — leaving maximum space for the right hand to saturate.
+        </p>
+      </div>
+      <div class="hand-block">
+        <span class="hand-title">Right Hand</span>
+        <div class="hand-notes">
+          <div class="hn-row">
+            <div class="hn-note n-s9">♯9</div>
+            <div class="hn-fn">Augmented 9th · top voice · the "Hendrix note"</div>
+          </div>
+          <div class="hn-row">
+            <div class="hn-note n-b9">♭9</div>
+            <div class="hn-fn">Flat 9 · Spanish Phrygian tension · minor flavor above dominant</div>
+          </div>
+          <div class="hn-row">
+            <div class="hn-note n-b13">♭13</div>
+            <div class="hn-fn">Flat 13 · Lydian-Dominant shimmer · raises the stakes</div>
+          </div>
+          <div class="hn-row">
+            <div class="hn-note n-3">3</div>
+            <div class="hn-fn">Major 3rd · the guide tone · anchors the dominant quality</div>
+          </div>
+        </div>
+        <p style="font-family:var(--mono);font-size:.5rem;letter-spacing:.06em;color:var(--ink3);margin-top:1rem;line-height:1.7">
+          Bottom to top: 3 – ♭13 – ♭9 – ♯9. Four notes. All four are chromatic alterations or guide tones. The result is absolute harmonic saturation.
+        </p>
+      </div>
+    </div>
+
+    <!-- tension meter -->
+    <div style="margin:1.6rem 0">
+      <div style="font-family:var(--mono);font-size:.44rem;letter-spacing:.32em;text-transform:uppercase;color:var(--berklee);margin-bottom:.7rem">Harmonic saturation · tension contribution per added note</div>
+      <div class="tension-row">
+        <span class="tension-label">Root + ♭7 only</span>
+        <div class="tension-track"><div class="tension-fill" data-w="22" style="width:0%;background:var(--d2)"></div></div>
+        <span class="tension-note">shell · minimum viable dominant</span>
+      </div>
+      <div class="tension-row">
+        <span class="tension-label">+ Major 3rd</span>
+        <div class="tension-track"><div class="tension-fill" data-w="40" style="width:0%;background:var(--d1)"></div></div>
+        <span class="tension-note">guide tone · names the quality · dominant confirmed</span>
+      </div>
+      <div class="tension-row">
+        <span class="tension-label">+ ♭13</span>
+        <div class="tension-track"><div class="tension-fill" data-w="62" style="width:0%;background:var(--d3)"></div></div>
+        <span class="tension-note">Lydian shimmer · tone color shifts toward altered</span>
+      </div>
+      <div class="tension-row">
+        <span class="tension-label">+ ♭9</span>
+        <div class="tension-track"><div class="tension-fill" data-w="80" style="width:0%;background:var(--d4)"></div></div>
+        <span class="tension-note">Spanish Phrygian enters · minor tension above dominant root</span>
+      </div>
+      <div class="tension-row">
+        <span class="tension-label">+ ♯9 (full voicing)</span>
+        <div class="tension-track"><div class="tension-fill" data-w="100" style="width:0%;background:var(--berklee)"></div></div>
+        <span class="tension-note">♭9 and ♯9 simultaneously · absolute saturation · the Stevie point</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="prose-block fade-in">
+    <div class="prose-stamp">SATURATION</div>
+    <h2>Why Both ♭9 <em>and</em> ♯9 Simultaneously?</h2>
+    <p class="prose-sub">The Spanish Phrygian converted to jazz-functional tension · two minor seconds at once · the sound of harmonic entropy at maximum</p>
+    <p class="prose-p">The ♭9 and ♯9 are, enharmonically, a minor second apart (♭9 = one semitone above the root, ♯9 = one semitone above the major 2nd). Playing both simultaneously creates a <strong>cluster of chromatic tension</strong> in the upper register. This should sound dense. It should feel saturated. That is the point. The "absolute harmonic saturation" is not a bug — it is the acoustic equivalent of the vii°7 opening: a chord that belongs to multiple tonal frames at once, and therefore to none specifically.</p>
+    <p class="prose-p">The ♭13 (enharmonically: ♯5) adds the Lydian-Dominant shimmer described in the "Lately" bridge analysis. Together, the 3–♭13–♭9–♯9 voicing is the most compact encoding of the maximum tension a dominant chord can express before resolution. Stevie uses this — or functional equivalents — at every structural pivot. It is the sound of the harmonic system at its highest entropy state, one chord before surrender.</p>
+
+    <div class="math-region fade-in">
+      <span class="math-label">Full altered dominant · note degrees · semitone positions from root</span>
+      $$V7_{\text{alt}} = \{R,\ \flat7\} \oplus \{3,\ \flat13,\ \flat9,\ \sharp9\}$$
+      <span style="font-size:.55rem;color:var(--ink3);font-style:italic;display:block;margin-top:.5rem">
+        Left hand: intervals 0 + 10 semitones (root + ♭7)<br>
+        Right hand: 4 + 8 + 13 + 15 semitones above root (3, ♭13, ♭9, ♯9)<br>
+        Total: 6 distinct pitch classes · maximum chromatic coverage of the altered dominant
+      </span>
+    </div>
+
+    <div class="prose-pull">
+      The result is absolute harmonic saturation. Not because more notes are better, but because these six specific pitch classes are the six that make the dominant chord simultaneously point toward resolution and refuse to commit to it.
+    </div>
+  </div>
+
+
+  <!-- ══ SYNTHESIS ══ -->
+  <div class="interlude fade-in">
+    Play the table every day.<br>
+    Play it through the Circle of Fifths.<br>
+    <em>On the seventh day, play the pivot exercise.</em><br>
+    On the fourteenth day, add the altered dominant voicing to every V7.<br>
+    By the twenty-first day you will no longer be practicing theory.<br>
+    You will be navigating geometry.
+  </div>
+
+  <div class="coda fade-in">
+    <span class="coda-label">Synthesis · The Practice · What It Builds</span>
+    <h2>What the Eternal Recurrence Actually Is</h2>
+    <p>The table is not a reference sheet. It is a <strong>daily orbit</strong>. You begin at C, and you travel through the Circle of Fifths — adding one sharp, then another, then reaching the enharmonic equator (F♯/G♭), then descending through the flat keys back to C. Each key is the same structure at a different frequency. Each traversal deepens the geometry in your hands and ears until the structure is motor, not cognitive.</p>
+    <p>The pivot exercise is what turns the orbit into navigation. Once you know that G♭m7 is iv−7 in D♭ and vi−7 in A simultaneously, you can move between keys the way Stevie does — not by modulating, but by re-framing. The chord does not change. The tonal frame rotates around it. This is the "wormhole" described in the "Lately" analysis, practiced as a daily physical habit.</p>
+    <p>The altered dominant voicing is what turns navigation into expression. The 3–♭13–♭9–♯9 right-hand voicing is not an embellishment of the V7. It is the V7 at maximum harmonic entropy — the state in which it contains, simultaneously, the maximum number of chromatic tensions before it resolves. This is the sound that distinguishes "playing changes" from "playing inside the changes." <strong>Absolute harmonic saturation, then release. That is the only formula.</strong></p>
+  </div>
+
+
+  <footer class="fade-in">
+    <p class="foot-chain">Ukubona LLC · <span>f(n) = 440 · 2^((n−49)/12) · all 12 keys · Circle of Fifths · iv−7 wormhole pivot · V7 Mixolydian ♭9,♯9,♭13</span></p>
+    <p class="foot-note">
+      I · Frequency formula · A4 = n=49 · A440 · <span style="color:var(--d1)">geometric sequence · scale-invariant geometry · fractal origin</span><br>
+      II · Diatonic 7th table · all 12 keys · <span style="color:var(--d5)">Imaj7 · ii−7 · iii−7 · IVmaj7 · V7 · vi−7 · vii∅7 · Circle of Fifths order</span><br>
+      III · Wormhole pivot · iv−7 in D♭ = vi−7 in A · <span style="color:var(--worm)">D♭→A→G♭ without math · tonal vertigo resistance</span><br>
+      IV · Berklee R&amp;B extension · V7 altered · <span style="color:var(--berklee)">LH: root+♭7 · RH: 3,♭13,♭9,♯9 · absolute harmonic saturation</span><br>
+      <br>
+      Next: Mixolydian ♭9,♯9,♭13 voicing diagram · D'Angelo "Untitled (How Does It Feel)" context<br>
+      Next: LaTeX version of this sheet for print / flashcard production<br>
+      <br>
+      Eternal Recurrence Daily Practice Sheet: Ukubona LLC · March 2026<br>
+      Cross-reference: "Lately" bridge analysis · Tchaikovsky vii°7 · Harmonic entropy series<br>
+      © 2026 Ukubona LLC
+    </p>
+  </footer>
+
+</div><!-- .page -->
+
+<!-- CENTRALIZED ASSETS -->
+<div class="scroll-indicator"><div class="scroll-progress"></div></div>
+<div class="bg-pattern"></div>
+<header class="header" id="header"></header>
+<main class="page wrap-max"></main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+
+<script>
+/* ══ THEME TOGGLE ══ */
+const sw=document.getElementById('themeSwitch'),
+      lbl=document.getElementById('toggle-label'),
+      html=document.documentElement;
+const saved=localStorage.getItem('theme'),pD=window.matchMedia('(prefers-color-scheme: dark)').matches;
+if(saved==='dark'||(!saved&&pD)){html.setAttribute('data-theme','dark');lbl.textContent='Dark';sw.setAttribute('aria-pressed','true')}
+function toggleTheme(){
+  const d=html.getAttribute('data-theme')==='dark';
+  if(d){html.removeAttribute('data-theme');lbl.textContent='Light';sw.setAttribute('aria-pressed','false');localStorage.setItem('theme','light')}
+  else{html.setAttribute('data-theme','dark');lbl.textContent='Dark';sw.setAttribute('aria-pressed','true');localStorage.setItem('theme','dark')}
+}
+sw.addEventListener('click',toggleTheme);
+sw.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleTheme()}});
+
+/* ══ FADE IN ══ */
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})
+},{threshold:.05});
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+
+/* ══ CHEAT SHEET DATA ══ */
+const KEYS = [
+  {k:'C',  r:['Cmaj7','Dm7','Em7','Fmaj7','G7','Am7','Bm7♭5']},
+  {k:'G',  r:['Gmaj7','Am7','Bm7','Cmaj7','D7','Em7','F♯m7♭5']},
+  {k:'D',  r:['Dmaj7','Em7','F♯m7','Gmaj7','A7','Bm7','C♯m7♭5']},
+  {k:'A',  r:['Amaj7','Bm7','C♯m7','Dmaj7','E7','F♯m7','G♯m7♭5']},
+  {k:'E',  r:['Emaj7','F♯m7','G♯m7','Amaj7','B7','C♯m7','D♯m7♭5']},
+  {k:'B',  r:['Bmaj7','C♯m7','D♯m7','Emaj7','F♯7','G♯m7','A♯m7♭5']},
+  {k:'G♭', r:['G♭maj7','A♭m7','B♭m7','C♭maj7','D♭7','E♭m7','Fm7♭5']},
+  {k:'D♭', r:['D♭maj7','E♭m7','Fm7','G♭maj7','A♭7','B♭m7','Cm7♭5']},
+  {k:'A♭', r:['A♭maj7','B♭m7','Cm7','D♭maj7','E♭7','Fm7','Gm7♭5']},
+  {k:'E♭', r:['E♭maj7','Fm7','Gm7','A♭maj7','B♭7','Cm7','Dm7♭5']},
+  {k:'B♭', r:['B♭maj7','Cm7','Dm7','E♭maj7','F7','Gm7','Am7♭5']},
+  {k:'F',  r:['Fmaj7','Gm7','Am7','B♭maj7','C7','Dm7','Em7♭5']},
+];
+
+const COF_ORDER = ['C','G','D','A','E','B','Gb','Db','Ab','Eb','Bb','F'];
+
+function buildTable(){
+  const tbody=document.getElementById('cheatBody');
+  KEYS.forEach(({k,r})=>{
+    const tr=document.createElement('tr');
+    tr.dataset.key=k;
+    const cls=['c1','c2','c3','c4','c5','c6','c7'];
+    let html=`<td class="key-col">${k}</td>`;
+    r.forEach((ch,i)=>{
+      html+=`<td class="${cls[i]}">${ch}</td>`;
+    });
+    tr.innerHTML=html;
+    tr.addEventListener('click',()=>{
+      document.querySelectorAll('#cheatBody tr').forEach(r=>r.classList.remove('active-row'));
+      tr.classList.toggle('active-row');
+      /* sync CoF key */
+      const matchKey=COF_ORDER.find(ck=>ck===k||ck===k.replace('♭','b'));
+      if(matchKey){
+        document.querySelectorAll('.cof-key').forEach(el=>{
+          if(el.dataset.key===matchKey||el.dataset.key===k){
+            el.classList.add('cof-active');
+          }
+        });
+      }
+    });
+    tbody.appendChild(tr);
+  });
+}
+buildTable();
+
+/* ══ CoF TRACKER ══ */
+document.querySelectorAll('.cof-key').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    btn.classList.remove('cof-active');
+    btn.classList.toggle('cof-done');
+    /* also highlight matching table row briefly */
+    const k=btn.dataset.key;
+    document.querySelectorAll('#cheatBody tr').forEach(tr=>{
+      if(tr.dataset.key===k||tr.dataset.key===k+'♭'||
+         (k==='Gb'&&tr.dataset.key==='G♭')||
+         (k==='Db'&&tr.dataset.key==='D♭')||
+         (k==='Ab'&&tr.dataset.key==='A♭')||
+         (k==='Eb'&&tr.dataset.key==='E♭')||
+         (k==='Bb'&&tr.dataset.key==='B♭')){
+        tr.classList.add('active-row');
+        setTimeout(()=>tr.classList.remove('active-row'),900);
+      }
+    });
+  });
+});
+
+/* ══ FREQ BARS animate in ══ */
+document.querySelectorAll('.freq-fill').forEach(bar=>{
+  const w=bar.dataset.w+'%';
+  bar.style.width='0%';
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ bar.style.width=w; obs.unobserve(bar); }
+    });
+  },{threshold:.9});
+  obs.observe(bar);
+});
+
+/* ══ TENSION BARS animate in ══ */
+document.querySelectorAll('.tension-fill').forEach(bar=>{
+  const w=bar.dataset.w+'%';
+  bar.style.width='0%';
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ bar.style.width=w; obs.unobserve(bar); }
+    });
+  },{threshold:.7});
+  obs.observe(bar);
+});
+
+/* ══ PIVOT HIGHLIGHT — click any V7 cell to show pivot ══ */
+document.querySelectorAll('#cheatBody tr').forEach(tr=>{
+  const cells=tr.querySelectorAll('td');
+  if(cells[5]){ /* V7 = index 5 */
+    cells[5].addEventListener('click',(e)=>{
+      e.stopPropagation();
+      cells[5].classList.toggle('pivot-cell');
+    });
+  }
+});
+</script>
+
+</body>
+</html>
