@@ -1,1 +1,1152 @@
-. 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Universal Resonance Syllabus</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Inconsolata:wght@300;400;600;700&family=Abril+Fatface&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f4ef;
+    --col1: #0e0c0a;
+    --col2: #2a2520;
+    --col3: #5a5248;
+    --rule: #ccc5b8;
+    --rule2: #e8e2d8;
+    --red: #9b1c1c;
+    --blue: #1a2b4a;
+    --green: #1a3a28;
+    --amber: #8b6914;
+    --teal: #0e3a40;
+    --accent: #c8430a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--col1);
+    font-family: 'EB Garamond', serif;
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  /* ============ MASTHEAD ============ */
+  .masthead {
+    border-bottom: 3px solid var(--col1);
+    padding: 0;
+  }
+
+  .masthead-top {
+    background: var(--col1);
+    color: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 48px;
+    font-family: 'Inconsolata', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .masthead-top .issue { opacity: 0.5; }
+
+  .masthead-center {
+    padding: 56px 48px 40px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 48px;
+    align-items: end;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .journal-label {
+    font-family: 'Inconsolata', monospace;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--col3);
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .masthead-center h1 {
+    font-family: 'Abril Fatface', serif;
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    line-height: 0.95;
+    color: var(--col1);
+    letter-spacing: -0.01em;
+  }
+
+  .masthead-center h1 .sub {
+    font-family: 'EB Garamond', serif;
+    font-size: clamp(1rem, 2.5vw, 1.6rem);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--col3);
+    display: block;
+    margin-top: 10px;
+    letter-spacing: 0.01em;
+  }
+
+  .masthead-side {
+    text-align: right;
+    min-width: 180px;
+  }
+
+  .formula-hero {
+    font-family: 'Inconsolata', monospace;
+    font-size: 1.1rem;
+    color: var(--col1);
+    background: #fff;
+    border: 1px solid var(--rule);
+    padding: 18px 22px;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .formula-hero .eq {
+    display: block;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 6px 0;
+  }
+
+  .formula-hero .eq-note {
+    font-size: 10px;
+    color: var(--col3);
+    margin-top: 6px;
+    font-weight: 300;
+    display: block;
+    font-style: italic;
+  }
+
+  .contrib-list {
+    font-family: 'Inconsolata', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--col3);
+    text-align: right;
+    line-height: 2;
+  }
+
+  .contrib-list .contrib-label {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--rule);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* ============ TOC ============ */
+  .toc-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .toc-item {
+    flex: 1;
+    min-width: 120px;
+    padding: 12px 16px;
+    border-right: 1px solid var(--rule);
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+
+  .toc-item:last-child { border-right: none; }
+  .toc-item:hover { background: #eee9e0; }
+
+  .toc-num {
+    font-family: 'Inconsolata', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--col3);
+    display: block;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+  }
+
+  .toc-title {
+    font-size: 11px;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    color: var(--col1);
+    line-height: 1.3;
+    display: block;
+  }
+
+  /* ============ LAYOUT ============ */
+  .journal-body {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 48px 120px;
+  }
+
+  /* ============ ARTICLE ============ */
+  .article {
+    display: grid;
+    grid-template-columns: 60px 1fr 260px;
+    gap: 0 40px;
+    padding: 64px 0;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+
+  .article:last-of-type { border-bottom: none; }
+
+  /* ROMAN NUMERAL COLUMN */
+  .art-num {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-family: 'Abril Fatface', serif;
+    font-size: 3.5rem;
+    color: var(--rule2);
+    letter-spacing: -0.05em;
+    align-self: start;
+    padding-top: 8px;
+    line-height: 1;
+    user-select: none;
+  }
+
+  /* COLOR ACCENT ON NUM */
+  .a1 .art-num { color: #f0d8d0; }
+  .a2 .art-num { color: #d0e4d8; }
+  .a3 .art-num { color: #d0d8f0; }
+  .a4 .art-num { color: #e8d8f0; }
+  .a5 .art-num { color: #d0ece8; }
+  .a6 .art-num { color: #f0e8d0; }
+  .a7 .art-num { color: #f0d0d0; }
+
+  /* MAIN COLUMN */
+  .art-main {}
+
+  .art-kicker {
+    font-family: 'Inconsolata', monospace;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--col3);
+    display: block;
+    margin-bottom: 14px;
+  }
+
+  .art-main h2 {
+    font-family: 'Abril Fatface', serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+    line-height: 1.05;
+    color: var(--col1);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .art-main h2 em {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--col3);
+    font-size: 0.75em;
+    display: block;
+    margin-top: 4px;
+    letter-spacing: 0.01em;
+  }
+
+  .art-deck {
+    font-family: 'EB Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--col3);
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--rule);
+    line-height: 1.6;
+    max-width: 600px;
+  }
+
+  .art-main p {
+    font-size: 1rem;
+    color: var(--col2);
+    margin-bottom: 1.1em;
+    line-height: 1.75;
+    max-width: 600px;
+  }
+
+  .art-main p:last-child { margin-bottom: 0; }
+
+  .art-main strong {
+    font-weight: 700;
+    color: var(--col1);
+  }
+
+  /* SIDEBAR COLUMN */
+  .art-side {
+    padding-top: 4px;
+    border-left: 1px solid var(--rule);
+    padding-left: 28px;
+  }
+
+  /* CORRECTION BOX */
+  .correction-box {
+    background: #fff8f0;
+    border: 1px solid #e8c090;
+    border-left: 3px solid var(--accent);
+    padding: 16px 18px;
+    margin-bottom: 24px;
+    font-family: 'EB Garamond', serif;
+    font-size: 13px;
+    color: var(--col2);
+    line-height: 1.6;
+    position: relative;
+  }
+
+  .correction-box::before {
+    content: 'CORRECTION';
+    font-family: 'Inconsolata', monospace;
+    font-size: 8px;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  /* ANNOTATION */
+  .annotation {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--col3);
+    line-height: 1.7;
+    margin-bottom: 24px;
+    padding-left: 14px;
+    border-left: 2px solid var(--rule);
+  }
+
+  .annotation .ann-label {
+    font-style: normal;
+    font-family: 'Inconsolata', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--col3);
+    display: block;
+    margin-bottom: 6px;
+    border-left: none;
+    padding-left: 0;
+  }
+
+  /* DEFINITION */
+  .definition {
+    background: #fff;
+    border: 1px solid var(--rule);
+    padding: 16px 18px;
+    margin-bottom: 20px;
+    font-size: 13px;
+  }
+
+  .definition .def-term {
+    font-family: 'Inconsolata', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--col1);
+    display: block;
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+  }
+
+  .definition p {
+    font-size: 12px !important;
+    margin: 0 !important;
+    max-width: none !important;
+    color: var(--col3) !important;
+    line-height: 1.6 !important;
+  }
+
+  /* CHORD LIST SIDEBAR */
+  .chord-stack {
+    font-family: 'Inconsolata', monospace;
+    font-size: 13px;
+    color: var(--col1);
+    line-height: 2.2;
+    letter-spacing: 0.05em;
+    border: 1px solid var(--rule);
+    padding: 14px 16px;
+    background: #fff;
+    margin-bottom: 20px;
+  }
+
+  .chord-stack .cs-label {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--col3);
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 300;
+  }
+
+  .chord-stack .dom { color: var(--red); font-weight: 600; }
+  .chord-stack .hdim { color: var(--col3); font-style: italic; }
+
+  /* INLINE FORMULA */
+  .inline-formula {
+    font-family: 'Inconsolata', monospace;
+    background: #fff;
+    border: 1px solid var(--rule);
+    padding: 14px 18px;
+    margin: 20px 0;
+    text-align: center;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--col1);
+    max-width: 500px;
+  }
+
+  .inline-formula .if-note {
+    font-size: 11px;
+    color: var(--col3);
+    font-weight: 300;
+    margin-top: 6px;
+    display: block;
+    font-style: italic;
+    font-family: 'EB Garamond', serif;
+  }
+
+  /* PULLQUOTE IN MAIN */
+  .pullquote {
+    font-family: 'Abril Fatface', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    line-height: 1.3;
+    color: var(--col1);
+    border-top: 2px solid var(--col1);
+    border-bottom: 1px solid var(--rule);
+    padding: 18px 0;
+    margin: 28px 0;
+    max-width: 560px;
+  }
+
+  .pullquote .pq-source {
+    font-family: 'Inconsolata', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--col3);
+    text-transform: uppercase;
+    margin-top: 10px;
+    display: block;
+    font-weight: 300;
+  }
+
+  /* SCALE DISPLAY */
+  .scale-box {
+    background: var(--col1);
+    color: #fff;
+    padding: 14px 18px;
+    margin: 20px 0;
+    font-family: 'Inconsolata', monospace;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    max-width: 500px;
+  }
+
+  .scale-box .sb-label {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .scale-box .sb-notes { color: #fff; }
+  .scale-box .sb-flat2 { color: #ff8070; }
+  .scale-box .sb-maj3 { color: #80ff90; }
+
+  /* COMPARISON TABLE */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 13px;
+    max-width: 580px;
+  }
+
+  .compare-table th {
+    text-align: left;
+    padding: 9px 14px;
+    background: var(--col1);
+    color: var(--bg);
+    font-family: 'Inconsolata', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  .compare-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--rule);
+    font-family: 'EB Garamond', serif;
+    color: var(--col2);
+    line-height: 1.5;
+    vertical-align: top;
+  }
+
+  .compare-table tr:nth-child(even) td { background: #fff; }
+  .compare-table .term { font-weight: 700; color: var(--col1); font-family: 'Inconsolata', monospace; font-size: 12px; }
+
+  /* LIVES-OF-THE-MASTERS SIDEBAR CALLOUT */
+  .masters-box {
+    background: var(--col1);
+    color: var(--bg);
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+
+  .masters-box .mb-label {
+    font-family: 'Inconsolata', monospace;
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(247,244,239,0.45);
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .masters-box .mb-name {
+    font-family: 'Abril Fatface', serif;
+    font-size: 1.4rem;
+    line-height: 1.1;
+    margin-bottom: 8px;
+    color: #fff;
+  }
+
+  .masters-box p {
+    font-size: 12px !important;
+    color: rgba(247,244,239,0.75) !important;
+    margin: 0 !important;
+    max-width: none !important;
+    font-style: italic !important;
+    line-height: 1.65 !important;
+  }
+
+  /* DAILY PRACTICE FOOTER OF ARTICLE */
+  .art-daily {
+    grid-column: 2 / 4;
+    margin-top: 36px;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .art-daily .dp-mark {
+    font-family: 'Abril Fatface', serif;
+    font-size: 1.8rem;
+    color: var(--rule);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .art-daily .dp-content .dp-label {
+    font-family: 'Inconsolata', monospace;
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--col3);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .art-daily .dp-content p {
+    font-size: 14px;
+    color: var(--col2);
+    font-style: italic;
+    margin: 0;
+    max-width: 600px;
+    font-family: 'EB Garamond', serif;
+    line-height: 1.6;
+  }
+
+  /* ============ BACK MATTER ============ */
+  .back-matter {
+    margin-top: 80px;
+    border: 2px solid var(--col1);
+    padding: 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .back-matter h3 {
+    font-family: 'Abril Fatface', serif;
+    font-size: 1.8rem;
+    grid-column: 1 / -1;
+    margin-bottom: -20px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 18px;
+  }
+
+  .thesis-entry {
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .thesis-entry .te-symbol {
+    font-family: 'Inconsolata', monospace;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--col1);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .thesis-entry .te-name {
+    font-family: 'Inconsolata', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--col3);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .thesis-entry p {
+    font-size: 14px;
+    color: var(--col2);
+    font-style: italic;
+    line-height: 1.7;
+  }
+
+  .open-question {
+    grid-column: 1 / -1;
+    margin-top: 16px;
+    padding: 24px;
+    background: var(--col1);
+    color: var(--bg);
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    border-top: none;
+  }
+
+  .open-question .oq-label {
+    font-family: 'Inconsolata', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(247,244,239,0.4);
+    display: block;
+    margin-bottom: 10px;
+    font-style: normal;
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--col1);
+    color: rgba(247,244,239,0.45);
+    padding: 32px 48px;
+    font-family: 'Inconsolata', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  footer .ft-title { color: rgba(247,244,239,0.9); font-size: 12px; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 900px) {
+    .article {
+      grid-template-columns: 48px 1fr;
+    }
+    .art-side { display: none; }
+    .art-daily { grid-column: 2; }
+    .masthead-center { grid-template-columns: 1fr; }
+    .masthead-side { text-align: left; }
+    .back-matter { grid-template-columns: 1fr; }
+    .back-matter h3 { grid-column: 1; }
+  }
+
+  @media (max-width: 600px) {
+    .journal-body { padding: 0 20px 80px; }
+    .masthead-center { padding: 32px 20px; }
+    .masthead-top { padding: 10px 20px; }
+    .article { grid-template-columns: 40px 1fr; gap: 0 16px; }
+    .art-num { font-size: 2.5rem; }
+    footer { padding: 24px 20px; }
+    .back-matter { padding: 28px 20px; }
+    .toc-item { min-width: 100px; }
+  }
+
+  /* ============ ANIMATION ============ */
+  @keyframes enter {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .article {
+    animation: enter 0.5s ease both;
+  }
+
+  .article:nth-child(1) { animation-delay: 0s; }
+  .article:nth-child(2) { animation-delay: 0.06s; }
+  .article:nth-child(3) { animation-delay: 0.12s; }
+  .article:nth-child(4) { animation-delay: 0.18s; }
+  .article:nth-child(5) { animation-delay: 0.24s; }
+  .article:nth-child(6) { animation-delay: 0.30s; }
+  .article:nth-child(7) { animation-delay: 0.36s; }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-top">
+    <span>The Universal Resonance Syllabus</span>
+    <span class="issue">Seven Modules · Toddlers through Octogenarians · A440 → Tchaikovsky</span>
+  </div>
+  <div class="masthead-center">
+    <div>
+      <span class="journal-label">Complete Curriculum · Music Theory &amp; History</span>
+      <h1>The Universal<br>Resonance<br>Syllabus
+        <span class="sub">Bridging the raw physics of sound, the emotional depth of<br>Russian orchestration, and the groove of R&amp;B</span>
+      </h1>
+    </div>
+    <div class="masthead-side">
+      <div class="formula-hero">
+        <span style="font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color: #999; display:block; margin-bottom:4px;">The Governing Formula</span>
+        <span class="eq">f(n) = 440 · 2^((n−49)/12)</span>
+        <span class="eq-note">All 88 keys derived from one number.<br>The fractal self-similarity of the octave.</span>
+      </div>
+      <div class="contrib-list">
+        <span class="contrib-label">Historical Attribution</span>
+        Zhu Zaiyu · China · 1584<br>
+        Simon Stevin · Flanders · 1585<br>
+        A. Werckmeister · Germany · 1691<br>
+        H. von Helmholtz · Germany · 1863
+      </div>
+    </div>
+  </div>
+  <nav class="toc-bar">
+    <a class="toc-item" href="#s1"><span class="toc-num">Module I</span><span class="toc-title">A440 &amp; The Compromise of Temperament</span></a>
+    <a class="toc-item" href="#s2"><span class="toc-num">Module II</span><span class="toc-title">The Diatonic 7ths &amp; Eternal Recurrence</span></a>
+    <a class="toc-item" href="#s3"><span class="toc-num">Module III</span><span class="toc-title">Stevie Wonder &amp; The Target 7th</span></a>
+    <a class="toc-item" href="#s4"><span class="toc-num">Module IV</span><span class="toc-title">Modal Interchange in "Lately"</span></a>
+    <a class="toc-item" href="#s5"><span class="toc-num">Module V</span><span class="toc-title">Modes vs. Jazz Harmony</span></a>
+    <a class="toc-item" href="#s6"><span class="toc-num">Module VI</span><span class="toc-title">Bryan Adams &amp; Paco de Lucía</span></a>
+    <a class="toc-item" href="#s7"><span class="toc-num">Module VII</span><span class="toc-title">Tchaikovsky's vii∅7 Opening</span></a>
+  </nav>
+</header>
+
+<main class="journal-body">
+
+  <!-- ARTICLE I -->
+  <article class="article a1" id="s1">
+    <div class="art-num">I</div>
+    <div class="art-main">
+      <span class="art-kicker">Physics · Equal Temperament · The Pythagorean Comma</span>
+      <h2>The Physics of the Keys: A440 &amp; The Compromise of Temperament
+        <em>Before we touch a chord, we must understand the ground we walk on.</em>
+      </h2>
+      <p class="art-deck">The modern piano is built on an exponential geometric progression — a mathematical cage that sets music free.</p>
+
+      <p>The frequency of any <em>n</em>-th key on the 88-key piano (where n=1 is A0, the lowest note, and n=49 is A4 = 440 Hz) is derived from:</p>
+
+      <div class="inline-formula">
+        f(n) = 440 · 2<sup>(n−49)/12</sup>
+        <span class="if-note">The 12th root of 2 (≈ 1.059463…) is the constant ratio between every adjacent semitone. Same proportion, infinitely repeated — the fractal self-similarity of the keyboard.</span>
+      </div>
+
+      <p>Why does nature fight this? The <strong>harmonic series</strong> — the natural overtones produced by any vibrating string — gives us intervals defined by simple whole-number ratios: a perfect octave at 2:1, a perfect fifth at 3:2. These ratios produce acoustically pure, beatless intervals of extraordinary beauty. The problem is that they are <em>incommensurable</em>: if you stack 12 pure perfect fifths (each multiplying by 3:2), you do not arrive back at the same pitch 7 octaves higher. You overshoot by a small but catastrophic amount — the <strong>Pythagorean comma</strong> (approximately 1.0136:1, or 23.5 cents). Some intervals will be angelic. Others will be agonizing.</p>
+
+      <p>Equal temperament solves this by distributing the comma evenly: every fifth is narrowed by 1/12 of the comma (about 2 cents). No interval is pure. Every interval is equally impure. Every key becomes identical. This is the democratic lie at the foundation of all Western music.</p>
+
+      <div class="correction-box">
+        Equal temperament did <strong>not</strong> liberate Bach — and he almost certainly would have objected to it. Equal temperament makes every key mathematically identical, stripping each of its distinct "color." Bach championed <strong>Well-Temperament</strong> — specifically the systems developed by Andreas Werckmeister — which "fudged" the math just enough to eliminate the dissonant "wolf intervals" of older tunings while allowing each key to retain a unique emotional character. That is precisely what the <em>Well-Tempered Clavier</em> celebrates: not the equality of all keys, but the <em>playability</em> of all keys, each with its own personality.
+      </div>
+
+      <p>The mathematical foundation of equal temperament was independently calculated by <strong>Zhu Zaiyu</strong> in China (1584) and <strong>Simon Stevin</strong> in Flanders (1585). Stevin, a polymath engineer known for his contributions to hydraulics and military science, worked out the decimal calculations that influenced Western adoption. Neither could have imagined that their arithmetic would one day produce "Lately."</p>
+    </div>
+    <div class="art-side">
+      <div class="masters-box">
+        <span class="mb-label">Independent Co-Discoverers</span>
+        <div class="mb-name">Zhu Zaiyu<br>&amp; Simon Stevin</div>
+        <p>The 12th root of 2 was calculated independently in China (1584) and Flanders (1585). Two civilizations, one irrational number, one revolution in music.</p>
+      </div>
+      <div class="annotation">
+        <span class="ann-label">On the Pythagorean Comma</span>
+        The gap between 12 stacked perfect fifths and 7 octaves. 23.5 cents. Small enough to ignore in one key. Devastating across all 24.
+      </div>
+      <div class="definition">
+        <span class="def-term">Well-Temperament</span>
+        <p>Not equal temperament. A family of tuning systems that distribute the comma unevenly, preserving distinct key characters while eliminating wolf intervals. What Bach actually used.</p>
+      </div>
+    </div>
+    <div class="art-daily">
+      <div class="dp-mark">♩</div>
+      <div class="dp-content">
+        <span class="dp-label">Daily Practice</span>
+        <p>Hum A440. Find it on any available instrument. Explore one full octave — all 12 notes. Notice that each semitone sounds the same "size." That uniformity is the compromise.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- ARTICLE II -->
+  <article class="article a2" id="s2">
+    <div class="art-num">II</div>
+    <div class="art-main">
+      <span class="art-kicker">Harmony · Practice · Amor Fati · Eternal Recurrence</span>
+      <h2>The Diatonic Sevenths: The Eternal Recurrence of Practice
+        <em>This is not a warm-up. This is what you do until you die.</em>
+      </h2>
+      <p class="art-deck">Practicing the seven diatonic seventh chords in all 12 keys is an <em>Amor Fati</em> approach to the instrument — loving the repetition, embracing it as musical eternal recurrence.</p>
+
+      <p>In any major key, stacking thirds above each scale degree produces seven seventh chords of distinct quality, distinct function, distinct emotional character. Together they are the <strong>structural DNA of 90% of Western tonal music</strong> — Bach, Stevie Wonder, jazz, R&B, film scoring, the Great American Songbook.</p>
+
+      <p>The musician who masters this cycle in all 12 keys commands not just a collection of chord shapes but a deep internalized map of harmonic gravity — which chords pull toward which, which create tension, which offer rest, which threaten the tonal center from below.</p>
+
+      <p>The <strong>V7 dominant seventh</strong> is the engine of all tonal motion: it contains a tritone (between its 3rd and 7th) that resolves quasi-gravitationally to the tonic. The 3rd moves up by half-step; the 7th moves down by half-step. Two voices, two half-step motions, the most powerful event in Western harmony.</p>
+
+      <p>The <strong>vii∅7 half-diminished</strong> is the most existentially unstable chord in the system. It contains a tritone, lacks a stable fifth, has no home of its own — it exists only in relation to where it resolves. Tchaikovsky made it his first word. More on this in Module VII.</p>
+
+      <div class="pullquote">
+        "You must learn to love this daily repetition. The musician who masters this cycle commands the structural DNA of 90% of Western music."
+        <span class="pq-source">— On Practicing the Diatonic 7ths</span>
+      </div>
+    </div>
+    <div class="art-side">
+      <div class="chord-stack">
+        <span class="cs-label">In C Major · The Seven 7ths</span>
+        I&nbsp;&nbsp;maj7 &nbsp; C–E–G–B<br>
+        ii&nbsp;&nbsp;min7 &nbsp; D–F–A–C<br>
+        iii min7 &nbsp; E–G–B–D<br>
+        IV&nbsp;maj7 &nbsp; F–A–C–E<br>
+        <span class="dom">V7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; G–B–D–F ★</span><br>
+        vi&nbsp;&nbsp;min7 &nbsp; A–C–E–G<br>
+        <span class="hdim">vii∅7&nbsp;&nbsp; B–D–F–A♭ ◈</span>
+      </div>
+      <div class="annotation">
+        <span class="ann-label">Practice Protocol</span>
+        Block chords → arpeggios → inversions → voice-led progressions. All 12 keys. Circle of fifths order. Slow tempo. Hear each chord's character in your body. Daily. Forever.
+      </div>
+      <div class="definition">
+        <span class="def-term">Tritone</span>
+        <p>Six semitones. The interval between the 3rd and 7th of every dominant seventh chord. Maximum diatonic dissonance. Resolves inward by half-step in both directions. The engine.</p>
+      </div>
+    </div>
+    <div class="art-daily">
+      <div class="dp-mark">♩</div>
+      <div class="dp-content">
+        <span class="dp-label">Daily Practice · Forever</span>
+        <p>All seven diatonic 7th chords in one key. Rotate keys daily through the circle of fifths. Block chords, then arpeggios, then inversions. The goal is not speed — it is to internalize the gravitational field of each key.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- ARTICLE III -->
+  <article class="article a3" id="s3">
+    <div class="art-num">III</div>
+    <div class="art-main">
+      <span class="art-kicker">Stevie Wonder · 1980 · Melodic Tension · Voice Leading</span>
+      <h2>Case Study: "Lately" &amp; The Target 7th
+        <em>The most deliberate melody in R&B, disguised as a heartbreak ballad.</em>
+      </h2>
+      <p class="art-deck">Stevie Wonder deliberately rests the melody on the major and minor 7ths of the underlying chords. Because the 7th desperately wants to resolve, sitting on it creates a profound, unresolved yearning that perfectly mirrors the lyrics.</p>
+
+      <p>"Lately" (1980) is a masterclass in <strong>melodic intent</strong>. The 7th degree of a chord is a tension note — theoretically, it wants to resolve downward by step. Stevie's move is to treat it not as a passing point but as a <em>destination</em>. The melody arrives at the 7th and rests. The tension doesn't dissipate — it accumulates, measure by measure, until it becomes the emotional state of the song itself.</p>
+
+      <p>The <strong>walk-up</strong> is a masterstroke of voice leading. As the bass ascends scale-degree by scale-degree, the chords morph beneath it — often incorporating secondary dominants and passing diminished chords. Each new harmonic context reframes the same melody note: what was the root of one chord becomes the 7th of the next. The listener experiences this as a tightening spiral of longing.</p>
+
+      <p>Stevie Wonder is the modern Bach. Not as metaphor — as structural analysis. Both organize melody, harmony, and counterpoint with the same density of information per measure, the same inevitability of voice leading. One wrote for harpsichord and organ. The other wrote for electric piano and studio production. The intelligence is identical.</p>
+
+      <div class="pullquote">
+        "The 7th desperately wants to resolve. Sitting on it — resting there, making it home — is an act of compositional defiance that becomes the emotional meaning of the song."
+      </div>
+    </div>
+    <div class="art-side">
+      <div class="annotation">
+        <span class="ann-label">Harmonic Sketch · "Lately"</span>
+        Key: D♭ major (concert)<br>
+        Verse: I – vi – ii – V<br>
+        D♭ – B♭m – E♭m – A♭7<br><br>
+        Over A♭7: melody lands on G♭<br>
+        G♭ = the ♭7th of A♭7<br>
+        Expected: resolve to F (3rd)<br>
+        Stevie: stays. Aches.
+      </div>
+      <div class="masters-box">
+        <span class="mb-label">The Modern Bach</span>
+        <div class="mb-name">Stevie Wonder</div>
+        <p>Same contrapuntal intelligence as J.S. Bach. Same mastery of voice leading. Same density of harmonic information per measure. Disguised as a pop ballad.</p>
+      </div>
+      <div class="definition">
+        <span class="def-term">Secondary Dominant</span>
+        <p>A dominant seventh chord built on a scale degree other than V, temporarily "tonicizing" the chord it resolves to. Creates localized gravity that pulls the ear forward.</p>
+      </div>
+    </div>
+    <div class="art-daily">
+      <div class="dp-mark">♩</div>
+      <div class="dp-content">
+        <span class="dp-label">Daily Practice</span>
+        <p>Play a chord. Sing only its 7th. Hold it. Feel the ache. Then resolve it down by step — feel the release. The difference between those two moments is the emotional engine of "Lately."</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- ARTICLE IV -->
+  <article class="article a4" id="s4">
+    <div class="art-num">IV</div>
+    <div class="art-main">
+      <span class="art-kicker">Modal Interchange · Borrowed Chords · Parallel Minor · Narrative Harmony</span>
+      <h2>Modal Interchange: Witnessed in "Lately" &amp; Beyond
+        <em>A dark cloud passing over the sun for a single measure.</em>
+      </h2>
+      <p class="art-deck">Modal interchange is temporarily stealing a chord from a parallel scale — reaching into a neighboring emotional world and bringing one chord back with you. You don't move. You just let the shadow in.</p>
+
+      <p>The mechanism: you are in C major. The diatonic iv chord is F major. But you reach into C minor and borrow F minor — the <strong>iv minor</strong>. That A♭ does not belong to C major. It announces its origin immediately. And yet the ear accepts it not as a wrong note but as a <em>deepening</em> — a sudden, local infusion of sorrow into a major-key progression.</p>
+
+      <p>In "Lately," Stevie reaches into D♭ minor and borrows the iv chord (G♭ minor in place of G♭ major), injecting a moment of darkened color that heightens the emotional stakes precisely when the lyric demands it. This is not theory deployed for its own sake — it is <strong>narrative harmony</strong>: the chord change tells the story.</p>
+
+      <p>This technique is everywhere once you hear it. Beatles' "In My Life" (the IV → iv drop is devastating). Every Radiohead progression. Virtually every Beyoncé ballad. The entire harmonic language of late-Romantic film scoring. The borrowed chord operates below conscious analysis — your nervous system registers the emotional complexity before your brain processes the theory.</p>
+    </div>
+    <div class="art-side">
+      <div class="annotation">
+        <span class="ann-label">Most Common Borrowings (from parallel minor)</span>
+        <strong>iv minor</strong> — Most heartbreaking. Pure sorrow.<br><br>
+        <strong>♭VII major</strong> — Rock grandeur. Unresolved power.<br><br>
+        <strong>♭VI major</strong> — Cinematic expansion. Feels like a modulation but isn't.<br><br>
+        <strong>♭III major</strong> — Dark strength. Film scoring.
+      </div>
+      <div class="definition">
+        <span class="def-term">Parallel Mode</span>
+        <p>A mode sharing the same root but a different scale structure. C major and C minor are parallel — same tonic, different emotional world. Modal interchange borrows across this boundary.</p>
+      </div>
+      <div class="annotation">
+        <span class="ann-label">The Metaphor</span>
+        Modal interchange is a sudden change in lighting — a dark cloud passing over the sun for a single measure before the home key reasserts itself. You never left. But you felt the shadow.
+      </div>
+    </div>
+    <div class="art-daily">
+      <div class="dp-mark">♩</div>
+      <div class="dp-content">
+        <span class="dp-label">Daily Practice</span>
+        <p>Add one borrowed chord to your daily 7th chord practice. Start with iv minor — play I, IV, iv, I. Feel the moment the borrowed chord arrives. That feeling is the lesson.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- ARTICLE V -->
+  <article class="article a5" id="s5">
+    <div class="art-num">V</div>
+    <div class="art-main">
+      <span class="art-kicker">The Modes · Spanish Phrygian vs. Phrygian Dominant · Berklee Altered Dominant</span>
+      <h2>The Modes vs. Jazz Harmony Conventions
+        <em>Two vocabularies for the same tension. Context determines which name you use.</em>
+      </h2>
+      <p class="art-deck">What flamenco calls the tonic, jazz calls the dominant. The same scale — the same seven pitches — heard as either a point of arrival or maximum pre-resolution tension.</p>
+
+      <p>A crucial distinction the curriculum must make precise: the "Spanish sound" is <em>not</em> standard Phrygian mode. Standard Phrygian has a <strong>minor third</strong> above the root. The Spanish sound — the flamenco cadence — has a <strong>major third</strong>. This is the <strong>Phrygian Dominant</strong> scale, the 5th mode of the Harmonic Minor scale:</p>
+
+      <div class="inline-formula" style="max-width:100%">
+        Standard Phrygian:&nbsp;&nbsp;&nbsp; 1 · ♭2 · <strong>♭3</strong> · 4 · 5 · ♭6 · ♭7<br>
+        Phrygian Dominant: 1 · ♭2 · <strong style="color:#c8430a">3</strong>&nbsp; · 4 · 5 · ♭6 · ♭7
+        <span class="if-note">The raised major 3rd alongside the flat 2nd creates an augmented second — the sonic signature of flamenco, of Arabic maqam, of the Spanish cadence.</span>
+      </div>
+
+      <p>Now the Berklee vocabulary. R&B players approaching the same harmonic territory are typically not thinking "Spanish Phrygian." They are thinking in <strong>altered dominants</strong> — chords designed to maximize voice-leading half-steps back to the tonic. The same scale (7th mode of Melodic Minor, also called the Altered Scale) is described as <strong>Mixolydian ♭9, ♯9, ♭13</strong>. The ♭9 adds menace. The ♯9 (the "Hendrix chord" tone) creates major-minor ambiguity. The ♭13 blurs the fifth.</p>
+
+      <compare-table class="compare-table" style="display:table">
+        <thead><tr><th>Context</th><th>Name</th><th>Heard as</th></tr></thead>
+        <tbody>
+          <tr><td class="term">Flamenco / Folk</td><td>Phrygian Dominant</td><td>Tonic at rest, with exotic tension above</td></tr>
+          <tr><td class="term">Berklee / Jazz</td><td>Altered Dominant (V7alt)</td><td>Dominant under maximum tension → resolves to i</td></tr>
+          <tr><td class="term">Same pitches.</td><td colspan="2"><strong>Context determines meaning. Tonal gravity is not absolute.</strong></td></tr>
+        </tbody>
+      </compare-table>
+    </div>
+    <div class="art-side">
+      <div class="scale-box">
+        <span class="sb-label">E Phrygian Dominant</span>
+        <span class="sb-notes">E – <span class="sb-flat2">F</span> – <span class="sb-maj3">G#</span> – A – B – C – D</span>
+      </div>
+      <div class="annotation">
+        <span class="ann-label">The Augmented Second</span>
+        The interval from ♭2 (F) to major 3 (G#) spans three semitones — an augmented second. This interval does not appear in the standard major or natural minor scale. It is the audible fingerprint of the harmonic minor / Phrygian Dominant world.
+      </div>
+      <div class="definition">
+        <span class="def-term">Altered Scale</span>
+        <p>The 7th mode of Melodic Minor. Contains ♭9, ♯9, ♭5(♯11), ♭13 above the root. Every non-root note is altered. Designed for maximum pre-resolution tension over V7 chords resolving to minor.</p>
+      </div>
+    </div>
+    <div class="art-daily">
+      <div class="dp-mark">♩</div>
+      <div class="dp-content">
+        <span class="dp-label">Daily Practice</span>
+        <p>Learn the Phrygian Dominant scale in one key. Play its characteristic cadence (♭II → I). Then play the same scale over a dominant seventh chord resolving to a minor tonic. Notice how the same notes serve two completely different harmonic functions.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- ARTICLE VI -->
+  <article class="article a6" id="s6">
+    <div class="art-num">VI</div>
+    <div class="art-main">
+      <span class="art-kicker">Bryan Adams · Paco de Lucía · Trojan Horse Harmony · 1994</span>
+      <h2>Bryan Adams &amp; the Phrygian Touch for the Western Ear
+        <em>A 90s radio ballad as Trojan horse for advanced flamenco harmony.</em>
+      </h2>
+      <p class="art-deck">Adams provided the accessible Western pop structure. Paco de Lucía draped it in authentic, master-level Phrygian tension. It's one of the most elegant pedagogical collaborations in pop history — and almost nobody noticed.</p>
+
+      <p>"Have You Ever Really Loved a Woman" (1994/95, from <em>Don Juan DeMarco</em>) is the perfect tool for demonstrating Phrygian Dominant to a pop-conditioned ear. The mechanism is simple: the ♭II → I cadence in E (F major → E major) creates a gravitational pull that Western ears experience as romantic exoticism without cognitive overload.</p>
+
+      <p>But the crucial detail that Gemini brings to this curriculum: the guitarist on the recording is <strong>Paco de Lucía</strong> — one of the greatest flamenco guitarists who ever lived. This was not Bryan Adams playing a Spanish-sounding riff. This was a native speaker of the Phrygian Dominant language, performing the cadence from inside the tradition, in collaboration with a Canadian pop songwriter who understood precisely how to make it accessible to a mainstream Western audience.</p>
+
+      <p>The result is a Trojan horse. The Western ear hears a beautiful, romantic guitar ballad and accepts it completely. Inside that acceptance, Paco de Lucía has delivered five centuries of Andalusian harmonic tradition. The ♭2 (F natural) and the ♭6 (C natural) — the two most "non-Western" tones of the E Phrygian world — arrive at the moments of maximum emotional exposure, and the listener feels their force without being able to name it.</p>
+
+      <p>This is the curriculum's lesson about cultural transmission in harmony: the most effective way to introduce a foreign harmonic language to an unfamiliar ear is to <em>embed it in a familiar emotional context</em>. The nylon string guitar pre-loads the associations. The pop structure provides the safety. The master provides the authenticity.</p>
+    </div>
+    <div class="art-side">
+      <div class="masters-box">
+        <span class="mb-label">The Secret Weapon</span>
+        <div class="mb-name">Paco de Lucía</div>
+        <p>One of the greatest flamenco guitarists in history played the guitar parts on this track. Bryan Adams brought the pop structure. Paco brought 500 years of Andalusian tradition. Neither diminishes the other.</p>
+      </div>
+      <div class="annotation">
+        <span class="ann-label">The Cadential Gesture</span>
+        Guitar descends: E – D – C – B<br>
+        Then: F major (♭II)<br>
+        Then: E major (I)<br><br>
+        The F chord does not resolve the tension. It <em>is</em> the tension. The E major that follows is not relief — it is a deeper, more beautiful ache.
+      </div>
+      <div class="annotation">
+        <span class="ann-label">On Cultural Transmission</span>
+        The most effective introduction to a foreign harmonic world is to embed it in a familiar emotional context. Bryan Adams built the door. Paco de Lucía opened it.
+      </div>
+    </div>
+    <div class="art-daily">
+      <div class="dp-mark">♩</div>
+      <div class="dp-content">
+        <span class="dp-label">Daily Practice</span>
+        <p>Play F major, then E major. Repeat. No theory needed — just hear the motion. Then find a recording of Paco de Lucía playing flamenco. Listen to the same interval — the same cadence — in its native context. Hear how it sounds identical and completely different.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- ARTICLE VII -->
+  <article class="article a7" id="s7">
+    <div class="art-num">VII</div>
+    <div class="art-main">
+      <span class="art-kicker">Tchaikovsky · Pathétique · vii∅7 · Structural Defiance · 1893</span>
+      <h2>Tchaikovsky's Pathétique: The Half-Diminished Opening
+        <em>An act of absolute structural defiance. Nine days before his death.</em>
+      </h2>
+      <p class="art-deck">Classical symphonies open by establishing the home key so the listener feels safe. Tchaikovsky skips the safety entirely. The vii∅7 as first word is not a compositional choice — it is a psychological masterstroke.</p>
+
+      <p>Symphony No. 6 in B minor, Op. 74. <em>Pathétique.</em> Premiered October 28, 1893. Tchaikovsky died November 6. The fourth movement — <em>Adagio lamentoso</em> — opens not with a tonic chord, not with a dominant, not with any gesture of orientation or welcome. It opens with:</p>
+
+      <div class="inline-formula">
+        A# – C# – E – G# &nbsp;→&nbsp; vii∅7 in B minor
+        <span class="if-note">Half-diminished 7th on the leading tone. Contains a tritone. Has no stable fifth above the root. Exists only in relation to where it resolves. Has no home of its own.</span>
+      </div>
+
+      <p>Every convention of Romantic orchestral writing demands an opening that establishes tonic stability — that tells the listener where home is before departing from it. <strong>Tchaikovsky refuses.</strong> By opening on the vii∅7, he thrusts the listener into immediate disorientation, grief, and freefall. The psychological masterstroke: you cannot feel the loss of safety if you were never given it. Tchaikovsky denies you the setup entirely. You are already falling when the music begins.</p>
+
+      <p>The movement ends with a quiet B minor chord that simply stops. No triumph. No payoff. No cathartic release. Just silence. Between the opening vii∅7 — the most unstable chord in the system, the chord with no home — and that final silence, every human emotion that music can carry.</p>
+
+      <div class="pullquote">
+        "By opening on the highly unstable, dissonant half-diminished chord, he thrusts the listener immediately into a state of disorientation, grief, and freefall. It is a psychological masterstroke."
+        <span class="pq-source">— On the Fourth Movement of the Pathétique</span>
+      </div>
+
+      <p>The curriculum synthesis: equal temperament gave us the tools (I). The diatonic 7ths gave us this chord as a household sound (II). Stevie showed the 7th as a place of rest (III). Modal interchange showed darkness inside light (IV). Phrygian showed the ♭II's ancient ache (V–VI). And Tchaikovsky — nine days from the end — showed that the most structurally defiant opening possible is also the most emotionally honest one. He put the chord that has no home first, because that is how it felt.</p>
+    </div>
+    <div class="art-side">
+      <div class="masters-box">
+        <span class="mb-label">Pyotr Ilyich Tchaikovsky</span>
+        <div class="mb-name">1840–1893</div>
+        <p>Premiered October 28, 1893. Died November 6. The Pathétique was his last completed work. The vii∅7 opening of the finale is one of the most psychologically precise compositional decisions in the Western canon.</p>
+      </div>
+      <div class="annotation">
+        <span class="ann-label">Why vii∅7 and not vii°7?</span>
+        The fully diminished 7th (vii°7) is symmetrical — all minor thirds — and thus tonally ambiguous. It could belong to any of four keys. The <strong>half-diminished</strong> (vii∅7) is asymmetrical: it has a clear leading tone relationship to its key. It knows exactly where home is. It just can't get there. That specificity is what gives Tchaikovsky's opening its unbearable precision.
+      </div>
+      <div class="definition">
+        <span class="def-term">Adagio lamentoso</span>
+        <p>"Slowly, in a lamenting manner." Tchaikovsky's own marking for the finale. The word <em>lamentoso</em> did not appear in standard Italian musical vocabulary before this symphony. He may have coined it for this movement.</p>
+      </div>
+    </div>
+    <div class="art-daily">
+      <div class="dp-mark">♩</div>
+      <div class="dp-content">
+        <span class="dp-label">Daily Practice</span>
+        <p>Incorporate vii∅7 into your chord cycles. Play it. Then delay the resolution to V7. Then delay it further. Hear the dread accumulate. That accumulation — the unbearable suspension before arrival — is the entire emotional content of the fourth movement of the Pathétique.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- BACK MATTER -->
+  <div class="back-matter">
+    <h3>Core Theses of the Curriculum</h3>
+
+    <div class="thesis-entry">
+      <span class="te-symbol">∿</span>
+      <span class="te-name">Equal Temperament</span>
+      <p>A mathematical compromise — the democratic lie at the foundation of Western music. Not liberation, but playability. Every key equally impure. Every key equally free.</p>
+    </div>
+
+    <div class="thesis-entry">
+      <span class="te-symbol">∞</span>
+      <span class="te-name">Diatonic 7ths · Eternal Recurrence</span>
+      <p><em>Amor Fati</em> for musicians. You must love this daily repetition. The structural DNA of 90% of Western tonal music, practiced until it is not knowledge but instinct.</p>
+    </div>
+
+    <div class="thesis-entry">
+      <span class="te-symbol">◈</span>
+      <span class="te-name">Modal Interchange</span>
+      <p>A dark cloud passing over the sun for a single measure. You never leave the key. But you feel the shadow pass — and the song is richer for having let it in.</p>
+    </div>
+
+    <div class="thesis-entry">
+      <span class="te-symbol">♭</span>
+      <span class="te-name">Spanish Phrygian / Altered Dominant</span>
+      <p>Two vocabularies, one sound. What flamenco hears as arrival, jazz hears as maximum tension. Context determines meaning. Tonal gravity is not absolute.</p>
+    </div>
+
+    <div class="thesis-entry">
+      <span class="te-symbol">∅</span>
+      <span class="te-name">The Half-Diminished</span>
+      <p>The chord with no home. It exists only in relation to where it resolves. When Tchaikovsky put it first, he was telling us: the grief existed before the music started.</p>
+    </div>
+
+    <div class="thesis-entry">
+      <span class="te-symbol">★</span>
+      <span class="te-name">Stevie Wonder = Modern Bach</span>
+      <p>Not metaphor. Structural analysis. The same contrapuntal density, the same voice-leading inevitability, the same intelligence per measure. Different centuries. The same mind.</p>
+    </div>
+
+    <div class="open-question">
+      <span class="oq-label">Open Questions for Advanced Study</span>
+      Would you like the exact Roman numeral analysis of the "Lately" walk-up — every secondary dominant, every passing diminished — mapped beat by beat? Or would you prefer a mathematical derivation of the Pythagorean comma, showing precisely why 12 perfect fifths overshoot 7 octaves by 23.5 cents, and how equal temperament solves this by narrowing each fifth by exactly 1/12 of that comma? Both roads lead deeper into the same territory.
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span class="ft-title">THE UNIVERSAL RESONANCE SYLLABUS</span>
+  <span>A440 · Zhu Zaiyu · Simon Stevin · Werckmeister · Bach · Stevie Wonder · Paco de Lucía · Tchaikovsky</span>
+  <span>Physics → Harmony → Melody → Modal Color → Structural Defiance</span>
+</footer>
+
+</body>
+</html>
