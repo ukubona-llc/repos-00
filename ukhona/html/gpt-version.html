@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Fractal Music Curriculum</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080a0d;
+    --surface: #0f1318;
+    --border: #1e2530;
+    --dim: #2a3340;
+    --text: #c8d4e0;
+    --muted: #4a5a6a;
+    --accent: #00d4ff;
+    --accent2: #ff6b35;
+    --accent3: #a8ff78;
+    --gold: #ffd700;
+    --purple: #c084fc;
+    --red: #ff4458;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* SCANLINE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.04) 2px,
+      rgba(0,0,0,0.04) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(0,212,255,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-pre {
+    color: var(--accent);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    opacity: 0.8;
+  }
+
+  .hero-pre::before { content: '> '; }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 12vw, 10rem);
+    line-height: 0.92;
+    letter-spacing: 0.02em;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .hero h1 .line2 { color: var(--accent); }
+  .hero h1 .line3 { color: var(--accent2); }
+
+  .hero-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 28px;
+    max-width: 480px;
+    line-height: 1.9;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .hero-thesis {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px;
+    max-width: 900px;
+    border: 1px solid var(--border);
+  }
+
+  .thesis-item {
+    padding: 18px 20px;
+    border-right: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .thesis-item:last-child { border-right: none; }
+
+  .thesis-item .t-label {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .thesis-item .t-val {
+    font-size: 11px;
+    color: var(--accent3);
+    font-weight: 600;
+  }
+
+  /* MAIN LAYOUT */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px 100px;
+  }
+
+  /* MODULE */
+  .module {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 0;
+    margin-top: 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  /* VERTICAL SPINE */
+  .spine {
+    padding: 60px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  .spine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: var(--border);
+    transform: translateX(-50%);
+  }
+
+  .module:last-of-type .spine::before { bottom: auto; height: 80px; }
+
+  .spine-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: var(--dim);
+    z-index: 1;
+    background: var(--bg);
+    padding: 4px 0;
+    line-height: 1;
+  }
+
+  .module.active-I .spine-num { color: var(--accent); }
+  .module.active-II .spine-num { color: var(--accent3); }
+  .module.active-III .spine-num { color: var(--gold); }
+  .module.active-IV .spine-num { color: var(--purple); }
+  .module.active-V .spine-num { color: var(--accent2); }
+  .module.active-VI .spine-num { color: #ff9ecd; }
+  .module.active-VII .spine-num { color: var(--red); }
+
+  /* MODULE CONTENT */
+  .mod-body {
+    padding: 60px 0 60px 40px;
+    border-left: 1px solid var(--border);
+  }
+
+  .mod-tag {
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .module.active-I .mod-tag { color: var(--accent); }
+  .module.active-II .mod-tag { color: var(--accent3); }
+  .module.active-III .mod-tag { color: var(--gold); }
+  .module.active-IV .mod-tag { color: var(--purple); }
+  .module.active-V .mod-tag { color: var(--accent2); }
+  .module.active-VI .mod-tag { color: #ff9ecd; }
+  .module.active-VII .mod-tag { color: var(--red); }
+
+  .mod-tag::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.2;
+    max-width: 200px;
+  }
+
+  .mod-body h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 6px;
+    letter-spacing: 0.03em;
+  }
+
+  .mod-body h2 em {
+    font-style: normal;
+  }
+
+  .module.active-I .mod-body h2 em { color: var(--accent); }
+  .module.active-II .mod-body h2 em { color: var(--accent3); }
+  .module.active-III .mod-body h2 em { color: var(--gold); }
+  .module.active-IV .mod-body h2 em { color: var(--purple); }
+  .module.active-V .mod-body h2 em { color: var(--accent2); }
+  .module.active-VI .mod-body h2 em { color: #ff9ecd; }
+  .module.active-VII .mod-body h2 em { color: var(--red); }
+
+  .mod-subtitle {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 36px;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .mod-body p {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 300;
+    margin-bottom: 1.2em;
+    max-width: 700px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.8;
+  }
+
+  .mod-body p strong {
+    font-weight: 700;
+    color: #fff;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* CODE BLOCK */
+  .codeblock {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid currentColor;
+    padding: 20px 24px;
+    margin: 28px 0;
+    max-width: 620px;
+    position: relative;
+  }
+
+  .module.active-I .codeblock { color: var(--accent); border-left-color: var(--accent); }
+  .module.active-II .codeblock { color: var(--accent3); border-left-color: var(--accent3); }
+  .module.active-III .codeblock { color: var(--gold); border-left-color: var(--gold); }
+  .module.active-IV .codeblock { color: var(--purple); border-left-color: var(--purple); }
+  .module.active-V .codeblock { color: var(--accent2); border-left-color: var(--accent2); }
+  .module.active-VI .codeblock { color: #ff9ecd; border-left-color: #ff9ecd; }
+  .module.active-VII .codeblock { color: var(--red); border-left-color: var(--red); }
+
+  .codeblock .cb-label {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .codeblock code {
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: block;
+    color: inherit;
+    line-height: 1.9;
+  }
+
+  .codeblock .note {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 10px;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  /* TABLE */
+  .data-table {
+    width: 100%;
+    max-width: 680px;
+    border-collapse: collapse;
+    margin: 28px 0;
+    font-size: 11px;
+  }
+
+  .data-table th {
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .data-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid rgba(30,37,48,0.7);
+    color: var(--text);
+    font-weight: 300;
+  }
+
+  .data-table tr:hover td { background: var(--surface); }
+
+  .data-table .hl { color: #fff; font-weight: 600; }
+  .data-table .sub { color: var(--muted); font-size: 10px; }
+
+  /* HIGHLIGHT ROW */
+  .data-table tr.featured td { background: rgba(0,212,255,0.04); }
+  .data-table tr.featured .hl { color: var(--accent); }
+
+  /* QUOTE */
+  .blockquote {
+    margin: 36px 0;
+    padding: 24px 0 24px 28px;
+    border-left: 2px solid;
+    max-width: 600px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: rgba(200,212,224,0.75);
+  }
+
+  .module.active-I .blockquote { border-color: var(--accent); }
+  .module.active-II .blockquote { border-color: var(--accent3); }
+  .module.active-III .blockquote { border-color: var(--gold); }
+  .module.active-IV .blockquote { border-color: var(--purple); }
+  .module.active-V .blockquote { border-color: var(--accent2); }
+  .module.active-VI .blockquote { border-color: #ff9ecd; }
+  .module.active-VII .blockquote { border-color: var(--red); }
+
+  /* AGE STAGES */
+  .stages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1px;
+    max-width: 680px;
+    margin: 32px 0;
+    border: 1px solid var(--border);
+  }
+
+  .stage {
+    background: var(--surface);
+    padding: 16px 18px;
+  }
+
+  .stage .s-age {
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .stage .s-task {
+    font-size: 11px;
+    color: var(--text);
+    font-weight: 300;
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.5;
+  }
+
+  /* CHORD LIST */
+  .chord-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 24px 0;
+    max-width: 600px;
+  }
+
+  .chord-pill {
+    padding: 7px 16px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.05em;
+    cursor: default;
+    transition: all 0.15s;
+  }
+
+  .chord-pill:hover { border-color: var(--accent3); color: var(--accent3); }
+  .chord-pill.dom { border-color: rgba(255,107,53,0.4); color: var(--accent2); }
+  .chord-pill.hdim { border-color: rgba(255,68,88,0.4); color: var(--red); }
+
+  /* SCALE DISPLAY */
+  .scale-display {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    margin: 24px 0;
+    color: #fff;
+    padding: 20px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    max-width: 620px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .scale-display .root { color: var(--accent2); }
+  .scale-display .b2 { color: var(--red); }
+  .scale-display .maj3 { color: var(--accent3); }
+  .scale-display .normal { color: var(--muted); }
+
+  /* LIFESPAN LADDER */
+  .ladder {
+    margin: 60px 0 80px;
+    position: relative;
+    padding-left: 40px;
+    max-width: 780px;
+  }
+
+  .ladder::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent3), var(--gold), var(--purple), var(--accent2));
+  }
+
+  .ladder-rung {
+    position: relative;
+    margin-bottom: 40px;
+    padding-left: 28px;
+  }
+
+  .ladder-rung::before {
+    content: '';
+    position: absolute;
+    left: -28px;
+    top: 10px;
+    width: 16px;
+    height: 2px;
+    background: currentColor;
+  }
+
+  .ladder-rung::after {
+    content: '';
+    position: absolute;
+    left: -33px;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid currentColor;
+  }
+
+  .rung-1 { color: var(--accent); }
+  .rung-2 { color: var(--accent3); }
+  .rung-3 { color: var(--gold); }
+  .rung-4 { color: var(--purple); }
+  .rung-5 { color: var(--accent2); }
+
+  .rung-label {
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .rung-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .rung-desc {
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+    max-width: 460px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .rung-items {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .rung-item {
+    font-size: 10px;
+    padding: 4px 12px;
+    border: 1px solid;
+    border-color: currentColor;
+    opacity: 0.7;
+    border-radius: 1px;
+  }
+
+  /* THESIS SECTION */
+  .thesis-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 48px;
+    margin: 80px 0 0;
+  }
+
+  .thesis-section h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem;
+    color: #fff;
+    margin-bottom: 32px;
+    letter-spacing: 0.05em;
+  }
+
+  .thesis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  @media (max-width: 600px) {
+    .thesis-grid { grid-template-columns: 1fr; }
+    .hero { padding: 60px 24px; }
+    .main { padding: 0 20px 80px; }
+    .mod-body { padding: 40px 0 40px 24px; }
+    .spine { padding: 40px 0; }
+  }
+
+  .thesis-row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .thesis-row .t-sym {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 40px;
+  }
+
+  .thesis-row .t-content .t-name {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+    color: var(--muted);
+  }
+
+  .thesis-row .t-content .t-meaning {
+    font-size: 12px;
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+  }
+
+  .t1 .t-sym { color: var(--accent); }
+  .t2 .t-sym { color: var(--accent3); }
+  .t3 .t-sym { color: var(--gold); }
+  .t4 .t-sym { color: var(--purple); }
+  .t5 .t-sym { color: var(--red); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px;
+    text-align: center;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+  }
+
+  footer .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 13px;
+    background: var(--accent);
+    animation: blink 1s step-end infinite;
+    vertical-align: middle;
+    margin-left: 4px;
+  }
+
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  /* ENTRY ANIMATION */
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero > * {
+    animation: slideIn 0.7s ease both;
+  }
+  .hero-pre { animation-delay: 0.05s; }
+  .hero h1 { animation-delay: 0.15s; }
+  .hero-sub { animation-delay: 0.3s; }
+  .hero-thesis { animation-delay: 0.45s; }
+
+  /* INLINE MARKS */
+  .hi { color: #fff; font-weight: 600; }
+  .hi-accent { color: var(--accent); }
+  .hi-gold { color: var(--gold); }
+  .hi-green { color: var(--accent3); }
+  .hi-red { color: var(--red); }
+  .hi-purple { color: var(--purple); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <p class="hero-pre">init: fractal_music_curriculum.load()</p>
+  <h1>
+    <span class="line1">THE</span><br>
+    <span class="line2">FRACTAL</span><br>
+    <span class="line3">MUSIC</span><br>
+    <span class="line1">CURRICULUM</span>
+  </h1>
+  <p class="hero-sub">
+    A440 → Bach → Stevie → Phrygian → Tchaikovsky.<br>
+    Physics meets gravity meets color meets existential instability.<br>
+    For every age. Practice daily. Forever.
+  </p>
+  <div class="hero-thesis">
+    <div class="thesis-item">
+      <span class="t-label">Foundation</span>
+      <div class="t-val">Equal Temperament</div>
+    </div>
+    <div class="thesis-item">
+      <span class="t-label">Daily Practice</span>
+      <div class="t-val">Diatonic 7ths</div>
+    </div>
+    <div class="thesis-item">
+      <span class="t-label">Case Study</span>
+      <div class="t-val">Stevie Wonder</div>
+    </div>
+    <div class="thesis-item">
+      <span class="t-label">Color Theory</span>
+      <div class="t-val">Modal Interchange</div>
+    </div>
+    <div class="thesis-item">
+      <span class="t-label">Exoticism</span>
+      <div class="t-val">Spanish Phrygian</div>
+    </div>
+    <div class="thesis-item">
+      <span class="t-label">Dread</span>
+      <div class="t-val">vii∅7 Opening</div>
+    </div>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- MODULE I -->
+  <div class="module active-I">
+    <div class="spine"><div class="spine-num">I</div></div>
+    <div class="mod-body">
+      <div class="mod-tag">Foundation · Physics · Equal Temperament</div>
+      <h2>A440 &amp; THE<br><em>FRACTAL FORMULA</em></h2>
+      <p class="mod-subtitle">The 12th root of 2. The Pythagorean comma. Why Bach wept. And who engineered the cage that set music free.</p>
+
+      <p>Modern Western music is built on one agreed-upon lie: <strong>no interval is pure</strong>. In exchange for this lie, every key is equally impure — and therefore equally usable. This is <span class="hi">12-tone equal temperament (12-TET)</span>, and it is the foundation of every piano, every pop song, every symphony written after roughly 1700.</p>
+
+      <div class="codeblock">
+        <span class="cb-label">The Formula — All 88 Notes from One</span>
+        <code>f(n) = 440 × 2^(n/12)</code>
+        <p class="note">440 Hz = A4 · n = semitone distance from A4 · 2 = octave doubling<br>
+        Multiply by ¹²√2 ≈ 1.05946 to ascend one semitone.<br>
+        Multiply by 2 to ascend one octave. <span class="hi-accent">The fractal repeats infinitely.</span></p>
+      </div>
+
+      <p>The alternative — the <strong>harmonic series</strong> — gives us acoustically pure intervals: a perfect fifth at exactly 3:2, a major third at 5:4. Beautiful. But it accumulates error as you modulate. After 12 perfect fifths, you're slightly sharp of where you started — the infamous <span class="hi">Pythagorean comma</span> (1.01364…). Some keys sound divine. Others sound broken. Equal temperament distributes this error evenly across all 12 keys. No key sounds perfect. No key sounds wrong.</p>
+
+      <div class="blockquote">"Temperament sacrifices purity for symmetry. Every key gets the same slight imperfection. It is a democratic lie — and music has never been the same."</div>
+
+      <p>The architects of this shift:</p>
+      <table class="data-table">
+        <thead><tr><th>Name</th><th>Contribution</th><th>Era</th></tr></thead>
+        <tbody>
+          <tr><td class="hl">Andreas Werckmeister</td><td>Well-temperament advocacy, made all keys playable</td><td>1691</td></tr>
+          <tr><td class="hl">Vincenzo Galilei</td><td>Equal division experimentation on lute</td><td>1580s</td></tr>
+          <tr><td class="hl">Marin Mersenne</td><td>Early frequency mathematics</td><td>1630s</td></tr>
+          <tr class="featured"><td class="hl">Hermann von Helmholtz</td><td>Acoustic science formalization — <em>On the Sensations of Tone</em></td><td>1863</td></tr>
+          <tr><td class="hl">J.S. Bach</td><td>Musical proof — 24 keys, Well-Tempered Clavier I &amp; II</td><td>1722–42</td></tr>
+        </tbody>
+      </table>
+
+      <p>Without equal temperament: no Chopin. No Stevie. No jazz modulation. No <em>anything</em> that moves between distant keys. Bach's Well-Tempered Clavier is not a pedagogical exercise — it is a <span class="hi-accent">manifesto</span>. One prelude and fugue in every major and minor key: <em>it all works. See?</em></p>
+
+      <div class="stages">
+        <div class="stage"><span class="s-age">Ages 3–6</span><p class="s-task">High / low. Octave jumping. "Same note, different floor."</p></div>
+        <div class="stage"><span class="s-age">Ages 7–12</span><p class="s-task">Count 12 steps to next octave. Name each key.</p></div>
+        <div class="stage"><span class="s-age">Teens</span><p class="s-task">Calculate f(n) for each note. Verify with a tuner app.</p></div>
+        <div class="stage"><span class="s-age">Adults</span><p class="s-task">Compare just intonation vs equal temperament. Hear the beating.</p></div>
+        <div class="stage"><span class="s-age">Seniors 60+</span><p class="s-task">Reflect on key color — why does C# minor feel different from C major even if "equal"?</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODULE II -->
+  <div class="module active-II">
+    <div class="spine"><div class="spine-num">II</div></div>
+    <div class="mod-body">
+      <div class="mod-tag">Daily Practice · Gravity Training · Harmonic Skeleton</div>
+      <h2>THE SEVEN<br><em>DIATONIC 7TH CHORDS</em></h2>
+      <p class="mod-subtitle">Not a warm-up. Not a beginner exercise. This is what you do every morning until you die.</p>
+
+      <p>In any major key, stacking thirds above each scale degree produces seven seventh chords — one for each degree. Together they form the complete harmonic skeleton of Bach, Stevie Wonder, jazz, R&B, and film scoring. <span class="hi">You do not graduate from these. You go deeper.</span></p>
+
+      <div class="chord-list">
+        <div class="chord-pill">I maj7</div>
+        <div class="chord-pill">ii min7</div>
+        <div class="chord-pill">iii min7</div>
+        <div class="chord-pill">IV maj7</div>
+        <div class="chord-pill dom">V7</div>
+        <div class="chord-pill">vi min7</div>
+        <div class="chord-pill hdim">vii∅7</div>
+      </div>
+
+      <table class="data-table">
+        <thead><tr><th>Chord</th><th>Quality</th><th>In C</th><th>Function</th></tr></thead>
+        <tbody>
+          <tr><td class="hl">I maj7</td><td>Major 7th</td><td>C–E–G–B</td><td>Home. Lush arrival.</td></tr>
+          <tr><td class="hl">ii min7</td><td>Minor 7th</td><td>D–F–A–C</td><td>Pre-dominant. Yearning.</td></tr>
+          <tr><td class="hl">iii min7</td><td>Minor 7th</td><td>E–G–B–D</td><td>Ambiguous. Sub for I or V.</td></tr>
+          <tr><td class="hl">IV maj7</td><td>Major 7th</td><td>F–A–C–E</td><td>Bright. Open. Floating.</td></tr>
+          <tr class="featured"><td class="hl">V7</td><td>Dominant 7th</td><td>G–B–D–F</td><td><span class="hi-accent">The engine. Tritone → resolution.</span></td></tr>
+          <tr><td class="hl">vi min7</td><td>Minor 7th</td><td>A–C–E–G</td><td>Relative minor. Melancholic.</td></tr>
+          <tr><td class="hl" style="color:var(--red)">vii∅7</td><td>Half-Diminished</td><td>B–D–F–A</td><td><span class="hi-red">The dangerous one. See Module VII.</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="blockquote">"This is epistemology meeting ontology. These aren't just chords — they're the seven ways sound relates to home."</div>
+
+      <p>Practice protocol: <strong>block chords → arpeggios → voice-led progressions → inversions → all 12 keys → circle of fifths order</strong>. Slow tempo. Hear every note. The whole sequence in 12 keys takes under 10 minutes. Over a lifetime, it is the highest-return investment in musical intelligence available to a human being.</p>
+    </div>
+  </div>
+
+  <!-- MODULE III -->
+  <div class="module active-III">
+    <div class="spine"><div class="spine-num">III</div></div>
+    <div class="mod-body">
+      <div class="mod-tag">Case Study · Stevie Wonder · Melody as Seventh</div>
+      <h2>"LATELY" —<br><em>THE 7TH AS HOME</em></h2>
+      <p class="mod-subtitle">Adult harmony disguised as pop. The melody doesn't visit the 7th — it lives there.</p>
+
+      <p>"Lately" (1980) is perhaps the most elegant proof that the 7th degree of a chord can function not as tension but as <span class="hi-gold">arrival</span>. Most melodies orbit the root, third, and fifth — the safe tones. Stevie plants his melody on the 7th, again and again, and makes it feel like the most natural resting place in the world.</p>
+
+      <div class="codeblock">
+        <span class="cb-label">Harmonic Architecture — "Lately" (Eb major, simplified)</span>
+        <code>
+Ebmaj7 — Fm7 — Bb7 — Gm7 — Cm7 — Fm7 — Bb7
+
+Walk-up bass: Eb — F — G — Ab — Bb
+Melody peak notes: D (maj7 of Ebmaj7)
+                   Eb (7th in Fm7 context)
+                   Ab (7th of Bb7)
+
+The 7th is not the exception.
+The 7th IS the melody.
+        </code>
+      </div>
+
+      <p>The <strong>walk-up bass line</strong> is the mechanism: a scalar ascent in the bass forces each melody note into a new harmonic context. A note that was the root a beat ago is suddenly the 7th of a passing chord. Stevie doesn't resolve it — he holds it, or moves further up. This is compositional courage masquerading as simplicity.</p>
+
+      <div class="blockquote">"Play the chord. Sing only the 7th. Hear how it aches. That ache IS the lesson."</div>
+
+      <p>The deeper observation: "Lately" also contains <span class="hi-gold">borrowed chords</span> — specifically the iv minor (Ab minor in Eb major), importing a Cb from the parallel minor key. This is the gateway to Module IV. Stevie uses modal interchange not as a theoretical device but as an emotional one: the borrowed chord arrives and the 7th above it is suddenly even more tender.</p>
+
+      <p>Stevie Wonder is the modern Bach. Not metaphorically — structurally. He organizes melody, harmony, and voice leading with the same contrapuntal intelligence, disguised in contemporary feel.</p>
+    </div>
+  </div>
+
+  <!-- MODULE IV -->
+  <div class="module active-IV">
+    <div class="spine"><div class="spine-num">IV</div></div>
+    <div class="mod-body">
+      <div class="mod-tag">Borrowed Chords · Parallel Minor · Color Theory</div>
+      <h2>MODAL<br><em>INTERCHANGE</em></h2>
+      <p class="mod-subtitle">Emotional weather systems crossing key boundaries. You are still home — you just opened the door to the basement.</p>
+
+      <p>Modal interchange is the act of importing a chord from a <strong>parallel mode</strong> (same root, different scale structure) into the home key. The most common source: the <span class="hi-purple">parallel minor</span>. A chord that doesn't belong to C major — say, Fm (F–Ab–C) — is heard not as a modulation but as a <em>deepening</em>, a shadow cast from the minor world into the major one without changing our address.</p>
+
+      <table class="data-table">
+        <thead><tr><th>Borrowed Chord</th><th>Source Mode</th><th>In C major</th><th>Emotional Effect</th></tr></thead>
+        <tbody>
+          <tr><td class="hl">iv minor</td><td>Aeolian</td><td>F–Ab–C</td><td>Heartbreaking. Most used in R&amp;B/soul.</td></tr>
+          <tr><td class="hl">♭VII major</td><td>Mixolydian</td><td>Bb–D–F</td><td>Rock power. Unresolved grandeur.</td></tr>
+          <tr><td class="hl">♭VI major</td><td>Aeolian</td><td>Ab–C–Eb</td><td>Cinematic. Expansive. Feels like a key change.</td></tr>
+          <tr><td class="hl">♭III major</td><td>Aeolian</td><td>Eb–G–Bb</td><td>Dark grandeur. Film scores. Post-rock.</td></tr>
+          <tr class="featured"><td class="hl" style="color:var(--purple)">ii∅7</td><td>Phrygian / Locrian</td><td>D–F–Ab–C</td><td><span class="hi-purple">Portal to Modules V–VII.</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="blockquote">"Modal interchange doesn't change the key. It expands the emotional range of the key. You open a door to a parallel world and let some of its darkness in."</div>
+
+      <p>In "Lately," Stevie uses the <strong>iv minor</strong> (Ab minor in Eb) to devastating effect. The Ab — the flatted sixth of Eb major — arrives from the parallel minor and transforms the mood without losing the tonal center. This is the most powerful technique in popular harmony: darkness within light, minor within major, borrowed grief inside a major-key song.</p>
+
+      <p>Listen for this everywhere once you hear it: Beatles. Radiohead. Beyoncé. Every great ballad uses it. Every film composer lives here. And Spanish Phrygian is essentially the full surrender to this borrowing — which brings us to Module V.</p>
+    </div>
+  </div>
+
+  <!-- MODULE V -->
+  <div class="module active-V">
+    <div class="spine"><div class="spine-num">V</div></div>
+    <div class="mod-body">
+      <div class="mod-tag">Seven Modes · Spanish Phrygian · Altered Dominant · Two Vocabularies</div>
+      <h2>THE MODES &amp;<br><em>PHRYGIAN'S SHADOW</em></h2>
+      <p class="mod-subtitle">What flamenco calls a tonic, jazz calls an altered dominant. Same pitches. Different gravity.</p>
+
+      <p>The <strong>seven modes</strong> are rotations of the major scale — each beginning on a different degree, each carrying a distinct emotional world. The same 7 notes; 7 different ways to feel about them depending on which one you call home.</p>
+
+      <div class="scale-display">
+        <span class="normal">ION · </span><span class="hi-accent">DOR</span><span class="normal"> · </span><span class="hi-red">PHR</span><span class="normal"> · </span><span class="hi-green">LYD</span><span class="normal"> · </span><span class="normal">MIX · </span><span class="normal">AEO · </span><span class="normal">LOC</span>
+      </div>
+
+      <p>The <span class="hi">Spanish Phrygian</span> (Phrygian Dominant, 5th mode of harmonic minor) is Phrygian with a raised major third: <strong>1, ♭2, 3, 4, 5, ♭6, ♭7</strong>. That interval between ♭2 and the major 3rd is an augmented second — the sound of flamenco, of the Middle East, of ancient ceremony. In E: <strong>E — F — G# — A — B — C — D</strong>.</p>
+
+      <div class="codeblock">
+        <span class="cb-label">Two Vocabularies — Same Sound</span>
+        <code>
+FOLK / FLAMENCO NAME:
+  Spanish Phrygian / Phrygian Dominant
+  Cadence: ♭II → I  (F major → E major)
+  Heard as: tonic with tension above it
+
+BERKLEE / JAZZ NAME:
+  Mixolydian ♭9, ♯9, ♭13 (Altered Dominant / V7alt)
+  Voicing: G — B — D♭(♭9) — E♭(♯9) — F — E♭(♭13)
+  Heard as: dominant resolving to tonic (C or Cm)
+
+Same scale. Different tonal gravity.
+Context determines meaning.
+        </code>
+      </div>
+
+      <p>The <span class="hi-accent">♯9 chord</span> — dominant 7th with sharpened ninth — became the signature of 1960s psychedelic and funk (the "Hendrix chord," E7♯9). The ♭9 adds menace to the dominant over minor resolutions. The ♭13 creates ambiguity between major and minor. Together: the <em>altered scale</em>, or as musicians call it, <strong>that sound</strong>.</p>
+
+      <div class="blockquote">"What flamenco hears as a tonic in repose, jazz hears as a dominant in maximum tension. Both are right. Both are using the same seven notes."</div>
+    </div>
+  </div>
+
+  <!-- MODULE VI -->
+  <div class="module active-VI">
+    <div class="spine"><div class="spine-num">VI</div></div>
+    <div class="mod-body">
+      <div class="mod-tag">Bryan Adams · Phrygian for Western Ears · It's Always the Canadians</div>
+      <h2>"HAVE YOU REALLY<br><em>EVER LOVED A WOMAN"</em></h2>
+      <p class="mod-subtitle">The most perfectly calibrated deployment of Spanish Phrygian in mainstream Western pop. F major → E major. That's it. That's the whole trick.</p>
+
+      <p>Bryan Adams, 1995, from <em>Don Juan DeMarco</em>. Orchestrated by Michael Kamen. Nylon-string guitar. This song exists to demonstrate that the <strong>♭II → I cadence</strong> (F major → E major in E Phrygian) is the most romantically effective two-chord move available to a Western ear that doesn't live in the flamenco tradition.</p>
+
+      <div class="codeblock">
+        <span class="cb-label">Phrygian Harmonic Gesture — Key of E</span>
+        <code>
+Guitar descending line:  E — D — C — B
+Then: F major arrives (the ♭II chord)
+Then: resolves back to E major (the I)
+
+The F chord is the Neapolitan —
+the defining sound of Phrygian harmony.
+
+It doesn't resolve tension. It IS the tension.
+You arrive at E not relieved — but aching.
+        </code>
+      </div>
+
+      <p>What makes this work for Western ears is the <span class="hi" style="color:#ff9ecd">context loading</span>: nylon string = flamenco = passion = Spain = warmth. The ♭II chord doesn't need explanation. It is felt as a musical exhale — a longing that has no clean resolution because longing never does. The melody over the F chord sits on notes from E Phrygian — the ♭2 (F) and ♭6 (C) — the two most "non-Western" tones, deployed at maximum emotional exposure.</p>
+
+      <div class="blockquote">"The Canadians do this well. Cohen. Mitchell. Céline. And here — Bryan Adams bringing a 500-year-old Andalusian cadence to a pop soundtrack and making it feel like the truest expression of love."</div>
+
+      <p>Ears-first exercise: play F major on a piano. Then E major. Just those two chords, back and forth. Feel the pull. Five centuries of Andalusian music compressed into two chords. You now understand the entire Phrygian tradition. Scale up from there.</p>
+    </div>
+  </div>
+
+  <!-- MODULE VII -->
+  <div class="module active-VII">
+    <div class="spine"><div class="spine-num">VII</div></div>
+    <div class="mod-body">
+      <div class="mod-tag">Tchaikovsky · Pathétique · Half-Diminished as First Word</div>
+      <h2>THE vii∅7<br><em>THAT OPENS EVERYTHING</em></h2>
+      <p class="mod-subtitle">The most unstable chord in the diatonic system. Opening the final movement of his last symphony. Before his death. I shit you not.</p>
+
+      <p>Symphony No. 6 in B minor, Op. 74. <em>Pathétique.</em> Premiered October 28, 1893. Tchaikovsky died November 6. The fourth movement — <em>Adagio lamentoso</em> — is one of the most psychologically honest pieces of music ever written. It ends with a B minor chord that simply fades into silence. But we are concerned with how it <span class="hi-red">begins</span>.</p>
+
+      <div class="codeblock">
+        <span class="cb-label">Opening Chord — 4th Movement, Pathétique</span>
+        <code>
+Chord: A# — C# — E — G#
+Analysis: vii∅7 in B minor
+(Half-diminished 7th on the leading tone)
+
+Contains a tritone (A#–E).
+Has no stable fifth above the root.
+Desperately wants to resolve.
+Tchaikovsky opens with this chord.
+
+He was telling you, from the first breath:
+this will not resolve the way you expect.
+        </code>
+      </div>
+
+      <p>Every convention of 1893 orchestral writing demands you open a finale with tonic stability — a B minor chord, a dominant F#, <em>something</em> that orients the listener. Tchaikovsky opens with the <span class="hi-red">most harmonically incomplete chord in the system</span>. The chord that exists only in relation to where it's going. The chord that has no home.</p>
+
+      <div class="blockquote">"To begin with vii∅7 is to say: we are already in the grief. There is no setup. The pain existed before the first note."</div>
+
+      <p>This is the full synthesis of the curriculum. The formula gave us 88 equal notes (I). The diatonic 7ths gave us the vii∅7 as a household sound (II). Stevie showed us the 7th can be rest rather than tension (III). Modal interchange showed us darkness inside light (IV). Phrygian showed us the ♭II's ache (V–VI). And Tchaikovsky — dying, nine days from the end — showed us that the most unstable chord in the system can be the first thing said. Can be the <em>truest</em> thing said.</p>
+
+      <p>Teach students: <strong>play vii∅7 resolving to I. Then delay the resolution. Then delay it more. Hear the dread accumulate. That dread is the half-diminished chord doing its only job: waiting.</strong></p>
+
+      <p>Tchaikovsky didn't wait. He put it first.</p>
+    </div>
+  </div>
+
+  <!-- LIFESPAN LADDER -->
+  <section style="padding: 80px 0 0; max-width: 900px;">
+    <div style="font-size:9px; letter-spacing:0.4em; text-transform:uppercase; color:var(--muted); margin-bottom:16px;">> lifespan_structure.map()</div>
+    <h2 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,5vw,3.5rem); color:#fff; margin-bottom:8px; letter-spacing:0.03em;">THE FULL <span style="color:var(--accent)">LIFESPAN</span><br>STRUCTURE</h2>
+    <p style="font-size:12px; color:var(--muted); font-style:italic; margin-bottom:48px; font-family:'IBM Plex Sans',sans-serif;">Same spine. Increasing depth. From wonder to philosophy.</p>
+
+    <div class="ladder">
+      <div class="ladder-rung rung-1">
+        <span class="rung-label">Stage 1 · Ages 3–7</span>
+        <div class="rung-title">WONDER</div>
+        <p class="rung-desc">High vs low. Happy vs sad chords. Octave jumping. "Same note, different floor." Music as pure sensation before concept.</p>
+        <div class="rung-items">
+          <span class="rung-item">Octave doubling</span>
+          <span class="rung-item">Major vs minor feel</span>
+          <span class="rung-item">Sing along</span>
+        </div>
+      </div>
+      <div class="ladder-rung rung-2">
+        <span class="rung-label">Stage 2 · Ages 8–14</span>
+        <div class="rung-title">STRUCTURE</div>
+        <p class="rung-desc">Diatonic 7th chords in all keys. Introduction to modes. Basic modulation. The formula. The map of the harmonic territory.</p>
+        <div class="rung-items">
+          <span class="rung-item">All 7 diatonic 7ths</span>
+          <span class="rung-item">12 keys</span>
+          <span class="rung-item">Modal intro</span>
+          <span class="rung-item">f = 440 × 2^(n/12)</span>
+        </div>
+      </div>
+      <div class="ladder-rung rung-3">
+        <span class="rung-label">Stage 3 · Ages 15–25</span>
+        <div class="rung-title">TENSION</div>
+        <p class="rung-desc">Modal interchange. Secondary dominants. Diminished and half-diminished harmony. The tools of emotional complexity. Start transcribing.</p>
+        <div class="rung-items">
+          <span class="rung-item">Borrowed chords</span>
+          <span class="rung-item">V7alt</span>
+          <span class="rung-item">vii∅7</span>
+          <span class="rung-item">Transcription</span>
+        </div>
+      </div>
+      <div class="ladder-rung rung-4">
+        <span class="rung-label">Stage 4 · Ages 25–60</span>
+        <div class="rung-title">EXPRESSION</div>
+        <p class="rung-desc">Stevie transcription. Phrygian color writing. Developing a personal harmonic language. You know the rules — now you know why to break them.</p>
+        <div class="rung-items">
+          <span class="rung-item">"Lately" deep dive</span>
+          <span class="rung-item">Phrygian cadences</span>
+          <span class="rung-item">Personal composition</span>
+        </div>
+      </div>
+      <div class="ladder-rung rung-5">
+        <span class="rung-label">Stage 5 · Ages 60+</span>
+        <div class="rung-title">REFLECTION</div>
+        <p class="rung-desc">Bach fugues as architecture. Tchaikovsky's tension arcs as biography. Composition as philosophy. The daily practice continues. It always continues.</p>
+        <div class="rung-items">
+          <span class="rung-item">Well-Tempered Clavier</span>
+          <span class="rung-item">Pathétique analysis</span>
+          <span class="rung-item">Composition as philosophy</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CORE THESIS -->
+  <div class="thesis-section">
+    <h3>> CORE_THESIS.evaluate()</h3>
+    <div class="thesis-grid">
+      <div class="thesis-row t1">
+        <div class="t-sym">∿</div>
+        <div class="t-content">
+          <span class="t-name">Equal Temperament</span>
+          <div class="t-meaning">Mathematical compromise. A democratic lie. No interval pure — all keys free. The cage that liberated everything.</div>
+        </div>
+      </div>
+      <div class="thesis-row t2">
+        <div class="t-sym">♩</div>
+        <div class="t-content">
+          <span class="t-name">Diatonic 7th Chords</span>
+          <div class="t-meaning">Daily gravity training. Not a warm-up — the practice itself. Repeat until you understand Tchaikovsky. Then keep going.</div>
+        </div>
+      </div>
+      <div class="thesis-row t3">
+        <div class="t-sym">◈</div>
+        <div class="t-content">
+          <span class="t-name">Modal Interchange</span>
+          <div class="t-meaning">Harmonic color theory. Emotional weather from parallel worlds. You open the basement door; you don't move in.</div>
+        </div>
+      </div>
+      <div class="thesis-row t4">
+        <div class="t-sym">♭</div>
+        <div class="t-content">
+          <span class="t-name">Spanish Phrygian</span>
+          <div class="t-meaning">Controlled exoticism. The ♭II's ancient ache. What flamenco knows in its bones, Western ears feel as revelation.</div>
+        </div>
+      </div>
+      <div class="thesis-row t5">
+        <div class="t-sym">∅</div>
+        <div class="t-content">
+          <span class="t-name">Half-Diminished</span>
+          <div class="t-meaning">Existential instability. The chord with no home. When Tchaikovsky put it first, he was done pretending there was one.</div>
+        </div>
+      </div>
+      <div style="grid-column:1/-1; margin-top:16px; padding-top:24px; border-top:1px solid var(--border);">
+        <div style="font-size:9px; letter-spacing:0.3em; color:var(--muted); text-transform:uppercase; margin-bottom:8px;">And at the center of all of it:</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:2rem; color:var(--gold); line-height:1.1;">Stevie Wonder sits right in the middle — Modern Bach.<br><span style="color:var(--muted); font-size:1.2rem;">The harmonic intelligence of the 18th century in the body of a pop song.</span></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span style="color:var(--accent)">THE FRACTAL MUSIC CURRICULUM</span> · Physics → Bach → Stevie → Phrygian → Tchaikovsky<br>
+  <span style="display:block; margin-top:8px; opacity:0.4;">Practice daily. All 12 keys. All 7 chords. Forever.</span>
+  <span class="cursor"></span>
+</footer>
+
+</body>
+</html>
