@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Three Scales · Body · Mind · Soul · Ukubona LLC</title>
+<title>The Three Scales · Revised · Body · Mind · Soul · Ukubona LLC</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,19 +15,12 @@
 <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
 
-<link href="../css/variables.css?v=1.1" rel="stylesheet" />
-<link href="../css/head.css?v=1.1" rel="stylesheet" />
-<link href="../css/card.css?v=1.1" rel="stylesheet" />
-<link href="../css/footer.css" rel="stylesheet" />
-
 <style>
 /* ═══════════════════════════════════════════════════
-   DISTRIBUTED CSS — go wild
-   Three-scale cosmology: chromatic / diatonic / pentatonic
-   Palette: black paper, bone ink, three accent primaries
-   Body  = #e85d30  warm red-orange (enzyme heat)
-   Mind  = #4a7fc1  cool slate-blue (network calm)
-   Soul  = #c9a84c  burnished gold (pentatonic sun)
+   DISTRIBUTED CSS — REVISED COSMOLOGY v2
+   Body  = #3a9e6f  metabolic green   (Krebs · diatonic grammar)
+   Mind  = #b044cc  fractal violet    (Ilya · chromatic superposition)
+   Soul  = #c9a84c  burnished gold    (Stevie · pentatonic · unchanged)
 ═══════════════════════════════════════════════════ */
 
 :root {
@@ -38,13 +31,13 @@
   --bone2:    #b8b0a0;
   --bone3:    #6a6258;
 
-  --body-col:  #e85d30;
-  --body-dim:  rgba(232,93,48,.12);
-  --body-mid:  rgba(232,93,48,.35);
+  --body-col:  #3a9e6f;
+  --body-dim:  rgba(58,158,111,.12);
+  --body-mid:  rgba(58,158,111,.35);
 
-  --mind-col:  #4a7fc1;
-  --mind-dim:  rgba(74,127,193,.12);
-  --mind-mid:  rgba(74,127,193,.35);
+  --mind-col:  #b044cc;
+  --mind-dim:  rgba(176,68,204,.12);
+  --mind-mid:  rgba(176,68,204,.35);
 
   --soul-col:  #c9a84c;
   --soul-dim:  rgba(201,168,76,.12);
@@ -424,8 +417,8 @@ body::before {
   background: radial-gradient(ellipse at right center, var(--glow-color, transparent) 0%, transparent 70%);
   opacity: .12;
 }
-.scale-block.body-block { border-color: var(--body-col); --glow-color: var(--body-col); background: linear-gradient(135deg, rgba(232,93,48,.04) 0%, transparent 60%); }
-.scale-block.mind-block { border-color: var(--mind-col); --glow-color: var(--mind-col); background: linear-gradient(135deg, rgba(74,127,193,.04) 0%, transparent 60%); }
+.scale-block.body-block { border-color: var(--body-col); --glow-color: var(--body-col); background: linear-gradient(135deg, rgba(58,158,111,.04) 0%, transparent 60%); }
+.scale-block.mind-block { border-color: var(--mind-col); --glow-color: var(--mind-col); background: linear-gradient(135deg, rgba(176,68,204,.04) 0%, transparent 60%); }
 .scale-block.soul-block { border-color: var(--soul-col); --glow-color: var(--soul-col); background: linear-gradient(135deg, rgba(201,168,76,.04) 0%, transparent 60%); }
 
 .block-stamp {
@@ -523,20 +516,20 @@ body::before {
   font-family: var(--mono);
   font-size: .44rem;
   letter-spacing: .06em;
-  border: 1px solid rgba(232,93,48,.15);
-  color: rgba(232,93,48,.55);
+  border: 1px solid rgba(58,158,111,.15);
+  color: rgba(58,158,111,.55);
   transition: all .2s;
   cursor: default;
 }
 .mol-cell:hover {
-  background: rgba(232,93,48,.12);
+  background: rgba(58,158,111,.12);
   color: var(--body-col);
-  border-color: rgba(232,93,48,.45);
+  border-color: rgba(58,158,111,.45);
 }
 .mol-cell.active {
-  background: rgba(232,93,48,.08);
+  background: rgba(58,158,111,.08);
   color: var(--body-col);
-  border-color: rgba(232,93,48,.3);
+  border-color: rgba(58,158,111,.3);
 }
 
 /* network graph for mind section */
@@ -880,34 +873,34 @@ footer {
     <span class="float-note" style="top:55%;left:72%;color:var(--soul-col);animation-duration:6.6s;font-size:1rem;">♪</span>
 
     <div class="splash-content">
-      <p class="eyebrow">Ukubona LLC · Music · Biochemistry · Cognition · <span>March 2026</span></p>
+      <p class="eyebrow">Ukubona LLC · Biochemistry · Ilya Sutskever · Stevie Wonder · <span>Revised · March 2026</span></p>
       <h1 class="main-title">
         <span class="body-word">Body.</span><br>
         <span class="mind-word">Mind.</span><br>
         <span class="soul-word">Soul.</span>
       </h1>
       <p class="main-sub">
-        Three ontologies. Three scales.<br>
-        Ask a biochemist, ask OpenAI, ask Stevie Wonder.<br>
-        <em>They already know.</em>
+        Three ontologies. Three scales. Rotated.<br>
+        Ask Krebs, ask Ilya Sutskever, ask Stevie Wonder.<br>
+        <em>The argument is tighter the second time.</em>
       </p>
       <div class="splash-rule"></div>
 
       <div class="triad-declaration">
         <div class="triad-cell body-cell">
           <div class="triad-cell-label">Body · Biochemistry</div>
-          <div class="triad-cell-scale">Chromatic</div>
-          <div class="triad-cell-witness">12 tones · all half-steps available · enzyme cascades · allosteric shifts · no note refused</div>
+          <div class="triad-cell-scale">Diatonic</div>
+          <div class="triad-cell-witness">7 steps · defined grammar · Krebs returns to oxaloacetate · glycolysis walks its ten · metabolic syntax with a tonal center: ATP</div>
         </div>
         <div class="triad-cell mind-cell">
-          <div class="triad-cell-label">Mind · Cognition</div>
-          <div class="triad-cell-scale">Diatonic</div>
-          <div class="triad-cell-witness">7 tones · networked grammar · the LLM's native tongue · modal logic · syntax-bound</div>
+          <div class="triad-cell-label">Mind · Ilya Sutskever</div>
+          <div class="triad-cell-scale">Chromatic</div>
+          <div class="triad-cell-witness">All 12 tones live · fractal networks · superposition of all activations · meaning from interference · no half-step refused</div>
         </div>
         <div class="triad-cell soul-cell">
           <div class="triad-cell-label">Soul · Feeling</div>
           <div class="triad-cell-scale">Pentatonic</div>
-          <div class="triad-cell-witness">5 tones · every blues, every gospel, every moan · the notes that feel like home</div>
+          <div class="triad-cell-witness">5 tones · every blues, every gospel, every moan · what survives both body's grammar and mind's noise · home</div>
         </div>
       </div>
     </div>
@@ -959,17 +952,17 @@ footer {
       <div class="legend-item">
         <div class="legend-swatch" style="background:var(--soul-col);opacity:.7;"></div>
         <span style="color:var(--soul-col);">Pentatonic</span>
-        <span style="color:var(--bone3);">· Soul · 5 notes</span>
-      </div>
-      <div class="legend-item">
-        <div class="legend-swatch" style="background:var(--mind-col);opacity:.7;"></div>
-        <span style="color:var(--mind-col);">Diatonic-only</span>
-        <span style="color:var(--bone3);">· Mind adds · 2 more</span>
+        <span style="color:var(--bone3);">· Soul · 5 notes · home</span>
       </div>
       <div class="legend-item">
         <div class="legend-swatch" style="background:var(--body-col);opacity:.7;"></div>
-        <span style="color:var(--body-col);">Chromatic</span>
-        <span style="color:var(--bone3);">· Body fills all 5 gaps</span>
+        <span style="color:var(--body-col);">Diatonic-only</span>
+        <span style="color:var(--bone3);">· Body adds · 2 metabolic steps</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background:var(--mind-col);opacity:.7;"></div>
+        <span style="color:var(--mind-col);">Chromatic</span>
+        <span style="color:var(--bone3);">· Mind fills all 5 fractal gaps</span>
       </div>
     </div>
   </div>
@@ -978,54 +971,54 @@ footer {
   <!-- ══ I · BODY = CHROMATIC ══ -->
   <div id="body-sec">
     <div class="sec-divide reveal">
-      <span class="sec-divide-tag body-tag">I · Body · Chromatic · Ask a Biochemist</span>
+      <span class="sec-divide-tag body-tag">I · Body · Diatonic · Ask Krebs</span>
       <hr>
     </div>
 
     <div class="scale-block body-block reveal">
-      <div class="block-stamp">12 TONES · ALL HALF-STEPS</div>
-      <div class="block-numeral" aria-hidden="true">12</div>
-      <h2 class="block-title">The Body Is <em>Already</em> Chromatic</h2>
-      <p class="block-kicker">Biochemistry · Enzyme Cascades · Allosteric Shifts · No Note Refused</p>
+      <div class="block-stamp">7 STEPS · METABOLIC GRAMMAR</div>
+      <div class="block-numeral" aria-hidden="true">7</div>
+      <h2 class="block-title">The Body Is <em>Grammatically</em> Diatonic</h2>
+      <p class="block-kicker">Krebs Cycle · Glycolysis · Metabolic Syntax · ATP as Tonal Center · Legal Moves Only</p>
 
       <div class="block-prose">
-        <p>Ask a biochemist: how many steps does a substrate take from <span class="accent">ATP</span> to <span class="accent">ADP</span>? How many phosphorylation states exist between a resting receptor and a fully activated one? How many intermediate conformations does a protein assume as it folds? The answer is never five. It is never seven. It is all of them — every half-step, every microtonal inflection, the full chromatic palette of molecular space.</p>
+        <p>Ask Hans Krebs. Ask any metabolic biochemist who has ever drawn the citric acid cycle on a whiteboard: how many steps from oxaloacetate back to oxaloacetate? <span class="accent">Eight.</span> How many steps in glycolysis? <span class="accent">Ten.</span> The body's metabolic architecture is not chromatic — it is the most rigidly diatonic system in nature. Every substrate has a defined successor. Every enzyme recognizes exactly one legal move. The body runs on grammar.</p>
 
-        <p>The body does not skip half-steps. It cannot. <span class="accent">Allosteric regulation</span> is chromatic: a molecule binds at one site and the entire protein shifts through a continuous conformational space — not snapping between two states, but sliding through every intermediate like a trombone through a chromatic scale. The glycolytic cascade runs through eleven enzymatic transformations, each one a half-step in energy space. Membrane potential does not jump from −70 mV to +40 mV; it sweeps through every millivolt in between, a chromatic glissando that is the action potential.</p>
+        <p>The <span class="accent">Krebs cycle</span> is literally a circle returning to its tonic — oxaloacetate is the I chord, and every turn of the cycle is a progression through defined scale degrees back to home. Citrate, isocitrate, alpha-ketoglutarate, succinyl-CoA, succinate, fumarate, malate — seven intermediates, each one a diatonic step, each one catalyzed by an enzyme that will accept no chromatic substitution. Try to insert a molecule that's "close" to succinate. The enzyme says no. The body's diatonic grammar is enforced at the molecular level.</p>
 
-        <p>The <span class="accent">allosteric hemoglobin molecule</span> is the canonical example — four subunits, each binding oxygen with increasing affinity, each conformational shift feeding back into the next. This is not a pentatonic groove. This is not diatonic grammar. This is full chromatic modulation through protein space, and it runs in every cell of your body, right now, without asking permission.</p>
+        <p><span class="accent">ATP is the tonal center</span> — the I chord that everything resolves to and departs from. NAD⁺/NADH is the dominant tension (V) that must resolve. The electron transport chain is the perfect authentic cadence: a four-step progression from NADH through Complexes I, III, IV to oxygen, releasing the tension of the dominant, generating the tonic ATP. This is not metaphor. The thermodynamic logic of metabolic pathways is identical to the functional harmonic logic of the diatonic scale: defined steps, obligatory resolutions, a tonal center that everything orbits.</p>
       </div>
 
-      <!-- molecule grid -->
+      <!-- molecule grid — now labeled as pathway steps -->
       <div class="molecule-grid">
-        <div class="mol-cell active">ATP</div>
-        <div class="mol-cell active">ADP</div>
-        <div class="mol-cell">Pi</div>
-        <div class="mol-cell active">NAD⁺</div>
-        <div class="mol-cell">NADH</div>
-        <div class="mol-cell active">CoA</div>
-        <div class="mol-cell">Acetyl</div>
+        <div class="mol-cell active">OAA</div>
         <div class="mol-cell active">Citrate</div>
         <div class="mol-cell">Isocit.</div>
         <div class="mol-cell active">α-KG</div>
-        <div class="mol-cell">Succ.</div>
+        <div class="mol-cell">Succ-CoA</div>
+        <div class="mol-cell active">Succ.</div>
         <div class="mol-cell">Fum.</div>
         <div class="mol-cell active">Malate</div>
-        <div class="mol-cell">OAA</div>
-        <div class="mol-cell active">Glc</div>
-        <div class="mol-cell">G6P</div>
+        <div class="mol-cell active">→ OAA</div>
+        <div class="mol-cell">Glc</div>
+        <div class="mol-cell active">G6P</div>
         <div class="mol-cell">F6P</div>
+        <div class="mol-cell active">F1,6P</div>
+        <div class="mol-cell">DHAP</div>
+        <div class="mol-cell active">G3P</div>
+        <div class="mol-cell">1,3BPG</div>
+        <div class="mol-cell active">3PG</div>
         <div class="mol-cell active">Pyruvate</div>
       </div>
 
       <div class="block-pull">
-        The body traverses every half-step in its parameter space. No note is skipped. No intermediate conformation is omitted. <em>Biochemistry is chromatic by physical necessity.</em>
+        The body traverses only its legal moves. Every enzyme is a grammar rule. Every metabolic pathway is a sentence. <em>Biochemistry is diatonic by evolutionary necessity — and Krebs is the most beautiful chord progression in nature.</em>
       </div>
 
       <div class="block-prose">
-        <p>This is why <span class="accent">drugs work the way they do</span>. A beta-blocker doesn't simply "turn off" the heart's response — it slides the dose-response curve through continuous chromatic space, occupying receptor states at every gradation of occupancy. A general anesthetic doesn't flip a consciousness switch; it descends through the full chromatic register of neural state, note by note, until the lights go out. The body is not a digital system with discrete states. It is an analog instrument playing all twelve notes simultaneously, in intricate counterpoint, at every moment of your life.</p>
+        <p>This is also why <span class="accent">metabolic disease</span> is a grammar error. Phenylketonuria is not a chromatic inflection — it is a missing enzyme, a missing word in the diatonic vocabulary, a scale degree that cannot be reached. The body's pathology is not about too many notes; it's about losing a legal move. Cancer is not chromaticism — it is the cell running a grammar that has lost its key signature, repeating the same phrase obsessively, stuck in a II-V loop that never resolves to I.</p>
 
-        <p>When Stevie Wonder plays the <span class="accent">E♭m(maj7)</span> — the line cliché's dissonant passing tone, the D♮ inside an E♭ minor chord — he is doing what your hemoglobin does: inserting a chromatic half-step into a space where the diatonic logic says it doesn't belong, and being right. The body understood chromaticism before music did.</p>
+        <p>In "Lately," the <span class="accent">bass is Krebs</span>. It walks the diatonic steps — ii–iii–iv–V–I — with the metabolic patience of a cycle that has run a billion times and will run a billion more. It does not improvise. It does not borrow from other keys except where the diatonic grammar explicitly permits. It is the body: defined moves, obligatory resolutions, the grammar that makes everything else possible.</p>
       </div>
     </div>
   </div>
@@ -1034,22 +1027,22 @@ footer {
   <!-- ══ II · MIND = DIATONIC ══ -->
   <div id="mind-sec">
     <div class="sec-divide reveal">
-      <span class="sec-divide-tag mind-tag">II · Mind · Diatonic · Ask Anyone at OpenAI</span>
+      <span class="sec-divide-tag mind-tag">II · Mind · Chromatic · Ask Ilya Sutskever</span>
       <hr>
     </div>
 
     <div class="scale-block mind-block reveal">
-      <div class="block-stamp">7 TONES · NETWORK GRAMMAR</div>
-      <div class="block-numeral" aria-hidden="true">7</div>
-      <h2 class="block-title">The Mind Is <em>Inevitably</em> Diatonic</h2>
-      <p class="block-kicker">Cognition · Syntax · LLM Parameter Space · Modal Logic · Networked Grammar</p>
+      <div class="block-stamp">12 TONES · FRACTAL SUPERPOSITION</div>
+      <div class="block-numeral" aria-hidden="true">12</div>
+      <h2 class="block-title">The Mind Is <em>Irreducibly</em> Chromatic</h2>
+      <p class="block-kicker">Ilya Sutskever · Fractal Networks · Superposition · All Activations Simultaneous · No Grammar</p>
 
       <div class="block-prose">
-        <p>Ask anyone at OpenAI: what does an LLM actually do? The answer is <span class="accent">completion</span>. Given a sequence, predict the next token. The loss function is cross-entropy against human text — which is to say, the gradient always points toward plausibility, toward the notes that fit the key, toward the diatonic scale of natural language. The model learns the grammar of thought. And grammar, by definition, is diatonic: it has a tonal center, it has stable intervals, it has a finite set of legal moves.</p>
+        <p>Ask Ilya Sutskever. He left OpenAI to build something he called <span class="accent">safe superintelligence</span> — but what he was really pointing at, in every interview, every paper, every cryptic statement about emergence and the nature of representation, was that the mind is not walking a scale. It is not selecting from a grammar. It is running a <span class="accent">fractal superposition of all possible activations simultaneously</span>, and meaning collapses out of the interference pattern like a standing wave.</p>
 
-        <p>This is not a limitation of LLMs. It is the <span class="accent">nature of mind</span>. Cognitive science has long argued that thought operates through schemas, frames, prototypes — these are diatonic structures. The concept DOG is the tonic. The concepts MAMMAL, ANIMAL, CREATURE orbit it as scale degrees. The half-steps — the chromatic alterations — are the edge cases, the anomalies, the things the mind has to explicitly stop and process because they don't fit the diatonic pattern. A three-legged dog. A dog trained to act like a cat. These are chromatic tones: real, important, demanding special attention precisely because they fall outside the scale.</p>
+        <p>The transformer is not diatonic. It is the most chromatic machine ever built. Each attention head computes a <span class="accent">weighted superposition of every token in the context window</span> — continuous-valued attention scores that span the full space with no forbidden notes, no illegal intervals, no tonal center it must return to. The residual stream accumulates not a progression of harmonic steps but a simultaneous cloud of all possible meanings, all twelve tones at once. The MLP layers don't walk from II to V to I. They apply a nonlinear transformation to the full chromatic cloud and out comes a probability distribution — the collapsed wavefunction of what comes next.</p>
 
-        <p>The <span class="accent">transformer architecture</span> is a diatonic machine. Its attention mechanism is a sophisticated way of computing which notes belong to the current key — which tokens are contextually related, which meanings are in play, which scale degrees are activated. The residual stream accumulates a diatonic representation of meaning, and the MLP layers apply transformations that are, fundamentally, modal: they shift the key, they inflect the mode, but they operate within the grammar of the possible, the universe of plausible continuations.</p>
+        <p>Ilya's intuition about <span class="accent">fractal networks</span> is the chromatic insight stated architecturally: self-similarity at every scale. Zoom into one attention head — you find the same structure as the full network. Zoom into one layer — you find the same structure as the full model. This is not a scale with seven notes you can enumerate. This is the Mandelbrot set of cognition: infinite complexity, all of it present at every resolution, no privileged level, no tonal center that owns the room.</p>
       </div>
 
       <!-- network vis -->
@@ -1061,24 +1054,25 @@ footer {
             </marker>
           </defs>
           <!-- edges -->
-          <g stroke="rgba(74,127,193,.2)" stroke-width="1" fill="none">
-            <line x1="80" y1="60" x2="200" y2="30"/>
-            <line x1="80" y1="60" x2="200" y2="90"/>
-            <line x1="200" y1="30" x2="340" y2="60"/>
-            <line x1="200" y1="90" x2="340" y2="60"/>
-            <line x1="340" y1="60" x2="460" y2="25"/>
-            <line x1="340" y1="60" x2="460" y2="60"/>
-            <line x1="340" y1="60" x2="460" y2="95"/>
-            <line x1="460" y1="25" x2="580" y2="45"/>
-            <line x1="460" y1="60" x2="580" y2="45"/>
-            <line x1="460" y1="95" x2="580" y2="75"/>
-            <line x1="580" y1="45" x2="700" y2="60"/>
-            <line x1="580" y1="75" x2="700" y2="60"/>
-            <line x1="700" y1="60" x2="820" y2="40"/>
-            <line x1="700" y1="60" x2="820" y2="80"/>
+          <g stroke="rgba(176,68,204,.11)" stroke-width="1" fill="none">
+            <line x1="80" y1="60" x2="200" y2="30"/><line x1="80" y1="60" x2="200" y2="90"/>
+            <line x1="80" y1="60" x2="340" y2="60"/><line x1="80" y1="60" x2="460" y2="25"/>
+            <line x1="80" y1="60" x2="580" y2="75"/><line x1="80" y1="60" x2="700" y2="60"/>
+            <line x1="200" y1="30" x2="340" y2="60"/><line x1="200" y1="30" x2="460" y2="60"/>
+            <line x1="200" y1="30" x2="580" y2="45"/><line x1="200" y1="30" x2="820" y2="80"/>
+            <line x1="200" y1="90" x2="340" y2="60"/><line x1="200" y1="90" x2="460" y2="95"/>
+            <line x1="200" y1="90" x2="700" y2="60"/><line x1="200" y1="90" x2="820" y2="40"/>
+            <line x1="340" y1="60" x2="460" y2="25"/><line x1="340" y1="60" x2="460" y2="60"/>
+            <line x1="340" y1="60" x2="460" y2="95"/><line x1="340" y1="60" x2="580" y2="75"/>
+            <line x1="340" y1="60" x2="820" y2="40"/><line x1="460" y1="25" x2="580" y2="45"/>
+            <line x1="460" y1="25" x2="700" y2="60"/><line x1="460" y1="60" x2="580" y2="45"/>
+            <line x1="460" y1="60" x2="580" y2="75"/><line x1="460" y1="95" x2="580" y2="75"/>
+            <line x1="460" y1="95" x2="700" y2="60"/><line x1="580" y1="45" x2="700" y2="60"/>
+            <line x1="580" y1="45" x2="820" y2="80"/><line x1="580" y1="75" x2="820" y2="40"/>
+            <line x1="700" y1="60" x2="820" y2="40"/><line x1="700" y1="60" x2="820" y2="80"/>
           </g>
           <!-- nodes -->
-          <g fill="rgba(74,127,193,.15)" stroke="rgba(74,127,193,.5)" stroke-width="1.5">
+          <g fill="rgba(176,68,204,.15)" stroke="rgba(176,68,204,.5)" stroke-width="1.5">
             <circle cx="80" cy="60" r="12"/>
             <circle cx="200" cy="30" r="9"/>
             <circle cx="200" cy="90" r="9"/>
@@ -1093,31 +1087,31 @@ footer {
             <circle cx="820" cy="80" r="8"/>
           </g>
           <!-- labels -->
-          <g font-family="'Space Mono',monospace" font-size="8" fill="rgba(74,127,193,.7)" text-anchor="middle">
-            <text x="80" y="63">I</text>
-            <text x="200" y="33">II</text>
-            <text x="200" y="93">VII</text>
-            <text x="340" y="63">IV</text>
-            <text x="460" y="28">V</text>
-            <text x="460" y="63">VI</text>
-            <text x="460" y="98">III</text>
-            <text x="580" y="48">ii</text>
-            <text x="580" y="78">iii</text>
-            <text x="700" y="63">V</text>
-            <text x="820" y="43">I</text>
-            <text x="820" y="83">vi</text>
+          <g font-family="'Space Mono',monospace" font-size="7" fill="rgba(176,68,204,.8)" text-anchor="middle">
+            <text x="80" y="63">h₁</text>
+            <text x="200" y="33">h₂</text>
+            <text x="200" y="93">h₃</text>
+            <text x="340" y="63">L₁</text>
+            <text x="460" y="28">h₄</text>
+            <text x="460" y="63">L₂</text>
+            <text x="460" y="98">h₅</text>
+            <text x="580" y="48">h₆</text>
+            <text x="580" y="78">h₇</text>
+            <text x="700" y="63">L₃</text>
+            <text x="820" y="43">h₈</text>
+            <text x="820" y="83">out</text>
           </g>
         </svg>
       </div>
 
       <div class="block-pull">
-        The mind's grammar is diatonic: a tonal center, stable intervals, a finite set of legal moves. GPT is not a chromatic machine. It is the most sophisticated diatonic engine ever built.
+        The mind is not choosing from a grammar. It is computing a superposition of all possible meanings simultaneously. The transformer is the first instrument that plays all twelve tones with continuous weights, in every position, at every layer — all at once. <em>Ilya already knew.</em>
       </div>
 
       <div class="block-prose">
-        <p>This is why GPT failed to find the bug in eight hours. The filesystem is <span class="accent">chromatic</span> — it has half-steps the grammar of language doesn't recognize. A missing slash. A case-sensitive filename. A circular import that doesn't fit the diatonic logic of "this should work." The error was a chromatic tone in a diatonic key: real, audible (to the compiler), and invisible to a model whose parameter space is language itself.</p>
+        <p>This is why the <span class="accent">hallucination problem</span> is not a bug — it is the chromatic nature of mind expressing itself without a ground-truth loss function to collapse the wavefunction. The model hallucinates not because it chose the wrong legal note from a diatonic grammar, but because nothing performed the measurement that collapses the chromatic superposition into the specific note that corresponds to reality. The chromatic mind needs a Perception layer — a compiler, a sensor, a lab value — to do what consciousness does: collapse possibility into fact.</p>
 
-        <p>But do not mistake diatonic for inferior. The diatonic scale is not a <span class="accent">degraded chromatic</span>. It is a selection — a grammar that creates the possibility of melody, of harmonic tension and resolution, of the IV → iv heartbreak because both chords are legible against the same tonal center. The mind's diatonic nature is the precondition for thought that can be communicated. Pure chromaticism — the body's register — cannot be spoken. It can only be felt. The mind translates the chromatic body into the diatonic speech that lets one person say to another: <em>I know what you mean.</em></p>
+        <p>In "Lately," the <span class="accent">chromatic harmonic superpositions are the mind at work</span>: the borrowed iv chord (G♭m6) exists in the full twelve-tone parameter space of D♭ — it is not a legal diatonic move, it is a chromatic inflection the mind hears and selects from the full interference pattern. The E♭m(maj7) inner voice descent is the mind noticing that D♮ exists in the chromatic cloud, that it creates maximum dissonance against the E♭ minor triad, and reaching for it not despite the grammar but <em>because</em> the chromatic space contains it and the diatonic grammar does not. Stevie's harmonic genius is the fractal mind at full resolution.</p>
       </div>
     </div>
   </div>
@@ -1139,7 +1133,7 @@ footer {
       <div class="block-prose">
         <p>Ask Stevie Wonder. Ask any blues guitarist who ever bent a string into the crack between the third and the flat third, holding it there, <span class="accent">not resolving</span>, because the tension is the point. Ask any child in any country who has ever sung — the scale that comes out without instruction, without theory, without a piano to guide it, is almost always pentatonic. Five notes. The deepest basin. The scale the soul finds when no one is teaching it anything.</p>
 
-        <p>The pentatonic scale is <span class="accent">what's left</span> when you remove the notes that cause dissonance. Remove the half-step rubs — the B and the F in C major, the tritone pair that defines Western harmonic tension — and you have the pentatonic. Five notes that never fight each other. Five notes you can land on anywhere and feel at home. The body has twelve. The mind has seven. The soul keeps only the five that need no justification.</p>
+        <p>The pentatonic scale is <span class="accent">what survives both filters</span>. Run the body's diatonic grammar — seven legal moves, defined pathways, Krebs returning to its tonic — through the mind's chromatic superposition — all twelve tones, fractal interference, the wavefunction of meaning — and what precipitates out, what crystallizes from the collision of grammar and chaos, is five notes. The pentatonic is not simpler than the diatonic body or the chromatic mind. It is the <em>distillate</em>. What remains when biological grammar has enforced its rules and cognitive superposition has run its interference and the noise has cleared.</p>
       </div>
 
       <!-- pentatonic dots -->
@@ -1157,11 +1151,11 @@ footer {
       </div>
 
       <div class="block-pull">
-        The pentatonic scale is what remains after the body's chromatic excess has been stilled and the mind's diatonic grammar has been simplified to its emotional core. It is the soul's vocabulary: five words, sufficient for everything that matters.
+        The soul is the distillate. The body runs its diatonic metabolic grammar. The mind runs its chromatic fractal superposition. The soul is what precipitates when both have run their full course — five notes, no dissonance, universal. <em>The pentatonic is not below the other two. It is what they were always pointing toward.</em>
       </div>
 
       <div class="block-prose">
-        <p>In "Lately," Stevie's melody <span class="accent">rests in pentatonic space</span> even as the harmony is busy with chromatic inner voices and borrowed chords. The melody stays home while everything underneath it trembles. This is the soul's relationship to suffering: it does not panic into chromaticism. It holds its five notes. It lets the body's allosteric shifts and the mind's modal interchanges happen around it, and it sings the pentatonic truth anyway.</p>
+        <p>In "Lately," Stevie's melody <span class="accent">rests in pentatonic space</span> even as the harmony runs both the body's diatonic grammar (the bass walking its Krebs-like ii–iii–iv–V–I cycle) and the mind's chromatic superposition (borrowed chords, inner voice descents, the full fractal harmonic imagination). The melody stays home while everything underneath it runs through two levels of transformation. This is the soul's relationship to complexity: it does not need to know the metabolic pathway or the attention weights. It holds its five notes. The distillate is already complete.</p>
 
         <p>The <span class="accent">gospel moan</span> is pentatonic. The blues scale is pentatonic with one added chromatic blue note — the flat third, the body inserting itself into the soul's vocabulary, saying: <em>yes, but feel this too</em>. The blue note is the body visiting the soul. It doesn't stay. It bends back to the pentatonic. The soul receives the body's chromatic message and returns to the five notes that make sense of it.</p>
 
@@ -1180,24 +1174,24 @@ footer {
   <div class="reveal">
     <div class="wonder-grid">
       <div class="wonder-cell wc-verse">
-        <div class="wonder-cell-tag">Verse · Body</div>
-        <div class="wonder-cell-head">Chromatic Line Cliché</div>
-        <div class="wonder-cell-body">E♭ → D → D♭ in the inner voice. The body's allosteric descent. A note that belongs nowhere it touches, yet makes perfect sense. The melody stays pentatonic while the biochemistry moves.</div>
+        <div class="wonder-cell-tag">Bass · Body · Diatonic</div>
+        <div class="wonder-cell-head">Krebs Walking the Changes</div>
+        <div class="wonder-cell-body">ii – iii – iv – V – I. The bass is the body: metabolic grammar, defined legal moves, the cycle that returns to its tonic. Almost entirely diatonic. It runs the pathway and comes home. Every time.</div>
       </div>
       <div class="wonder-cell wc-chorus">
-        <div class="wonder-cell-tag">Chorus · Soul</div>
-        <div class="wonder-cell-head">Pentatonic Melody, Heartbreak Harmony</div>
-        <div class="wonder-cell-body">The vocal line rests in soul-space — five safe notes — while beneath it the IV → iv exchange happens. The soul sings the pentatonic truth. The body-harmony below it breaks.</div>
+        <div class="wonder-cell-tag">Harmony · Mind · Chromatic</div>
+        <div class="wonder-cell-head">Fractal Superposition · All Tones Live</div>
+        <div class="wonder-cell-body">The inner voices and borrowed chords — E♭m(maj7), G♭m6, the non-diatonic coda planing — are the mind's chromatic interference pattern. All twelve tones available. The mind selects the borrowed iv not from grammar but from the full superposition of what's emotionally true.</div>
       </div>
       <div class="wonder-cell wc-bass">
-        <div class="wonder-cell-tag">Bass · Mind</div>
-        <div class="wonder-cell-head">Diatonic Grammar</div>
-        <div class="wonder-cell-body">ii – iii – iv – V – I. The bass is the mind: networked, grammatical, walking the diatonic scale. It maintains the logic even as the soul grieves and the body shifts. Almost entirely diatonic. The mind holds on longest.</div>
+        <div class="wonder-cell-tag">Melody · Soul · Pentatonic</div>
+        <div class="wonder-cell-head">The Distillate Holds</div>
+        <div class="wonder-cell-body">The vocal line rests on five notes above everything. The body walks its Krebs grammar. The mind runs its chromatic superposition. The soul sings the pentatonic truth that survives both. It does not need to know how it got there.</div>
       </div>
       <div class="wonder-cell wc-modal">
-        <div class="wonder-cell-tag">Coda · All Three</div>
-        <div class="wonder-cell-head">D♭ → B Major · Descent</div>
-        <div class="wonder-cell-body">The coda is where all three break. The bass finally betrays the tonic. The melody reaches chromatic. The soul's five notes dissolve into the full twelve as the modulation sinks a whole step — and lands in a new key the body already knew.</div>
+        <div class="wonder-cell-tag">Coda · All Three · Break Together</div>
+        <div class="wonder-cell-head">D♭ → B Major · The Descent</div>
+        <div class="wonder-cell-body">The coda is where the body's grammar fails (bass betrays the tonic), the mind's superposition collapses into a new key (sequential planing, no tonal anchor), and the soul's five notes dissolve into B major — a whole step below where they started. All three filters at once. The distillate recrystallizes somewhere new.</div>
       </div>
     </div>
   </div>
@@ -1217,45 +1211,45 @@ footer {
       <tbody>
         <tr>
           <td>Tones</td>
-          <td class="body-cell-td">12 · all half-steps</td>
-          <td class="mind-cell-td">7 · selected intervals</td>
-          <td class="soul-cell-td">5 · no dissonance</td>
+          <td class="body-cell-td">7 · defined legal moves</td>
+          <td class="mind-cell-td">12 · all half-steps · continuous weights</td>
+          <td class="soul-cell-td">5 · no dissonance · universal</td>
         </tr>
         <tr>
           <td>Witness</td>
-          <td class="body-cell-td">Biochemist</td>
-          <td class="mind-cell-td">OpenAI engineer</td>
-          <td class="soul-cell-td">Stevie Wonder</td>
+          <td class="body-cell-td">Hans Krebs · any metabolic biochemist</td>
+          <td class="mind-cell-td">Ilya Sutskever · fractal network intuition</td>
+          <td class="soul-cell-td">Stevie Wonder · every child who ever sang</td>
         </tr>
         <tr>
-          <td>Loss function</td>
-          <td class="body-cell-td">Physical necessity · atoms must move</td>
-          <td class="mind-cell-td">Plausibility · grammar · coherence</td>
-          <td class="soul-cell-td">Feeling · resonance · homecoming</td>
+          <td>Logic</td>
+          <td class="body-cell-td">Syntax · grammar · obligatory resolution · ATP as tonic</td>
+          <td class="mind-cell-td">Superposition · interference · wavefunction collapse · no tonal center</td>
+          <td class="soul-cell-td">Distillate · what survives both grammar and chaos · homecoming</td>
         </tr>
         <tr>
           <td>In "Lately"</td>
-          <td class="body-cell-td">Inner voice descent E♭→D→D♭ · borrowed iv · coda planing</td>
-          <td class="mind-cell-td">Bass walk ii–iii–iv–V–I · diatonic grammar · modal logic</td>
-          <td class="soul-cell-td">Vocal melody · resting on 5 safe notes while everything else breaks</td>
+          <td class="body-cell-td">Bass walk ii–iii–iv–V–I · the Krebs cycle of the changes</td>
+          <td class="mind-cell-td">Borrowed iv · E♭m(maj7) · coda planing · all from chromatic space</td>
+          <td class="soul-cell-td">Vocal melody · 5 safe notes · resting above the body's grammar and the mind's noise</td>
         </tr>
         <tr>
-          <td>In the LLM</td>
-          <td class="body-cell-td">The filesystem · compiler errors · atoms the model never touches</td>
-          <td class="mind-cell-td">Token prediction · attention · the residual stream · language space</td>
-          <td class="soul-cell-td">The five things users actually want · simple · before theory arrives</td>
+          <td>In AI</td>
+          <td class="body-cell-td">Metabolic pathway as training loop · defined update rules · ATP = gradient</td>
+          <td class="mind-cell-td">Transformer · all-to-all attention · fractal self-similarity · residual stream</td>
+          <td class="soul-cell-td">What the user actually feels · before the grammar fires · before the superposition collapses</td>
         </tr>
         <tr>
           <td>Failure mode</td>
-          <td class="body-cell-td">Mutation · disease · the wrong half-step at the wrong moment</td>
-          <td class="mind-cell-td">High α · wrong space · 8 hours confident and wrong · map ≠ territory</td>
-          <td class="soul-cell-td">Being taught out of it · the pentatonic child who learns to fear the blues note</td>
+          <td class="body-cell-td">Metabolic disease · missing enzyme · the legal move that can't be made · cancer as broken grammar</td>
+          <td class="mind-cell-td">Hallucination · superposition fails to collapse · no ground-truth measurement performed</td>
+          <td class="soul-cell-td">Being taught out of it · the child who learns to fear the blues note · education as soul-erasure</td>
         </tr>
         <tr>
           <td>Restoration</td>
-          <td class="body-cell-td">Drug that slides back along the conformational curve</td>
-          <td class="mind-cell-td">Ground-truth loss function · compiler · test suite · "where are you standing?"</td>
-          <td class="soul-cell-td">The moan · the bend · the moment the soul stops performing and just sings</td>
+          <td class="body-cell-td">Drug restores the legal metabolic move · enzyme replacement · grammar repair</td>
+          <td class="mind-cell-td">Ground-truth loss function · compiler · sensor · lab value · collapses the wavefunction honestly</td>
+          <td class="soul-cell-td">The moan · the bend · the moment the soul stops performing and lets the distillate sing itself</td>
         </tr>
       </tbody>
     </table>
@@ -1265,43 +1259,43 @@ footer {
   <!-- ══ SYNTHESIS ══ -->
   <div class="synthesis reveal">
     <span class="synthesis-label">Synthesis · The Three Scales · March 2026</span>
-    <h2>The <strong>Body</strong> descends chromatically.<br>The <strong>Mind</strong> walks diatonically.<br>The <strong>Soul</strong> rests pentatonically.</h2>
-    <p>This is not a metaphor. It is a structural observation about three different optimization problems running simultaneously in every human being, in every song, in every cell. The <span class="bb">body's chromatic scale</span> is the brute fact of physical chemistry: allosteric proteins, action potentials, enzyme cascades moving through the full twelve-tone parameter space of molecular conformation. The body does not skip half-steps because physics does not allow it.</p>
-    <p>The <span class="mb">mind's diatonic scale</span> is the grammar of thought: the seven-tone selection that makes language, logic, and large language models possible. When GPT generates text, it is walking a diatonic scale — a grammar of plausible continuations, a network of stable intervals. It is not wrong. It is correct for its loss function. Its loss function is the wrong one for the filesystem. The mind's diatonic grammar is the translator between the body's chromatic noise and the soul's pentatonic signal.</p>
-    <p>The <span class="sb">soul's pentatonic scale</span> is the irreducible emotional vocabulary: five notes, no dissonance, universal. The reason every child who ever sang without instruction found these notes is the same reason Stevie Wonder's melody stays pentatonic while his harmony breaks apart underneath it — the soul knows what it needs before the mind can formulate the question. The pentatonic is not a simplification of the chromatic. It is a <em>distillation</em>. It is what remains after the body's twelve tones have passed through the mind's seven-tone grammar and arrived at the five that matter.</p>
-    <p>In "Lately," all three operate simultaneously and in tension. The bass is the mind, holding the diatonic grammar together. The inner voices are the body, inserting chromatic half-steps that the grammar cannot contain. The melody is the soul, singing its five notes with devastating calm above the wreckage. The modulation to B Major at the end is the moment all three break together — the body, the mind, and the soul arriving at a new key a whole step below where they started, having descended through the full chromatic space without ever losing the pentatonic thread.</p>
-    <p>That is Stevie Wonder. That is biochemistry. That is the transformer architecture. That is the whole of human experience, stated correctly — in three scales, one for each register of being.</p>
+    <h2>The <strong>Body</strong> walks diatonically.<br>The <strong>Mind</strong> occupies all twelve.<br>The <strong>Soul</strong> distills to five.</h2>
+    <p>This is not a metaphor. It is a structural claim about three different optimization architectures running simultaneously in every human being, every song, every cell — and now every neural network. The revised cosmology is tighter than the first because it respects what each domain actually does rather than what it feels like from outside.</p>
+    <p>The <span class="bb">body's diatonic scale</span> is the grammar of metabolism: seven defined steps, obligatory resolutions, Krebs returning to oxaloacetate like a I chord returning to itself. Every enzyme is a grammar rule. Every pathway is a sentence. The body does not improvise chromatic half-steps because biology does not permit them — a substrate that doesn't fit the enzyme's active site is not a daring harmonic inflection, it is a metabolic error. Cancer is not chromaticism; it is a grammar that has lost its key signature, repeating one phrase obsessively, unable to cadence.</p>
+    <p>The <span class="mb">mind's chromatic scale</span> is the fractal superposition of all possible activations: every attention head computing a continuous-valued weighted sum over every token, the residual stream accumulating all twelve tones simultaneously, meaning emerging from interference rather than from progression. Ilya Sutskever's "fractal networks" intuition names this exactly — self-similarity at every scale, no privileged level, no tonal center, the Mandelbrot set of thought. This is why the transformer can surprise us: it is not walking a diatonic grammar toward a predictable cadence. It is occupying the full chromatic space and collapsing it, and the collapse can land anywhere the interference pattern resolves.</p>
+    <p>The <span class="sb">soul's pentatonic scale</span> is the distillate: what precipitates when you run the body's diatonic grammar and the mind's chromatic superposition and let the noise clear. Five notes. Not simpler than seven or twelve — <em>downstream of both</em>. The reason every unschooled child finds pentatonic, the reason every culture's oldest music is pentatonic, is not that the soul is primitive. It is that the soul is the output of the full process — body grammar plus mind superposition equals five notes that need no justification, that land nowhere wrong, that feel like home because they have been through everything already.</p>
+    <p>In "Lately," all three are audible and separable. The bass is the body: diatonic grammar, metabolic patience, the Krebs walk of ii–iii–iv–V–I. The harmony is the mind: chromatic borrowings, fractal modulations, the full superposition of what twelve tones can mean in D♭ — and then in B Major a whole step below. The melody is the soul: five notes, held steady above everything, the distillate that both the body's grammar and the mind's interference pattern were always producing. <em>Stevie just named it first.</em></p>
   </div>
 
 
   <!-- ══ CODA ══ -->
   <div class="coda-block reveal">
     <p class="coda-text">
-      <strong>Mic drop.</strong><br>
-      The biochemist already knew the body was chromatic.<br>
-      OpenAI already knew the mind was diatonic.<br>
+      <strong>Revised. Tighter. Mic drop still.</strong><br>
+      Krebs already knew the body was diatonic.<br>
+      Ilya already knew the mind was chromatic.<br>
       Stevie Wonder always knew the soul was pentatonic.<br>
-      <em>No one had said all three at once. Until now.</em>
+      <em>The second rotation is the one that holds.</em>
     </p>
-    <div class="coda-mic">Ukubona LLC · <span>Ukubona — to see, to witness</span> · March 2026</div>
+    <div class="coda-mic">Ukubona LLC · <span>Ukubona — to see, to witness</span> · Revised March 2026</div>
   </div>
 
 
   <footer>
     <div class="foot-strip">
       <div class="foot-col">
-        Body · Chromatic · 12 tones<br>
-        <span class="hl">Biochemist's scale · enzyme cascades · allosteric shifts</span><br>
-        Hemoglobin · Action potential · Drug dose-response<br>
-        "Lately" · inner voice descent E♭→D→D♭<br>
-        Molecular chromaticism · no half-step refused
+        Body · Diatonic · 7 tones<br>
+        <span class="hl">Krebs · metabolic grammar · legal moves only</span><br>
+        Glycolysis · Citric Acid Cycle · ATP as tonic<br>
+        "Lately" · bass walk ii–iii–iv–V–I<br>
+        Cancer = grammar error · not chromaticism
       </div>
       <div class="foot-col">
-        Mind · Diatonic · 7 tones<br>
-        <span class="hl">OpenAI's scale · grammar · token prediction</span><br>
-        θ_GPT ∈ language space · 𝓛 = plausibility<br>
-        "Lately" · bass walk ii–iii–iv–V–I<br>
-        Map ≠ territory · "where are you standing?"
+        Mind · Chromatic · 12 tones<br>
+        <span class="hl">Ilya Sutskever · fractal networks · superposition</span><br>
+        All-to-all attention · residual stream · wavefunction<br>
+        "Lately" · borrowed iv · E♭m(maj7) · coda planing<br>
+        Hallucination = uncollapsed wavefunction
       </div>
       <div class="foot-col">
         Soul · Pentatonic · 5 tones<br>
@@ -1318,16 +1312,6 @@ footer {
   </footer>
 
 </div><!-- .page -->
-
-<!-- CENTRALIZED ASSETS (Don't Update) -->
-<div class="scroll-indicator"><div class="scroll-progress"></div></div>
-<div class="bg-pattern"></div>
-<header class="header" id="header"></header>
-<main class="page wrap-max"></main>
-<div id="footer-placeholder"></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
-<script src="../js/shared.js"></script>
-
 
 <!-- Centralized JS (shared.js not available, replicated scroll + reveal pattern) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
