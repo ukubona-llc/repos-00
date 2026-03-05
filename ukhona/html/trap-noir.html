@@ -1,1 +1,1049 @@
-. 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Future · Neural Compression · DS2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&family=Libre+Baskerville:ital@1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080608;
+    --deep: #0d0b10;
+    --purple: #2a0a3a;
+    --lean: #5b1a8a;
+    --grape: #7c2fb5;
+    --gold: #c9a84c;
+    --ice: #a8d4e6;
+    --white: #f0eae8;
+    --ghost: rgba(240,234,232,0.06);
+    --mono: 'IBM Plex Mono', monospace;
+    --serif: 'DM Serif Display', serif;
+    --display: 'Bebas Neue', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* SCANLINES */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.15) 2px,
+      rgba(0,0,0,0.15) 4px
+    );
+    pointer-events: none;
+    z-index: 9998;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 4rem 2rem;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 70% at 30% 50%, rgba(91,26,138,0.35) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 80% 30%, rgba(168,212,230,0.08) 0%, transparent 60%),
+      var(--black);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(91,26,138,0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(91,26,138,0.12) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridPulse 8s ease-in-out infinite;
+  }
+
+  @keyframes gridPulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 900px;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--grape);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: var(--display);
+    font-size: clamp(5rem, 18vw, 16rem);
+    line-height: 0.88;
+    letter-spacing: 0.02em;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-title .line-1 { color: var(--white); }
+  .hero-title .line-2 {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--grape);
+    display: block;
+  }
+  .hero-title .line-3 {
+    color: var(--gold);
+    display: block;
+    font-size: 0.55em;
+    letter-spacing: 0.08em;
+  }
+
+  .hero-sub {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    color: rgba(240,234,232,0.5);
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s forwards;
+  }
+
+  .hero-bars {
+    font-family: var(--mono);
+    font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+    color: var(--ice);
+    letter-spacing: 0.1em;
+    line-height: 2.2;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.2s forwards;
+    border-left: 2px solid var(--grape);
+    padding-left: 2rem;
+    text-align: left;
+    display: inline-block;
+  }
+
+  .bar-label {
+    color: var(--grape);
+    font-size: 0.65em;
+    letter-spacing: 0.3em;
+    display: inline-block;
+    margin-right: 1em;
+    vertical-align: middle;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SCROLL INDICATOR */
+  .scroll-cue {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 2s forwards;
+  }
+  .scroll-cue span {
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    color: var(--grape);
+    text-transform: uppercase;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--grape), transparent);
+    animation: scrollDrop 2s ease-in-out infinite;
+  }
+  @keyframes scrollDrop {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* MAIN SECTIONS */
+  .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--grape);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .section-title {
+    font-family: var(--display);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 0.92;
+    margin-bottom: 3rem;
+    color: var(--white);
+  }
+
+  /* DECODE GRID */
+  .decode-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: var(--ghost);
+    border: 1px solid rgba(91,26,138,0.3);
+  }
+
+  .decode-row {
+    background: var(--deep);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: rgba(91,26,138,0.08);
+    transition: background 0.3s;
+  }
+  .decode-row:hover { background: rgba(91,26,138,0.2); }
+
+  .decode-cell {
+    background: var(--deep);
+    padding: 1.8rem 2rem;
+  }
+
+  .decode-cell.lyric {
+    font-family: var(--display);
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    color: var(--ice);
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid rgba(91,26,138,0.3);
+  }
+
+  .decode-cell.surface {
+    border-right: 1px solid rgba(91,26,138,0.3);
+  }
+
+  .decode-cell.deep {
+    background: rgba(91,26,138,0.06);
+  }
+
+  .cell-label {
+    font-size: 8px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--grape);
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  .cell-text {
+    font-size: 0.85rem;
+    color: rgba(240,234,232,0.75);
+    line-height: 1.6;
+  }
+
+  .cell-gem {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--gold);
+    line-height: 1.6;
+  }
+
+  /* CHAIN DIAGRAM */
+  .chain-section {
+    background: var(--deep);
+    border: 1px solid rgba(91,26,138,0.25);
+    padding: 4rem 3rem;
+    margin: 4rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .chain-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--lean), var(--gold), var(--ice), transparent);
+  }
+
+  .chain {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+    justify-content: center;
+    margin-top: 3rem;
+  }
+
+  .chain-node {
+    text-align: center;
+    padding: 1.5rem 1.2rem;
+  }
+
+  .node-top {
+    font-family: var(--display);
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .node-bot {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+
+  .node-surface { color: var(--ice); }
+  .node-pun { color: var(--grape); }
+  .node-real { color: var(--gold); }
+  .node-ice { color: #d4ecf7; }
+
+  .chain-arrow {
+    font-size: 1.5rem;
+    color: rgba(91,26,138,0.6);
+    padding: 0 0.3rem;
+    flex-shrink: 0;
+  }
+
+  .chain-break {
+    width: 100%;
+    height: 1px;
+    background: rgba(91,26,138,0.2);
+    margin: 1rem 0;
+  }
+
+  /* NEURAL SECTION */
+  .neural-viz {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  @media (max-width: 700px) {
+    .neural-viz { grid-template-columns: 1fr; }
+    .decode-row { grid-template-columns: 1fr; }
+  }
+
+  .neural-column h3 {
+    font-family: var(--display);
+    font-size: 2rem;
+    color: var(--grape);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .neural-item {
+    padding: 1.2rem 1.5rem;
+    border-left: 2px solid var(--ghost);
+    margin-bottom: 1rem;
+    transition: border-color 0.3s, background 0.3s;
+    cursor: default;
+  }
+  .neural-item:hover {
+    border-left-color: var(--grape);
+    background: var(--ghost);
+  }
+
+  .neural-item strong {
+    font-family: var(--mono);
+    color: var(--gold);
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+  }
+
+  .neural-item p {
+    color: rgba(240,234,232,0.65);
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  /* FREUD / THEORY SECTION */
+  .theory-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: rgba(91,26,138,0.15);
+    margin-top: 3rem;
+  }
+
+  .theory-card {
+    background: var(--deep);
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s;
+  }
+  .theory-card:hover { background: rgba(42,10,58,0.8); }
+
+  .theory-card::after {
+    content: attr(data-num);
+    position: absolute;
+    bottom: -0.5rem;
+    right: 1rem;
+    font-family: var(--display);
+    font-size: 8rem;
+    color: rgba(91,26,138,0.08);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .theory-card h4 {
+    font-family: var(--display);
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+    color: var(--ice);
+    margin-bottom: 1rem;
+  }
+
+  .theory-card .thinker {
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--grape);
+    margin-bottom: 1.2rem;
+    display: block;
+  }
+
+  .theory-card p {
+    font-size: 0.85rem;
+    color: rgba(240,234,232,0.65);
+    line-height: 1.7;
+  }
+
+  /* JUNGLE FEVER SECTION */
+  .fever-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  @media (max-width: 700px) { .fever-layout { grid-template-columns: 1fr; } }
+
+  .fever-diagram {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .fever-node {
+    background: var(--deep);
+    border: 1px solid rgba(91,26,138,0.35);
+    padding: 1.2rem 1.8rem;
+    position: relative;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .fever-node:hover {
+    border-color: var(--grape);
+    transform: translateX(6px);
+  }
+
+  .fever-node + .fever-node { margin-top: -1px; }
+
+  .fever-node .fn-name {
+    font-family: var(--display);
+    font-size: 1.6rem;
+    letter-spacing: 0.06em;
+  }
+  .fn-spike { color: var(--grape); }
+  .fn-white { color: var(--white); }
+  .fn-ice { color: var(--ice); }
+  .fn-coco { color: var(--gold); }
+
+  .fever-node .fn-sub {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.45;
+    margin-top: 0.2rem;
+  }
+
+  .fever-connector {
+    width: 2px;
+    height: 20px;
+    background: linear-gradient(to bottom, var(--lean), transparent);
+    margin-left: 3rem;
+  }
+
+  .fever-text h3 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    color: var(--white);
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+  }
+
+  .fever-text p {
+    color: rgba(240,234,232,0.6);
+    font-size: 0.88rem;
+    line-height: 1.8;
+    margin-bottom: 1.2rem;
+  }
+
+  /* VERDICT */
+  .verdict {
+    background: var(--purple);
+    border: 1px solid var(--lean);
+    padding: 5rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-top: 2rem;
+  }
+
+  .verdict::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(91,26,138,0.5), transparent);
+  }
+
+  .verdict-content { position: relative; z-index: 2; }
+
+  .verdict h2 {
+    font-family: var(--display);
+    font-size: clamp(3rem, 8vw, 7rem);
+    line-height: 0.9;
+    margin-bottom: 2rem;
+  }
+  .verdict h2 span { color: var(--gold); display: block; }
+
+  .verdict p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: rgba(240,234,232,0.7);
+    max-width: 700px;
+    margin: 0 auto 2rem;
+    line-height: 1.8;
+  }
+
+  .stat-row {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    flex-wrap: wrap;
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(91,26,138,0.5);
+  }
+
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: var(--display);
+    font-size: 4rem;
+    line-height: 1;
+    color: var(--gold);
+  }
+  .stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(240,234,232,0.4);
+    margin-top: 0.4rem;
+  }
+
+  /* DIVIDERS */
+  .divider {
+    max-width: 1100px;
+    margin: 0 auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(91,26,138,0.4), transparent);
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 4rem 2rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: rgba(240,234,232,0.2);
+    text-transform: uppercase;
+  }
+
+  /* HIGHLIGHT PULSE */
+  .pulse-gold {
+    animation: pulseGold 3s ease-in-out infinite;
+  }
+  @keyframes pulseGold {
+    0%, 100% { color: var(--gold); }
+    50% { color: #e8c870; text-shadow: 0 0 20px rgba(201,168,76,0.5); }
+  }
+
+  /* INTENTIONALITY METER */
+  .intent-meter {
+    margin: 3rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .intent-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 60px;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .intent-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(240,234,232,0.5);
+    text-align: right;
+  }
+
+  .intent-bar-bg {
+    height: 4px;
+    background: rgba(91,26,138,0.2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .intent-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    width: 0%;
+    transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .intent-pct {
+    font-family: var(--display);
+    font-size: 1.2rem;
+    color: var(--grape);
+  }
+
+  .fill-phonetic { background: linear-gradient(90deg, var(--ice), var(--grape)); }
+  .fill-drug { background: linear-gradient(90deg, var(--grape), var(--lean)); }
+  .fill-jungle { background: linear-gradient(90deg, var(--lean), var(--gold)); }
+  .fill-ice { background: linear-gradient(90deg, var(--ice), #ffffff); }
+  .fill-drought { background: linear-gradient(90deg, var(--gold), #e8c870); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Ukubona · Neural Compression · DS2 · 2015</p>
+    <h1 class="hero-title">
+      <span class="line-1">FUTURE</span>
+      <span class="line-2">NEURAL</span>
+      <span class="line-3">Architecture</span>
+    </h1>
+    <p class="hero-sub">Four bars. A psychoanalytic autopsy of the most compressed flex in trap history.</p>
+    <div class="hero-bars">
+      <div><span class="bar-label">01</span>Dirty soda, Spike Lee</div>
+      <div><span class="bar-label">02</span>White girl, Ice T</div>
+      <div><span class="bar-label">03</span>Fully loaded AP, yeah</div>
+      <div><span class="bar-label">04</span>We got purple Actavis, I thought it was a drought</div>
+    </div>
+  </div>
+  <div class="scroll-cue">
+    <span>decode</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- DECODE TABLE -->
+<div class="divider"></div>
+<section class="section" id="s1">
+  <span class="section-label">01 · Line by Line</span>
+  <h2 class="section-title">THE COMPRESSION TABLE</h2>
+  <div class="decode-grid">
+
+    <!-- Header -->
+    <div class="decode-row" style="background:rgba(91,26,138,0.25)">
+      <div class="decode-cell lyric" style="font-size:0.7rem; letter-spacing:0.4em; text-transform:uppercase; color:var(--grape)">Lyric</div>
+      <div class="decode-cell surface"><span class="cell-label">Surface</span></div>
+      <div class="decode-cell deep"><span class="cell-label">The Compression</span></div>
+    </div>
+
+    <!-- Row 1 -->
+    <div class="decode-row">
+      <div class="decode-cell lyric">Dirty soda,<br>Spike Lee</div>
+      <div class="decode-cell surface">
+        <span class="cell-label">Surface</span>
+        <p class="cell-text">Lean (codeine + soda) + celebrity cultural signifier. Spike Lee = Black prestige. Standard name-drop.</p>
+      </div>
+      <div class="decode-cell deep">
+        <span class="cell-label">The Gem</span>
+        <p class="cell-gem">Spike + Lee = Spiked Tea. The celebrity is the recipe. Future named his drug using a director. Also: Spike Lee directed <em>Jungle Fever</em> — interracial desire, encoded before "white girl" even lands.</p>
+      </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="decode-row">
+      <div class="decode-cell lyric">White girl,<br>Ice T</div>
+      <div class="decode-cell surface">
+        <span class="cell-label">Surface</span>
+        <p class="cell-text">Cocaine slang + rapper name-drop. Ice-T as OG cultural reference, West Coast to SVU.</p>
+      </div>
+      <div class="decode-cell deep">
+        <span class="cell-label">The Gem</span>
+        <p class="cell-gem">Ice + T = iced tea. Step two of the recipe. "White girl" is cocaine but also literal — Ice-T's wife is Coco Austin. And Coco = cocaine. The entendre folds on itself three times. The <em>Jungle Fever</em> thread activates: Spike Lee → Ice-T, two Black icons defined partly by their white women.</p>
+      </div>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="decode-row">
+      <div class="decode-cell lyric">Fully loaded<br>AP, yeah</div>
+      <div class="decode-cell surface">
+        <span class="cell-label">Surface</span>
+        <p class="cell-text">Audemars Piguet covered in aftermarket diamonds. Status object. Six-figure timepiece.</p>
+      </div>
+      <div class="decode-cell deep">
+        <span class="cell-label">The Gem</span>
+        <p class="cell-gem">"Fully loaded" = covered in ice. The watch is <em>iced out</em>. The whole verse has been threading ice invisibly: Spike (ice) → Ice T → ice on the AP. Three mentions of ice with zero uses of the word. The watch is the punchline to a phonetic chain started two bars earlier.</p>
+      </div>
+    </div>
+
+    <!-- Row 4 -->
+    <div class="decode-row">
+      <div class="decode-cell lyric">Purple Actavis,<br>I thought it was<br>a drought</div>
+      <div class="decode-cell surface">
+        <span class="cell-label">Surface</span>
+        <p class="cell-text">Reference to lean supply. Shortage signaling. Flex of abundance.</p>
+      </div>
+      <div class="decode-cell deep">
+        <span class="cell-label">The Gem</span>
+        <p class="cell-gem">In 2014, Actavis actually halted promethazine-codeine production. The street drought was real and severe. Future opens his album by announcing the laws of supply and demand do not apply to him. He is outside macroeconomics.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ICE CHAIN -->
+<div class="divider"></div>
+<section class="section" id="s2">
+  <span class="section-label">02 · Motif Mapping</span>
+  <h2 class="section-title">THE ICE CHAIN</h2>
+  <div class="chain-section">
+    <p style="color:rgba(240,234,232,0.5); font-size:0.85rem; max-width:600px; line-height:1.7;">
+      Future threaded the concept of <em>ice</em> through three consecutive bars without once using the word. Trace the activation path:
+    </p>
+    <div class="chain">
+      <div class="chain-node">
+        <div class="node-top node-surface">SPIKE</div>
+        <div class="node-bot">verb · to spike</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-node">
+        <div class="node-top node-pun">SPIKED TEA</div>
+        <div class="node-bot">phonetic pun</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-node">
+        <div class="node-top node-surface">ICE T</div>
+        <div class="node-bot">rapper · iced tea</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-node">
+        <div class="node-top node-real">ICE</div>
+        <div class="node-bot">diamonds</div>
+      </div>
+      <div class="chain-arrow">→</div>
+      <div class="chain-node">
+        <div class="node-top node-ice pulse-gold">⌚ AP</div>
+        <div class="node-bot">fully loaded · iced out</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JUNGLE FEVER -->
+<div class="divider"></div>
+<section class="section" id="s3">
+  <span class="section-label">03 · The Hidden Layer</span>
+  <h2 class="section-title">JUNGLE FEVER</h2>
+  <div class="fever-layout">
+    <div class="fever-diagram">
+      <div class="fever-node">
+        <div class="fn-name fn-spike">SPIKE LEE</div>
+        <div class="fn-sub">director · cultural icon · phonetic pun</div>
+      </div>
+      <div class="fever-connector"></div>
+      <div class="fever-node">
+        <div class="fn-name" style="color:rgba(240,234,232,0.4); font-size:1rem; font-family:var(--mono)">↓ directs</div>
+        <div class="fn-name fn-spike" style="font-size:1.2rem; margin-top:0.3rem;">JUNGLE FEVER (1991)</div>
+        <div class="fn-sub">Black man · white woman · taboo desire</div>
+      </div>
+      <div class="fever-connector"></div>
+      <div class="fever-node">
+        <div class="fn-name fn-white">WHITE GIRL</div>
+        <div class="fn-sub">cocaine · or literal · both valid</div>
+      </div>
+      <div class="fever-connector"></div>
+      <div class="fever-node">
+        <div class="fn-name fn-ice">ICE T</div>
+        <div class="fn-sub">rapper · married to Coco Austin · iced tea</div>
+      </div>
+      <div class="fever-connector"></div>
+      <div class="fever-node">
+        <div class="fn-name fn-coco">COCO = COCAINE</div>
+        <div class="fn-sub">wife's name · drug slang · the loop closes</div>
+      </div>
+    </div>
+    <div class="fever-text">
+      <h3>Two Black icons. Two white women. One phonetic recipe. Zero wasted syllables.</h3>
+      <p>
+        The <em>Jungle Fever</em> layer is your contribution — the decode missed it. Spike Lee's name doesn't just work phonetically. It activates a cinematic archive: his 1991 film about the transgressive pull of interracial desire, and the cultural conversation it opened that never fully closed.
+      </p>
+      <p>
+        Future then drops "white girl" in the very next bar. Not after a celebrity name-drop about a crime thriller or a sports story — after Spike Lee specifically. The sequence is not accidental even if it is not fully conscious.
+      </p>
+      <p>
+        Ice-T extends the chain. Here is a Black rapper, now a household name from decades of respectability — famously, defiantly married to Coco Austin. The "jungle fever" example has aged into cultural furniture. Future invokes him to complete a drink pun while simultaneously completing a meditation on desire, access, and transgression.
+      </p>
+      <p>
+        And then: Coco = cocaine. Ice-T's wife's name is slang for the "white girl" drug Future just referenced. The entendre is a Möbius strip. There is no outside to it.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- NEURAL / FREUD -->
+<div class="divider"></div>
+<section class="section" id="s4">
+  <span class="section-label">04 · Psychoanalysis</span>
+  <h2 class="section-title">THE NEURAL ARGUMENT</h2>
+
+  <div class="neural-viz">
+    <div class="neural-column">
+      <h3>Did He Intend It?</h3>
+      <div class="neural-item">
+        <strong>The Wrong Question</strong>
+        <p>Asking whether Future consciously planned the <em>Jungle Fever</em> layer is like asking whether a dream consciously plotted its symbolism. Intent is the wrong frame.</p>
+      </div>
+      <div class="neural-item">
+        <strong>Freud: Condensation</strong>
+        <p>In <em>The Interpretation of Dreams</em>, Freud describes how the unconscious compresses multiple desire-clusters into single symbols. Four bars of trap are structurally identical to dream-work.</p>
+      </div>
+      <div class="neural-item">
+        <strong>Displacement</strong>
+        <p>Cocaine stands in for a white woman. Ice-T stands in for racial transgression. The AP stands in for dominance. Forbidden material routes through acceptable surfaces.</p>
+      </div>
+      <div class="neural-item">
+        <strong>The Psychic Leak</strong>
+        <p>Future had been publicly entangled with Larsa Pippen around this period. The desire-cluster was live. Available symbolic material doesn't go unused by the unconscious.</p>
+      </div>
+    </div>
+    <div class="neural-column">
+      <h3>How Brains Compress</h3>
+      <div class="neural-item">
+        <strong>Associative Clustering</strong>
+        <p>A neural network doesn't write from a spreadsheet. It fires weighted associations simultaneously. Spike Lee, spiked tea, interracial film, white women, cocaine — these are co-activated nodes in the same emotional field.</p>
+      </div>
+      <div class="neural-item">
+        <strong>Latent Semantic Density</strong>
+        <p>The compression works because every token Future chose belongs to <em>multiple semantic clusters at once</em>. That's not craft in the literary sense. It's pattern-matching at the speed of speech.</p>
+      </div>
+      <div class="neural-item">
+        <strong>Barthes: Death of the Author</strong>
+        <p>Roland Barthes would dissolve the question entirely. If the interpretation is internally coherent, culturally grounded, and structurally defensible — it's valid. Authorial intent is irrelevant to meaning.</p>
+      </div>
+      <div class="neural-item">
+        <strong>The Verdict</strong>
+        <p>Future's genius is not that he planned this. It's that his neural architecture — shaped by culture, desire, and trap poetics — generates compression this dense <em>by default</em>. He is the instrument. The verse plays itself.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTENTIONALITY METER -->
+  <div style="margin-top: 4rem;">
+    <h3 style="font-family:var(--display); font-size:2rem; color:var(--white); margin-bottom:0.5rem;">Intentionality Spectrum</h3>
+    <p style="color:rgba(240,234,232,0.4); font-size:0.8rem; margin-bottom:2rem; letter-spacing:0.1em;">Estimated probability each layer was consciously constructed vs. neurally emergent</p>
+    <div class="intent-meter" id="meter">
+      <div class="intent-row">
+        <div class="intent-label">Phonetic Pun (Spike/Ice)</div>
+        <div class="intent-bar-bg"><div class="intent-bar-fill fill-phonetic" data-w="92"></div></div>
+        <div class="intent-pct">92%</div>
+      </div>
+      <div class="intent-row">
+        <div class="intent-label">Drug / Drink Layering</div>
+        <div class="intent-bar-bg"><div class="intent-bar-fill fill-drug" data-w="88"></div></div>
+        <div class="intent-pct">88%</div>
+      </div>
+      <div class="intent-row">
+        <div class="intent-label">Ice Motif → AP</div>
+        <div class="intent-bar-bg"><div class="intent-bar-fill fill-ice" data-w="75"></div></div>
+        <div class="intent-pct">75%</div>
+      </div>
+      <div class="intent-row">
+        <div class="intent-label">Jungle Fever (Spike Lee)</div>
+        <div class="intent-bar-bg"><div class="intent-bar-fill fill-jungle" data-w="48"></div></div>
+        <div class="intent-pct">48%</div>
+      </div>
+      <div class="intent-row">
+        <div class="intent-label">Coco = Cocaine Loop</div>
+        <div class="intent-bar-bg"><div class="intent-bar-fill fill-jungle" data-w="31"></div></div>
+        <div class="intent-pct">31%</div>
+      </div>
+      <div class="intent-row">
+        <div class="intent-label">Actavis Historical Context</div>
+        <div class="intent-bar-bg"><div class="intent-bar-fill fill-drought" data-w="97"></div></div>
+        <div class="intent-pct">97%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THEORY CARDS -->
+<div class="divider"></div>
+<section class="section" id="s5">
+  <span class="section-label">05 · Critical Frameworks</span>
+  <h2 class="section-title">FOUR LENSES</h2>
+  <div class="theory-cards">
+    <div class="theory-card" data-num="I">
+      <span class="thinker">Sigmund Freud</span>
+      <h4>Dream-Work</h4>
+      <p>Condensation + displacement. The unconscious compresses multiple desire-objects into single symbols. Four trap bars are structurally identical to dream logic: the forbidden is rerouted through the acceptable, desire disguises as brag, and the psyche leaks what the mouth would not say directly.</p>
+    </div>
+    <div class="theory-card" data-num="II">
+      <span class="thinker">Roland Barthes</span>
+      <h4>Death of the Author</h4>
+      <p>The author's intent is irrelevant once the text exists. The reader's decoding creates meaning. Your <em>Jungle Fever</em> reading is not speculation — it is valid literary criticism. The only question is coherence, not intention.</p>
+    </div>
+    <div class="theory-card" data-num="III">
+      <span class="thinker">Cognitive Science</span>
+      <h4>Neural Activation</h4>
+      <p>The brain composes through weighted associative clustering, not linear planning. When multiple high-valence concepts share an emotional field — desire, transgression, luxury, supply, racial taboo — they co-activate and can collapse into shared expression. Intention is downstream of this.</p>
+    </div>
+    <div class="theory-card" data-num="IV">
+      <span class="thinker">Trap Poetics</span>
+      <h4>Associative Collage</h4>
+      <p>Future's DS2 style is not narrative rap. It is texture over exposition, mood over moral, density over storytelling. High-signal tokens stacked associatively invite mythological readings because every noun does triple duty. The verse is designed to be this dense even when the design is instinctive.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VERDICT -->
+<div style="max-width:1100px; margin:0 auto; padding:0 2rem;">
+  <div class="verdict section" id="s6">
+    <div class="verdict-content">
+      <h2>FOUR BARS<span>INFINITE PAYLOAD</span></h2>
+      <p>
+        The genius is not that Future planned it. The genius is that his neural architecture — shaped by Atlanta trap culture, personal desire, public transgression, and phonetic instinct — generates compression this dense by default. He is not the author in the classical sense. He is the instrument through which the culture compresses itself.
+      </p>
+      <div class="stat-row">
+        <div class="stat">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Bars</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Meanings / Line</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">0</div>
+          <div class="stat-label">Times "Ice" Said</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Ice References</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Entendres</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Future · DS2 · 2015 · "Thought It Was A Drought" · Ukubona Decode · Hendrix / Epic
+  <br><br>
+  Close reading: Ukubona LLC · Neural extension: G / O / A / X models · Psychoanalytic frame: Freud, Barthes
+</footer>
+
+<script>
+  // Intersection observer for section reveals
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        // Trigger meter bars when meter section visible
+        if (e.target.id === 's4') {
+          setTimeout(() => {
+            document.querySelectorAll('.intent-bar-fill').forEach(bar => {
+              bar.style.width = bar.dataset.w + '%';
+            });
+          }, 400);
+        }
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.section').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
