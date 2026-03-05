@@ -6,6 +6,17 @@
 <title>Future · Neural Compression · DS2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&family=Libre+Baskerville:ital@1&display=swap" rel="stylesheet">
+
+  <!-- Icons / assets -->
+  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+  
+  
+<link href="../css/variables.css?v=1.1" rel="stylesheet" />
+<link href="../css/head.css?v=1.1" rel="stylesheet" />
+<link href="../css/card.css?v=1.1" rel="stylesheet" />
+<link href="../css/footer.css" rel="stylesheet" />
 <style>
   :root {
     --black: #080608;
@@ -687,6 +698,17 @@
 </head>
 <body>
 
+<div class="theme-toggle" aria-label="Toggle dark/light mode">
+  <span id="toggle-label">Light</span>
+  <div class="toggle-switch" id="themeSwitch" role="button" tabindex="0" aria-pressed="false"></div>
+</div>
+
+<div class="page">
+ <div class="wrap-max">
+  <!-- ══ MASTHEAD ══ -->
+  <header class="masthead">
+    <br><br><br>
+
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
@@ -1025,6 +1047,17 @@
   Close reading: Ukubona LLC · Neural extension: G / O / A / X models · Psychoanalytic frame: Freud, Barthes
 </footer>
 
+  </div><!-- .content -->
+</div><!-- .shell -->
+
+<!-- CENTRALIZED ASSETS (Don't Update) -->
+<div class="scroll-indicator"><div class="scroll-progress"></div></div>
+<div class="bg-pattern"></div>
+<header class="header" id="header"></header>
+<main class="page wrap-max"></main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+<script src="../js/shared.js"></script>
 <script>
   // Intersection observer for section reveals
   const observer = new IntersectionObserver((entries) => {

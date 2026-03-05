@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Universal Resonance Syllabus</title>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Inconsolata:wght@300;400;600;700&family=Abril+Fatface&display=swap" rel="stylesheet">
+  <!-- Icons / assets -->
+  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+  
+  
+<link href="../css/variables.css?v=1.1" rel="stylesheet" />
+<link href="../css/head.css?v=1.1" rel="stylesheet" />
+<link href="../css/card.css?v=1.1" rel="stylesheet" />
+<link href="../css/footer.css" rel="stylesheet" />
 <style>
   :root {
     --bg: #f7f4ef;
@@ -709,8 +719,19 @@
 </head>
 <body>
 
+<div class="theme-toggle" aria-label="Toggle dark/light mode">
+  <span id="toggle-label">Light</span>
+  <div class="toggle-switch" id="themeSwitch" role="button" tabindex="0" aria-pressed="false"></div>
+</div>
+
+<div class="page">
+
+  <!-- ══ MASTHEAD ══ -->
+  <header class="masthead">
+    <main class="page wrap-max"> 
+
 <!-- MASTHEAD -->
-<header class="masthead">
+
   <div class="masthead-top">
     <span>The Universal Resonance Syllabus</span>
     <span class="issue">Seven Modules · Toddlers through Octogenarians · A440 → Tchaikovsky</span>
@@ -1147,6 +1168,13 @@
   <span>A440 · Zhu Zaiyu · Simon Stevin · Werckmeister · Bach · Stevie Wonder · Paco de Lucía · Tchaikovsky</span>
   <span>Physics → Harmony → Melody → Modal Color → Structural Defiance</span>
 </footer>
-
+<!-- CENTRALIZED ASSETS (Don't Update) -->
+<div class="scroll-indicator"><div class="scroll-progress"></div></div>
+<div class="bg-pattern"></div>
+<header class="header" id="header"></header>
+<main class="page wrap-max"></main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+<script src="../js/shared.js"></script>
 </body>
 </html>

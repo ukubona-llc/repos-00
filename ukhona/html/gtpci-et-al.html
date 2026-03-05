@@ -5,706 +5,564 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GTPCI // Clinical Investigation // Johns Hopkins × Harvard</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+
+<link href="../css/variables.css?v=1.1" rel="stylesheet" />
+<link href="../css/head.css?v=1.1" rel="stylesheet" />
+<link href="../css/card.css?v=1.1" rel="stylesheet" />
+<link href="../css/footer.css" rel="stylesheet" />
 <style>
-  :root {
-    --ink: #0a0a0a;
-    --paper: #f4f0e8;
-    --cream: #ede8db;
-    --gold: #b8982a;
-    --gold-light: #d4af37;
-    --rust: #8b3a2a;
-    --slate: #2a3240;
-    --muted: #6b6560;
-    --accent: #1a4a6b;
-    --red: #c0392b;
-    --border: rgba(10,10,10,0.15);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    line-height: 1.7;
-    overflow-x: hidden;
-  }
-
-  /* NOISE OVERLAY */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.4;
-  }
-
-  /* MASTHEAD */
-  header {
-    border-bottom: 3px double var(--ink);
-    padding: 0;
-    position: sticky;
-    top: 0;
-    background: var(--paper);
-    z-index: 100;
-  }
-
-  .header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 40px;
-    border-bottom: 1px solid var(--border);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  .masthead {
-    text-align: center;
-    padding: 20px 40px 16px;
-  }
-
-  .masthead-eyebrow {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 6px;
-  }
-
-  .masthead h1 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 900;
-    font-size: clamp(2.2rem, 5vw, 4.5rem);
-    letter-spacing: -0.02em;
-    line-height: 1;
-    color: var(--ink);
-  }
-
-  .masthead h1 em {
-    font-style: italic;
-    color: var(--gold);
-  }
-
-  .masthead-sub {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    color: var(--muted);
-    margin-top: 8px;
-    text-transform: uppercase;
-  }
-
-  /* NAV RIBBON */
-  .nav-ribbon {
-    display: flex;
-    justify-content: center;
-    gap: 0;
-    border-top: 1px solid var(--border);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
-
-  .nav-ribbon a {
-    color: var(--ink);
-    text-decoration: none;
-    padding: 8px 20px;
-    border-right: 1px solid var(--border);
-    transition: background 0.15s, color 0.15s;
-  }
-
-  .nav-ribbon a:first-child { border-left: 1px solid var(--border); }
-
-  .nav-ribbon a:hover {
-    background: var(--ink);
-    color: var(--paper);
-  }
-
-  /* LAYOUT */
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 40px;
-  }
-
-  /* SECTION DIVIDERS */
-  .section-rule {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin: 60px 0 40px;
-  }
-
-  .section-rule::before,
-  .section-rule::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--ink);
-  }
-
-  .section-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    color: var(--muted);
-    white-space: nowrap;
-  }
-
-  /* ARTICLE I — ECG Seminar */
-  .article-i {
-    display: grid;
-    grid-template-columns: 1fr 340px;
-    gap: 0;
-    border-top: 3px solid var(--ink);
-    margin-top: 40px;
-  }
-
-  .article-i-main {
-    padding: 40px 40px 40px 0;
-    border-right: 1px solid var(--border);
-  }
-
-  .article-i-sidebar {
-    padding: 40px 0 40px 40px;
-  }
-
-  .drop-cap::first-letter {
-    font-family: 'Playfair Display', serif;
-    font-size: 5.5em;
-    font-weight: 900;
-    line-height: 0.75;
-    float: left;
-    margin-right: 8px;
-    margin-top: 6px;
-    color: var(--gold);
-  }
-
-  /* PULL QUOTE */
-  .pull-quote {
-    border-left: 4px solid var(--gold);
-    padding: 16px 20px;
-    margin: 30px 0;
-    background: var(--cream);
-  }
-
-  .pull-quote p {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 1.15rem;
-    line-height: 1.5;
-    color: var(--slate);
-  }
-
-  .pull-quote cite {
-    display: block;
-    margin-top: 8px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-style: normal;
-  }
-
-  /* ARTICLE HEADINGS */
-  .roman-numeral {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 0.85rem;
-    color: var(--gold);
-    letter-spacing: 0.1em;
-    display: block;
-    margin-bottom: 4px;
-  }
-
-  h2.article-title {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: clamp(1.4rem, 2.5vw, 2rem);
-    line-height: 1.2;
-    margin-bottom: 20px;
-    color: var(--ink);
-  }
-
-  h3.section-title {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 1.1rem;
-    margin: 28px 0 10px;
-    color: var(--slate);
-  }
-
-  h4.subsection-title {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin: 20px 0 8px;
-    padding-bottom: 4px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  p {
-    margin-bottom: 14px;
-    font-size: 0.95rem;
-    color: #1a1a1a;
-  }
-
-  /* TABLES */
-  .table-wrapper {
-    overflow-x: auto;
-    margin: 24px 0;
-    border: 1px solid var(--border);
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.82rem;
-  }
-
-  thead {
-    background: var(--ink);
-    color: var(--paper);
-  }
-
-  thead th {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 10px 14px;
-    text-align: left;
-    font-weight: 400;
-  }
-
-  tbody tr {
-    border-bottom: 1px solid var(--border);
-    transition: background 0.1s;
-  }
-
-  tbody tr:hover { background: var(--cream); }
-
-  tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
-  tbody tr:nth-child(even):hover { background: var(--cream); }
-
-  td {
-    padding: 9px 14px;
-    vertical-align: top;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: var(--slate);
-  }
-
-  td:first-child {
-    font-weight: 500;
-    color: var(--ink);
-    max-width: 200px;
-  }
-
-  /* SIDEBAR ELEMENTS */
-  .sidebar-card {
-    border: 1px solid var(--border);
-    margin-bottom: 24px;
-    background: var(--cream);
-  }
-
-  .sidebar-card-header {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 8px 14px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-  }
-
-  .sidebar-card-body {
-    padding: 16px 14px;
-  }
-
-  .sidebar-card-body p {
-    font-size: 0.82rem;
-    line-height: 1.6;
-    margin-bottom: 8px;
-  }
-
-  .sidebar-card-body p:last-child { margin-bottom: 0; }
-
-  .stat-block {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .stat-item {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-  }
-
-  .stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--gold);
-    line-height: 1;
-  }
-
-  .stat-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  /* ARTICLE II — GTPCI */
-  .article-ii {
-    border-top: 3px double var(--ink);
-    padding-top: 40px;
-    margin-top: 60px;
-  }
-
-  .two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-  }
-
-  .three-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 24px;
-    margin: 24px 0;
-  }
-
-  .pathway-card {
-    border: 1px solid var(--border);
-    padding: 20px;
-    position: relative;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-
-  .pathway-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 4px 4px 0 var(--ink);
-  }
-
-  .pathway-num {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 3rem;
-    font-weight: 900;
-    color: var(--cream);
-    position: absolute;
-    top: 8px;
-    right: 14px;
-    line-height: 1;
-    pointer-events: none;
-  }
-
-  .pathway-card h4 {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 8px;
-  }
-
-  .pathway-card p {
-    font-size: 0.82rem;
-    color: var(--muted);
-    margin: 0;
-  }
-
-  /* DEGREE COMPARISON */
-  .degree-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    border: 1px solid var(--border);
-    margin: 24px 0;
-  }
-
-  .degree-col {
-    padding: 24px;
-  }
-
-  .degree-col:first-child {
-    border-right: 1px solid var(--border);
-  }
-
-  .degree-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 4px;
-  }
-
-  .degree-name {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 1.3rem;
-    color: var(--ink);
-    margin-bottom: 16px;
-  }
-
-  .degree-item {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 8px;
-    font-size: 0.82rem;
-  }
-
-  .degree-item-key {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--muted);
-    min-width: 80px;
-    padding-top: 2px;
-  }
-
-  .degree-item-val {
-    color: var(--ink);
-    flex: 1;
-  }
-
-  /* ARTICLE III — Harvard */
-  .article-iii {
-    border-top: 3px solid var(--ink);
-    padding-top: 40px;
-    margin-top: 60px;
-  }
-
-  .program-banner {
-    display: flex;
-    gap: 0;
-    margin: 32px 0;
-    border: 1px solid var(--border);
-    overflow: hidden;
-  }
-
-  .program-num {
-    background: var(--ink);
-    color: var(--paper);
-    width: 60px;
-    min-height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 2.5rem;
-    font-weight: 900;
-    flex-shrink: 0;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    letter-spacing: 0.05em;
-  }
-
-  .program-content {
-    padding: 24px;
-    flex: 1;
-  }
-
-  .program-tag {
-    display: inline-block;
-    background: var(--gold);
-    color: var(--ink);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    padding: 3px 8px;
-    margin-bottom: 10px;
-  }
-
-  .program-content h3 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 1.3rem;
-    margin-bottom: 12px;
-    color: var(--ink);
-  }
-
-  .info-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin: 12px 0;
-    padding: 12px 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .info-chip {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-  }
-
-  .info-chip strong {
-    color: var(--ink);
-    font-weight: 500;
-    display: block;
-    font-size: 11px;
-  }
-
-  /* FOOTER */
-  footer {
-    border-top: 3px double var(--ink);
-    margin-top: 80px;
-    padding: 40px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 40px;
-    background: var(--ink);
-    color: var(--paper);
-  }
-
-  .footer-col h5 {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 12px;
-  }
-
-  .footer-col p {
-    font-size: 0.8rem;
-    color: rgba(244,240,232,0.6);
-    line-height: 1.6;
-    margin-bottom: 6px;
-  }
-
-  .footer-bottom {
-    border-top: 1px solid rgba(244,240,232,0.15);
-    margin-top: 30px;
-    padding-top: 20px;
-    text-align: center;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(244,240,232,0.3);
-    grid-column: 1 / -1;
-  }
-
-  /* ANNOTATIONS */
-  .annotation {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    color: var(--rust);
-    letter-spacing: 0.05em;
-    border-left: 2px solid var(--rust);
-    padding-left: 10px;
-    margin: 16px 0;
-  }
-
-  /* MARQUEE */
-  .ticker {
-    background: var(--ink);
-    color: var(--paper);
-    overflow: hidden;
-    white-space: nowrap;
-    padding: 6px 0;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-  }
-
-  .ticker-inner {
-    display: inline-block;
-    animation: ticker 30s linear infinite;
-  }
-
-  @keyframes ticker {
-    0% { transform: translateX(100vw); }
-    100% { transform: translateX(-100%); }
-  }
-
-  .ticker-sep {
-    color: var(--gold);
-    margin: 0 16px;
-  }
-
-  /* HIGHLIGHT MARKER */
-  mark {
-    background: var(--gold-light);
-    color: var(--ink);
-    padding: 0 2px;
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 900px) {
-    .article-i { grid-template-columns: 1fr; }
-    .article-i-main { padding-right: 0; border-right: none; border-bottom: 1px solid var(--border); }
-    .article-i-sidebar { padding-left: 0; }
-    .two-col, .three-col, .degree-grid { grid-template-columns: 1fr; }
-    .degree-col:first-child { border-right: none; border-bottom: 1px solid var(--border); }
-    footer { grid-template-columns: 1fr; }
-    .program-banner { flex-direction: column; }
-    .program-num { width: 100%; height: 50px; writing-mode: initial; }
-    .container { padding: 0 20px; }
-  }
-
-  /* FADE IN */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .article-i, .article-ii, .article-iii {
-    animation: fadeUp 0.6s ease both;
-  }
-
-  .article-ii { animation-delay: 0.1s; }
-  .article-iii { animation-delay: 0.2s; }
-
-  ul {
-    padding-left: 1.2em;
-    margin-bottom: 14px;
-  }
-
-  li {
-    font-size: 0.9rem;
-    margin-bottom: 5px;
-    color: #1a1a1a;
-  }
-
-  li strong {
-    color: var(--accent);
-  }
-
-  strong {
-    font-weight: 500;
-  }
+:root {
+  --ink:        #0a0a0a;
+  --paper:      #f4f0e8;
+  --cream:      #ede8db;
+  --gold:       #b8982a;
+  --gold-light: #d4af37;
+  --rust:       #8b3a2a;
+  --slate:      #2a3240;
+  --muted:      #6b6560;
+  --accent:     #1a4a6b;
+  --red:        #c0392b;
+  --border:     rgba(10,10,10,0.15);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* NOISE OVERLAY */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+/* ── HEADER ── */
+header {
+  border-bottom: 3px double var(--ink);
+  position: sticky;
+  top: 0;
+  background: var(--paper);
+  z-index: 100;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 40px;
+  border-bottom: 1px solid var(--border);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.masthead {
+  text-align: center;
+  padding: 20px 40px 16px;
+}
+
+.masthead-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.masthead h1 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.masthead h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.masthead-sub {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--muted);
+  margin-top: 8px;
+  text-transform: uppercase;
+}
+
+/* NAV RIBBON */
+.nav-ribbon {
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid var(--border);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.nav-ribbon a {
+  color: var(--ink);
+  text-decoration: none;
+  padding: 8px 20px;
+  border-right: 1px solid var(--border);
+  transition: background 0.15s, color 0.15s;
+}
+
+.nav-ribbon a:first-child { border-left: 1px solid var(--border); }
+.nav-ribbon a:hover { background: var(--ink); color: var(--paper); }
+
+/* TICKER */
+.ticker {
+  background: var(--ink);
+  color: var(--paper);
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 6px 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+}
+
+.ticker-inner {
+  display: inline-block;
+  animation: ticker 30s linear infinite;
+}
+
+@keyframes ticker {
+  0%   { transform: translateX(100vw); }
+  100% { transform: translateX(-100%); }
+}
+
+.ticker-sep { color: var(--gold); margin: 0 16px; }
+
+/* ── LAYOUT ── */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* SECTION DIVIDERS */
+.section-rule {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 60px 0 40px;
+}
+.section-rule::before,
+.section-rule::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--ink);
+}
+.section-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ── ARTICLE I ── */
+.article-i {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 0;
+  border-top: 3px solid var(--ink);
+  margin-top: 40px;
+}
+
+.article-i-main {
+  padding: 40px 40px 40px 0;
+  border-right: 1px solid var(--border);
+}
+
+.article-i-sidebar { padding: 40px 0 40px 40px; }
+
+.drop-cap::first-letter {
+  font-family: 'Playfair Display', serif;
+  font-size: 5.5em;
+  font-weight: 900;
+  line-height: 0.75;
+  float: left;
+  margin-right: 8px;
+  margin-top: 6px;
+  color: var(--gold);
+}
+
+/* PULL QUOTE */
+.pull-quote {
+  border-left: 4px solid var(--gold);
+  padding: 16px 20px;
+  margin: 30px 0;
+  background: var(--cream);
+}
+.pull-quote p {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.5;
+  color: var(--slate);
+}
+.pull-quote cite {
+  display: block;
+  margin-top: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-style: normal;
+}
+
+/* HEADINGS */
+.roman-numeral {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  display: block;
+  margin-bottom: 4px;
+}
+
+h2.article-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  line-height: 1.2;
+  margin-bottom: 20px;
+  color: var(--ink);
+}
+
+h3.section-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin: 28px 0 10px;
+  color: var(--slate);
+}
+
+h4.subsection-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 20px 0 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+p { margin-bottom: 14px; font-size: 0.95rem; color: #1a1a1a; }
+
+/* TABLES */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 24px 0;
+  border: 1px solid var(--border);
+}
+table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+thead { background: var(--ink); color: var(--paper); }
+thead th {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 400;
+}
+tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
+tbody tr:hover { background: var(--cream); }
+tbody tr:nth-child(even) { background: rgba(0,0,0,0.02); }
+tbody tr:nth-child(even):hover { background: var(--cream); }
+td {
+  padding: 9px 14px;
+  vertical-align: top;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--slate);
+}
+td:first-child { font-weight: 500; color: var(--ink); max-width: 200px; }
+
+/* SIDEBAR CARDS */
+.sidebar-card { border: 1px solid var(--border); margin-bottom: 24px; background: var(--cream); }
+.sidebar-card-header {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 8px 14px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+.sidebar-card-body { padding: 16px 14px; }
+.sidebar-card-body p { font-size: 0.82rem; line-height: 1.6; margin-bottom: 8px; }
+.sidebar-card-body p:last-child { margin-bottom: 0; }
+
+.stat-block { display: flex; flex-direction: column; gap: 12px; }
+.stat-item  { display: flex; align-items: baseline; gap: 8px; }
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+.stat-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── ARTICLE II ── */
+.article-ii {
+  border-top: 3px double var(--ink);
+  padding-top: 40px;
+  margin-top: 60px;
+}
+.two-col   { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin: 24px 0; }
+
+.pathway-card {
+  border: 1px solid var(--border);
+  padding: 20px;
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.pathway-card:hover { transform: translateY(-3px); box-shadow: 4px 4px 0 var(--ink); }
+.pathway-num {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--cream);
+  position: absolute;
+  top: 8px; right: 14px;
+  line-height: 1;
+  pointer-events: none;
+}
+.pathway-card h4 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.pathway-card p { font-size: 0.82rem; color: var(--muted); margin: 0; }
+
+/* DEGREE GRID */
+.degree-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--border); margin: 24px 0; }
+.degree-col { padding: 24px; }
+.degree-col:first-child { border-right: 1px solid var(--border); }
+.degree-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.degree-name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.3rem; color: var(--ink); margin-bottom: 16px; }
+.degree-item { display: flex; gap: 10px; margin-bottom: 8px; font-size: 0.82rem; }
+.degree-item-key {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  min-width: 80px;
+  padding-top: 2px;
+}
+.degree-item-val { color: var(--ink); flex: 1; }
+
+/* ── ARTICLE III ── */
+.article-iii { border-top: 3px solid var(--ink); padding-top: 40px; margin-top: 60px; }
+
+.program-banner {
+  display: flex;
+  gap: 0;
+  margin: 32px 0;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.program-num {
+  background: var(--ink);
+  color: var(--paper);
+  width: 60px;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 2.5rem;
+  font-weight: 900;
+  flex-shrink: 0;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 0.05em;
+}
+.program-content { padding: 24px; flex: 1; }
+.program-tag {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--ink);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  margin-bottom: 10px;
+}
+.program-content h3 { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.3rem; margin-bottom: 12px; color: var(--ink); }
+.info-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 12px 0;
+  padding: 12px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.info-chip { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--muted); }
+.info-chip strong { color: var(--ink); font-weight: 500; display: block; font-size: 11px; }
+
+/* ANNOTATION */
+.annotation {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--rust);
+  letter-spacing: 0.05em;
+  border-left: 2px solid var(--rust);
+  padding-left: 10px;
+  margin: 16px 0;
+}
+
+/* HIGHLIGHT */
+mark { background: var(--gold-light); color: var(--ink); padding: 0 2px; }
+
+/* LISTS */
+ul { padding-left: 1.2em; margin-bottom: 14px; }
+li { font-size: 0.9rem; margin-bottom: 5px; color: #1a1a1a; }
+li strong { color: var(--accent); }
+strong { font-weight: 500; }
+
+/* ══════════════════════════════════════
+   FOOTER — fixed & centered
+══════════════════════════════════════ */
+footer {
+  border-top: 3px double var(--ink);
+  margin-top: 80px;
+  padding: 40px;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-col h5 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.footer-col p {
+  font-size: 0.8rem;
+  color: rgba(244,240,232,0.6);
+  line-height: 1.6;
+  margin-bottom: 6px;
+}
+
+.footer-col p:last-child { margin-bottom: 0; }
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 30px auto 0;
+  padding-top: 20px;
+  border-top: 1px solid rgba(244,240,232,0.15);
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(244,240,232,0.3);
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.article-i  { animation: fadeUp 0.6s ease both; }
+.article-ii { animation: fadeUp 0.6s 0.1s ease both; }
+.article-iii{ animation: fadeUp 0.6s 0.2s ease both; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .article-i { grid-template-columns: 1fr; }
+  .article-i-main { padding-right: 0; border-right: none; border-bottom: 1px solid var(--border); }
+  .article-i-sidebar { padding-left: 0; }
+  .two-col, .three-col, .degree-grid { grid-template-columns: 1fr; }
+  .degree-col:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+  .footer-grid { grid-template-columns: 1fr; }
+  .program-banner { flex-direction: column; }
+  .program-num { width: 100%; height: 50px; writing-mode: initial; }
+  .container { padding: 0 20px; }
+  .header-top { flex-direction: column; gap: 4px; text-align: center; }
+}
 </style>
 </head>
 <body>
 
+<div class="theme-toggle" aria-label="Toggle dark/light mode">
+  <span id="toggle-label">Light</span>
+  <div class="toggle-switch" id="themeSwitch" role="button" tabindex="0" aria-pressed="false"></div>
+</div>
+
+<div class="page">
+ <div class="wrap-max">
+  <!-- ══ MASTHEAD ══ -->
+  <header class="masthead">
+    <br><br><br>
+<!-- ══ HEADER ══ -->
 <header>
   <div class="header-top">
     <span>Vol. I — No. 1</span>
@@ -724,21 +582,22 @@
   </nav>
 </header>
 
+<!-- TICKER -->
 <div class="ticker">
   <span class="ticker-inner">
-    Shengyuan Luo · Ambulatory ECG Monitoring · AF Detection Rates 2009–2022 
-    <span class="ticker-sep">◆</span> 
-    3–14 Day Monitoring: 0% → 6.9% 
-    <span class="ticker-sep">◆</span> 
-    GTPCI Est. 1992 · First Students 1993 
+    Shengyuan Luo · Ambulatory ECG Monitoring · AF Detection Rates 2009–2022
     <span class="ticker-sep">◆</span>
-    Harvard MMSCI · MSCR · PHS PhD 
-    <span class="ticker-sep">◆</span> 
-    Prigogine · SGD · Landauer's Limit · Apollonian Digital Twins 
+    3–14 Day Monitoring: 0% → 6.9%
     <span class="ticker-sep">◆</span>
-    All of Us Research Program · 34 Health Providers 
+    GTPCI Est. 1992 · First Students 1993
     <span class="ticker-sep">◆</span>
-    MCT: Mobile Cardiac Telemetry · Zio Patch · iRhythm · ePatch · BioTel 
+    Harvard MMSCI · MSCR · PHS PhD
+    <span class="ticker-sep">◆</span>
+    Prigogine · SGD · Landauer's Limit · Apollonian Digital Twins
+    <span class="ticker-sep">◆</span>
+    All of Us Research Program · 34 Health Providers
+    <span class="ticker-sep">◆</span>
+    MCT: Mobile Cardiac Telemetry · Zio Patch · iRhythm · ePatch · BioTel
     <span class="ticker-sep">◆</span>
     NIH KL2 · K23 · Career Development Awards
     <span class="ticker-sep">◆</span>
@@ -746,26 +605,24 @@
   </span>
 </div>
 
+<!-- ══ MAIN ══ -->
 <main class="container">
 
-  <!-- ═══════════════════════════════════════════════════ -->
-  <!-- ARTICLE I -->
-  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ═══ ARTICLE I — ECG ═══ -->
   <div id="ecg" class="article-i">
     <div class="article-i-main">
       <span class="roman-numeral">Article I</span>
       <h2 class="article-title">Wires, Patches & Paroxysms:<br>The Epidemiology of Ambulatory ECG in the Age of <em>All of Us</em></h2>
 
-      <p class="drop-cap">Shengyuan Luo is presenting on the epidemiology of ambulatory ECG monitoring to boost atrial fibrillation (AF) care—a doctoral seminar at Johns Hopkins' GTPCI packed with data-driven insights. The talk is structured around background, Parts 1–3, and discussion, focusing on <mark>trends in long-term ambulatory ECG use in the US general population.</mark></p>
+      <p class="drop-cap">Shengyuan Luo is presenting on the epidemiology of ambulatory ECG monitoring to boost atrial fibrillation (AF) care — a doctoral seminar at Johns Hopkins' GTPCI packed with data-driven insights. The talk is structured around background, Parts 1–3, and discussion, focusing on <mark>trends in long-term ambulatory ECG use in the US general population.</mark></p>
 
       <div class="pull-quote">
-        <p>"Delusional? Maybe. Genius? Absolutely—keep building that Ukubona ecosystem."</p>
+        <p>"Delusional? Maybe. Genius? Absolutely — keep building that Ukubona ecosystem."</p>
         <cite>— Marginalia on the digital twin hypothesis</cite>
       </div>
 
       <h3 class="section-title">Trends in ECG Monitoring Usage</h3>
       <p>There is a substantial uptick in long-term ambulatory ECG monitoring over recent years. One graph shows <strong>3–14 day monitoring jumping from ~0% in 2009 to 6.9% in 2022</strong> after a clinical visit across 34 health providers in the All of Us Research Program. 24–48 hour monitors dipped slightly, while MCT (mobile cardiac telemetry) up to 30 days stayed relatively flat.</p>
-
       <p>Increases are most prominent in patients with <strong>SVT (supraventricular tachycardia)</strong>, driven by those with AF. Usage rose sharply for new users of 3–14 day devices: <mark>13% in 2017–2020 → 39% in 2021–2022.</mark></p>
 
       <div class="table-wrapper">
@@ -791,7 +648,7 @@
       <h3 class="section-title">Device Evolution</h3>
       <p><strong>Historical:</strong> Holter device (1940s, 24–48 hours, electrodes/wires); Implantable loop recorder (1990s, months–years, invasive).</p>
       <p><strong>Novel long-term "patch" ECG monitors</strong> (Zio Patch/iRhythm/ePatch/BioTel, entered US market 2007–2009): 3–14 days, leadless, water-resistant, simple to use, better compliance, automated first-pass ECG data processing.</p>
-      <p><strong>Mobile cardiac telemetry (MCT):</strong> Entered 2007–2009, up to 30 days with real-time arrhythmia recognition and data transmission—though some models lack continuous recording.</p>
+      <p><strong>Mobile cardiac telemetry (MCT):</strong> Entered 2007–2009, up to 30 days with real-time arrhythmia recognition and data transmission — though some models lack continuous recording.</p>
 
       <h3 class="section-title">Related Research</h3>
       <p>A <em>Circulation</em> article on "Atrial Fibrillation Burden and Heart Failure Events From Cardiac Implantable Electronic Devices" (n = 39,710 individuals) uses Medicare claims data 2015–2020 linked to the Medtronic CareLink database. Key finding: <mark>Higher AF burden correlates with increased heart failure risk (adjusted HR 1.10 per 10% increase).</mark></p>
@@ -840,21 +697,19 @@
       <div class="sidebar-card">
         <div class="sidebar-card-header">Ukubona Hypothesis</div>
         <div class="sidebar-card-body">
-          <p>Digital twins of patients' hearts, simulating AF scenarios with ECG data at Landauer's limit. Instead of physical trials: optimize treatments virtually—faster, cheaper, less invasive.</p>
+          <p>Digital twins of patients' hearts, simulating AF scenarios with ECG data at Landauer's limit. Instead of physical trials: optimize treatments virtually — faster, cheaper, less invasive.</p>
           <p>Arbitrage "energy taxes" by shifting from brute-force physical iterations (Titans) to efficient informational ones (Apollonians).</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════ -->
-  <!-- ARTICLE II -->
-  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ═══ ARTICLE II — GTPCI ═══ -->
   <div id="gtpci" class="article-ii">
     <span class="roman-numeral">Article II</span>
     <h2 class="article-title">Graduate Training Programs in Clinical Investigation<br><em>Johns Hopkins Bloomberg SPH × School of Medicine</em></h2>
 
-    <p class="drop-cap">The Graduate Training Programs in Clinical Investigation (GTPCI) is a pioneering initiative jointly offered by the Johns Hopkins Bloomberg School of Public Health and the Johns Hopkins School of Medicine. Established as <mark>the first program of its kind</mark>, it trains clinicians and allied health professionals to become effective clinical scientists—equipping them to design, conduct, and interpret clinical investigations involving human subjects.</p>
+    <p class="drop-cap">The Graduate Training Programs in Clinical Investigation (GTPCI) is a pioneering initiative jointly offered by the Johns Hopkins Bloomberg School of Public Health and the Johns Hopkins School of Medicine. Established as <mark>the first program of its kind</mark>, it trains clinicians and allied health professionals to become effective clinical scientists — equipping them to design, conduct, and interpret clinical investigations involving human subjects.</p>
 
     <div class="two-col">
       <div>
@@ -880,7 +735,6 @@
     </div>
 
     <h3 class="section-title">Degrees Offered</h3>
-
     <div class="degree-grid">
       <div class="degree-col">
         <p class="degree-label">Degree I</p>
@@ -933,7 +787,6 @@
     </div>
 
     <h3 class="section-title">Academic Pathways (est. 2023)</h3>
-
     <div class="three-col">
       <div class="pathway-card">
         <span class="pathway-num">1</span>
@@ -955,10 +808,10 @@
         <h4>Health Services Research</h4>
         <p>Healthcare delivery, outcomes, and policy.</p>
       </div>
-      <div class="pathway-card" style="background: var(--ink); border-color: var(--ink);">
-        <span class="pathway-num" style="color: rgba(244,240,232,0.1);">+</span>
-        <h4 style="color: var(--gold);">SOCI Program</h4>
-        <p style="color: rgba(244,240,232,0.6);">Non-credit, online or on-site. Four-course series. No degree required.</p>
+      <div class="pathway-card" style="background:var(--ink);border-color:var(--ink);">
+        <span class="pathway-num" style="color:rgba(244,240,232,0.1);">+</span>
+        <h4 style="color:var(--gold);">SOCI Program</h4>
+        <p style="color:rgba(244,240,232,0.6);">Non-credit, online or on-site. Four-course series. No degree required.</p>
       </div>
       <div class="pathway-card">
         <span class="pathway-num">∞</span>
@@ -966,19 +819,15 @@
         <p>Monthly Research Forum. Baltimore, in-person. No online PhD/MHS option.</p>
       </div>
     </div>
-
   </div>
 
-  <!-- ═══════════════════════════════════════════════════ -->
-  <!-- ARTICLE III -->
-  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ═══ ARTICLE III — Harvard ═══ -->
   <div id="harvard" class="article-iii">
     <span class="roman-numeral">Article III</span>
     <h2 class="article-title">Harvard Comparanda:<br><em>Three Analogs to GTPCI Across Cambridge & Longwood</em></h2>
 
     <p>While Harvard does not have an exact replica of GTPCI, several programs at Harvard Medical School and the Harvard T.H. Chan School of Public Health offer comparable training in clinical investigation, translational research, evidence-based medicine, epidemiology, and biostatistics.</p>
 
-    <!-- PROGRAM 1 -->
     <div class="program-banner">
       <div class="program-num">I</div>
       <div class="program-content">
@@ -997,11 +846,10 @@
       </div>
     </div>
 
-    <!-- PROGRAM 2 -->
     <div class="program-banner">
-      <div class="program-num" style="background: var(--slate);">II</div>
+      <div class="program-num" style="background:var(--slate);">II</div>
       <div class="program-content">
-        <span class="program-tag" style="background: var(--rust); color: var(--paper);">Accelerated · Evidence-Based</span>
+        <span class="program-tag" style="background:var(--rust);color:var(--paper);">Accelerated · Evidence-Based</span>
         <h3>Master of Science in Clinical Research (MSCR)</h3>
         <div class="info-row">
           <div class="info-chip"><strong>Duration</strong>1 year full-time</div>
@@ -1015,11 +863,10 @@
       </div>
     </div>
 
-    <!-- PROGRAM 3 -->
     <div class="program-banner">
-      <div class="program-num" style="background: var(--gold); color: var(--ink);">III</div>
+      <div class="program-num" style="background:var(--gold);color:var(--ink);">III</div>
       <div class="program-content">
-        <span class="program-tag" style="background: var(--accent); color: var(--paper);">PhD Level · Population Health</span>
+        <span class="program-tag" style="background:var(--accent);color:var(--paper);">PhD Level · Population Health</span>
         <h3>PhD in Population Health Sciences (PHS)</h3>
         <div class="info-row">
           <div class="info-chip"><strong>Duration</strong>4–5 years full-time</div>
@@ -1035,15 +882,13 @@
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════ -->
-  <!-- COMPARISON TABLE -->
-  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ═══ ARTICLE IV — COMPARISON ═══ -->
   <div id="compare">
     <div class="section-rule">
       <span class="section-label">IV. Comparative Analysis</span>
     </div>
 
-    <h2 class="article-title" style="margin-bottom: 24px;">GTPCI vs. Harvard: <em>Side by Side</em></h2>
+    <h2 class="article-title" style="margin-bottom:24px;">GTPCI vs. Harvard: <em>Side by Side</em></h2>
 
     <div class="table-wrapper">
       <table>
@@ -1057,99 +902,66 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Degree Levels</td>
-            <td>PhD (3+ yr), MHS (9 mo)</td>
-            <td>Master's (2–3 yr)</td>
-            <td>Master's (1 yr)</td>
-            <td>PhD (4–5 yr)</td>
-          </tr>
-          <tr>
-            <td>Focus</td>
-            <td>Clinical investigation (trials, ethics)</td>
-            <td>Clinical/translational + mentorship</td>
-            <td>Evidence-based medicine, reviews</td>
-            <td>Population health, epidemiology</td>
-          </tr>
-          <tr>
-            <td>Research Component</td>
-            <td>Thesis (PhD); capstone (MHS)</td>
-            <td>Mentored thesis</td>
-            <td>Capstone project</td>
-            <td>Dissertation</td>
-          </tr>
-          <tr>
-            <td>Target Audience</td>
-            <td>Clinicians/postdocs w/ JHMI ties</td>
-            <td>MD/PhD in research</td>
-            <td>MDs/fellows/health pros</td>
-            <td>Researchers w/ quant background</td>
-          </tr>
-          <tr>
-            <td>Format</td>
-            <td>Full-time, in-person (Baltimore)</td>
-            <td>Full/part-time, in-person (Boston)</td>
-            <td>Full-time, in-person (Boston)</td>
-            <td>Full-time, in-person (Boston)</td>
-          </tr>
-          <tr>
-            <td>Pathways</td>
-            <td>4 (Trials, Data Science, etc.)</td>
-            <td>2 tracks w/ pathways</td>
-            <td>None specified</td>
-            <td>5 fields (incl. Epidemiology)</td>
-          </tr>
-          <tr>
-            <td>Funding</td>
-            <td>External (NIH, department)</td>
-            <td>External</td>
-            <td>External</td>
-            <td>Often full program support</td>
-          </tr>
-          <tr>
-            <td>GRE</td>
-            <td>Not specified</td>
-            <td>Not required</td>
-            <td>Not required</td>
-            <td>Required</td>
-          </tr>
+          <tr><td>Degree Levels</td><td>PhD (3+ yr), MHS (9 mo)</td><td>Master's (2–3 yr)</td><td>Master's (1 yr)</td><td>PhD (4–5 yr)</td></tr>
+          <tr><td>Focus</td><td>Clinical investigation (trials, ethics)</td><td>Clinical/translational + mentorship</td><td>Evidence-based medicine, reviews</td><td>Population health, epidemiology</td></tr>
+          <tr><td>Research Component</td><td>Thesis (PhD); capstone (MHS)</td><td>Mentored thesis</td><td>Capstone project</td><td>Dissertation</td></tr>
+          <tr><td>Target Audience</td><td>Clinicians/postdocs w/ JHMI ties</td><td>MD/PhD in research</td><td>MDs/fellows/health pros</td><td>Researchers w/ quant background</td></tr>
+          <tr><td>Format</td><td>Full-time, in-person (Baltimore)</td><td>Full/part-time, in-person (Boston)</td><td>Full-time, in-person (Boston)</td><td>Full-time, in-person (Boston)</td></tr>
+          <tr><td>Pathways</td><td>4 (Trials, Data Science, etc.)</td><td>2 tracks w/ pathways</td><td>None specified</td><td>5 fields (incl. Epidemiology)</td></tr>
+          <tr><td>Funding</td><td>External (NIH, department)</td><td>External</td><td>External</td><td>Often full program support</td></tr>
+          <tr><td>GRE</td><td>Not specified</td><td>Not required</td><td>Not required</td><td>Required</td></tr>
         </tbody>
       </table>
     </div>
 
-    <div class="annotation" style="margin-top: 24px;">
+    <div class="annotation" style="margin-top:24px;">
       For global health applications (e.g., Kampala): PHS PhD's Global Health field or MMSCI's translational track align well with scalable interventions. Note 2026 deadlines — MMSCI/MSCR in March, PHS in December. External applicants welcome for GTPCI MHS.
     </div>
   </div>
 
 </main>
 
+<!-- ══ FOOTER ══ -->
 <footer>
-  <div class="footer-col">
-    <h5>Johns Hopkins GTPCI</h5>
-    <p>Bloomberg School of Public Health × School of Medicine</p>
-    <p>Est. 1992 · First students 1993</p>
-    <p>Baltimore, MD · In-person only</p>
-    <p>Applications due March 1</p>
-  </div>
-  <div class="footer-col">
-    <h5>Harvard Programs</h5>
-    <p>MMSCI · Harvard Medical School</p>
-    <p>MSCR · Harvard Medical School</p>
-    <p>PHS PhD · T.H. Chan School of Public Health</p>
-    <p>Boston, MA · Deadlines: Dec 1 / Mar 31</p>
-  </div>
-  <div class="footer-col">
-    <h5>Ukubona / Apollonian</h5>
-    <p>Digital twins as dissipative structures</p>
-    <p>SGD · Landauer's Limit · Prigogine</p>
-    <p>Hesiod's Chaos → Apollonian order</p>
-    <p>Future AF care via AI + ambulatory data</p>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h5>Johns Hopkins GTPCI</h5>
+      <p>Bloomberg School of Public Health × School of Medicine</p>
+      <p>Est. 1992 · First students 1993</p>
+      <p>Baltimore, MD · In-person only</p>
+      <p>Applications due March 1</p>
+    </div>
+    <div class="footer-col">
+      <h5>Harvard Programs</h5>
+      <p>MMSCI · Harvard Medical School</p>
+      <p>MSCR · Harvard Medical School</p>
+      <p>PHS PhD · T.H. Chan School of Public Health</p>
+      <p>Boston, MA · Deadlines: Dec 1 / Mar 31</p>
+    </div>
+    <div class="footer-col">
+      <h5>Ukubona / Apollonian</h5>
+      <p>Digital twins as dissipative structures</p>
+      <p>SGD · Landauer's Limit · Prigogine</p>
+      <p>Hesiod's Chaos → Apollonian order</p>
+      <p>Future AF care via AI + ambulatory data</p>
+    </div>
   </div>
   <div class="footer-bottom">
     The Clinical Investigator · Compiled from Seminar Notes · Abimereki × Ukubona · Vol. I
   </div>
 </footer>
 
+  </div><!-- .content -->
+</div><!-- .shell -->
+
+<!-- CENTRALIZED ASSETS (Don't Update) -->
+<div class="scroll-indicator"><div class="scroll-progress"></div></div>
+<div class="bg-pattern"></div>
+<header class="header" id="header"></header>
+
+<div id="footer-placeholder"></div>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+<script src="../js/shared.js"></script>
 </body>
 </html>
