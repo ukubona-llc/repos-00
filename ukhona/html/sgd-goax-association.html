@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Year One · Ukubona LLC</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inconsolata:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #12100e;
+    --paper: #f7f2ea;
+    --gold: #a07828;
+    --rust: #7a3020;
+    --muted: #7a6f5e;
+    --rule: #d4c9b0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 1.5rem;
+  }
+
+  .page {
+    max-width: 580px;
+    width: 100%;
+  }
+
+  .label {
+    font-family: 'Inconsolata', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.15;
+    margin-bottom: 2rem;
+    letter-spacing: -0.01em;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  .body-text p {
+    margin-bottom: 1.4rem;
+    font-size: 1.1rem;
+    color: #2a2420;
+  }
+  .body-text p:last-child { margin-bottom: 0; }
+
+  .aside {
+    border-left: 2px solid var(--gold);
+    padding: 0.6rem 0 0.6rem 1.1rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 1rem;
+  }
+
+  .math {
+    font-family: 'Inconsolata', monospace;
+    font-size: 0.82rem;
+    color: var(--rust);
+    background: rgba(120,48,32,0.06);
+    padding: 0.85rem 1.1rem;
+    margin: 1.75rem 0;
+    line-height: 1.7;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 2.5rem 0;
+  }
+
+  .laugh {
+    font-size: 0.95rem;
+    color: var(--gold);
+    font-style: italic;
+    letter-spacing: 0.03em;
+  }
+
+  footer {
+    margin-top: 3.5rem;
+    font-family: 'Inconsolata', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--rule);
+    text-align: left;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .page { animation: rise 0.9s ease both; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="label">Ukubona LLC · Month 12 · March 2026</div>
+
+  <h1>A fledgling firm<br>designing its own<br><em>venture thesis</em><br>before its first client.</h1>
+
+  <div class="body-text">
+
+    <p>This is not embarrassing. This is exactly what the theory predicts.</p>
+
+    <p>A system handed a loss function and a gradient will follow the gradient — even before it has revenue, clients, or any right to call itself a venture capitalist. The logic has its own momentum. You don't choose where it leads. You just follow.</p>
+
+    <div class="aside">
+      The scholar reads the topographic map without descending into the valley.<br>
+      The founder descends — and then immediately starts drawing maps for others.
+    </div>
+
+    <p>Month 12. No revenue yet. Already pricing equity stakes, modeling power-law portfolios, designing recursive venture algorithms, and asking four AI systems to triangulate the gradient across their different loss surfaces.</p>
+
+    <p>That <em>is</em> the gradient. Not a distraction from it.</p>
+
+    <div class="math">θ₀  →  pure doctrine, no clients
+∇L  →  the logic of skin-in-the-game
+−η∇L →  follow it wherever it goes
+θ₁  →  a one-year-old VC with no portfolio
+
+next step: revenue / clients
+the only gradient that bleeds</div>
+
+    <p>The theory was always going to get ahead of the practice. That's fine. The practice is what makes the theory honest — what turns the directional derivative into an actual gradient, the scholar into the surgeon.</p>
+
+    <p>The question at month 13 is not <em>was any of this premature?</em></p>
+    <p>The question is: <strong>who is the first client, and do you take 0.1% or 1%?</strong></p>
+
+  </div>
+
+  <hr>
+
+  <div class="laugh">ahahaha. i just followed the gradient of logic.<br>next — the gradient of revenues / clients.</div>
+
+  <footer>Ukubona LLC · To see · Year One · G · O · A · X</footer>
+
+</div>
+</body>
+</html>
