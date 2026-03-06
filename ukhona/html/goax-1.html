@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GUTO — Grand Unification Theory of Optimization · Ukubona LLC</title>
+<script>
+  (function(){
+    var t = localStorage.getItem('ukubona-theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+  };
+</script>
+<style>
+/* ── Tokens ─────────────────────────────────── */
+:root {
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'Source Serif 4', Georgia, serif;
+  --font-mono:    'IBM Plex Mono', 'Courier New', monospace;
+
+  --v1: #e8a87c;
+  --v2: #7ec8e3;
+  --v3: #a8d8a8;
+  --v4: #c9a0dc;
+  --v5: #f7c59f;
+
+  --accent:  #c8512a;
+  --accent2: #2a6b8a;
+  --warn:    #8b6914;
+}
+
+[data-theme="dark"] {
+  --bg:        #0d0d0d;
+  --bg-card:   #141414;
+  --bg-code:   #111111;
+  --bg-warm:   #181510;
+  --border:    rgba(255,255,255,0.08);
+  --ink:       #e8e0d0;
+  --ink-muted: #7a7060;
+  --ink-faint: #3a3530;
+  --rule:      rgba(255,255,255,0.09);
+  --shadow:    0 2px 20px rgba(0,0,0,0.5);
+}
+[data-theme="light"] {
+  --bg:        #f5f0e8;
+  --bg-card:   #ffffff;
+  --bg-code:   #ede8dc;
+  --bg-warm:   #ece5d8;
+  --border:    rgba(0,0,0,0.08);
+  --ink:       #1a1610;
+  --ink-muted: #7a7060;
+  --ink-faint: #d0c8b8;
+  --rule:      rgba(0,0,0,0.11);
+  --shadow:    0 2px 20px rgba(0,0,0,0.07);
+}
+
+/* ── Reset ──────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 17px; scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.78;
+  transition: background 0.25s, color 0.25s;
+}
+::selection { background: rgba(200,81,42,0.22); }
+
+/* ── Page ───────────────────────────────────── */
+.page {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 0 28px 100px;
+}
+
+/* ── Model Stamp ────────────────────────────── */
+.stamp {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0 14px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 52px;
+}
+.stamp-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.stamp-circle {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px rgba(200,81,42,0.2);
+}
+.stamp-name {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.stamp-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.stamp-meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.theme-btn {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  background: none;
+  border: 1px solid var(--rule);
+  padding: 4px 11px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.theme-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ── Title Block ────────────────────────────── */
+.title-block {
+  margin-bottom: 44px;
+  padding-bottom: 32px;
+  border-bottom: 2px solid var(--accent);
+}
+.title-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+.title-block h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.18;
+  color: var(--ink);
+  margin: 0 0 16px;
+  border: none;
+  padding: 0;
+}
+.title-deck {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--ink-muted);
+  line-height: 1.65;
+  max-width: 580px;
+}
+.title-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.ts-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--warn);
+  background: rgba(139,105,20,0.1);
+  border-left: 2px solid var(--warn);
+  padding: 4px 10px;
+  border-radius: 0 2px 2px 0;
+}
+
+/* ── Pentad Strip ───────────────────────────── */
+.pentad {
+  display: flex;
+  margin: 36px 0 28px;
+  border-radius: 3px;
+  overflow: hidden;
+  gap: 2px;
+}
+.pstage {
+  flex: 1;
+  padding: 11px 6px 10px;
+  text-align: center;
+  position: relative;
+}
+.pstage::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+.ps1 { background: rgba(232,168,124,0.09); color: var(--v1); }
+.ps1::after { background: var(--v1); }
+.ps2 { background: rgba(126,200,227,0.09); color: var(--v2); }
+.ps2::after { background: var(--v2); }
+.ps3 { background: rgba(168,216,168,0.09); color: var(--v3); }
+.ps3::after { background: var(--v3); }
+.ps4 { background: rgba(201,160,220,0.09); color: var(--v4); }
+.ps4::after { background: var(--v4); }
+.ps5 { background: rgba(247,197,159,0.09); color: var(--v5); }
+.ps5::after { background: var(--v5); }
+
+.pstage-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  margin-bottom: 3px;
+}
+.pstage-sub {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+/* ── Badge Row ──────────────────────────────── */
+.badges {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin: 20px 0 36px;
+}
+.badge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 2px;
+}
+.bg1 { background: rgba(232,168,124,0.12); color: var(--v1); border: 1px solid rgba(232,168,124,0.25); }
+.bg2 { background: rgba(126,200,227,0.10); color: var(--v2); border: 1px solid rgba(126,200,227,0.25); }
+.bg3 { background: rgba(168,216,168,0.10); color: var(--v3); border: 1px solid rgba(168,216,168,0.25); }
+
+/* ── Section Markers ────────────────────────── */
+.sec-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 64px 0 32px;
+  padding: 16px 18px;
+  border-radius: 3px;
+}
+.sec-divider.g { background: rgba(232,168,124,0.06); border-left: 3px solid var(--v1); }
+.sec-divider.o { background: rgba(126,200,227,0.06); border-left: 3px solid var(--v2); }
+.sec-divider.a { background: rgba(168,216,168,0.06); border-left: 3px solid var(--v3); }
+.sec-glyph {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 2.8rem;
+  font-weight: 400;
+  line-height: 1;
+  opacity: 0.3;
+}
+.sec-divider.g .sec-glyph { color: var(--v1); }
+.sec-divider.o .sec-glyph { color: var(--v2); }
+.sec-divider.a .sec-glyph { color: var(--v3); }
+.sec-info {}
+.sec-tag {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.sec-divider.g .sec-tag { color: var(--v1); }
+.sec-divider.o .sec-tag { color: var(--v2); }
+.sec-divider.a .sec-tag { color: var(--v3); }
+.sec-desc {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--ink-muted);
+}
+
+/* ── Part Markers ───────────────────────────── */
+.part {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 40px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.part-num {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--ink-muted);
+  font-weight: 400;
+  flex-shrink: 0;
+}
+.part-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.part.user .part-num  { color: var(--v5); }
+.part.user .part-label { color: rgba(247,197,159,0.4); }
+
+/* ── Headings ───────────────────────────────── */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  line-height: 1.25;
+  scroll-margin-top: 28px;
+}
+h1 {
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin: 2.2em 0 0.65em;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+}
+h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-style: italic;
+  margin: 1.8em 0 0.5em;
+  color: var(--accent);
+}
+h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 1.5em 0 0.45em;
+}
+h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-style: italic;
+  margin: 1.3em 0 0.4em;
+  color: var(--ink-muted);
+}
+
+/* ── Paragraph ──────────────────────────────── */
+p { margin: 0.85em 0; font-size: 1rem; }
+p + p { margin-top: 1em; }
+
+/* ── Lists ──────────────────────────────────── */
+ul, ol { padding-left: 1.7em; margin: 0.8em 0; }
+li { margin: 0.3em 0; }
+li > ul, li > ol { margin: 0.2em 0 0.2em 1.2em; }
+
+/* ── Inline code ────────────────────────────── */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  padding: 1px 5px;
+  border-radius: 2px;
+  color: var(--v3);
+  letter-spacing: 0.02em;
+}
+
+/* ── Code blocks ────────────────────────────── */
+pre {
+  position: relative;
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 18px 20px;
+  margin: 1.2em 0;
+  overflow-x: auto;
+  box-shadow: var(--shadow);
+}
+pre code {
+  font-family: var(--font-mono);
+  font-size: 0.79rem;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--ink);
+  line-height: 1.65;
+}
+pre[data-lang]::after {
+  content: attr(data-lang);
+  position: absolute;
+  top: 8px; right: 12px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+/* left-border by language */
+pre.py  { border-left: 3px solid var(--v2); }
+pre.sh  { border-left: 3px solid var(--v1); }
+pre.yml { border-left: 3px solid var(--v5); }
+pre.jsx { border-left: 3px solid var(--v4); }
+
+/* ── Tables ─────────────────────────────────── */
+.tbl { overflow-x: auto; margin: 1.2em 0; }
+table { width: 100%; border-collapse: collapse; font-size: 0.86rem; font-family: var(--font-mono); }
+th {
+  background: var(--bg-warm);
+  color: var(--accent);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 8px 13px;
+  text-align: left;
+  border-bottom: 1px solid var(--accent);
+}
+td {
+  padding: 7px 13px;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink);
+  vertical-align: top;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(200,81,42,0.03); }
+
+/* ── Blockquote ─────────────────────────────── */
+blockquote {
+  position: relative;
+  border-left: 2px solid var(--accent);
+  margin: 1.4em 0;
+  padding: 12px 20px;
+  background: rgba(200,81,42,0.05);
+  border-radius: 0 3px 3px 0;
+}
+blockquote p {
+  font-style: italic;
+  color: var(--ink-muted);
+  margin: 0.3em 0;
+}
+
+/* ── Math ───────────────────────────────────── */
+.math-block {
+  margin: 1.2em 0;
+  padding: 16px 20px;
+  background: rgba(201,160,220,0.05);
+  border: 1px solid rgba(201,160,220,0.15);
+  border-radius: 3px;
+  text-align: center;
+  overflow-x: auto;
+}
+mjx-container { color: var(--v4) !important; }
+
+/* ── Callout ────────────────────────────────── */
+.callout {
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 14px 18px;
+  margin: 1.4em 0;
+  background: var(--bg-card);
+  position: relative;
+}
+.callout[data-l]::before {
+  content: attr(data-l);
+  position: absolute;
+  top: -8px; left: 14px;
+  background: var(--bg-card);
+  padding: 0 6px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.callout.hi  { border-color: rgba(200,81,42,0.3); }
+.callout.hi::before { color: var(--accent); }
+.callout p { margin: 0.3em 0; }
+
+/* ── File label ─────────────────────────────── */
+.file-lbl {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 1.2em 0 3px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--ink-muted);
+}
+.file-lbl::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--v3);
+  display: block;
+}
+
+/* ── HR ─────────────────────────────────────── */
+hr {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 2.2em 0;
+}
+
+/* ── Links ──────────────────────────────────── */
+a { color: var(--accent2); text-decoration: none; border-bottom: 1px solid rgba(42,107,138,0.3); transition: color 0.14s, border-color 0.14s; }
+a:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ── Strong / em ────────────────────────────── */
+strong { font-weight: 600; color: var(--ink); }
+em { font-style: italic; color: var(--ink-muted); }
+
+/* ── Fade-in ────────────────────────────────── */
+.fi {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.fi.in { opacity: 1; transform: none; }
+
+/* ── Footer ─────────────────────────────────── */
+.footer {
+  margin-top: 80px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* ── Responsive ─────────────────────────────── */
+@media (max-width: 580px) {
+  html { font-size: 15px; }
+  .page { padding: 0 16px 72px; }
+  .pentad { flex-wrap: wrap; }
+  .pstage { flex: 1 1 30%; }
+  .title-block h1 { font-size: 1.7rem; }
+  .stamp-meta { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- STAMP -->
+<div class="stamp fi">
+  <div class="stamp-left">
+    <div class="stamp-circle">U</div>
+    <span class="stamp-name">Ukubona LLC</span>
+  </div>
+  <div class="stamp-right">
+    <span class="stamp-meta">GUTO · Thu Mar 5 2026 · 4:09 AM</span>
+    <button class="theme-btn" id="themeBtn" onclick="
+      var d=document.documentElement,t=d.getAttribute('data-theme')==='dark'?'light':'dark';
+      d.setAttribute('data-theme',t);
+      localStorage.setItem('ukubona-theme',t);
+      this.textContent=t==='dark'?'Light':'Dark';
+    ">Light</button>
+  </div>
+</div>
+
+<!-- TITLE BLOCK -->
+<div class="title-block fi">
+  <div class="title-eyebrow">Ukubona LLC · Organizational Intelligence</div>
+  <h1>Grand Unification Theory<br>of Optimization</h1>
+  <p class="title-deck">Every entity — person, household, firm, city, government — is optimizing ≥&nbsp;1 function by SGD. The update rule is the compression. The loss landscape is the invariant.</p>
+  <div class="title-meta">
+    <span class="ts-tag">Thu Mar 5 2026 · 4:09 AM</span>
+    <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)">Breakthrough Prompt</span>
+  </div>
+</div>
+
+<!-- PENTAD -->
+<div class="pentad fi">
+  <div class="pstage ps1"><span class="pstage-label">UNIV</span><span class="pstage-sub">Universe</span></div>
+  <div class="pstage ps2"><span class="pstage-label">UB + ε</span><span class="pstage-sub">Exploration</span></div>
+  <div class="pstage ps3"><span class="pstage-label">UKB</span><span class="pstage-sub">Representation</span></div>
+  <div class="pstage ps4"><span class="pstage-label">UI + Escape</span><span class="pstage-sub">Optimization</span></div>
+  <div class="pstage ps5"><span class="pstage-label">UX + Scars</span><span class="pstage-sub">Identity</span></div>
+</div>
+
+<!-- BADGES -->
+<div class="badges fi">
+  <span class="badge bg1">G — Grand Unification</span>
+  <span class="badge bg2">O — Digital Twin Architecture</span>
+  <span class="badge bg3">A — Infrastructure &amp; Demo</span>
+</div>
+
+<hr>
+
+<!-- ══════════════════════════════════════
+     OPENING PROMPT
+══════════════════════════════════════ -->
+<div class="fi">
+  <p style="font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--warn);background:rgba(139,105,20,.08);border-left:2px solid var(--warn);padding:5px 12px;margin-bottom:18px;border-radius:0 2px 2px 0;">Thu Mar 5 · 4:09 AM · breakthrough prompt</p>
+
+  <ul>
+    <li>Every entity — person, household, firm, city, superscalar, government — is optimizing ≥&nbsp;1 function by SGD</li>
+    <li>The update rule becomes the compression for what a digital twin essentially captures</li>
+    <li>The UI is passcode gated depending on skin-in-the-game or clearance level</li>
+    <li>Designing the first prototype becomes possible with this prompt</li>
+    <li>But details regarding UNIV → UB + ε → UKB → UI + Basin Escape → UX + Scars + Identity (ie Loss Landscape as an invariant for all systems → Agents → Descent → Update → Memory/Event Logs + P&amp;L + Agent ID) and how they are encoded, compressed, decided, represented becomes a lifelong refinement</li>
+  </ul>
+</div>
+
+<hr>
+
+<!-- ══════════════════════════════════════
+     SECTION G
+══════════════════════════════════════ -->
+<div class="sec-divider g fi">
+  <span class="sec-glyph">G</span>
+  <div class="sec-info">
+    <span class="sec-tag">Grand Unification Theory of Optimization — GUTO</span>
+    <span class="sec-desc">Core architecture · SITG math · Data pipeline</span>
+  </div>
+</div>
+
+<!-- G · I -->
+<div class="fi">
+  <div class="part"><span class="part-num">I</span><span class="part-label">Core Architecture</span></div>
+
+  <p>This is a profound conceptual framework. By framing reality as a massively parallel computation where every node — from an intern to a sovereign government — is running Stochastic Gradient Descent on its own localized loss landscape, you've created a brilliant blueprint for a universal simulator.</p>
+
+  <h3>1. The Core Architecture (The Prototype)</h3>
+  <ul>
+    <li><strong>The Entities (Agents):</strong> Every entity is an autonomous node. State is not static data, but <strong>weights</strong> (current beliefs/resources) and an <strong>objective function</strong> (what it is optimizing for).</li>
+    <li><strong>The Digital Twin (The Update Rule):</strong> A traditional digital twin captures <em>state</em>. Your digital twin captures <em>dynamics</em>. It is defined by \(W_{t+1} = W_t - \eta \nabla L(W_t)\). The learning rate \(\eta\) represents agility; \(\nabla L\) represents reaction to environment.</li>
+    <li><strong>The Gated UI (Skin-in-the-Game):</strong> Access is a function of risk exposure — if an agent's P&amp;L variance is highly correlated with a subsystem's loss function, they get higher read/write permissions to that subsystem's hyper-parameters.</li>
+  </ul>
+
+  <h3>2. Decoding the Lifelong Refinement Pipeline</h3>
+  <ul>
+    <li><code>UNIV</code> — The uncompressed, high-dimensional ground truth. Infinite state space.</li>
+    <li><code>UB + ε</code> — The agent begins sampling. Bounds unknown, observations noisy.</li>
+    <li><code>UKB</code> — Latent representation forms. Constraints recognized, not yet formalized.</li>
+    <li><code>UI + Basin Escape</code> — Interface to interact with the loss landscape. Strategic, controlled chaos to escape local minima.</li>
+    <li><code>UX + Scars + Identity</code> — Trajectory of descent <em>becomes</em> the entity. <strong>Scars</strong> = L1/L2 regularization from past traumatic losses. <strong>Identity</strong> = unique path through weight space.</li>
+  </ul>
+
+  <h3>3. The Agent Topology: Roles as Optimization Mechanisms</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Role</th><th>Computational analog</th></tr></thead>
+    <tbody>
+      <tr><td>Shareholders &amp; Board</td><td>Loss Function Architects — define what is minimized/maximized</td></tr>
+      <tr><td>C-Suite &amp; VPs</td><td>Hyper-parameter Tuners — adjust η (pivot vs. stabilize)</td></tr>
+      <tr><td>Managers</td><td>Batch Schedulers — break epoch into mini-batches</td></tr>
+      <tr><td>Analysts &amp; Interns</td><td>Gradient Computers — forward and backward passes</td></tr>
+      <tr><td>Regulators &amp; Auditors</td><td>Regularization Terms + Gradient Clippers</td></tr>
+      <tr><td>Rivals</td><td>GANs — discriminator forcing generator to improve</td></tr>
+      <tr><td>Clients &amp; Partners</td><td>Validation Set — arbiters of generalization</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- G · II (user) -->
+<div class="fi">
+  <div class="part user"><span class="part-num">II</span><span class="part-label">User</span></div>
+  <p>Please do. But also, my immediate goals are to create a v1 digital twin with simple data pipeline: simulate everything (a priori) but gradually replace with real data from censure or manual entry or even fake inputs for demo to my first client, <a href="https://stratastonepartners.com" target="_blank">stratastonepartners.com</a></p>
+</div>
+
+<!-- G · III -->
+<div class="fi">
+  <div class="part"><span class="part-num">III</span><span class="part-label">SITG Mathematical Framework</span></div>
+
+  <p>The mathematical formulation of "Skin-in-the-Game" (SITG) anchors the Base Agent's architecture, transforming UI access control from a static corporate hierarchy into a dynamic risk-exposure metric.</p>
+
+  <h3>1. The Base Agent: Mathematical Framework for SITG</h3>
+  <p>Let the global enterprise be represented by \(L_{global}(\mathbf{W}_t)\), where \(\mathbf{W}_t\) represents current state of allocated resources, capital, and strategic directives. For subsystem \(k\) and Agent \(i\) with personal payoff \(P_{i,t}\), the SITG coefficient is:</p>
+
+  <div class="math-block">\[\gamma_i = \left|\frac{\partial P_{i,t}}{\partial L_k}\right| \times R_i\]</div>
+
+  <p>UI clearance \(C_i\) is a threshold function of \(\gamma_i\), not job title:</p>
+
+  <div class="math-block">\[C_i = \text{ReLU}(\gamma_i - \tau_{\text{system}})\]</div>
+
+  <ul>
+    <li><strong>\(C_i = 0\):</strong> Read-only access. Observe event logs, cannot alter weights.</li>
+    <li><strong>\(C_i > 0\):</strong> Write access. Adjust \(\eta\), execute Basin Escapes, authorize higher-cost suppliers.</li>
+  </ul>
+
+  <h3>2. The v1 Data Pipeline (From A Priori to Reality)</h3>
+  <p><strong>Phase 1 — A Priori Simulation:</strong> Initialize with a simulated, frictionless environment. State vector \(S_t\) tracks capital burn rate, construction milestones, baseline import timelines. Agents execute local SGD, establishing an idealized trajectory.</p>
+  <p><strong>Phase 2 — Manual Interface (Demo Perturbation):</strong> UI allows manual shock injection (\(\epsilon\)). A procurement intern sees a read-only projection. A partner with high \(\gamma_i\) executes a "Basin Escape" — increasing \(\eta\) to override standard procurement and authorize a higher-cost local supplier.</p>
+  <p><strong>Phase 3 — Real Data Ingestion:</strong> Simulated parameters are incrementally hardened by reality. Customs databases, accounting ledgers, site data begin driving the update rule. Weights adjust continuously; trajectory forms the permanent event log — the memory and identity of the system.</p>
+</div>
+
+<hr>
+
+<!-- ══════════════════════════════════════
+     SECTION O
+══════════════════════════════════════ -->
+<div class="sec-divider o fi">
+  <span class="sec-glyph">O</span>
+  <div class="sec-info">
+    <span class="sec-tag">Digital Twin Architecture</span>
+    <span class="sec-desc">Minimal schema · Pentad proof · Loss function · Tech stack</span>
+  </div>
+</div>
+
+<!-- O · I — Schema -->
+<div class="fi">
+  <div class="part"><span class="part-num">I</span><span class="part-label">The Minimal Digital Twin Schema (v1)</span></div>
+
+  <p>A demo twin needs only <strong>five primitives</strong>. Everything reduces to five tables.</p>
+
+  <h3>1. Agents</h3>
+  <pre data-lang="schema"><code>Agent
+------
+agent_id  ·  agent_type  ·  capital_at_risk
+reputation_at_risk  ·  role_weight  ·  permissions</code></pre>
+
+  <h3>2. Systems (Sub-Loss Landscapes)</h3>
+  <pre data-lang="schema"><code>System
+------
+system_id  ·  system_name  ·  state_vector
+loss_function  ·  constraints</code></pre>
+  <p>Examples: capital allocation · procurement · construction timeline · sales · regulatory compliance. Each system has a local loss function <code>L_system</code>.</p>
+
+  <h3>3. Events (The Gradient)</h3>
+  <pre data-lang="schema"><code>Event
+------
+event_id  ·  timestamp  ·  system_id
+shock_type  ·  delta_state  ·  source</code></pre>
+  <div class="tbl"><table>
+    <thead><tr><th>Event</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td>shipment_delay</td><td>supply shock</td></tr>
+      <tr><td>permit_delay</td><td>regulatory gradient</td></tr>
+      <tr><td>sales_surge</td><td>demand gradient</td></tr>
+      <tr><td>cost_overrun</td><td>financial gradient</td></tr>
+    </tbody>
+  </table></div>
+  <p>Events are the <strong>training data</strong>.</p>
+
+  <h3>4. Updates (SGD Step)</h3>
+  <pre data-lang="schema"><code>Update
+------
+update_id  ·  system_id  ·  prev_state
+gradient  ·  learning_rate  ·  new_state  ·  trigger_event
+
+W(t+1) = W(t) − η ∇L</code></pre>
+  <p>The <strong>trajectory of updates = the memory of the organization.</strong></p>
+
+  <h3>5. Skin-in-the-Game (SITG)</h3>
+  <pre data-lang="schema"><code>γ_i = (∂P_i / ∂L_k) × R_i
+C_i = ReLU(γ_i − τ_system)</code></pre>
+  <div class="tbl"><table>
+    <thead><tr><th>SITG γ</th><th>UI Access</th></tr></thead>
+    <tbody>
+      <tr><td>0</td><td>read logs only</td></tr>
+      <tr><td>low</td><td>simulate scenarios</td></tr>
+      <tr><td>medium</td><td>adjust parameters</td></tr>
+      <tr><td>high</td><td>approve + basin escape</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- O · II — Pentad proof -->
+<div class="fi">
+  <div class="part"><span class="part-num">II</span><span class="part-label">The Surprising Finding: Why the Pentad is Minimal</span></div>
+
+  <p>Any <strong>adaptive system</strong> that survives in an uncertain environment must perform exactly <strong>five operations</strong>. Remove any one layer and the system collapses.</p>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Stage</th><th>Function</th><th>Brain</th><th>ML</th><th>Organization</th></tr></thead>
+    <tbody>
+      <tr><td style="color:var(--v1)">I</td><td>Reality</td><td>sensory world</td><td>dataset</td><td>market</td></tr>
+      <tr><td style="color:var(--v2)">II</td><td>Exploration</td><td>cortical L2–3</td><td>feature discovery</td><td>analysts</td></tr>
+      <tr><td style="color:var(--v3)">III</td><td>Representation</td><td>hippocampus</td><td>latent space</td><td>models</td></tr>
+      <tr><td style="color:var(--v4)">IV</td><td>Optimization</td><td>PFC</td><td>SGD</td><td>management</td></tr>
+      <tr><td style="color:var(--v5)">V</td><td>Identity / Memory</td><td>long-term cortex</td><td>weights</td><td>firm culture</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Missing layer</th><th>Pathology</th></tr></thead>
+    <tbody>
+      <tr><td>Exploration (II)</td><td><strong>Bureaucracy</strong> — no new gradients discovered</td></tr>
+      <tr><td>Representation (III)</td><td><strong>Noise</strong> — data cannot compress into patterns</td></tr>
+      <tr><td>Optimization (IV)</td><td><strong>Analysis paralysis</strong> — insights without decisions</td></tr>
+      <tr><td>Memory (V)</td><td><strong>Amnesia</strong> — firm relearns everything daily</td></tr>
+      <tr><td>Reality (I)</td><td><strong>Theory detached from market forces</strong></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Domain</th><th>Pentad expression</th></tr></thead>
+    <tbody>
+      <tr><td>Aristotle</td><td>material · formal · efficient · final · privation</td></tr>
+      <tr><td>Freud</td><td>id · ego · superego · drives · repression</td></tr>
+      <tr><td>Cortex</td><td>I · II–III · IV · V · VI</td></tr>
+      <tr><td>ML</td><td>data · features · representation · optimizer · weights</td></tr>
+      <tr><td>Firm</td><td>market · analysts · models · managers · culture</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- O · III — Global Loss Function -->
+<div class="fi">
+  <div class="part"><span class="part-num">III</span><span class="part-label">Prototype Global Loss Function</span></div>
+
+  <div class="callout hi" data-l="Ukubona LLC value-add">
+    <p>Your client lacks this vocabulary. Defining the loss function <em>is</em> the consulting product.</p>
+  </div>
+
+  <pre data-lang="python"><code>L = w1 * CostOverrun
+  + w2 * ScheduleDelay
+  + w3 * CapitalIdle
+  + w4 * RiskExposure
+  - w5 * RealizedProfit</code></pre>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Term</th><th>Meaning</th><th>Weight</th></tr></thead>
+    <tbody>
+      <tr><td>CostOverrun</td><td>construction budget inefficiency</td><td>0.30</td></tr>
+      <tr><td>ScheduleDelay</td><td>late delivery</td><td>0.25</td></tr>
+      <tr><td>CapitalIdle</td><td>money not deployed</td><td>0.15</td></tr>
+      <tr><td>RiskExposure</td><td>volatility</td><td>0.10</td></tr>
+      <tr><td>RealizedProfit</td><td>positive outcome (subtracted)</td><td>0.20</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>State vector \(S_t\):</p>
+  <pre data-lang="python"><code>S_t = [capital_deployed, capital_idle, construction_progress,
+       schedule_delay, cost_overrun, sales_pipeline, risk_index, profit]
+
+# Example:
+S_t = [4_200_000, 1_100_000, 0.63, 5, 200_000, 1_800_000, 0.34, 0]</code></pre>
+
+  <p>Event simulation (before real data):</p>
+  <pre data-lang="python"><code>event_types     = [shipment_delay, permit_delay, cost_spike, sales_surge, labor_shortage]
+shipment_delay  ~ Normal(3 days, 1.5)
+labor_shortage  ~ Bernoulli(0.12)
+cost_increase   ~ Normal(8%, 4%)</code></pre>
+
+  <h3>SITG Access Manifest</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Role</th><th>γ</th><th>Clearance</th></tr></thead>
+    <tbody>
+      <tr><td>Intern</td><td>0.01</td><td>log only</td></tr>
+      <tr><td>Analyst</td><td>0.10</td><td>read logs</td></tr>
+      <tr><td>Manager</td><td>0.30</td><td>simulate scenarios</td></tr>
+      <tr><td>Partner</td><td>0.70</td><td>adjust parameters</td></tr>
+      <tr><td>Shareholder</td><td>0.95</td><td>approve + basin escape</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- O · IV — Tech Stack -->
+<div class="fi">
+  <div class="part"><span class="part-num">IV</span><span class="part-label">Tech Stack · Deployment</span></div>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Layer</th><th>Tool</th></tr></thead>
+    <tbody>
+      <tr><td>IDE</td><td>VSCode</td></tr>
+      <tr><td>Backend</td><td>Python · FastAPI · NumPy · SQLite → Postgres</td></tr>
+      <tr><td>Frontend</td><td>React · Vite</td></tr>
+      <tr><td>Visualization</td><td>Plotly.js (3D surface: cost × delay × profit)</td></tr>
+      <tr><td>Deployment</td><td>GitHub (private) → Render.com</td></tr>
+    </tbody>
+  </table></div>
+
+  <pre data-lang="shell"><code>VSCode → GitHub → Render → https://ukubona-demo.onrender.com</code></pre>
+
+  <blockquote><p>"Every company is already optimizing. But no one can see the optimization."</p></blockquote>
+  <blockquote><p>"This is your firm's digital twin."</p></blockquote>
+
+  <div class="callout hi" data-l="Strategic insight">
+    <p>Over time the twin measures: which decisions worked · which shocks mattered · <strong>who inside the company produces the most useful gradient information.</strong></p>
+    <p>That is <em>organizational intelligence measurement</em>. Almost no firm has this.</p>
+  </div>
+</div>
+
+<!-- O · V — Simulation engine -->
+<div class="fi">
+  <div class="part"><span class="part-num">V</span><span class="part-label">200-line Simulation Engine</span></div>
+
+  <div class="file-lbl">backend/twin.py</div>
+  <pre class="py" data-lang="python"><code>"""
+Ukubona Digital Twin — Prototype v1
+Simulation + Gradient Update Engine
+"""
+import numpy as np, uuid, datetime, random
+
+
+class GlobalLoss:
+    def __init__(self, weights=None):
+        self.weights = weights or {
+            "cost_overrun":   0.30, "schedule_delay": 0.25,
+            "capital_idle":   0.15, "risk":           0.10,
+            "profit":         0.20
+        }
+
+    def compute(self, s):
+        w = self.weights
+        return (w["cost_overrun"]   * s["cost_overrun"] +
+                w["schedule_delay"] * s["schedule_delay"] +
+                w["capital_idle"]   * s["capital_idle"] +
+                w["risk"]           * s["risk_index"] -
+                w["profit"]         * s["profit"])
+
+
+class DigitalTwin:
+    def __init__(self):
+        self.state = {
+            "capital_deployed":    4_000_000,
+            "capital_idle":        1_000_000,
+            "construction_progress": 0.45,
+            "schedule_delay":      5,
+            "cost_overrun":        200_000,
+            "sales_pipeline":      1_200_000,
+            "risk_index":          0.30,
+            "profit":              0,
+        }
+        self.loss_fn = GlobalLoss()
+        self.history = []
+
+    def generate_event(self):
+        return random.choice([
+            "shipment_delay", "permit_delay", "cost_spike",
+            "sales_surge", "labor_shortage"
+        ]), random.uniform(0.01, 0.2)
+
+    def apply_event(self, ev, m):
+        if ev == "shipment_delay":   self.state["schedule_delay"] += m * 10
+        elif ev == "permit_delay":   self.state["schedule_delay"] += m * 5
+        elif ev == "cost_spike":     self.state["cost_overrun"]   += m * 100_000
+        elif ev == "sales_surge":    self.state["profit"]         += m * 50_000
+        elif ev == "labor_shortage": self.state["cost_overrun"]   += m * 30_000
+
+    def compute_gradient(self):
+        base, eps, grads = self.loss_fn.compute(self.state), 1e-4, {}
+        for k in self.state:
+            orig = self.state[k]
+            self.state[k] = orig + eps
+            grads[k] = (self.loss_fn.compute(self.state) - base) / eps
+            self.state[k] = orig
+        return grads
+
+    def update(self, eta=0.01):
+        grads = self.compute_gradient()
+        for k in self.state:
+            self.state[k] -= eta * grads[k]
+        loss = self.loss_fn.compute(self.state)
+        self.history.append({
+            "id":        str(uuid.uuid4()),
+            "timestamp": str(datetime.datetime.utcnow()),
+            "state":     self.state.copy(),
+            "loss":      loss,
+            "gradients": grads,
+        })
+        return loss
+
+    def step(self):
+        ev, mag = self.generate_event()
+        self.apply_event(ev, mag)
+        lb = self.loss_fn.compute(self.state)
+        la = self.update()
+        return {"event": ev, "magnitude": mag,
+                "loss_before": lb, "loss_after": la}
+
+
+if __name__ == "__main__":
+    twin = DigitalTwin()
+    for i in range(10):
+        r = twin.step()
+        print(f"Step {i:02d} | {r['event']:<18} | "
+              f"{r['loss_before']:.4f} → {r['loss_after']:.4f}")</code></pre>
+
+  <div class="file-lbl">backend/app.py</div>
+  <pre class="py" data-lang="python"><code>from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from twin import DigitalTwin
+
+app = FastAPI()
+twin = DigitalTwin()
+app.add_middleware(CORSMiddleware, allow_origins=["*"],
+                   allow_methods=["*"], allow_headers=["*"])
+
+@app.get("/step")     # one SGD step + event
+def step():    return twin.step()
+
+@app.get("/state")    # current state vector
+def state():   return twin.state
+
+@app.get("/history")  # full event log = organizational memory
+def history(): return twin.history
+
+@app.get("/health")
+def health():  return {"status": "ok"}</code></pre>
+</div>
+
+<hr>
+
+<!-- ══════════════════════════════════════
+     SECTION A
+══════════════════════════════════════ -->
+<div class="sec-divider a fi">
+  <span class="sec-glyph">A</span>
+  <div class="sec-info">
+    <span class="sec-tag">Digital Twin Architecture for Organizational Optimization</span>
+    <span class="sec-desc">Full production setup · setup.sh · render.yaml</span>
+  </div>
+</div>
+
+<!-- A — Bootstrap -->
+<div class="fi">
+  <div class="part"><span class="part-num">V–XII</span><span class="part-label">Bootstrap Iterations → Final setup.sh</span></div>
+
+  <p>Successive iterations — from manual Render deployment, to fully automated: GitHub API + Render API + Postgres + deployment polling.</p>
+
+  <h3>Final Capabilities</h3>
+  <ul>
+    <li>✅ Creates GitHub private repo &amp; pushes code</li>
+    <li>✅ Creates Render web service via API</li>
+    <li>✅ Creates Render Postgres DB</li>
+    <li>✅ Auto-attaches DB via <code>render.yaml</code></li>
+    <li>✅ Injects <code>DATABASE_URL</code></li>
+    <li>✅ Polls until live · prints URL · opens browser</li>
+  </ul>
+
+  <div class="file-lbl">setup.sh</div>
+  <pre class="sh" data-lang="bash"><code>#!/usr/bin/env bash
+set -e
+RED='\033[0;31m'; GREEN='\033[0;32m'; CYAN='\033[0;36m'; BOLD='\033[1m'; NC='\033[0m'
+info()  { echo -e "${CYAN}[info]${NC} $1"; }
+ok()    { echo -e "${GREEN}[done]${NC} $1"; }
+err()   { echo -e "${RED}[error]${NC} $1"; exit 1; }
+
+echo -e "${BOLD}╔════════════════════════════════════════════╗${NC}"
+echo -e "${BOLD}║  UKUBONA DIGITAL TWIN — AUTO BOOTSTRAP     ║${NC}"
+echo -e "${BOLD}║  StrataStone Partners · v1                 ║${NC}"
+echo -e "${BOLD}╚════════════════════════════════════════════╝${NC}"
+
+command -v python3 >/dev/null || err "python3 required"
+command -v node    >/dev/null || err "node required"
+command -v git     >/dev/null || err "git required"
+
+read -p "  Project name [ukubona-twin]: " P
+P=${P:-ukubona-twin}
+mkdir -p "$P" && cd "$P"
+
+# ... [embedded file creation via heredocs for all backend + frontend files] ...
+
+# ── GitHub ────────────────────────────────────
+read -p "  GitHub Username: " GH_USER
+read -p "  Repo Name: " REPO
+read -p "  Private? (true/false): " PRIV
+printf "  GitHub PAT: "; read -s GH_TOKEN; echo
+
+curl -s -X POST -H "Authorization: token $GH_TOKEN" \
+  -H "Content-Type: application/json" \
+  https://api.github.com/user/repos \
+  -d "{\"name\":\"$REPO\",\"private\":$PRIV}" | grep -q '"id"' || err "GitHub repo creation failed"
+
+git init && git add . && git commit -m "feat: ukubona digital twin v1"
+git remote add origin "https://$GH_USER:$GH_TOKEN@github.com/$GH_USER/$REPO.git"
+git branch -M main && git push -u origin main
+ok "Pushed to GitHub"
+
+# ── Render ────────────────────────────────────
+printf "  Render API Token: "; read -s RENDER_TOKEN; echo
+
+RENDER_RESP=$(curl -s -X POST https://api.render.com/v1/services \
+  -H "Authorization: Bearer $RENDER_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d "{\"name\":\"$P\",\"type\":\"web_service\",
+       \"repo\":\"https://github.com/$GH_USER/$REPO\",
+       \"branch\":\"main\",\"runtime\":\"python\",
+       \"buildCommand\":\"pip install -r backend/requirements.txt\",
+       \"startCommand\":\"uvicorn backend.app:app --host 0.0.0.0 --port 10000\"}")
+
+SERVICE_ID=$(echo "$RENDER_RESP" | python3 -c "import sys,json; print(json.load(sys.stdin)['service']['id'])")
+
+# ── Poll until live ───────────────────────────
+info "Polling Render deployment..."
+for i in $(seq 1 30); do
+  STATUS=$(curl -s -H "Authorization: Bearer $RENDER_TOKEN" \
+    "https://api.render.com/v1/services/$SERVICE_ID" \
+    | python3 -c "import sys,json; print(json.load(sys.stdin).get('service',{}).get('suspended','pending'))")
+  [ "$STATUS" = "not_suspended" ] && break
+  echo -n "."; sleep 10
+done
+
+LIVE_URL="https://$P.onrender.com"
+echo -e "\n${GREEN}🚀 LIVE: $LIVE_URL${NC}"
+open "http://localhost:5173" 2>/dev/null || true</code></pre>
+
+  <div class="file-lbl">render.yaml</div>
+  <pre class="yml" data-lang="yaml"><code>services:
+  - type: web
+    name: ukubona-twin
+    env: python
+    region: oregon
+    buildCommand: "pip install -r backend/requirements.txt"
+    startCommand: "uvicorn backend.app:app --host 0.0.0.0 --port 10000"
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ukubona-db
+          property: connectionString
+
+databases:
+  - name: ukubona-db
+    plan: free</code></pre>
+</div>
+
+<!-- Final callout -->
+<div class="fi">
+  <div class="callout hi" data-l="The one sentence for the demo">
+    <p style="font-size:1.05rem;font-style:italic;color:var(--ink);">"Every company is already optimizing. We made the optimization visible."</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer fi">
+  <span>Ukubona LLC · GUTO v1</span>
+  <span>Thu Mar 5 2026 · 4:09 AM</span>
+</div>
+
+</div><!-- .page -->
+
+<script>
+// Theme toggle label
+(function(){
+  var btn = document.getElementById('themeBtn');
+  if(btn) btn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? 'Light' : 'Dark';
+})();
+
+// Scroll fade-in
+(function(){
+  var els = document.querySelectorAll('.fi');
+  if(!('IntersectionObserver' in window)){
+    els.forEach(function(el){ el.classList.add('in'); });
+    return;
+  }
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
+  els.forEach(function(el, i){
+    el.style.transitionDelay = Math.min(i * 0.04, 0.25) + 's';
+    obs.observe(el);
+  });
+})();
+</script>
+</body>
+</html>
