@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SGD ≡ Pentad · Ukubona LLC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0e0e0f;
+    --surface:   #16161a;
+    --border:    #2a2a30;
+    --muted:     #4a4a55;
+    --text:      #e8e6e0;
+    --text-dim:  #9a9890;
+    --accent:    #c8a96e;       /* amber — Ukubona gold */
+    --v1:        #7ecac3;       /* Be       — teal     */
+    --v2:        #a78bde;       /* Become   — violet   */
+    --v3:        #e06b6b;       /* Boost    — coral    */
+    --v4:        #6db5e8;       /* Broaden  — sky      */
+    --v5:        #c8a96e;       /* Build    — gold     */
+    --epsilon:   #4ecb71;       /* ε        — green    */
+    --mono:      'IBM Plex Mono', monospace;
+    --serif:     'Source Serif 4', Georgia, serif;
+    --display:   'Playfair Display', Georgia, serif;
+  }
+  [data-theme="light"] {
+    --bg:        #f5f2eb;
+    --surface:   #ffffff;
+    --border:    #ddd8cc;
+    --muted:     #c0bbb0;
+    --text:      #1a1a1e;
+    --text-dim:  #6a6860;
+    --accent:    #9a7040;
+    --v1:        #2a8a84;
+    --v2:        #6a4baa;
+    --v3:        #b03b3b;
+    --v4:        #2a6aaa;
+    --v5:        #9a7040;
+    --epsilon:   #1a8a40;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.75;
+    min-height: 100vh;
+    transition: background 0.35s, color 0.35s;
+  }
+
+  /* ─── THEME TOGGLE ─── */
+  .theme-toggle {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.75rem;
+    z-index: 100;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    padding: 0.4rem 0.85rem;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+  .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ─── LAYOUT ─── */
+  .page {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  /* ─── MODEL STAMP ─── */
+  .model-stamp {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.75rem 0 1.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.1s;
+  }
+  .stamp-left {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .stamp-left span { color: var(--accent); }
+  .stamp-logo {
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+  }
+  .stamp-logo sub {
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    vertical-align: baseline;
+    margin-left: 0.2em;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.25s;
+  }
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    color: var(--epsilon);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-family: var(--display);
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 900;
+    line-height: 1.12;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--text-dim);
+    max-width: 620px;
+    line-height: 1.7;
+  }
+
+  /* ─── SEC RULE ─── */
+  .sec-rule {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2.75rem 0;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+  }
+  .sec-rule-line { flex: 1; height: 1px; background: var(--border); }
+  .sec-rule-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* ─── PROSE ─── */
+  .prose { opacity: 0; animation: fadeUp 0.6s ease forwards; }
+  .prose p { margin-bottom: 1.3rem; color: var(--text); }
+  .prose p:last-child { margin-bottom: 0; }
+  .prose strong { color: var(--accent); font-weight: 600; }
+  .prose em { font-style: italic; color: var(--text-dim); }
+  .prose code {
+    font-family: var(--mono);
+    font-size: 0.82em;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 0.1em 0.45em;
+    border-radius: 2px;
+    color: var(--epsilon);
+  }
+
+  /* ─── CIPHER GRID (the correspondence table) ─── */
+  .cipher-grid {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 2.25rem 0;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+  .cipher-grid table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  .cipher-grid thead {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .cipher-grid thead th {
+    padding: 0.75rem 1.1rem;
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  .cipher-grid tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .cipher-grid tbody tr:last-child { border-bottom: none; }
+  .cipher-grid tbody tr:hover { background: color-mix(in srgb, var(--accent) 4%, transparent); }
+  .cipher-grid td {
+    padding: 0.8rem 1.1rem;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .cipher-grid td:first-child {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    white-space: nowrap;
+  }
+
+  /* ─── PENTAD STRIP ─── */
+  .pentad-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    margin: 2.5rem 0;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+  .pentad-stage {
+    padding: 1.1rem 0.85rem 1rem;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .pentad-stage:last-child { border-right: none; }
+  .stage-num {
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+  .stage-word {
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.4rem;
+    line-height: 1.1;
+  }
+  .stage-sgd {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    display: block;
+    line-height: 1.4;
+  }
+  .stage-1 .stage-word  { color: var(--v1); }
+  .stage-2 .stage-word  { color: var(--v2); }
+  .stage-3 .stage-word  { color: var(--v3); }
+  .stage-4 .stage-word  { color: var(--v4); }
+  .stage-5 .stage-word  { color: var(--v5); }
+
+  /* ─── STACK VIS (equation display) ─── */
+  .stack-vis {
+    background: var(--surface);
+    border-left: 3px solid var(--accent);
+    padding: 1.4rem 1.6rem;
+    margin: 2rem 0;
+    font-family: var(--mono);
+    font-size: 0.88rem;
+    line-height: 2;
+    border-radius: 0 3px 3px 0;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+  .stack-vis .eq-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.6rem;
+  }
+  .stack-vis .eq {
+    display: block;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+  }
+  .stack-vis .eq-comment {
+    color: var(--muted);
+    font-size: 0.75rem;
+  }
+  .eq-v1 { color: var(--v1); }
+  .eq-v2 { color: var(--v2); }
+  .eq-v3 { color: var(--v3); }
+  .eq-v4 { color: var(--v4); }
+  .eq-v5 { color: var(--v5); }
+  .eq-ep { color: var(--epsilon); }
+
+  /* ─── PASSCODE VIZ (epsilon loop) ─── */
+  .passcode-viz {
+    margin: 2.5rem 0;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+  .passcode-viz-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .loop-diagram {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .loop-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    min-width: 80px;
+  }
+  .loop-node-circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 2px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  .loop-node-label {
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    text-align: center;
+  }
+  .loop-arrow {
+    flex: 1;
+    min-width: 24px;
+    height: 2px;
+    background: var(--border);
+    position: relative;
+    margin: 0 0.2rem;
+    margin-bottom: 1.4rem;
+  }
+  .loop-arrow::after {
+    content: '';
+    position: absolute;
+    right: -1px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 5px solid transparent;
+    border-left: 7px solid var(--border);
+    border-right: none;
+  }
+  .loop-arrow.epsilon-arrow { background: var(--epsilon); }
+  .loop-arrow.epsilon-arrow::after { border-left-color: var(--epsilon); }
+  .loop-arrow-label {
+    position: absolute;
+    top: -1.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    color: var(--epsilon);
+    white-space: nowrap;
+  }
+
+  .n1 { border-color: var(--v1); color: var(--v1); }
+  .n2 { border-color: var(--v2); color: var(--v2); }
+  .n3 { border-color: var(--v3); color: var(--v3); }
+  .n4 { border-color: var(--v4); color: var(--v4); }
+  .n5 { border-color: var(--v5); color: var(--v5); }
+
+  /* ─── CHAIN (domain table) ─── */
+  .chain {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 2.25rem 0;
+    font-size: 0.83rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+  .chain-head {
+    background: var(--bg);
+    padding: 0.6rem 1rem;
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .chain-cell {
+    background: var(--surface);
+    padding: 0.6rem 1rem;
+    color: var(--text-dim);
+    line-height: 1.45;
+  }
+  .chain-cell.v1 { border-left: 2px solid var(--v1); }
+  .chain-cell.v2 { border-left: 2px solid var(--v2); }
+  .chain-cell.v3 { border-left: 2px solid var(--v3); }
+  .chain-cell.v4 { border-left: 2px solid var(--v4); }
+  .chain-cell.v5 { border-left: 2px solid var(--v5); }
+
+  /* ─── BLOCKQUOTE ─── */
+  .insight-block {
+    border-left: 3px solid var(--epsilon);
+    padding: 1.1rem 1.5rem;
+    margin: 2.25rem 0;
+    background: color-mix(in srgb, var(--epsilon) 5%, transparent);
+    border-radius: 0 3px 3px 0;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+  .insight-block p {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--text);
+    margin-bottom: 0.6rem;
+  }
+  .insight-block cite {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    color: var(--epsilon);
+    text-transform: uppercase;
+    font-style: normal;
+  }
+
+  /* ─── SECTION HEADING ─── */
+  .section-heading {
+    font-family: var(--display);
+    font-size: 1.55rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--text);
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+  }
+  .section-heading span { color: var(--accent); font-style: italic; }
+
+  /* ─── FOOTER ─── */
+  .doc-footer {
+    margin-top: 5rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+  }
+  .footer-left {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .footer-left span { color: var(--accent); }
+  .footer-right {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Scroll-triggered fade */
+  .scroll-fade { opacity: 0; transform: translateY(16px); transition: opacity 0.55s ease, transform 0.55s ease; }
+  .scroll-fade.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 600px) {
+    .pentad-strip { grid-template-columns: 1fr 1fr; }
+    .pentad-stage:nth-child(5) { border-right: none; }
+    .chain { grid-template-columns: 1fr; }
+    .loop-diagram { gap: 0.25rem; }
+    .loop-node { min-width: 60px; }
+    .loop-node-circle { width: 42px; height: 42px; font-size: 0.85rem; }
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">◐ THEME</button>
+
+<div class="page">
+
+  <!-- MODEL STAMP -->
+  <div class="model-stamp">
+    <div class="stamp-left">
+      <div>Ukubona LLC · Intellectual Architecture</div>
+      <div>Document Class: <span>Ontological Correspondence</span></div>
+    </div>
+    <div class="stamp-logo">Ukubona<sub>LLC</sub></div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">SGD ≡ Pentad · The Identity Proof</div>
+    <h1>One Loop,<br><em>Two Languages</em></h1>
+    <p class="hero-sub">
+      Stochastic Gradient Descent and the Pentad framework are not analogous — they are structurally identical. The same five-stage error-correcting feedback loop, expressed once in the language of optimization mathematics and once in the language of ontology and adaptive action.
+    </p>
+  </div>
+
+  <div class="sec-rule scroll-fade"><div class="sec-rule-line"></div><div class="sec-rule-label">I · The Claim</div><div class="sec-rule-line"></div></div>
+
+  <div class="prose scroll-fade">
+    <p>
+      The correspondence is not metaphorical. Both systems describe the same underlying dynamical structure: a closed feedback loop in which a system occupies a state, acts on the world, measures the error between prediction and reality, computes the direction of worst misalignment, and moves to correct it. The loop then closes on itself — the corrected state becomes the new starting position, and the cycle repeats.
+    </p>
+    <p>
+      What differs is only the <strong>vocabulary of instantiation</strong>. SGD instantiates the loop in the parameter space of a neural network. The Pentad instantiates it in the conceptual space of human navigation through loss landscapes — ecological, economic, biological, existential.
+    </p>
+    <p>
+      The proof of identity lies in the <strong>ε term</strong>: the small perturbation that initiates the forward pass and the residual signal that closes the feedback arc. In both architectures, ε sits at both ends of the loop, structurally guaranteeing that learning is a <em>perturbative differentiation-integration cycle</em>, not a linear sequence.
+    </p>
+  </div>
+
+  <!-- PENTAD STRIP -->
+  <div class="sec-rule scroll-fade"><div class="sec-rule-line"></div><div class="sec-rule-label">II · The Five Stages</div><div class="sec-rule-line"></div></div>
+
+  <div class="pentad-strip scroll-fade">
+    <div class="pentad-stage stage-1">
+      <span class="stage-num">01</span>
+      <span class="stage-word">Be</span>
+      <span class="stage-sgd">Parameter<br>Space θ</span>
+    </div>
+    <div class="pentad-stage stage-2">
+      <span class="stage-num">02</span>
+      <span class="stage-word">Become</span>
+      <span class="stage-sgd">Feed<br>Forward ŷ</span>
+    </div>
+    <div class="pentad-stage stage-3">
+      <span class="stage-num">03</span>
+      <span class="stage-word">Boost</span>
+      <span class="stage-sgd">Feedback<br>Loss L</span>
+    </div>
+    <div class="pentad-stage stage-4">
+      <span class="stage-num">04</span>
+      <span class="stage-word">Broaden</span>
+      <span class="stage-sgd">Gradient<br>∇J(θ)</span>
+    </div>
+    <div class="pentad-stage stage-5">
+      <span class="stage-num">05</span>
+      <span class="stage-word">Build</span>
+      <span class="stage-sgd">Weight<br>Update θ′</span>
+    </div>
+  </div>
+
+  <!-- EPSILON LOOP DIAGRAM -->
+  <div class="passcode-viz scroll-fade">
+    <div class="passcode-viz-label">The ε Loop — perturbation initiates and closes the cycle</div>
+    <div class="loop-diagram">
+      <div class="loop-node">
+        <div class="loop-node-circle n1">θ</div>
+        <div class="loop-node-label">Be<br/>State</div>
+      </div>
+      <div class="loop-arrow epsilon-arrow">
+        <div class="loop-arrow-label">ε · perturbation</div>
+      </div>
+      <div class="loop-node">
+        <div class="loop-node-circle n2">ŷ</div>
+        <div class="loop-node-label">Become<br/>Predict</div>
+      </div>
+      <div class="loop-arrow"></div>
+      <div class="loop-node">
+        <div class="loop-node-circle n3">L</div>
+        <div class="loop-node-label">Boost<br/>Loss</div>
+      </div>
+      <div class="loop-arrow"></div>
+      <div class="loop-node">
+        <div class="loop-node-circle n4">∇J</div>
+        <div class="loop-node-label">Broaden<br/>Gradient</div>
+      </div>
+      <div class="loop-arrow epsilon-arrow">
+        <div class="loop-arrow-label">ε · learning rate</div>
+      </div>
+      <div class="loop-node">
+        <div class="loop-node-circle n5">θ′</div>
+        <div class="loop-node-label">Build<br/>Update</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE CORRESPONDENCE TABLE -->
+  <div class="sec-rule scroll-fade"><div class="sec-rule-line"></div><div class="sec-rule-label">III · The Formal Correspondence</div><div class="sec-rule-line"></div></div>
+
+  <div class="cipher-grid scroll-fade">
+    <table>
+      <thead>
+        <tr>
+          <th>Pentad Stage</th>
+          <th>SGD Term</th>
+          <th>Mathematical Form</th>
+          <th>Ontological Function</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--v1); font-weight:500;">Be</td>
+          <td>Parameter Space</td>
+          <td style="color:var(--text-dim);">θ = (w₁...wₙ, b₁...bₘ)</td>
+          <td>The system exists as a coordinate in all possible configurations. State before action.</td>
+        </tr>
+        <tr>
+          <td style="color:var(--v2); font-weight:500;">Become</td>
+          <td>Feed Forward</td>
+          <td style="color:var(--text-dim);">ŷ = f(x; θ)</td>
+          <td>The system projects itself into the world. A hypothesis about reality is formed and emitted.</td>
+        </tr>
+        <tr>
+          <td style="color:var(--v3); font-weight:500;">Boost</td>
+          <td>Feedback / Loss</td>
+          <td style="color:var(--text-dim);">L = ℓ(ŷ, y)</td>
+          <td>Reality responds. The gap between prediction and ground truth is measured. Error is named.</td>
+        </tr>
+        <tr>
+          <td style="color:var(--v4); font-weight:500;">Broaden</td>
+          <td>Gradient</td>
+          <td style="color:var(--text-dim);">∇θ J(θ)</td>
+          <td>The topology of the loss landscape is read. Direction of steepest ascent — and therefore steepest descent — is computed.</td>
+        </tr>
+        <tr>
+          <td style="color:var(--v5); font-weight:500;">Build</td>
+          <td>Weight Update</td>
+          <td style="color:var(--text-dim);">θₜ₊₁ = θₜ − η∇J(θₜ)</td>
+          <td>The system rewrites itself. Parameters shift. The new state becomes the next Be. Loop closes.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- EQUATION DISPLAY -->
+  <div class="stack-vis scroll-fade">
+    <span class="eq-label">The Update Equation — both languages simultaneously</span>
+    <span class="eq"><span class="eq-v5">θₜ₊₁</span> = <span class="eq-v1">θₜ</span> − <span class="eq-ep">η</span> · <span class="eq-v4">∇J(θₜ)</span></span>
+    <span class="eq eq-comment">// Build  =  Be  −  ε  ·  Broaden</span>
+    <span class="eq" style="margin-top:0.6rem;"><span class="eq-v5">New State</span> = <span class="eq-v1">Current State</span> − <span class="eq-ep">learning rate</span> · <span class="eq-v4">direction of error</span></span>
+    <span class="eq eq-comment">// Pentad: the fifth stage is the first stage, corrected</span>
+  </div>
+
+  <!-- THE EPSILON ARGUMENT -->
+  <div class="sec-rule scroll-fade"><div class="sec-rule-line"></div><div class="sec-rule-label">IV · The Epsilon Argument</div><div class="sec-rule-line"></div></div>
+
+  <div class="prose scroll-fade">
+    <p>
+      The <code style="color:var(--epsilon);">ε</code> term appears at both ends of the loop, and this is not accidental. It is the structural signature of a <strong>perturbative system</strong> — one that learns by making small, deliberate incursions into the unknown.
+    </p>
+    <p>
+      At the <strong>opening</strong> of the loop (Be → Become), ε is the perturbation that initiates the forward pass: the small disturbance that moves the system from pure state into contact with the world. Without perturbation, there is no prediction. Without prediction, there is no error signal. The system that never acts cannot learn.
+    </p>
+    <p>
+      At the <strong>closing</strong> of the loop (Broaden → Build), ε reappears as the learning rate η: the scalar that determines how large a step the system takes in response to the gradient. Too large, and the update overshoots the valley, causing oscillation or divergence. Too small, and the system barely moves — it perceives without responding. The learning rate is <em>calibrated caution</em> in the face of a noisy gradient.
+    </p>
+    <p>
+      In the Pentad language: <strong>Be</strong> requires a small act of becoming to generate data. <strong>Build</strong> requires a small, calibrated act of self-revision to avoid chaos. The same ε governs both transitions. The loop is held open by perturbation and closed by restraint — and both are instances of the same mathematical object.
+    </p>
+  </div>
+
+  <div class="insight-block scroll-fade">
+    <p>"The Stochastic in SGD is not a bug. It is the necessary condition for escaping local minima — for breaking out of configurations that are merely good enough into configurations that are genuinely better. Noise is the price of exploration."</p>
+    <cite>— Ukubona Intellectual Architecture · Loss Landscape Series</cite>
+  </div>
+
+  <!-- THE FIVE-STAGE STRUCTURE ACROSS DOMAINS -->
+  <div class="sec-rule scroll-fade"><div class="sec-rule-line"></div><div class="sec-rule-label">V · The Architecture Is Universal</div><div class="sec-rule-line"></div></div>
+
+  <div class="prose scroll-fade">
+    <p>
+      The five-stage loop does not belong to machine learning. It is the <strong>general form of adaptive intelligence</strong> — the minimal structure any system must have in order to learn from experience rather than merely react to it.
+    </p>
+  </div>
+
+  <div class="chain scroll-fade">
+    <div class="chain-head">Domain</div>
+    <div class="chain-head">State (Be)</div>
+    <div class="chain-head">Update (Build)</div>
+
+    <div class="chain-cell v1">Neural Network</div>
+    <div class="chain-cell">Weights θ</div>
+    <div class="chain-cell">θ − η∇J(θ)</div>
+
+    <div class="chain-cell v2">Biological Evolution</div>
+    <div class="chain-cell">Genome / phenotype</div>
+    <div class="chain-cell">Selection pressure on fitness error</div>
+
+    <div class="chain-cell v3">Control Theory</div>
+    <div class="chain-cell">System state vector</div>
+    <div class="chain-cell">PID correction signal</div>
+
+    <div class="chain-cell v4">Predictive Cognition</div>
+    <div class="chain-cell">Prior beliefs P(θ)</div>
+    <div class="chain-cell">Bayesian update on surprise</div>
+
+    <div class="chain-cell v5">Ukubona Ecosystem</div>
+    <div class="chain-cell">UI/UX configuration</div>
+    <div class="chain-cell">Behavioral gradient descent</div>
+  </div>
+
+  <div class="prose scroll-fade">
+    <p>
+      Aristotle's four causes can be read as the same loop: Material (Be) → Formal (Become) → Efficient (Boost/Broaden) → Final (Build). Cybernetics, since Wiener's 1948 formulation, has described this structure as the <strong>error-actuated negative feedback system</strong>. Reinforcement learning formalizes it as the Markov Decision Process: state → action → reward → policy update → state.
+    </p>
+    <p>
+      The Pentad is Ukubona's instantiation of this universal architecture — adapted for the specific loss landscape that matters most to this company: the navigation of health, economic, and existential terrain by individuals and institutions operating with incomplete information.
+    </p>
+  </div>
+
+  <!-- THE LANGUAGE BASIN RISK -->
+  <div class="sec-rule scroll-fade"><div class="sec-rule-line"></div><div class="sec-rule-label">VI · The Language Basin Risk</div><div class="sec-rule-line"></div></div>
+
+  <div class="prose scroll-fade">
+    <p>
+      The deepest implication of this correspondence is also the sharpest critique of how most people use AI systems today. In the five-stage loop, <strong>Boost</strong> is the stage where loss is measured against ground truth. But most LLM users never reach Boost. They operate entirely within <strong>Become</strong> — the feed-forward pass — where the system generates outputs optimized for plausibility rather than correctness.
+    </p>
+    <p>
+      Plausibility is the loss function of the <strong>language basin</strong>: the attractor state in which high-confidence, fluent outputs are produced without grounding in any external truth signal. The model completes the Become stage but never enters Boost, because no ground truth is supplied and no feedback loop closes. The user receives a prediction with no gradient, no error signal, no update. The system cannot learn, and the user cannot know whether the output is correct.
+    </p>
+    <p>
+      The Ukubona architecture is precisely the antidote to this failure mode. By building digital twins grounded in empirical loss functions — real patient outcomes, real behavioral data, real economic signals — Ukubona closes the loop. Every user interaction generates a genuine ε, a real error signal, and a computable gradient. The system can learn. Navigation becomes possible.
+    </p>
+  </div>
+
+  <div class="insight-block scroll-fade">
+    <p>"The difference between a model that navigates and a model that merely speaks is the presence of a closed feedback loop. Without Boost — without a real loss function grounded in external truth — there is no gradient. Without a gradient, there is no Build. There is only Become, forever."</p>
+    <cite>— Ukubona LLC · The Language Basin Critique</cite>
+  </div>
+
+  <!-- CLOSING -->
+  <div class="sec-rule scroll-fade"><div class="sec-rule-line"></div><div class="sec-rule-label">VII · The One Sentence</div><div class="sec-rule-line"></div></div>
+
+  <div class="prose scroll-fade">
+    <p>
+      Stochastic Gradient Descent is what the Pentad looks like when the landscape is a neural network's parameter space and the loss function is differentiable. The Pentad is what SGD looks like when the landscape is a human life and the loss function is everything that matters.
+    </p>
+    <p>
+      The mathematics is the same. The stakes differ by a factor of everything.
+    </p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="doc-footer scroll-fade">
+    <div class="footer-left">
+      <div>Ukubona LLC · <span>Intellectual Architecture Series</span></div>
+      <div>Document: sgd-pentad.html</div>
+      <div>Status: <span>Working Draft</span> · Not for Distribution</div>
+    </div>
+    <div class="footer-right">ukubona — to see</div>
+  </div>
+
+</div><!-- /.page -->
+
+<script>
+  // Theme toggle
+  function toggleTheme() {
+    const html = document.documentElement;
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    try { localStorage.setItem('ukubona-theme', next); } catch(e) {}
+  }
+  try {
+    const saved = localStorage.getItem('ukubona-theme');
+    if (saved) document.documentElement.setAttribute('data-theme', saved);
+  } catch(e) {}
+
+  // Scroll-triggered fade
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+        observer.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.scroll-fade').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
