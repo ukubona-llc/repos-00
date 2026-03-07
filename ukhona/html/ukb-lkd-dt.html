@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SGD Digital Twin — Ukubona LLC</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0f14;
+  --bg2: #13161d;
+  --bg3: #1a1e28;
+  --surface: #1e2330;
+  --surface2: #252b3b;
+  --border: #2e3548;
+  --border2: #3a4260;
+
+  --text: #e8eaf0;
+  --text2: #a8b0c8;
+  --text3: #6b7494;
+
+  --gold: #c8a84b;
+  --gold2: #e0c068;
+  --gold-dim: rgba(200,168,75,0.12);
+
+  --teal: #3ab8c8;
+  --teal2: #5accd8;
+  --teal-dim: rgba(58,184,200,0.10);
+
+  --coral: #e06858;
+  --coral-dim: rgba(224,104,88,0.12);
+
+  --sage: #6aaa78;
+  --sage-dim: rgba(106,170,120,0.12);
+
+  --violet: #9b8ed8;
+  --violet-dim: rgba(155,142,216,0.12);
+
+  --amber: #e8a040;
+  --amber-dim: rgba(232,160,64,0.10);
+
+  --glow-gold: 0 0 24px rgba(200,168,75,0.25);
+  --glow-teal: 0 0 24px rgba(58,184,200,0.25);
+  --glow-coral: 0 0 24px rgba(224,104,88,0.20);
+
+  --r: 8px;
+  --r2: 14px;
+
+  --mono: 'IBM Plex Mono', monospace;
+  --serif: 'Source Serif 4', Georgia, serif;
+  --display: 'Playfair Display', 'Times New Roman', serif;
+}
+
+[data-theme="light"] {
+  --bg: #f4f1ea;
+  --bg2: #ece8df;
+  --bg3: #e4e0d5;
+  --surface: #faf8f4;
+  --surface2: #f0ece3;
+  --border: #d4cec0;
+  --border2: #c0baa8;
+  --text: #1a1c24;
+  --text2: #4a5068;
+  --text3: #8a9098;
+  --gold: #9a6e18;
+  --gold2: #b88020;
+  --gold-dim: rgba(154,110,24,0.10);
+  --teal: #1a7888;
+  --teal2: #2090a0;
+  --teal-dim: rgba(26,120,136,0.10);
+  --coral: #c04838;
+  --coral-dim: rgba(192,72,56,0.10);
+  --sage: #3a7848;
+  --sage-dim: rgba(58,120,72,0.10);
+  --violet: #6050a8;
+  --violet-dim: rgba(96,80,168,0.10);
+  --amber: #b86820;
+  --amber-dim: rgba(184,104,32,0.08);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--serif);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  transition: background 0.4s, color 0.4s;
+}
+
+/* ── Header ── */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 2.4rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.brand-name {
+  font-family: var(--display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+}
+.brand-sub {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--text3);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.toggle-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  padding: 0.45rem 1rem;
+  border-radius: var(--r);
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  transition: all 0.2s;
+}
+.toggle-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── Main ── */
+.page {
+  max-width: 1020px;
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+}
+
+.doc-title {
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 900;
+  line-height: 1.18;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+.doc-title em {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.doc-subtitle {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  color: var(--text2);
+  font-weight: 300;
+  font-style: italic;
+  margin-bottom: 0.5rem;
+}
+
+.model-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--text3);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+}
+.model-stamp::before {
+  content: '';
+  display: inline-block;
+  width: 6px; height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+}
+
+.sec-rule {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2.5rem 0;
+}
+
+/* ── Cascade ── */
+.cascade {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+/* connector */
+.connector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3.5rem;
+  position: relative;
+}
+.connector::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--border), var(--border2));
+}
+.connector-arrow {
+  width: 28px; height: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem;
+  color: var(--text3);
+  z-index: 1;
+  position: relative;
+}
+
+/* stage card */
+.stage {
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  background: var(--surface);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.stage.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stage-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.stage-num {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.stage-title {
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.stage-tag {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--text3);
+  letter-spacing: 0.12em;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.stage-body {
+  padding: 1.4rem 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+.stage-body.single { grid-template-columns: 1fr; }
+.stage-body.triple { grid-template-columns: 1fr 1fr 1fr; }
+
+/* color themes per stage */
+.stage-1 { border-color: var(--teal); }
+.stage-1 .stage-header { background: var(--teal-dim); }
+.stage-1 .stage-num { background: var(--teal-dim); color: var(--teal); }
+.stage-1 .stage-title { color: var(--teal2); }
+
+.stage-2 { border-color: var(--gold); }
+.stage-2 .stage-header { background: var(--gold-dim); }
+.stage-2 .stage-num { background: var(--gold-dim); color: var(--gold); }
+.stage-2 .stage-title { color: var(--gold2); }
+
+.stage-3 { border-color: var(--violet); }
+.stage-3 .stage-header { background: var(--violet-dim); }
+.stage-3 .stage-num { background: var(--violet-dim); color: var(--violet); }
+.stage-3 .stage-title { color: var(--violet); }
+
+.stage-4 { border-color: var(--sage); }
+.stage-4 .stage-header { background: var(--sage-dim); }
+.stage-4 .stage-num { background: var(--sage-dim); color: var(--sage); }
+.stage-4 .stage-title { color: var(--sage); }
+
+.stage-5 { border-color: var(--coral); }
+.stage-5 .stage-header { background: var(--coral-dim); }
+.stage-5 .stage-num { background: var(--coral-dim); color: var(--coral); }
+.stage-5 .stage-title { color: var(--coral); }
+
+/* ── param block ── */
+.param-block {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1rem 1.1rem;
+}
+.param-label {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 0.5rem;
+}
+.param-value {
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.param-desc {
+  font-family: var(--serif);
+  font-size: 0.82rem;
+  color: var(--text2);
+  margin-top: 0.5rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* math token */
+.math {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  color: var(--gold);
+}
+.math-block {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: var(--r);
+  padding: 0.9rem 1.2rem;
+  font-family: var(--mono);
+  font-size: 0.92rem;
+  color: var(--gold2);
+  line-height: 1.8;
+}
+.math-block .op { color: var(--text3); }
+.math-block .symbol { color: var(--teal2); }
+.math-block .result { color: var(--sage); font-weight: 500; }
+
+/* input list */
+.input-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.input-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.88rem;
+  color: var(--text2);
+}
+.input-list li::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--teal);
+  flex-shrink: 0;
+}
+
+/* alert mockup */
+.alert-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.mock-alert {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 1rem;
+  border-radius: var(--r);
+  font-size: 0.82rem;
+  font-family: var(--serif);
+}
+.mock-alert.danger {
+  background: rgba(224,104,88,0.14);
+  border: 1px solid rgba(224,104,88,0.35);
+  color: var(--coral);
+}
+.mock-alert.warn {
+  background: rgba(232,160,64,0.12);
+  border: 1px solid rgba(232,160,64,0.3);
+  color: var(--amber);
+}
+.mock-alert.ok {
+  background: rgba(106,170,120,0.12);
+  border: 1px solid rgba(106,170,120,0.3);
+  color: var(--sage);
+}
+.mock-alert .alert-icon { font-size: 1rem; flex-shrink: 0; }
+.mock-alert .alert-text strong { display: block; font-weight: 600; }
+.mock-alert .alert-text span { opacity: 0.75; font-size: 0.75rem; }
+
+/* trajectory vis */
+.trajectory-vis {
+  position: relative;
+  height: 90px;
+  border-radius: var(--r);
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.trajectory-vis svg {
+  width: 100%; height: 100%;
+}
+
+/* feedback loop */
+.feedback-loop {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem 1.5rem;
+  background: var(--coral-dim);
+  border: 1px dashed rgba(224,104,88,0.4);
+  border-radius: var(--r2);
+  margin-top: 0.5rem;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
+}
+.feedback-loop.visible { opacity: 1; transform: translateY(0); }
+.feedback-loop-icon { font-size: 1.8rem; flex-shrink: 0; }
+.feedback-loop-text { font-size: 0.9rem; color: var(--text2); line-height: 1.55; }
+.feedback-loop-text strong { color: var(--coral); font-family: var(--display); font-size: 1rem; display: block; margin-bottom: 0.2rem; }
+
+/* pentad strip */
+.pentad-strip {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.4rem;
+  margin: 2rem 0;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.pentad-strip.visible { opacity: 1; }
+.pentad-cell {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 0.9rem 0.6rem;
+  text-align: center;
+}
+.pentad-cell .p-symbol {
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+.pentad-cell .p-name {
+  font-family: var(--display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+.pentad-cell .p-clinical {
+  font-family: var(--serif);
+  font-size: 0.67rem;
+  color: var(--text3);
+  font-style: italic;
+}
+.pentad-cell:nth-child(1) { border-top: 2px solid var(--teal); }
+.pentad-cell:nth-child(1) .p-symbol { color: var(--teal); }
+.pentad-cell:nth-child(1) .p-name { color: var(--teal2); }
+.pentad-cell:nth-child(2) { border-top: 2px solid var(--gold); }
+.pentad-cell:nth-child(2) .p-symbol { color: var(--gold); }
+.pentad-cell:nth-child(2) .p-name { color: var(--gold2); }
+.pentad-cell:nth-child(3) { border-top: 2px solid var(--violet); }
+.pentad-cell:nth-child(3) .p-symbol { color: var(--violet); }
+.pentad-cell:nth-child(3) .p-name { color: var(--violet); }
+.pentad-cell:nth-child(4) { border-top: 2px solid var(--sage); }
+.pentad-cell:nth-child(4) .p-symbol { color: var(--sage); }
+.pentad-cell:nth-child(4) .p-name { color: var(--sage); }
+.pentad-cell:nth-child(5) { border-top: 2px solid var(--coral); }
+.pentad-cell:nth-child(5) .p-symbol { color: var(--coral); }
+.pentad-cell:nth-child(5) .p-name { color: var(--coral); }
+
+/* insight block */
+.insight {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--gold);
+  border-radius: var(--r);
+  padding: 1.2rem 1.5rem;
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  color: var(--text2);
+  line-height: 1.7;
+  margin: 2rem 0;
+  font-style: italic;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.insight.visible { opacity: 1; }
+.insight strong { color: var(--gold); font-style: normal; font-family: var(--display); }
+
+/* cipher grid - comparison table */
+.cipher-grid {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+  margin: 1.5rem 0;
+}
+.cipher-grid th {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.7rem 1rem;
+  text-align: left;
+  border-bottom: 2px solid var(--border2);
+  color: var(--text3);
+}
+.cipher-grid td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text2);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.cipher-grid tr:last-child td { border-bottom: none; }
+.cipher-grid tr:hover td { background: var(--bg2); }
+.cipher-grid .col-label { font-family: var(--display); font-weight: 700; color: var(--text); }
+.cipher-grid .col-old { color: var(--text3); }
+.cipher-grid .col-new { color: var(--sage); }
+
+/* chain — K08 origin note */
+.chain {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 2rem 0;
+}
+.chain-item {
+  display: flex;
+  gap: 1.2rem;
+  position: relative;
+  padding-bottom: 1.2rem;
+}
+.chain-item:last-child { padding-bottom: 0; }
+.chain-item:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 32px;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+.chain-dot {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  background: var(--surface);
+  z-index: 1;
+}
+.chain-content { padding-top: 0.3rem; }
+.chain-label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+.chain-text {
+  font-size: 0.9rem;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+/* footer */
+.page-footer {
+  text-align: center;
+  padding: 2rem;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 680px) {
+  .stage-body { grid-template-columns: 1fr; }
+  .stage-body.triple { grid-template-columns: 1fr; }
+  .pentad-strip { grid-template-columns: repeat(3, 1fr); }
+  .pentad-strip .pentad-cell:nth-child(n+4) { grid-column: span 1; }
+  .page { padding: 2rem 1rem 4rem; }
+}
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <div class="brand">
+    <div class="brand-name">Ukubona</div>
+    <div class="brand-sub">Digital Twin Architecture · K08-AG065520</div>
+  </div>
+  <button class="toggle-btn" onclick="toggleTheme()">☀ / ☾</button>
+</header>
+
+<main class="page">
+
+  <h1 class="doc-title">
+    The <em>Living Donor</em><br>Digital Twin
+  </h1>
+  <p class="doc-subtitle">
+    Stochastic gradient descent as clinical engine — from static consent to continuous trajectory
+  </p>
+  <div class="model-stamp">Ukubona LLC · SGD Architecture · 2025</div>
+
+  <hr class="sec-rule">
+
+  <!-- Pentad mapping -->
+  <div class="pentad-strip" id="pentad">
+    <div class="pentad-cell">
+      <span class="p-symbol">θ</span>
+      <span class="p-name">Parameters</span>
+      <span class="p-clinical">uACR, eGFR, DM, HTN, donor status</span>
+    </div>
+    <div class="pentad-cell">
+      <span class="p-symbol">L(θ)</span>
+      <span class="p-name">Loss</span>
+      <span class="p-clinical">risk of CKD, frailty, periop harm</span>
+    </div>
+    <div class="pentad-cell">
+      <span class="p-symbol">∇<sub>θ</sub>L</span>
+      <span class="p-name">Gradient</span>
+      <span class="p-clinical">direction of greatest risk reduction</span>
+    </div>
+    <div class="pentad-cell">
+      <span class="p-symbol">−η∇<sub>θ</sub>L</span>
+      <span class="p-name">Update</span>
+      <span class="p-clinical">low learning rate — noise-resistant</span>
+    </div>
+    <div class="pentad-cell">
+      <span class="p-symbol">θ′</span>
+      <span class="p-name">New State</span>
+      <span class="p-clinical">updated twin — feed back to UI</span>
+    </div>
+  </div>
+
+  <hr class="sec-rule">
+
+  <!-- CASCADE -->
+  <div class="cascade">
+
+    <!-- Stage 1: Landscape -->
+    <div class="stage stage-1" id="s1">
+      <div class="stage-header">
+        <span class="stage-num">01</span>
+        <span class="stage-title">Landscape — The High-Dimensional Input Space</span>
+        <span class="stage-tag">Θ ∈ ℝⁿ</span>
+      </div>
+      <div class="stage-body">
+        <div class="param-block">
+          <div class="param-label">Individual Donor Parameters</div>
+          <ul class="input-list">
+            <li>uACR — urine albumin-creatinine ratio</li>
+            <li>eGFR — estimated glomerular filtration rate</li>
+            <li>DM — diabetes mellitus status</li>
+            <li>HTN — hypertension status</li>
+            <li>Donor class — core vs. noncore (age ≥ 50)</li>
+          </ul>
+        </div>
+        <div class="param-block">
+          <div class="param-label">Population Priors</div>
+          <ul class="input-list">
+            <li>NHANES — National Health and Nutrition Examination Survey</li>
+            <li>Matched healthy referent population</li>
+            <li>Pre-donation trajectory estimation</li>
+            <li>Stochastic representation of missing data</li>
+          </ul>
+          <p class="param-desc">We don't visualize the full landscape. We simply know the direction of the slope — and take the next step.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"><div class="connector-arrow">↓</div></div>
+
+    <!-- Stage 2: SGD Engine -->
+    <div class="stage stage-2" id="s2">
+      <div class="stage-header">
+        <span class="stage-num">02</span>
+        <span class="stage-title">Stochastic Gradient Descent — The Clinical Engine</span>
+        <span class="stage-tag">θ → θ − η∇<sub>θ</sub>L</span>
+      </div>
+      <div class="stage-body single">
+        <div class="math-block">
+          <span class="op">Given :</span>   <span class="symbol">θ</span>   → donor-specific parameter vector<br>
+          <span class="op">Compute :</span> <span class="symbol">L(θ)</span> → loss = individualized risk of adverse outcome<br>
+          <span class="op">Compute :</span> <span class="symbol">∇<sub>θ</sub>L</span> → gradient = direction of greatest risk<br>
+          <span class="op">Apply :</span>   <span class="result">θ ← θ − η∇<sub>θ</sub>L</span>   → update rule (η small, noise-resistant)<br>
+          <span class="op">Repeat :</span>  each new lab value, visit, or vitals upload
+        </div>
+      </div>
+      <div style="padding: 0 1.5rem 1.4rem;">
+        <p class="param-desc" style="margin-top:0;">Under uncertainty and incomplete data, stochastic sampling treats missing labs as stochastic variables — not roadblocks. The update rule navigates the dark without requiring full visibility of the loss surface.</p>
+      </div>
+    </div>
+
+    <div class="connector"><div class="connector-arrow">↓</div></div>
+
+    <!-- Stage 3: Digital Twin -->
+    <div class="stage stage-3" id="s3">
+      <div class="stage-header">
+        <span class="stage-num">03</span>
+        <span class="stage-title">Living Digital Twin — Continuous Trajectory</span>
+        <span class="stage-tag">Post-nephrectomy update</span>
+      </div>
+      <div class="stage-body">
+        <div class="param-block">
+          <div class="param-label">Twin State</div>
+          <p class="param-desc" style="margin-top:0;">At nephrectomy, the donor's pre-donation θ becomes a live model. The 50% nephron mass reduction is the ε-perturbation — the twin begins updating from this new initial condition.</p>
+          <ul class="input-list" style="margin-top:0.7rem;">
+            <li>Continuous eGFR trajectory estimation</li>
+            <li>CKD stage risk at 5, 10, 20 years</li>
+            <li>Frailty trajectory under comorbidity load</li>
+          </ul>
+        </div>
+        <div>
+          <div class="param-label" style="margin-bottom:0.5rem;">Post-Donation Trajectory</div>
+          <div class="trajectory-vis">
+            <svg viewBox="0 0 300 90" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="gGold" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#c8a84b" stop-opacity="0.8"/>
+                  <stop offset="100%" stop-color="#c8a84b" stop-opacity="0.2"/>
+                </linearGradient>
+                <linearGradient id="gTeal" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#3ab8c8" stop-opacity="0.9"/>
+                  <stop offset="100%" stop-color="#3ab8c8" stop-opacity="0.3"/>
+                </linearGradient>
+                <linearGradient id="gCoral" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#e06858" stop-opacity="0.8"/>
+                  <stop offset="100%" stop-color="#e06858" stop-opacity="0.2"/>
+                </linearGradient>
+              </defs>
+              <!-- grid lines -->
+              <line x1="0" y1="30" x2="300" y2="30" stroke="#2e3548" stroke-width="0.5"/>
+              <line x1="0" y1="60" x2="300" y2="60" stroke="#2e3548" stroke-width="0.5"/>
+              <!-- nephrectomy line -->
+              <line x1="60" y1="0" x2="60" y2="90" stroke="#3a4260" stroke-width="1" stroke-dasharray="3,3"/>
+              <text x="62" y="12" font-size="7" fill="#6b7494" font-family="IBM Plex Mono">neph.</text>
+              <!-- resilient core donor -->
+              <path d="M0,25 L60,28 Q90,45 150,38 Q220,28 300,22" fill="none" stroke="url(#gTeal)" stroke-width="2"/>
+              <!-- typical older donor -->
+              <path d="M0,28 L60,32 Q100,52 160,58 Q220,62 300,60" fill="none" stroke="url(#gGold)" stroke-width="2"/>
+              <!-- high-risk trajectory -->
+              <path d="M0,30 L60,36 Q90,58 140,70 Q200,80 300,82" fill="none" stroke="url(#gCoral)" stroke-width="2"/>
+              <!-- labels -->
+              <text x="250" y="20" font-size="6.5" fill="#5accd8" font-family="IBM Plex Mono">resilient</text>
+              <text x="248" y="57" font-size="6.5" fill="#c8a84b" font-family="IBM Plex Mono">typical</text>
+              <text x="252" y="79" font-size="6.5" fill="#e06858" font-family="IBM Plex Mono">high-risk</text>
+            </svg>
+          </div>
+          <p class="param-desc" style="margin-top:0.6rem;">SGD continuously positions the twin on the correct trajectory — updating with each new data point.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"><div class="connector-arrow">↓</div></div>
+
+    <!-- Stage 4: UI / LLM Alerts -->
+    <div class="stage stage-4" id="s4">
+      <div class="stage-header">
+        <span class="stage-num">04</span>
+        <span class="stage-title">Dynamic Alerts & Informed Consent</span>
+        <span class="stage-tag">LLM API layer</span>
+      </div>
+      <div class="stage-body">
+        <div class="param-block">
+          <div class="param-label">LLM Translation Layer</div>
+          <p class="param-desc" style="margin-top:0;">LLM APIs convert mathematical SGD updates — the humble low learning rate ε and gradient signal — into actionable, human-readable clinical language. No clinician reads loss function notation. They read alerts.</p>
+          <p class="param-desc">Informed consent is no longer a one-time document. It becomes a continuous, dynamic conversation between the system and the donor.</p>
+        </div>
+        <div>
+          <div class="param-label" style="margin-bottom:0.6rem;">Sample Alerts</div>
+          <div class="alert-stack">
+            <div class="mock-alert danger">
+              <span class="alert-icon">⚠</span>
+              <div class="alert-text">
+                <strong>eGFR Decline Detected</strong>
+                <span>15% faster than modeled baseline — nephrology review recommended</span>
+              </div>
+            </div>
+            <div class="mock-alert warn">
+              <span class="alert-icon">↑</span>
+              <div class="alert-text">
+                <strong>Blood Pressure Trend</strong>
+                <span>HTN trajectory diverging — update antihypertensive plan</span>
+              </div>
+            </div>
+            <div class="mock-alert ok">
+              <span class="alert-icon">✓</span>
+              <div class="alert-text">
+                <strong>Twin Stable</strong>
+                <span>Trajectory within predicted resilience band — continue current regimen</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector"><div class="connector-arrow">↓</div></div>
+
+    <!-- Stage 5: Ecosystem -->
+    <div class="stage stage-5" id="s5">
+      <div class="stage-header">
+        <span class="stage-num">05</span>
+        <span class="stage-title">Lifelong Ecosystem — Beyond the 2-Year Mandate</span>
+        <span class="stage-tag">Continuous · Adaptive · Personalized</span>
+      </div>
+      <div class="stage-body triple">
+        <div class="param-block">
+          <div class="param-label">Status Quo</div>
+          <p class="param-desc" style="margin-top:0;">KDIGO mandates 2-year post-donation follow-up. Static. Arbitrary. Population-level. Loses the individual exactly when chronic trajectories begin to diverge.</p>
+        </div>
+        <div class="param-block">
+          <div class="param-label">Skin in the Game</div>
+          <p class="param-desc" style="margin-top:0;">Donor and clinician are co-participants in a continuous model update. Every lab, every visit, every wearable signal refines the twin's gradient. Accountability is built into the architecture.</p>
+        </div>
+        <div class="param-block">
+          <div class="param-label">The Cascade</div>
+          <p class="param-desc" style="margin-top:0;">Donor evaluation → nephrectomy → θ perturbation → SGD updates → alert ecosystem → adaptive risk management → proactive intervention before CKD becomes irreversible.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /cascade -->
+
+  <!-- Feedback loop -->
+  <div class="connector"><div class="connector-arrow">↺</div></div>
+  <div class="feedback-loop" id="feedback">
+    <div class="feedback-loop-icon">↩</div>
+    <div class="feedback-loop-text">
+      <strong>Continuous Feedback Loop</strong>
+      Alerts and recommendations feed back into the donor's digital twin parameter space. Each interaction refines θ. The model learns the individual — not the population. Adaptive risk management replaces static surveillance, extending indefinitely beyond the arbitrary 2-year horizon.
+    </div>
+  </div>
+
+  <hr class="sec-rule">
+
+  <!-- Core insight -->
+  <div class="insight" id="insight">
+    <strong>The Profound Conceptual Leap:</strong> Under uncertainty and incomplete data, SGD is the perfect clinical tool — not despite the noise, but because of it. Stochasticity isn't a bug; it's the mechanism by which the model stays calibrated to biological reality. LLM APIs can now translate high-dimensional gradient signals into clinical language at a resolution no prior metrology has achieved.
+  </div>
+
+  <hr class="sec-rule">
+
+  <!-- Comparison table -->
+  <h2 style="font-family:var(--display); font-size:1.3rem; color:var(--text); margin-bottom:1rem;">Static vs. Dynamic: The Paradigm Shift</h2>
+  <table class="cipher-grid">
+    <thead>
+      <tr>
+        <th>Dimension</th>
+        <th>Traditional Approach</th>
+        <th>SGD Digital Twin</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="col-label">Risk Assessment</td>
+        <td class="col-old">Static, population-based survival curves</td>
+        <td class="col-new">Dynamic, continuously updated individual trajectory</td>
+      </tr>
+      <tr>
+        <td class="col-label">Data Requirement</td>
+        <td class="col-old">Complete, idealized datasets</td>
+        <td class="col-new">Sparse, noisy, stochastic — uncertainty is a feature</td>
+      </tr>
+      <tr>
+        <td class="col-label">Informed Consent</td>
+        <td class="col-old">One-time pre-operative document</td>
+        <td class="col-new">Dynamic, ongoing conversation with the twin</td>
+      </tr>
+      <tr>
+        <td class="col-label">Follow-Up Horizon</td>
+        <td class="col-old">Fixed 2-year KDIGO mandate</td>
+        <td class="col-new">Continuous, lifelong, personalized ecosystem</td>
+      </tr>
+      <tr>
+        <td class="col-label">Decision Support</td>
+        <td class="col-old">Static calculator or paper guidelines</td>
+        <td class="col-new">LLM-driven alerts from gradient-space updates</td>
+      </tr>
+      <tr>
+        <td class="col-label">Clinical Question</td>
+        <td class="col-old">"What is population risk at my age?"</td>
+        <td class="col-new">"How will <em>my</em> kidney function evolve, right now?"</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr class="sec-rule">
+
+  <!-- Origin chain -->
+  <h2 style="font-family:var(--display); font-size:1.1rem; color:var(--text2); margin-bottom:1.2rem; font-style:italic;">Latent Thoughts, 2016–2020</h2>
+  <div class="chain">
+    <div class="chain-item">
+      <div class="chain-dot" style="color:var(--teal);">K</div>
+      <div class="chain-content">
+        <div class="chain-label">K08-AG065520 · 2020</div>
+        <div class="chain-text">Perioperative and long-term risks for older live kidney donors. Individual question: <em>"Can I safely donate?"</em> over the KDIGO population question. The K08 grant was the first formal articulation of this architecture — before SGD was the named engine.</div>
+      </div>
+    </div>
+    <div class="chain-item">
+      <div class="chain-dot" style="color:var(--gold);">∇</div>
+      <div class="chain-content">
+        <div class="chain-label">The Gradient Insight · 2022–2023</div>
+        <div class="chain-text">Recognizing that the high-dimensional NHANES parameter space, combined with individual donor labs, isn't a visualization problem — it's a traversal problem. The gradient gives direction without requiring full landscape visibility.</div>
+      </div>
+    </div>
+    <div class="chain-item">
+      <div class="chain-dot" style="color:var(--violet);">ε</div>
+      <div class="chain-content">
+        <div class="chain-label">The ε-Perturbation · Nephrectomy as Initial Condition</div>
+        <div class="chain-text">Nephrectomy — the loss of 50% of nephron mass — maps directly onto the ε term in the Pentad framework. The perturbation initializes the post-donation update cycle. The digital twin begins learning from this moment forward.</div>
+      </div>
+    </div>
+    <div class="chain-item">
+      <div class="chain-dot" style="color:var(--sage);">⟳</div>
+      <div class="chain-content">
+        <div class="chain-label">Ukubona Architecture · 2024–2025</div>
+        <div class="chain-text">Landscape → UB (loss) → SGD → UI/UX → Ecosystem. The five-stage Pentad formalized. SGD as the clinical engine confirmed. LLM API layer as the translation interface between gradient-space and human-readable alerts.</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="page-footer">
+  Ukubona LLC · Digital Twin Architecture · K08-AG065520 · 2025
+</footer>
+
+<script>
+// Theme toggle
+function toggleTheme() {
+  const html = document.documentElement;
+  html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  localStorage.setItem('ukubona-theme', html.getAttribute('data-theme'));
+}
+(function() {
+  const saved = localStorage.getItem('ukubona-theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+})();
+
+// Scroll-triggered fade-in
+const observers = [];
+const targets = [
+  { id: 'pentad', delay: 0 },
+  { id: 's1', delay: 0 },
+  { id: 's2', delay: 0 },
+  { id: 's3', delay: 0 },
+  { id: 's4', delay: 0 },
+  { id: 's5', delay: 0 },
+  { id: 'feedback', delay: 100 },
+  { id: 'insight', delay: 0 },
+];
+
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const delay = parseInt(el.dataset.delay || 0);
+      setTimeout(() => el.classList.add('visible'), delay);
+      io.unobserve(el);
+    }
+  });
+}, { threshold: 0.1 });
+
+targets.forEach(t => {
+  const el = document.getElementById(t.id);
+  if (el) {
+    el.dataset.delay = t.delay;
+    io.observe(el);
+  }
+});
+</script>
+</body>
+</html>
