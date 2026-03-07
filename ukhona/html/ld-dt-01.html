@@ -1,1 +1,669 @@
-. 
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Living Donor Digital Twin — Ukubona LLC</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Icons / assets -->
+  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+  
+  
+<link href="../css/variables.css?v=1.1" rel="stylesheet" />
+<link href="../css/head.css?v=1.1" rel="stylesheet" />
+<link href="../css/card.css?v=1.1" rel="stylesheet" />
+<link href="../css/footer.css" rel="stylesheet" />
+<style>
+  :root {
+    --bg:        #0d0d0d;
+    --surface:   #141414;
+    --border:    #2a2a2a;
+    --text:      #e8e4dc;
+    --muted:     #888;
+    --accent:    #c8a96e;
+    --accent2:   #7eb8c9;
+    --accent3:   #9ecfa0;
+    --danger:    #c97e7e;
+    --hinge:     #c8a96e;
+    --rule:      rgba(200,169,110,0.25);
+    --mono:      'IBM Plex Mono', monospace;
+    --serif:     'Source Serif 4', Georgia, serif;
+    --display:   'Playfair Display', Georgia, serif;
+    --radius:    3px;
+  }
+  [data-theme="light"] {
+    --bg:      #f5f2ec;
+    --surface: #fff;
+    --border:  #ddd;
+    --text:    #1a1a1a;
+    --muted:   #666;
+    --rule:    rgba(160,120,60,0.2);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.75;
+    background: var(--bg);
+    color: var(--text);
+    transition: background .3s, color .3s;
+  }
+
+  /* ── Layout ── */
+  .page { max-width: 860px; margin: 0 auto; padding: 0 2rem 6rem; }
+
+  /* ── Theme toggle ── */
+  .toggle-wrap {
+    position: fixed; top: 1.4rem; right: 1.6rem; z-index: 100;
+  }
+  .toggle-btn {
+    background: none; border: 1px solid var(--border);
+    color: var(--muted); font-family: var(--mono); font-size: .75rem;
+    padding: .35rem .65rem; cursor: pointer; border-radius: var(--radius);
+    transition: all .2s;
+  }
+  .toggle-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ── Model stamp ── */
+  .model-stamp {
+    padding: 2.8rem 0 1.6rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 3.2rem;
+  }
+  .stamp-kicker {
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: .9rem;
+  }
+  .stamp-title {
+    font-family: var(--display); font-size: clamp(2rem, 5vw, 3.1rem);
+    font-weight: 700; line-height: 1.15; color: var(--text);
+    margin-bottom: .6rem;
+  }
+  .stamp-title em { font-style: italic; color: var(--accent); }
+  .stamp-sub {
+    font-family: var(--serif); font-size: 1.05rem; font-weight: 300;
+    color: var(--muted); font-style: italic; margin-bottom: 1.4rem;
+    max-width: 620px;
+  }
+  .stamp-meta {
+    font-family: var(--mono); font-size: .72rem; color: var(--muted);
+    letter-spacing: .06em;
+  }
+  .stamp-meta span { margin-right: 1.6rem; }
+
+  /* ── Section rule ── */
+  .sec-rule {
+    display: flex; align-items: center; gap: 1rem;
+    margin: 3.5rem 0 2rem;
+  }
+  .sec-rule-num {
+    font-family: var(--mono); font-size: .7rem; color: var(--accent);
+    letter-spacing: .1em; white-space: nowrap;
+  }
+  .sec-rule-line { flex: 1; height: 1px; background: var(--rule); }
+  .sec-rule-title {
+    font-family: var(--display); font-size: 1.3rem; font-weight: 700;
+    color: var(--text);
+  }
+
+  /* ── Lede ── */
+  .lede {
+    font-family: var(--display); font-size: 1.22rem; font-style: italic;
+    line-height: 1.65; color: var(--text);
+    border-left: 3px solid var(--accent);
+    padding: 1rem 1.5rem;
+    background: rgba(200,169,110,.05);
+    margin-bottom: 2rem;
+  }
+
+  /* ── Pentad strip ── */
+  .pentad-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin: 2.2rem 0;
+  }
+  .pentad-cell {
+    padding: 1.2rem 1rem;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .pentad-cell:last-child { border-right: none; }
+  .pentad-cell.hinge {
+    background: rgba(200,169,110,.08);
+    border-left: 2px solid var(--hinge);
+    border-right: 2px solid var(--hinge);
+  }
+  .pc-roman {
+    font-family: var(--mono); font-size: .65rem; color: var(--muted);
+    letter-spacing: .08em; text-transform: uppercase; margin-bottom: .4rem;
+  }
+  .pc-symbol {
+    font-family: var(--mono); font-size: 1.05rem; color: var(--accent);
+    margin-bottom: .5rem; display: block;
+  }
+  .pc-label {
+    font-family: var(--display); font-size: .85rem; font-weight: 700;
+    color: var(--text); margin-bottom: .4rem;
+  }
+  .pc-desc {
+    font-family: var(--serif); font-size: .78rem; color: var(--muted);
+    line-height: 1.5;
+  }
+  .pc-phase {
+    font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+    text-transform: uppercase; margin-top: .7rem;
+    padding: .2rem .45rem; border-radius: 2px; display: inline-block;
+  }
+  .phase-pre  { background: rgba(126,184,201,.15); color: var(--accent2); }
+  .phase-hinge { background: rgba(200,169,110,.2); color: var(--accent); }
+  .phase-post { background: rgba(158,207,160,.15); color: var(--accent3); }
+
+  /* ── Hinge declaration ── */
+  .hinge-decl {
+    font-family: var(--mono); font-size: .82rem;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    padding: 1.1rem 1.4rem;
+    margin: 2rem 0;
+    line-height: 1.8;
+    color: var(--muted);
+  }
+  .hinge-decl strong { color: var(--accent); }
+
+  /* ── Body prose ── */
+  p { margin-bottom: 1.3rem; color: var(--text); }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── Cipher grid (phases) ── */
+  .cipher-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin: 2rem 0;
+  }
+  @media (max-width: 620px) { .cipher-grid { grid-template-columns: 1fr; } }
+  .cipher-cell {
+    border: 1px solid var(--border);
+    padding: 1.3rem 1.4rem;
+    background: var(--surface);
+  }
+  .cc-head {
+    font-family: var(--mono); font-size: .7rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: .6rem;
+  }
+  .cc-title {
+    font-family: var(--display); font-size: 1.05rem; font-weight: 700;
+    margin-bottom: .7rem;
+  }
+  .cc-body {
+    font-size: .9rem; line-height: 1.65; color: var(--muted);
+  }
+  .cc-body strong { color: var(--text); }
+
+  /* ── Stack vis (comparison table) ── */
+  .stack-vis {
+    width: 100%; border-collapse: collapse;
+    margin: 1.5rem 0; font-size: .88rem;
+  }
+  .stack-vis th {
+    font-family: var(--mono); font-size: .68rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--accent);
+    padding: .7rem 1rem; border-bottom: 1px solid var(--border);
+    text-align: left; background: var(--surface);
+  }
+  .stack-vis td {
+    padding: .75rem 1rem; border-bottom: 1px solid var(--border);
+    vertical-align: top; line-height: 1.55;
+  }
+  .stack-vis tr:last-child td { border-bottom: none; }
+  .stack-vis td:first-child { color: var(--muted); font-style: italic; width: 22%; }
+  .stack-vis td:nth-child(2) { color: var(--muted); }
+  .stack-vis td:nth-child(3) { color: var(--text); }
+  .stack-vis tr:hover td { background: rgba(200,169,110,.04); }
+
+  /* ── Alert samples ── */
+  .alert-block { margin: 1.5rem 0; }
+  .alert-row {
+    display: flex; align-items: flex-start; gap: .9rem;
+    padding: .8rem 1rem; border-left: 3px solid var(--border);
+    margin-bottom: .6rem; background: var(--surface);
+  }
+  .alert-row.warn { border-color: var(--danger); }
+  .alert-row.info { border-color: var(--accent2); }
+  .alert-row.ok   { border-color: var(--accent3); }
+  .alert-icon { font-size: 1rem; flex-shrink: 0; padding-top: .1rem; }
+  .alert-text { font-size: .88rem; line-height: 1.55; }
+  .alert-text strong { font-family: var(--mono); font-size: .82rem; display: block; margin-bottom: .15rem; }
+
+  /* ── Chain / timeline ── */
+  .chain {
+    border-left: 2px solid var(--rule);
+    padding-left: 1.8rem;
+    margin: 2rem 0;
+  }
+  .chain-node {
+    position: relative; margin-bottom: 1.8rem;
+  }
+  .chain-node::before {
+    content: '';
+    position: absolute; left: -2.2rem; top: .35rem;
+    width: 8px; height: 8px;
+    border-radius: 50%; border: 1.5px solid var(--accent);
+    background: var(--bg);
+  }
+  .chain-node.hinge-node::before { background: var(--accent); }
+  .cn-label {
+    font-family: var(--mono); font-size: .68rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: .3rem;
+  }
+  .cn-title {
+    font-family: var(--display); font-weight: 700; font-size: 1rem;
+    margin-bottom: .35rem;
+  }
+  .cn-body { font-size: .9rem; color: var(--muted); line-height: 1.6; }
+
+  /* ── Passcode viz (equation display) ── */
+  .passcode-viz {
+    font-family: var(--mono); font-size: .9rem;
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 1.2rem 1.6rem; margin: 1.5rem 0;
+    line-height: 2; color: var(--muted);
+  }
+  .passcode-viz .eq-key { color: var(--accent); }
+  .passcode-viz .eq-val { color: var(--text); }
+  .passcode-viz .eq-comment { color: var(--muted); font-size: .78rem; }
+
+  /* ── Footer ── */
+  .page-footer {
+    margin-top: 5rem; padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono); font-size: .7rem;
+    color: var(--muted); letter-spacing: .06em;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem;
+  }
+
+  /* ── Fade-in animations ── */
+  .fade-in { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+  .fade-in.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 640px) {
+    .pentad-strip { grid-template-columns: 1fr; }
+    .pentad-cell { border-right: none; border-bottom: 1px solid var(--border); }
+    .pentad-cell:last-child { border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="theme-toggle" aria-label="Toggle dark/light mode">
+  <span id="toggle-label">Light</span>
+  <div class="toggle-switch" id="themeSwitch" role="button" tabindex="0" aria-pressed="false"></div>
+</div>
+
+<div class="page">
+<main class="page wrap-max"> 
+  <!-- ══ MASTHEAD ══ -->
+  <header class="masthead">
+    <br><br><br>
+    <br><br>
+
+  <!-- ── Header ── -->
+  <header class="model-stamp fade-in">
+    <div class="stamp-kicker">Ukubona LLC · Digital Twin Architecture · K08-AG065520</div>
+    <h1 class="stamp-title">The <em>Living Donor</em> Digital Twin</h1>
+    <p class="stamp-sub">Nephrectomy as hinge: from pre-donation landscape localization to post-donation stochastic optimization</p>
+    <div class="stamp-meta">
+      <span>SGD Architecture</span>
+      <span>K08-AG065520</span>
+      <span>2025</span>
+    </div>
+  </header>
+
+  <!-- ── Lede ── -->
+  <div class="lede fade-in">
+    Living kidney donation is best understood not as a binary decision but as a trajectory on a physiological risk landscape, where nephrectomy introduces a stochastic perturbation—after which the donor's pre-nephrectomy twin becomes the counterfactual control, and long-term health evolves through continuous gradient updates.
+  </div>
+
+  <!-- ── Pentad strip ── -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-num">§ 01</span>
+    <div class="sec-rule-line"></div>
+    <span class="sec-rule-title">The Ukubona Learning Pentad</span>
+  </div>
+
+  <div class="pentad-strip fade-in">
+    <div class="pentad-cell">
+      <div class="pc-roman">I</div>
+      <span class="pc-symbol">θ</span>
+      <div class="pc-label">Parameter Space</div>
+      <div class="pc-desc">Baseline donor physiology — eGFR, uACR, age, HTN, DM, APOL1 — positioned in high-dimensional health space via NHANES priors.</div>
+      <span class="pc-phase phase-pre">Pre-donation</span>
+    </div>
+    <div class="pentad-cell">
+      <div class="pc-roman">II</div>
+      <span class="pc-symbol">L(θ)</span>
+      <div class="pc-label">Loss Function</div>
+      <div class="pc-desc">Individualized risk surface for ESRD, frailty, CKD progression, sentinel hospitalization. Not a population statistic.</div>
+      <span class="pc-phase phase-pre">Pre-donation</span>
+    </div>
+    <div class="pentad-cell">
+      <div class="pc-roman">III</div>
+      <span class="pc-symbol">∇<sub>θ</sub>L</span>
+      <div class="pc-label">Gradient</div>
+      <div class="pc-desc">Clinical evaluation localizes the donor to a safe region of the loss surface — eligibility as landscape navigation, not descent.</div>
+      <span class="pc-phase phase-pre">Pre-donation</span>
+    </div>
+    <div class="pentad-cell hinge">
+      <div class="pc-roman">IV</div>
+      <span class="pc-symbol">−η∇<sub>θ</sub>L + ε</span>
+      <div class="pc-label">Perturbation</div>
+      <div class="pc-desc">Nephrectomy — 50% nephron loss. eGFR drops to ~55% of baseline, recovers to ~75% within 6–12 months via hyperfiltration. The page turns here.</div>
+      <span class="pc-phase phase-hinge">Hinge · ε</span>
+    </div>
+    <div class="pentad-cell">
+      <div class="pc-roman">V</div>
+      <span class="pc-symbol">θ ← θ − η∇<sub>θ</sub>L</span>
+      <div class="pc-label">Update Rule</div>
+      <div class="pc-desc">Post-donation physiology evolves through continuous stochastic updates — labs, wearables, life events — against the pre-donation counterfactual.</div>
+      <span class="pc-phase phase-post">Post-donation</span>
+    </div>
+  </div>
+
+  <div class="hinge-decl fade-in">
+    <strong>The Seam:</strong> Stages I–III are pre-donation landscape localization — finding the safe region. Stage IV (ε) is the structural perturbation. Stage V is the true SGD loop. These are not one continuous flow; the hinge is where the science begins.
+  </div>
+
+  <!-- ── Pre/Post architecture ── -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-num">§ 02</span>
+    <div class="sec-rule-line"></div>
+    <span class="sec-rule-title">Two Problems, One Architecture</span>
+  </div>
+
+  <div class="cipher-grid fade-in">
+    <div class="cipher-cell">
+      <div class="cc-head">Pre-Donation · Stages I–III</div>
+      <div class="cc-title">Landscape Localization</div>
+      <div class="cc-body">
+        The pre-donation problem is a <strong>classification task</strong>: is this donor's θ positioned within a safe region of L(θ)? The gradient ∇<sub>θ</sub>L orients the evaluation — it describes the slope, not the trajectory. No descent has yet occurred. Eligibility is not optimization; it is <strong>localization</strong>.<br><br>
+        For older donors (≥55), the K08 grant identifies heightened glomerular senescence as a landscape deformation — the safe region is smaller, the slopes steeper. NHANES priors define the manifold; individual labs locate the donor on it.
+      </div>
+    </div>
+    <div class="cipher-cell">
+      <div class="cc-head">Post-Donation · Stages IV–V</div>
+      <div class="cc-title">Stochastic Optimization Loop</div>
+      <div class="cc-body">
+        After nephrectomy, the donor has a new initial condition θ<sub>post</sub>. The ε perturbation has known statistical properties from post-nephrectomy literature — this is not uncertainty, it is <strong>structured shock</strong>. The remaining kidney hyperfiltrates; the recovery manifold is estimable.<br><br>
+        Now the true SGD loop begins. Every lab, every wearable signal, every sentinel hospitalization is a stochastic update. The model learns the individual. The pre-donation twin becomes the <strong>counterfactual control</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Kahneman ── -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-num">§ 03</span>
+    <div class="sec-rule-line"></div>
+    <span class="sec-rule-title">The Kahneman Problem — Not a UI Issue</span>
+  </div>
+
+  <div class="fade-in">
+    <p>The 2017 KDIGO guidelines ask a population question: <em>"How many ESRD events in younger donors may be averted by transplanting older donors instead?"</em> The number produced is not merely hard to communicate — it is <strong>epistemologically invalid as personal guidance</strong>. Not even a professional can correctly interpret a population lifetime risk estimate applied to the individual sitting in front of them. This is not a display problem solvable by better UI. It is a category error.</p>
+
+    <p>The individualized loss function L(θ) is not a friendlier wrapper around the same statistic. It is a different quantity entirely — a personal risk surface computed from the donor's own parameter vector, updated continuously, benchmarked against their own counterfactual. The LLM translation layer exists to render gradient-space updates into clinical language, but the underlying transformation from population to individual has already happened mathematically, before any display occurs.</p>
+  </div>
+
+  <!-- ── Counterfactual control ── -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-num">§ 04</span>
+    <div class="sec-rule-line"></div>
+    <span class="sec-rule-title">The Counterfactual Control — The Methodological Revolution</span>
+  </div>
+
+  <div class="fade-in">
+    <p>Every existing dynamic risk model benchmarks against external population controls — matched cohorts, age-adjusted referents, NHANES surrogates. This introduces fundamental confounding: the controls did not donate, did not undergo nephrectomy, did not experience the ε perturbation.</p>
+
+    <p>The digital twin architecture implies something more rigorous: <strong>the donor's own pre-nephrectomy twin is the control group</strong>. Post-donation trajectory is benchmarked against the counterfactual unperturbed trajectory — what this person's eGFR, frailty index, and cardiovascular risk would have been had they not donated. The deviation between the live twin and the counterfactual twin is the true signal. Sentinel events register as divergences from the counterfactual, not as deviations from a population average.</p>
+
+    <p>This is not a marginal methodological improvement. It changes the scientific question from <em>"is this donor doing as well as similar people?"</em> to <em>"is this donor doing as well as they would have?"</em> — a fundamentally different and more answerable question.</p>
+  </div>
+
+  <!-- ── Timeline / lifecycle ── -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-num">§ 05</span>
+    <div class="sec-rule-line"></div>
+    <span class="sec-rule-title">Donor Lifecycle as Optimization Trajectory</span>
+  </div>
+
+  <div class="chain fade-in">
+    <div class="chain-node">
+      <div class="cn-label">Evaluation · θ₀</div>
+      <div class="cn-title">Baseline Parameter Estimation</div>
+      <div class="cn-body">NHANES priors + individual labs establish θ₀. For older donors, glomerular senescence is a landscape feature, not a disqualifier — it shapes the curvature of L(θ). The gradient ∇<sub>θ</sub>L locates the candidate relative to the safety boundary.</div>
+    </div>
+    <div class="chain-node">
+      <div class="cn-label">Eligibility · L(θ₀)</div>
+      <div class="cn-title">Safe Region Localization</div>
+      <div class="cn-body">Clearance for donation is confirmation that θ₀ lies within the acceptable region of the loss surface — not that the donor is optimal, but that the perturbation ahead is survivable and recoverable within known bounds.</div>
+    </div>
+    <div class="chain-node hinge-node">
+      <div class="cn-label">Nephrectomy · ε</div>
+      <div class="cn-title">Structural Perturbation — The Hinge</div>
+      <div class="cn-body">Immediate nephron mass reduction (~50%). eGFR drops to 50–60% of baseline. Compensatory hyperfiltration follows: recovery to ~70–80% within 6–12 months. The post-nephrectomy literature constrains the expected perturbation manifold — ε has known distributional structure. This is the new θ₀.</div>
+    </div>
+    <div class="chain-node">
+      <div class="cn-label">Recovery · θ₁…θₙ</div>
+      <div class="cn-title">Counterfactual Divergence Tracking</div>
+      <div class="cn-body">The live twin updates with each lab, BP reading, medication change, wearable signal. The pre-donation twin continues its counterfactual trajectory. Divergence between the two is the primary outcome variable — replacing external comparators entirely.</div>
+    </div>
+    <div class="chain-node">
+      <div class="cn-label">Long-Term · Ecosystem</div>
+      <div class="cn-title">Lifelong Adaptive Model</div>
+      <div class="cn-body">Life perturbations — hypertension onset, pregnancy, infection, aging — enter as εₜ terms. The model does not stop at 2 years. The KDIGO mandate is the floor, not the ceiling. The twin is the permanent scientific record of the donation's effect on this individual.</div>
+    </div>
+  </div>
+
+  <!-- ── Alert layer ── -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-num">§ 06</span>
+    <div class="sec-rule-line"></div>
+    <span class="sec-rule-title">UI/UX Translation Layer — Alerts from Gradient Space</span>
+  </div>
+
+  <div class="fade-in">
+    <p>The LLM API layer does not summarize population statistics. It renders the local gradient — the rate and direction of the donor's divergence from their own counterfactual — into clinical language at a resolution no prior risk calculator has achieved.</p>
+
+    <div class="alert-block">
+      <div class="alert-row warn">
+        <span class="alert-icon">⚠</span>
+        <div class="alert-text">
+          <strong>eGFR Decline · Counterfactual Divergence</strong>
+          Trajectory 15% below modeled counterfactual baseline — diverging faster than post-nephrectomy recovery envelope predicts. Nephrology review recommended.
+        </div>
+      </div>
+      <div class="alert-row info">
+        <span class="alert-icon">↑</span>
+        <div class="alert-text">
+          <strong>Blood Pressure Trend · Update Triggered</strong>
+          HTN trajectory diverging from counterfactual. Stochastic update applied. Antihypertensive plan revision indicated.
+        </div>
+      </div>
+      <div class="alert-row ok">
+        <span class="alert-icon">✓</span>
+        <div class="alert-text">
+          <strong>Twin Stable · Within Recovery Manifold</strong>
+          Live trajectory tracking within expected hyperfiltration recovery envelope. Counterfactual delta within normal variance. Continue current regimen.
+        </div>
+      </div>
+    </div>
+
+    <p>Informed consent is no longer a one-time pre-operative document. Under this architecture it becomes a continuous, dynamically updated conversation between the system and the donor — adjusted by every gradient update the model computes.</p>
+  </div>
+
+  <!-- ── Comparison table ── -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-num">§ 07</span>
+    <div class="sec-rule-line"></div>
+    <span class="sec-rule-title">Static vs. Dynamic — The Paradigm Shift</span>
+  </div>
+
+  <div class="fade-in">
+    <table class="stack-vis">
+      <thead>
+        <tr>
+          <th>Dimension</th>
+          <th>Traditional (KDIGO)</th>
+          <th>SGD Digital Twin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Core question</td>
+          <td>How many population ESRD events averted?</td>
+          <td>Is my post-donation trajectory resilient?</td>
+        </tr>
+        <tr>
+          <td>Risk assessment</td>
+          <td>Static, population-based survival curves</td>
+          <td>Dynamic, individualized trajectory</td>
+        </tr>
+        <tr>
+          <td>Control group</td>
+          <td>External population referents</td>
+          <td>Donor's own pre-nephrectomy counterfactual twin</td>
+        </tr>
+        <tr>
+          <td>Kahneman problem</td>
+          <td>Population stat applied to individual — category error</td>
+          <td>Individual loss surface — different quantity, not better display</td>
+        </tr>
+        <tr>
+          <td>Data handling</td>
+          <td>Complete, idealized cohorts</td>
+          <td>Sparse, noisy, stochastic — uncertainty is a feature</td>
+        </tr>
+        <tr>
+          <td>Informed consent</td>
+          <td>One-time pre-operative document</td>
+          <td>Continuous, gradient-updated conversation</td>
+        </tr>
+        <tr>
+          <td>Follow-up horizon</td>
+          <td>Fixed 2-year KDIGO mandate</td>
+          <td>Lifelong, adaptive ecosystem</td>
+        </tr>
+        <tr>
+          <td>Sentinel events</td>
+          <td>Clinical flag, external benchmark</td>
+          <td>Counterfactual divergence signal, SGD update trigger</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── Architecture equation ── -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-num">§ 08</span>
+    <div class="sec-rule-line"></div>
+    <span class="sec-rule-title">Full Architecture</span>
+  </div>
+
+  <div class="passcode-viz fade-in">
+    <span class="eq-key">Landscape</span>  →  <span class="eq-val">NHANES risk manifold · θ₀ · glomerular senescence as curvature</span><br>
+    <span class="eq-key">UB (Loss)  </span>  →  <span class="eq-val">L(θ) individualized · Kahneman epistemology resolved · eligibility as localization</span><br>
+    <span class="eq-key">SGD       </span>  →  <span class="eq-val">ε perturbation at nephrectomy · counterfactual initialized · continuous update loop</span><br>
+    <span class="eq-key">UI/UX     </span>  →  <span class="eq-val">LLM renders gradient-space divergence as clinical language · consent as conversation</span><br>
+    <span class="eq-key">Ecosystem </span>  →  <span class="eq-val">Lifelong adaptive model · sentinel events as εₜ · beyond KDIGO indefinitely</span>
+  </div>
+
+  <!-- ── Grant context ── -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-num">§ 09</span>
+    <div class="sec-rule-line"></div>
+    <span class="sec-rule-title">Grant Context — K08-AG065520</span>
+  </div>
+
+  <div class="chain fade-in">
+    <div class="chain-node">
+      <div class="cn-label">K · K08-AG065520 · 2020</div>
+      <div class="cn-title">Perioperative and Long-Term Risks in Older Donors</div>
+      <div class="cn-body">The grant's central move: shifting from the KDIGO population question to the individual question — "Can I safely donate?" — and identifying that ~80% of older donors will cross the GFR &lt; 60 threshold post-nephrectomy, not because they are sick, but because the population threshold was never calibrated for post-donation physiology. The grant named the gap. This architecture fills it.</div>
+    </div>
+    <div class="chain-node">
+      <div class="cn-label">∇ · Gradient Insight · 2022–2023</div>
+      <div class="cn-title">Traversal, Not Visualization</div>
+      <div class="cn-body">The high-dimensional NHANES parameter space is not a visualization problem. It is a traversal problem. The gradient gives direction without requiring full landscape visibility — the foundation of the stochastic approach to sparse clinical data.</div>
+    </div>
+    <div class="chain-node hinge-node">
+      <div class="cn-label">ε · Perturbation Formalization</div>
+      <div class="cn-title">Nephrectomy as Initial Condition</div>
+      <div class="cn-body">The post-nephrectomy literature provides the distributional structure of ε: immediate 40–50% GFR reduction, hyperfiltration recovery to ~75% by 6–12 months. These are not arbitrary parameters — they constrain the recovery manifold and allow the model to distinguish expected perturbation from anomalous divergence.</div>
+    </div>
+    <div class="chain-node">
+      <div class="cn-label">⟳ · Architecture · 2024–2025</div>
+      <div class="cn-title">Landscape → UB → SGD → UI/UX → Ecosystem</div>
+      <div class="cn-body">The five-stage Pentad formalized. The counterfactual control insight integrated. LLM API layer confirmed as gradient-to-language translation interface, not statistical communicator.</div>
+    </div>
+  </div>
+
+  <!-- ── Footer ── -->
+  <footer class="page-footer fade-in">
+    <span>Ukubona LLC</span>
+    <span>Digital Twin Architecture</span>
+    <span>K08-AG065520</span>
+    <span>2025</span>
+  </footer>
+
+</div><!-- end .page -->
+
+<!-- CENTRALIZED ASSETS (Don't Update) -->
+
+<header class="header" id="header"></header>
+<div class="scroll-indicator"><div class="scroll-progress"></div></div>
+<div class="bg-pattern"></div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+<script src="../js/shared.js"></script>
+<script>
+  function toggleTheme() {
+    const html = document.documentElement;
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    try { localStorage.setItem('ukb-theme', next); } catch(e) {}
+  }
+
+  // Restore saved theme
+  try {
+    const saved = localStorage.getItem('ukb-theme');
+    if (saved) document.documentElement.setAttribute('data-theme', saved);
+  } catch(e) {}
+
+  // Scroll-triggered fade-in
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
