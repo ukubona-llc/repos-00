@@ -1,1 +1,946 @@
-. 
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ukubona — Steward's Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:     #e8e0d0;
+    --paper:   #0a0a0a;
+    --mid:     #141414;
+    --rail:    #252520;
+    --gold:    #c9a84c;
+    --amber:   #d4874a;
+    --sage:    #7a9e7e;
+    --mist:    #8899aa;
+    --crimson: #b85c5c;
+    --rule:    rgba(201,168,76,0.2);
+    --serif:   'Playfair Display', Georgia, serif;
+    --body:    'Source Serif 4', Georgia, serif;
+    --mono:    'IBM Plex Mono', monospace;
+  }
+  [data-theme="light"] {
+    --ink:   #1a1612;
+    --paper: #f5f0e8;
+    --mid:   #ece6d8;
+    --rail:  #ddd6c4;
+    --rule:  rgba(140,100,30,0.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 15px; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── GRAIN ── */
+  body::after {
+    content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    opacity:0.55;
+  }
+
+  /* ── LAYOUT ── */
+  .shell {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    grid-template-rows: 52px 1fr;
+    min-height: 100vh;
+  }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    grid-column: 1 / -1;
+    background: var(--mid);
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+    gap: 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topbar-logo {
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+  }
+  .topbar-logo span { color: var(--mist); font-weight: 300; margin-left: 0.4rem; font-size: 0.8rem; font-family: var(--mono); letter-spacing: 0.1em; }
+  .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 1rem; }
+  .toggle-btn {
+    background: none; border: 1px solid var(--rule);
+    color: var(--gold); font-family: var(--mono);
+    font-size: 0.6rem; letter-spacing: 0.12em;
+    padding: 0.3rem 0.6rem; cursor: pointer;
+    text-transform: uppercase;
+  }
+  .status-pill {
+    font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.25rem 0.6rem; border-radius: 20px;
+    border: 1px solid;
+  }
+  .status-pill.active   { color: var(--sage);   border-color: rgba(122,158,126,0.4); background: rgba(122,158,126,0.06); }
+  .status-pill.warning  { color: var(--amber);  border-color: rgba(212,135,74,0.4);  background: rgba(212,135,74,0.06); }
+  .status-pill.sabbath  { color: var(--mist);   border-color: rgba(136,153,170,0.4); background: rgba(136,153,170,0.06); }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    background: var(--mid);
+    border-right: 1px solid var(--rule);
+    padding: 1.5rem 0;
+    overflow-y: auto;
+  }
+  .sidebar-section {
+    padding: 0 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  .sidebar-label {
+    font-family: var(--mono); font-size: 0.55rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--mist); opacity: 0.5;
+    margin-bottom: 0.6rem; display: block;
+  }
+  .node-list { list-style: none; }
+  .node-item {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.4rem 0.6rem; cursor: pointer;
+    border-radius: 3px; margin-bottom: 2px;
+    font-size: 0.85rem; transition: background 0.15s;
+  }
+  .node-item:hover { background: rgba(201,168,76,0.06); }
+  .node-item.selected { background: rgba(201,168,76,0.1); }
+  .node-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+  .node-item .node-state {
+    margin-left: auto;
+    font-family: var(--mono); font-size: 0.55rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    opacity: 0.6;
+  }
+  .dot-green  { background: var(--sage); }
+  .dot-amber  { background: var(--amber); box-shadow: 0 0 6px rgba(212,135,74,0.6); }
+  .dot-red    { background: var(--crimson); box-shadow: 0 0 6px rgba(184,92,92,0.6); }
+  .dot-blue   { background: var(--mist); }
+
+  /* ── STAGE NAV ── */
+  .stage-nav {
+    display: flex; flex-direction: column; gap: 2px;
+    padding: 0 1.2rem;
+  }
+  .stage-btn {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.4rem 0.6rem; cursor: pointer;
+    font-size: 0.8rem; border-radius: 3px;
+    background: none; border: none; color: var(--ink);
+    text-align: left; transition: background 0.15s;
+    font-family: var(--body);
+  }
+  .stage-btn:hover { background: rgba(201,168,76,0.06); }
+  .stage-btn.active { background: rgba(201,168,76,0.1); }
+  .stage-icon {
+    font-family: var(--mono); font-size: 0.6rem;
+    color: var(--gold); width: 2rem; text-align: right;
+  }
+
+  /* ── MAIN ── */
+  .main {
+    padding: 2rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--mid);
+    border: 1px solid var(--rule);
+    padding: 1.5rem;
+  }
+  .card-head {
+    display: flex; align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.2rem;
+  }
+  .card-title {
+    font-family: var(--serif); font-size: 0.95rem; font-weight: 700;
+    color: var(--ink);
+  }
+  .card-sub {
+    font-family: var(--mono); font-size: 0.58rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--mist); opacity: 0.6;
+    margin-top: 0.2rem;
+  }
+  .card-badge {
+    font-family: var(--mono); font-size: 0.55rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.2rem 0.5rem; border: 1px solid;
+  }
+  .badge-warn { color: var(--amber); border-color: rgba(212,135,74,0.4); }
+  .badge-ok   { color: var(--sage);  border-color: rgba(122,158,126,0.4); }
+  .badge-crit { color: var(--crimson); border-color: rgba(184,92,92,0.4); }
+
+  /* ── GRID ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+
+  /* ── SENSOR BARS ── */
+  .sensor { margin-bottom: 1.2rem; }
+  .sensor:last-child { margin-bottom: 0; }
+  .sensor-row {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.4rem;
+  }
+  .sensor-label {
+    font-family: var(--mono); font-size: 0.65rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .sensor-val {
+    font-family: var(--mono); font-size: 0.75rem;
+    color: var(--gold);
+  }
+  .bar-track {
+    height: 4px; background: rgba(201,168,76,0.1);
+    border-radius: 2px; overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%; border-radius: 2px;
+    transition: width 1.2s cubic-bezier(0.16,1,0.3,1);
+  }
+  .bar-head  { background: linear-gradient(90deg, var(--sage), #a3c9a8); }
+  .bar-heart { background: linear-gradient(90deg, var(--gold), var(--amber)); }
+  .bar-hands { background: linear-gradient(90deg, #7aaeae, #5f9ea0); }
+  .bar-heels { background: linear-gradient(90deg, var(--crimson), #c97a5c); }
+
+  /* ── RESONANCE RINGS ── */
+  .resonance-wrap {
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.5rem;
+  }
+  .rings-svg { overflow: visible; }
+
+  /* ── STAGE METER ── */
+  .eta-display {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .eta-val {
+    font-family: var(--serif); font-size: 2.8rem;
+    font-weight: 900; color: var(--gold); line-height: 1;
+  }
+  .eta-label {
+    font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--mist); opacity: 0.6;
+  }
+  .eta-desc {
+    font-size: 0.8rem; color: var(--mist); margin-top: 0.3rem;
+  }
+
+  /* ── ETA SLIDER ── */
+  .slider-wrap { margin-top: 1rem; }
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%; height: 4px;
+    background: rgba(201,168,76,0.15);
+    border-radius: 2px; outline: none; cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 8px rgba(201,168,76,0.4);
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+  }
+  input[type=range]::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 14px rgba(201,168,76,0.7);
+  }
+  .stage-ticks {
+    display: flex; justify-content: space-between;
+    margin-top: 0.5rem;
+    font-family: var(--mono); font-size: 0.55rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--mist); opacity: 0.5;
+  }
+
+  /* ── INTERVENTION PANEL ── */
+  .intervention {
+    border: 1px solid rgba(212,135,74,0.3);
+    background: rgba(212,135,74,0.04);
+    padding: 1.5rem;
+  }
+  .intervention.hidden { display: none; }
+  .intervention-title {
+    font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--amber); margin-bottom: 0.8rem;
+  }
+  .intervention p { font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem; }
+  .intervention em { color: var(--amber); font-style: normal; font-weight: 600; }
+
+  .path-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: var(--rule); margin-bottom: 1.2rem;
+  }
+  .path-cell {
+    background: var(--mid); padding: 1rem;
+    font-size: 0.8rem; line-height: 1.6;
+  }
+  .path-cell .path-label {
+    font-family: var(--mono); font-size: 0.58rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 0.6rem; display: block;
+  }
+  .path-cell.path-a .path-label { color: var(--crimson); }
+  .path-cell.path-b .path-label { color: var(--sage); }
+  .path-cell .path-row { display: flex; gap: 0.5rem; margin-bottom: 0.3rem; }
+  .path-cell .path-key {
+    font-family: var(--mono); font-size: 0.7rem;
+    color: var(--mist); opacity: 0.6; min-width: 80px;
+  }
+
+  .sabbath-input {
+    display: flex; gap: 0.8rem; align-items: center;
+  }
+  .sabbath-field {
+    flex: 1; background: rgba(136,153,170,0.08);
+    border: 1px solid var(--rule); color: var(--ink);
+    font-family: var(--mono); font-size: 0.8rem;
+    padding: 0.6rem 0.8rem; outline: none;
+    transition: border-color 0.2s;
+  }
+  .sabbath-field:focus { border-color: var(--mist); }
+  .sabbath-btn {
+    background: rgba(136,153,170,0.1);
+    border: 1px solid rgba(136,153,170,0.3);
+    color: var(--mist); font-family: var(--mono);
+    font-size: 0.65rem; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 0.6rem 1rem;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .sabbath-btn:hover { border-color: var(--mist); background: rgba(136,153,170,0.15); }
+
+  /* ── SABBATH STATE ── */
+  .sabbath-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(8,8,12,0.96);
+    z-index: 500;
+    align-items: center; justify-content: center;
+    flex-direction: column; gap: 2rem;
+    text-align: center;
+    padding: 2rem;
+  }
+  .sabbath-overlay.active { display: flex; }
+  .sabbath-symbol {
+    font-size: 4rem; opacity: 0.4;
+    animation: breathe 4s ease-in-out infinite;
+  }
+  .sabbath-title {
+    font-family: var(--serif); font-size: 2rem;
+    font-weight: 400; font-style: italic;
+    color: var(--mist);
+  }
+  .sabbath-msg {
+    font-family: var(--body); font-size: 0.95rem;
+    line-height: 1.8; color: var(--mist); opacity: 0.7;
+    max-width: 480px;
+  }
+  .recovery-meter {
+    width: 280px;
+  }
+  .recovery-track {
+    height: 2px; background: rgba(136,153,170,0.15);
+    border-radius: 1px; overflow: hidden; margin-bottom: 0.5rem;
+  }
+  .recovery-fill {
+    height: 100%; background: var(--mist);
+    border-radius: 1px; width: 0%;
+    transition: width 0.8s ease;
+  }
+  .recovery-label {
+    font-family: var(--mono); font-size: 0.58rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--mist); opacity: 0.4; text-align: center;
+  }
+  .sabbath-exit {
+    background: none; border: 1px solid rgba(136,153,170,0.2);
+    color: var(--mist); font-family: var(--mono);
+    font-size: 0.6rem; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 0.5rem 1rem;
+    cursor: pointer; opacity: 0.4; margin-top: 1rem;
+    transition: opacity 0.2s;
+  }
+  .sabbath-exit:hover { opacity: 0.7; }
+
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); opacity: 0.35; }
+    50%       { transform: scale(1.08); opacity: 0.5; }
+  }
+
+  /* ── SIGNAL CHART ── */
+  .chart-area { padding: 0.5rem 0; }
+  canvas.signal-chart { width: 100%; height: 80px; }
+
+  /* ── SYSTEM FEED ── */
+  .feed { display: flex; flex-direction: column; gap: 0.7rem; }
+  .feed-item {
+    display: flex; gap: 0.8rem;
+    padding: 0.7rem; background: rgba(201,168,76,0.03);
+    border-left: 2px solid transparent; font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  .feed-item.info    { border-color: var(--mist); }
+  .feed-item.warn    { border-color: var(--amber); }
+  .feed-item.alert   { border-color: var(--crimson); }
+  .feed-item.sabbath { border-color: var(--mist); opacity: 0.6; }
+  .feed-time {
+    font-family: var(--mono); font-size: 0.6rem;
+    color: var(--mist); opacity: 0.4; white-space: nowrap;
+    margin-top: 0.1rem; min-width: 44px;
+  }
+
+  /* ── QUINTET SCORE ── */
+  .score-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--rule); }
+  .score-cell {
+    background: var(--mid); padding: 1rem 0.5rem;
+    text-align: center;
+  }
+  .score-num {
+    font-family: var(--serif); font-size: 1.6rem;
+    font-weight: 700; display: block; line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .score-cell:nth-child(1) .score-num { color: var(--voice-m, var(--amber)); }
+  .score-cell:nth-child(2) .score-num { color: var(--sage); }
+  .score-cell:nth-child(3) .score-num { color: var(--gold); }
+  .score-cell:nth-child(4) .score-num { color: var(--mist); }
+  .score-cell:nth-child(5) .score-num { color: var(--crimson); }
+  .score-label {
+    font-family: var(--mono); font-size: 0.55rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--mist); opacity: 0.5; display: block;
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 680px) {
+    .shell { grid-template-columns: 1fr; grid-template-rows: 52px auto 1fr; }
+    .sidebar { display: none; }
+    .grid-2, .grid-4 { grid-template-columns: 1fr; }
+    .path-grid { grid-template-columns: 1fr; }
+    .score-grid { grid-template-columns: repeat(3,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── SABBATH OVERLAY ── -->
+<div class="sabbath-overlay" id="sabbathOverlay">
+  <div class="sabbath-symbol">✦</div>
+  <div class="sabbath-title">The SGD Update Rule Is Paused</div>
+  <p class="sabbath-msg">
+    This Digital Twin is now in a state of Rest.<br>
+    Stewardship requires silence.<br>
+    <em style="font-style:italic; color:var(--mist); opacity:0.6;">The system sees your labor. The biological math says you need a Sabbath.</em>
+  </p>
+  <div class="recovery-meter">
+    <div class="recovery-track"><div class="recovery-fill" id="recoveryFill"></div></div>
+    <div class="recovery-label">Parameter Recovery — <span id="recoveryPct">0</span>%</div>
+  </div>
+  <button class="sabbath-exit" id="sabbathExit">Resume when HRV stabilises</button>
+</div>
+
+<!-- ── SHELL ── -->
+<div class="shell">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-logo">Ukubona <span>LLC · Steward's Dashboard · Prototype</span></div>
+    <div class="topbar-right">
+      <div class="status-pill active" id="systemStatus">System Active</div>
+      <button class="toggle-btn" onclick="toggleTheme()">☀ Light</button>
+    </div>
+  </header>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <span class="sidebar-label">Active Nodes</span>
+      <ul class="node-list">
+        <li class="node-item selected" onclick="selectNode('kato', this)">
+          <span class="node-dot dot-amber"></span> Kato M.
+          <span class="node-state">Grind</span>
+        </li>
+        <li class="node-item" onclick="selectNode('amara', this)">
+          <span class="node-dot dot-green"></span> Amara N.
+          <span class="node-state">Flourish</span>
+        </li>
+        <li class="node-item" onclick="selectNode('julius', this)">
+          <span class="node-dot dot-red"></span> Julius O.
+          <span class="node-state">Critical</span>
+        </li>
+        <li class="node-item" onclick="selectNode('priya', this)">
+          <span class="node-dot dot-blue"></span> Priya K.
+          <span class="node-state">Rebuild</span>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-label">Pentad Stage</span>
+      <div class="stage-nav">
+        <button class="stage-btn active" onclick="setStage(0,this)"><span class="stage-icon">θ</span>Be</button>
+        <button class="stage-btn" onclick="setStage(1,this)"><span class="stage-icon">L(θ)</span>Become</button>
+        <button class="stage-btn" onclick="setStage(2,this)"><span class="stage-icon">∇θL</span>Boost</button>
+        <button class="stage-btn" onclick="setStage(3,this)"><span class="stage-icon">ε</span>Broaden</button>
+        <button class="stage-btn" onclick="setStage(4,this)"><span class="stage-icon">←θ</span>Build</button>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-label">Twins</span>
+      <ul class="node-list">
+        <li class="node-item"><span class="node-dot dot-green"></span> HR Twin (Mato)</li>
+        <li class="node-item"><span class="node-dot dot-amber"></span> Clinical Twin (Kasenene)</li>
+        <li class="node-item"><span class="node-dot dot-green"></span> Asset Twin (Strata)</li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" id="mainArea">
+
+    <!-- ROW 1: Sensor bars + Resonance rings -->
+    <div class="grid-2">
+
+      <!-- ANATOMICAL SENSORS -->
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Anatomical Alignment — <span id="nodeName">Kato M.</span></div>
+            <div class="card-sub">Head · Heart · Hands · Heels</div>
+          </div>
+          <div class="card-badge badge-warn" id="alignBadge">⚠ Grind State</div>
+        </div>
+
+        <div class="sensor">
+          <div class="sensor-row">
+            <div class="sensor-label">
+              <span style="color:var(--sage);">◉</span> Head (Wisdom)
+            </div>
+            <span class="sensor-val" id="headVal">72%</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill bar-head" id="headBar" style="width:72%"></div></div>
+        </div>
+        <div class="sensor">
+          <div class="sensor-row">
+            <div class="sensor-label">
+              <span style="color:var(--gold);">◉</span> Heart (Alignment)
+            </div>
+            <span class="sensor-val" id="heartVal">34%</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill bar-heart" id="heartBar" style="width:34%"></div></div>
+        </div>
+        <div class="sensor">
+          <div class="sensor-row">
+            <div class="sensor-label">
+              <span style="color:#7aaeae;">◉</span> Hands (Output)
+            </div>
+            <span class="sensor-val" id="handsVal">91%</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill bar-hands" id="handsBar" style="width:91%"></div></div>
+        </div>
+        <div class="sensor">
+          <div class="sensor-row">
+            <div class="sensor-label">
+              <span style="color:var(--crimson);">◉</span> Heels (Velocity)
+            </div>
+            <span class="sensor-val" id="heelsVal">88%</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill bar-heels" id="heelsBar" style="width:88%"></div></div>
+        </div>
+      </div>
+
+      <!-- RESONANCE RINGS -->
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Vision / Deployment Resonance</div>
+            <div class="card-sub">θ (Vision) vs. Current State — drift indicates L(θ)</div>
+          </div>
+        </div>
+        <div class="resonance-wrap">
+          <svg class="rings-svg" width="180" height="160" viewBox="-90 -80 180 160" id="resonanceSvg">
+            <!-- Vision ring -->
+            <circle cx="0" cy="0" r="60" fill="none" stroke="rgba(201,168,76,0.15)" stroke-width="1"/>
+            <circle cx="0" cy="0" r="60" fill="rgba(201,168,76,0.04)" />
+            <!-- Ghost (current state) -->
+            <ellipse id="ghostRing" cx="0" cy="12" rx="46" ry="44"
+              fill="rgba(212,135,74,0.06)" stroke="rgba(212,135,74,0.5)"
+              stroke-width="1.5" stroke-dasharray="4 3"
+              style="transition: all 1s cubic-bezier(0.16,1,0.3,1)"/>
+            <!-- Vision label -->
+            <text x="0" y="-68" text-anchor="middle"
+              font-family="IBM Plex Mono, monospace" font-size="7"
+              fill="rgba(201,168,76,0.5)" letter-spacing="1">VISION θ</text>
+            <!-- Drift arrow -->
+            <line id="driftLine" x1="0" y1="-2" x2="0" y2="10"
+              stroke="rgba(212,135,74,0.4)" stroke-width="1"
+              marker-end="url(#arrow)"
+              style="transition: all 1s cubic-bezier(0.16,1,0.3,1)"/>
+            <defs>
+              <marker id="arrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="rgba(212,135,74,0.5)"/>
+              </marker>
+            </defs>
+            <!-- Overlap pct -->
+            <text id="resonancePct" x="0" y="4" text-anchor="middle"
+              font-family="Playfair Display, serif" font-size="20" font-weight="700"
+              fill="rgba(201,168,76,0.7)">62%</text>
+            <text x="0" y="18" text-anchor="middle"
+              font-family="IBM Plex Mono, monospace" font-size="7"
+              fill="rgba(136,153,170,0.4)" letter-spacing="0.5">OVERLAP</text>
+          </svg>
+        </div>
+        <div style="font-family:var(--mono); font-size:0.6rem; color:var(--mist); opacity:0.5; text-align:center;">
+          Deploying 80% admin · 5% visionary planting
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 2: η Control + Clinical signal -->
+    <div class="grid-2">
+
+      <!-- ETA CONTROL -->
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Learning Rate η</div>
+            <div class="card-sub">Stochastic Gradient Descent — step size</div>
+          </div>
+        </div>
+        <div class="eta-display">
+          <div class="eta-val" id="etaVal">0.8</div>
+          <div>
+            <div class="eta-label">η current</div>
+            <div class="eta-desc" id="etaDesc">Normal operations. Sabbath not indicated.</div>
+          </div>
+        </div>
+        <div class="slider-wrap">
+          <input type="range" min="0" max="10" value="8" step="1"
+            id="etaSlider" oninput="updateEta(this.value)">
+          <div class="stage-ticks">
+            <span>η=0 Sabbath</span>
+            <span>Consolidation</span>
+            <span>Normal</span>
+            <span>Startup</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CLINICAL SIGNAL -->
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Clinical Twin — Kasenene Sync</div>
+            <div class="card-sub">Biological substrate · Cross-twin signal</div>
+          </div>
+          <div class="card-badge badge-warn">HRV ↓ 22%</div>
+        </div>
+        <div class="chart-area">
+          <canvas id="signalCanvas" width="400" height="80"></canvas>
+        </div>
+        <div style="display:flex; gap:1.5rem; margin-top:0.8rem; font-family:var(--mono); font-size:0.6rem; color:var(--mist);">
+          <span style="color:var(--amber);">— Self-report</span>
+          <span style="color:var(--sage);">— Biomarker</span>
+          <span>Gap = Heroism Crisis probability</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTERVENTION -->
+    <div class="intervention" id="interventionPanel">
+      <div class="intervention-title">⚑ Stewardship Intervention Active — Conflict Detected</div>
+      <p>Kato, the system sees your labor. Your <em>Hands</em> and <em>Heels</em> are at high capacity, but your <em>Heart</em> alignment has dropped to 34% while the Clinical Twin reports <em>Cortisol ↑22%</em> and Sleep-ε destabilising the update rule. The biological math is signalling misalignment before the self-report does.</p>
+      <div class="path-grid">
+        <div class="path-cell path-a">
+          <span class="path-label">Path A — The Industrial Grind (Oracle)</span>
+          <div class="path-row"><span class="path-key">Action</span> Continue current trajectory.</div>
+          <div class="path-row"><span class="path-key">Prediction</span> +15% weekly task completion.</div>
+          <div class="path-row"><span class="path-key">Risk</span> High probability Soul-Loss (Burnout) in 14 days.</div>
+          <div class="path-row"><span class="path-key">Impact</span> Vision / Calling misalignment.</div>
+        </div>
+        <div class="path-cell path-b">
+          <span class="path-label">Path B — The Kingdom Sabbath (Steward)</span>
+          <div class="path-row"><span class="path-key">Action</span> Execute Damping Factor (η ↓ 0).</div>
+          <div class="path-row"><span class="path-key">Prediction</span> 48-hour Spirit-led reset.</div>
+          <div class="path-row"><span class="path-key">Risk</span> Short-term output dip (−10%).</div>
+          <div class="path-row"><span class="path-key">Impact</span> Long-term Legacy stability (↑).</div>
+        </div>
+      </div>
+      <p style="font-size:0.82rem; color:var(--mist); margin-bottom:1rem;">
+        To choose Path B, type the word <em>Sabbath</em> below. This is the ritual of consent — the system requires a deliberate, embodied act.
+      </p>
+      <div class="sabbath-input">
+        <input class="sabbath-field" id="sabbathField" type="text"
+          placeholder="type 'Sabbath' to pause the optimization loop…"
+          oninput="checkSabbath(this.value)">
+        <button class="sabbath-btn" onclick="triggerSabbath()">Initiate</button>
+      </div>
+    </div>
+
+    <!-- SCORE ROW -->
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Quintet Score — Organization-Wide Dignity-at-Risk</div>
+          <div class="card-sub">Aggregated ecosystem · anonymised nodes</div>
+        </div>
+      </div>
+      <div class="score-grid">
+        <div class="score-cell">
+          <span class="score-num" id="s1">I</span>
+          <span class="score-label">Flourishing</span>
+        </div>
+        <div class="score-cell">
+          <span class="score-num" id="s2">II</span>
+          <span class="score-label">Grind</span>
+        </div>
+        <div class="score-cell">
+          <span class="score-num" id="s3">I</span>
+          <span class="score-label">Disengaged</span>
+        </div>
+        <div class="score-cell">
+          <span class="score-num" id="s4">I</span>
+          <span class="score-label">Rebuilding</span>
+        </div>
+        <div class="score-cell">
+          <span class="score-num" id="s5">0</span>
+          <span class="score-label">Critical</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SYSTEM FEED -->
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Ecosystem Feed</div>
+          <div class="card-sub">Agentic interventions · Cross-twin signals</div>
+        </div>
+      </div>
+      <div class="feed" id="feedList">
+        <div class="feed-item warn">
+          <span class="feed-time">09:14</span>
+          <span><strong>Stewardship Alert —</strong> Kato's biological twin de-syncing. Hands 91% / Heart 34%. Discrepancy gap: 57 pts. Sabbath protocol eligible.</span>
+        </div>
+        <div class="feed-item info">
+          <span class="feed-time">08:52</span>
+          <span>Amara N. completed Sabbath-to-Build transition. Efficiency 85%, Dignity/Soul-Alignment 100%. Predicted longevity: HIGH.</span>
+        </div>
+        <div class="feed-item alert">
+          <span class="feed-time">08:31</span>
+          <span><strong>Silent Cry — Julius O.:</strong> Self-reporting 92% alignment. Clinical Twin signals 38% drop in Functional Harmony. "3-point shooting through exhaustion." Mandatory Sabbath recommended.</span>
+        </div>
+        <div class="feed-item info">
+          <span class="feed-time">07:45</span>
+          <span>Organization-wide Dignity-at-Risk Score: <strong>42</strong>. Current "Broaden" phase velocity exceeds biological substrate tolerance. Suggest shifting next ∇θL session from Strategy → Stillness.</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div><!-- /.shell -->
+
+<script>
+// ── DATA ──
+const nodes = {
+  kato:   { name: 'Kato M.',   head: 72, heart: 34, hands: 91, heels: 88, state: 'Grind',    badge: 'warn', badgeText: '⚠ Grind State',    resonance: 62 },
+  amara:  { name: 'Amara N.',  head: 88, heart: 92, hands: 85, heels: 80, state: 'Flourish', badge: 'ok',   badgeText: '✓ Flourishing',     resonance: 91 },
+  julius: { name: 'Julius O.', head: 55, heart: 22, hands: 94, heels: 96, state: 'Critical', badge: 'crit', badgeText: '⚠ Critical — Grind', resonance: 38 },
+  priya:  { name: 'Priya K.',  head: 60, heart: 65, hands: 42, heels: 38, state: 'Rebuild',  badge: 'ok',   badgeText: '↑ Rebuilding',      resonance: 70 },
+};
+let currentNode = 'kato';
+
+function selectNode(id, el) {
+  currentNode = id;
+  document.querySelectorAll('.node-item').forEach(n => n.classList.remove('selected'));
+  el.classList.add('selected');
+  renderNode(id);
+}
+
+function renderNode(id) {
+  const n = nodes[id];
+  document.getElementById('nodeName').textContent  = n.name;
+  document.getElementById('headVal').textContent   = n.head + '%';
+  document.getElementById('heartVal').textContent  = n.heart + '%';
+  document.getElementById('handsVal').textContent  = n.hands + '%';
+  document.getElementById('heelsVal').textContent  = n.heels + '%';
+  document.getElementById('headBar').style.width   = n.head + '%';
+  document.getElementById('heartBar').style.width  = n.heart + '%';
+  document.getElementById('handsBar').style.width  = n.hands + '%';
+  document.getElementById('heelsBar').style.width  = n.heels + '%';
+  const badge = document.getElementById('alignBadge');
+  badge.className = 'card-badge badge-' + n.badge;
+  badge.textContent = n.badgeText;
+  // Resonance rings
+  const drift = (100 - n.resonance) * 0.28;
+  document.getElementById('ghostRing').setAttribute('cy', drift);
+  document.getElementById('driftLine').setAttribute('y2', drift * 0.8);
+  document.getElementById('resonancePct').textContent = n.resonance + '%';
+  // Show/hide intervention
+  document.getElementById('interventionPanel').classList.toggle('hidden', n.state === 'Flourish' || n.state === 'Rebuild');
+  drawSignalChart(id);
+}
+
+// ── ETA SLIDER ──
+const etaLabels = [
+  'η = 0.0 — Sabbath. The optimization loop is paused.',
+  'η = 0.1 — Deep Rest. Stillness. Parameter recovery.',
+  'η = 0.2 — Dawn Protocol. Visionary tasks only.',
+  'η = 0.3 — Slow emergence. Deliberate steps.',
+  'η = 0.4 — Consolidation. Anchoring recent gains.',
+  'η = 0.5 — Balanced. Steady-state operations.',
+  'η = 0.6 — Noon Protocol. Collaborative tools active.',
+  'η = 0.7 — Growth season. Boost phase eligible.',
+  'η = 0.8 — Normal operations. Sabbath not indicated.',
+  'η = 0.9 — Startup season. Aggressive expansion.',
+  'η = 1.0 — Zenith. Full broaden capacity. High ε.',
+];
+function updateEta(v) {
+  const val = (v / 10).toFixed(1);
+  document.getElementById('etaVal').textContent = val;
+  document.getElementById('etaDesc').textContent = etaLabels[parseInt(v)];
+}
+
+// ── STAGE BUTTONS ──
+function setStage(i, el) {
+  document.querySelectorAll('.stage-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── SIGNAL CHART ──
+function drawSignalChart(nodeId) {
+  const canvas = document.getElementById('signalCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.offsetWidth || 400;
+  const H = 80;
+  canvas.width = W;
+  canvas.height = H;
+  ctx.clearRect(0, 0, W, H);
+
+  const n = nodes[nodeId];
+  const pts = 40;
+  // Generate two signals
+  const mask = [];
+  const truth = [];
+  for (let i = 0; i < pts; i++) {
+    const t = i / (pts - 1);
+    mask.push(0.85 + 0.1 * Math.sin(t * 8) + (Math.random() - 0.5) * 0.05);
+    const trueBase = (n.heart / 100) * 0.7 + 0.1;
+    truth.push(trueBase + 0.08 * Math.sin(t * 6 + 1.5) + (Math.random() - 0.5) * 0.04);
+  }
+
+  const drawLine = (data, color) => {
+    ctx.beginPath();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1.5;
+    ctx.lineJoin = 'round';
+    data.forEach((v, i) => {
+      const x = (i / (pts - 1)) * W;
+      const y = H - (v * H * 0.8 + H * 0.05);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+  };
+
+  drawLine(mask, 'rgba(212,135,74,0.7)');
+  drawLine(truth, 'rgba(122,158,126,0.7)');
+}
+
+// ── SABBATH ──
+function checkSabbath(val) {
+  if (val.toLowerCase().trim() === 'sabbath') triggerSabbath();
+}
+function triggerSabbath() {
+  document.getElementById('sabbathOverlay').classList.add('active');
+  document.getElementById('systemStatus').textContent = 'Sabbath Active';
+  document.getElementById('systemStatus').className = 'status-pill sabbath';
+  addFeedItem('sabbath', 'Sabbath Protocol Initiated — Kato M. Optimization loop paused. η = 0. Capacity adjusted for 48 hours. Kingdom Health > Output.');
+  let pct = 0;
+  const fill = document.getElementById('recoveryFill');
+  const pctEl = document.getElementById('recoveryPct');
+  const interval = setInterval(() => {
+    pct = Math.min(pct + 0.4, 100);
+    fill.style.width = pct + '%';
+    pctEl.textContent = Math.floor(pct);
+    if (pct >= 100) clearInterval(interval);
+  }, 180);
+}
+document.getElementById('sabbathExit').addEventListener('click', () => {
+  document.getElementById('sabbathOverlay').classList.remove('active');
+  document.getElementById('systemStatus').textContent = 'System Active';
+  document.getElementById('systemStatus').className = 'status-pill active';
+  document.getElementById('sabbathField').value = '';
+  document.getElementById('etaSlider').value = 2;
+  updateEta(2);
+  addFeedItem('info', 'Dawn Protocol initiated — Kato M. η = 0.2. Deep Focus Mode: top 3 Visionary tasks visible. Communication blocked. Staged re-entry active.');
+});
+
+function addFeedItem(type, text) {
+  const feed = document.getElementById('feedList');
+  const now = new Date();
+  const time = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  const item = document.createElement('div');
+  item.className = 'feed-item ' + type;
+  item.innerHTML = `<span class="feed-time">${time}</span><span>${text}</span>`;
+  feed.insertBefore(item, feed.firstChild);
+}
+
+// ── THEME ──
+function toggleTheme() {
+  const html = document.documentElement;
+  const btn  = document.querySelector('.toggle-btn');
+  if (html.dataset.theme === 'dark') {
+    html.dataset.theme = 'light';
+    btn.textContent = '☾ Dark';
+    localStorage.setItem('ukubona-theme', 'light');
+  } else {
+    html.dataset.theme = 'dark';
+    btn.textContent = '☀ Light';
+    localStorage.setItem('ukubona-theme', 'dark');
+  }
+}
+(function() {
+  if (localStorage.getItem('ukubona-theme') === 'light') {
+    document.documentElement.dataset.theme = 'light';
+    document.querySelector('.toggle-btn').textContent = '☾ Dark';
+  }
+})();
+
+// ── INIT ──
+window.addEventListener('load', () => {
+  renderNode('kato');
+  drawSignalChart('kato');
+  updateEta(8);
+});
+window.addEventListener('resize', () => drawSignalChart(currentNode));
+</script>
+</body>
+</html>
