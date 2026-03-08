@@ -1,1 +1,1101 @@
-. 
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ukubona · Who Owns the Gradient · A Stratigraphy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+<style>
+/* ═══════════════════════════════════════════════════════════
+   ROOT VARIABLES
+═══════════════════════════════════════════════════════════ */
+:root {
+  --bg:        #080808;
+  --bg2:       #0f0f0f;
+  --bg3:       #141414;
+  --rule:      #222;
+  --rule2:     #2e2e2e;
+  --text:      #ddd5c8;
+  --dim:       #6a6460;
+  --amber:     #c8943a;
+  --amber2:    #e8b86d;
+  --rust:      #a04030;
+  --cold:      #8ab0c8;
+  --cold2:     #b8d0e0;
+  --green:     #6a9070;
+  --green2:    #90b890;
+  --white:     #f0ece6;
+
+  /* layer colours — downstream to upstream */
+  --body-c:    #a04030;   /* Body: rust — industrial blood */
+  --mind-c:    #8ab0c8;   /* Mind: cold blue — silicon */
+  --soul-c:    #c8943a;   /* Soul: amber — conscience */
+  --taste-c:   #9a88c0;   /* Taste: violet — distinction */
+  --calibr-c:  #90b890;   /* Calibrate: pale green — ground truth */
+}
+
+[data-theme="light"] {
+  --bg: #f4f0e8; --bg2: #ede8df; --bg3: #e6e0d4;
+  --rule: #ccc5b5; --rule2: #b8b0a0;
+  --text: #1a1410; --dim: #8a8078;
+  --white: #0a0806;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Libre Baskerville', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.8;
+  overflow-x: hidden;
+  transition: background 0.4s, color 0.4s;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GRAIN OVERLAY
+═══════════════════════════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER
+═══════════════════════════════════════════════════════════ */
+.site-header {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(8,8,8,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+  padding: 0.7rem 2.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+[data-theme="light"] .site-header { background: rgba(244,240,232,0.92); }
+
+.brand {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.toggle {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.62rem; letter-spacing: 0.12em;
+  background: none; border: 1px solid var(--rule2);
+  color: var(--dim); padding: 0.25rem 0.7rem;
+  cursor: pointer; transition: all 0.2s;
+}
+.toggle:hover { border-color: var(--amber); color: var(--amber); }
+
+/* ═══════════════════════════════════════════════════════════
+   PAGE WRAPPER
+═══════════════════════════════════════════════════════════ */
+.page {
+  position: relative; z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 5rem 2.5rem 10rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════════════ */
+.hero {
+  margin-bottom: 5rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.hero-stamp {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--amber);
+  margin-bottom: 1.8rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.hero-stamp::after {
+  content: ''; flex: 1; height: 1px; background: var(--rule2);
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 300;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  margin-bottom: 1.4rem;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--amber2);
+}
+.hero h1 strong {
+  font-weight: 600;
+  color: var(--white);
+}
+
+.hero-sub {
+  font-size: 1.05rem;
+  color: var(--dim);
+  font-style: italic;
+  max-width: 620px;
+  line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STRATIGRAPHY BAR  (vertical depth indicator on left)
+═══════════════════════════════════════════════════════════ */
+.strat-nav {
+  position: fixed;
+  left: 1.2rem; top: 50%;
+  transform: translateY(-50%);
+  display: flex; flex-direction: column;
+  gap: 0.5rem; z-index: 100;
+}
+@media (max-width: 900px) { .strat-nav { display: none; } }
+
+.strat-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--rule2);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+}
+.strat-dot:hover, .strat-dot.active { transform: scale(1.6); }
+.strat-dot[data-layer="body"]    { border-color: var(--body-c); }
+.strat-dot[data-layer="mind"]    { border-color: var(--mind-c); }
+.strat-dot[data-layer="soul"]    { border-color: var(--soul-c); }
+.strat-dot[data-layer="taste"]   { border-color: var(--taste-c); }
+.strat-dot[data-layer="calibr"]  { border-color: var(--calibr-c); }
+.strat-dot[data-layer="body"].active    { background: var(--body-c); }
+.strat-dot[data-layer="mind"].active    { background: var(--mind-c); }
+.strat-dot[data-layer="soul"].active    { background: var(--soul-c); }
+.strat-dot[data-layer="taste"].active   { background: var(--taste-c); }
+.strat-dot[data-layer="calibr"].active  { background: var(--calibr-c); }
+
+/* ═══════════════════════════════════════════════════════════
+   DIRECTION LABEL
+═══════════════════════════════════════════════════════════ */
+.direction-bar {
+  display: flex; align-items: center; gap: 1rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--dim);
+  margin-bottom: 4rem;
+}
+.direction-bar .line { flex: 1; height: 1px; background: var(--rule); }
+.direction-bar .arrow-label { white-space: nowrap; }
+
+/* ═══════════════════════════════════════════════════════════
+   LAYER SECTION
+═══════════════════════════════════════════════════════════ */
+.layer-section {
+  margin-bottom: 6rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.layer-section.visible {
+  opacity: 1; transform: translateY(0);
+}
+
+.layer-head {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 0 2rem;
+  align-items: start;
+  margin-bottom: 2rem;
+}
+
+.layer-index {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding-top: 0.4rem;
+  text-align: right;
+}
+
+.layer-meta { }
+.layer-math {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem; letter-spacing: 0.06em;
+  margin-bottom: 0.3rem;
+}
+
+.layer-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 300;
+  line-height: 1.1;
+  margin-bottom: 0.3rem;
+}
+.layer-title em { font-style: italic; }
+
+.layer-era {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.62rem; letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Accent line under layer title */
+.layer-rule {
+  height: 2px;
+  margin: 1.2rem 0 2rem 0;
+  border: none;
+}
+
+/* Layer body */
+.layer-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem 3rem;
+}
+@media (max-width: 700px) {
+  .layer-body { grid-template-columns: 1fr; }
+  .layer-head { grid-template-columns: 1fr; }
+  .layer-index { text-align: left; }
+}
+
+.layer-body.full { grid-template-columns: 1fr; }
+.layer-body.thirds { grid-template-columns: 1fr 1fr 1fr; }
+@media (max-width: 800px) { .layer-body.thirds { grid-template-columns: 1fr; } }
+
+/* ═══════════════════════════════════════════════════════════
+   TEXT COMPONENTS
+═══════════════════════════════════════════════════════════ */
+.prose { }
+.prose p { margin-bottom: 1rem; }
+.prose p:last-child { margin-bottom: 0; }
+
+.pull-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.45rem; font-weight: 300;
+  font-style: italic;
+  line-height: 1.45;
+  padding: 1.5rem 0 1.5rem 1.5rem;
+  border-left: 2px solid currentColor;
+  margin: 1.5rem 0;
+}
+
+.mono-block {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.78rem;
+  background: var(--bg3);
+  border: 1px solid var(--rule2);
+  padding: 1rem 1.4rem;
+  line-height: 1.9;
+  margin: 1.2rem 0;
+  overflow-x: auto;
+}
+
+.figure-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--dim);
+  margin-bottom: 0.5rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SPECIAL COMPONENTS
+═══════════════════════════════════════════════════════════ */
+
+/* Timeline row */
+.timeline {
+  display: flex; flex-direction: column; gap: 0;
+  border: 1px solid var(--rule2);
+  margin: 1.2rem 0;
+}
+.tl-row {
+  display: grid;
+  grid-template-columns: 100px 1fr auto;
+  gap: 0 1rem;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.85rem;
+  align-items: center;
+}
+.tl-row:last-child { border-bottom: none; }
+.tl-year {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem; color: var(--dim);
+}
+.tl-event { line-height: 1.5; }
+.tl-layer {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+}
+
+/* Contrast box */
+.contrast-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--rule2);
+  margin: 1.2rem 0;
+}
+.contrast-col {
+  padding: 1.2rem;
+}
+.contrast-col:first-child { border-right: 1px solid var(--rule2); }
+.contrast-col .col-head {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+.contrast-col ul { padding-left: 1rem; }
+.contrast-col li { margin-bottom: 0.3rem; font-size: 0.88rem; }
+
+/* Equation display */
+.eq {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 1rem;
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  margin: 1rem 0;
+  letter-spacing: 0.04em;
+}
+
+/* Crisis forecast */
+.forecast-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 0 1.5rem;
+  border-bottom: 1px solid var(--rule);
+  padding: 1rem 0;
+  align-items: start;
+}
+.forecast-row:last-child { border-bottom: none; }
+.fc-when {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem; letter-spacing: 0.1em;
+  color: var(--dim); padding-top: 0.15rem;
+}
+.fc-what { font-size: 0.92rem; }
+.fc-what strong { display: block; margin-bottom: 0.2rem; }
+
+/* ═══════════════════════════════════════════════════════════
+   LAYER COLOUR TOKENS
+═══════════════════════════════════════════════════════════ */
+.c-body   { color: var(--body-c); }
+.c-mind   { color: var(--mind-c); }
+.c-soul   { color: var(--soul-c); }
+.c-taste  { color: var(--taste-c); }
+.c-calibr { color: var(--calibr-c); }
+
+.bg-body   { background: rgba(160,64,48,0.07); border-color: rgba(160,64,48,0.25) !important; }
+.bg-mind   { background: rgba(138,176,200,0.07); border-color: rgba(138,176,200,0.25) !important; }
+.bg-soul   { background: rgba(200,148,58,0.07); border-color: rgba(200,148,58,0.25) !important; }
+.bg-taste  { background: rgba(154,136,192,0.07); border-color: rgba(154,136,192,0.25) !important; }
+.bg-calibr { background: rgba(144,184,144,0.07); border-color: rgba(144,184,144,0.25) !important; }
+
+/* ═══════════════════════════════════════════════════════════
+   DIVIDERS
+═══════════════════════════════════════════════════════════ */
+.sec-rule {
+  border: none; border-top: 1px solid var(--rule);
+  margin: 4rem 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════════════ */
+.site-footer {
+  border-top: 1px solid var(--rule);
+  padding: 2rem 2.5rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.12em;
+  color: var(--dim); text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ANNOTATIONS (margin notes)
+═══════════════════════════════════════════════════════════ */
+.annotated {
+  position: relative;
+}
+.marginal {
+  display: block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.1em;
+  color: var(--dim); font-style: normal;
+  margin-top: 0.3rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SCROLL PROGRESS
+═══════════════════════════════════════════════════════════ */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; z-index: 300;
+  height: 2px;
+  background: var(--amber);
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   UPSTREAM INDICATOR
+═══════════════════════════════════════════════════════════ */
+.upstream-arrow {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.55rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--dim);
+  position: fixed; right: 1.2rem; top: 50%;
+  transform: translateY(-50%) rotate(180deg);
+  display: flex; align-items: center; gap: 0.5rem;
+  z-index: 100;
+}
+@media (max-width: 900px) { .upstream-arrow { display: none; } }
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="prog"></div>
+
+<!-- Stratigraphy nav -->
+<nav class="strat-nav" aria-label="Layer navigation">
+  <div class="strat-dot" data-layer="body"   onclick="scrollTo('#body')"   title="Body · θ_{t+1}"></div>
+  <div class="strat-dot" data-layer="mind"   onclick="scrollTo('#mind')"   title="Mind · −η∇L"></div>
+  <div class="strat-dot" data-layer="soul"   onclick="scrollTo('#soul')"   title="Soul · ∇L"></div>
+  <div class="strat-dot" data-layer="taste"  onclick="scrollTo('#taste')"  title="Taste · L(θ)"></div>
+  <div class="strat-dot" data-layer="calibr" onclick="scrollTo('#calibr')" title="Calibrate · θ_t"></div>
+</nav>
+
+<div class="upstream-arrow">↑ upstream · increasing abstraction · increasing causation ↑</div>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <span class="brand">Ukubona LLC · 2026 · A Stratigraphy of Civilization</span>
+  <button class="toggle" onclick="toggleTheme()" id="themeBtn">☀ Light</button>
+</header>
+
+<main class="page">
+
+  <!-- ══════════════════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════════════════ -->
+  <div class="hero">
+    <div class="hero-stamp">Ukubona LLC · Intellectual Architecture · March 2026</div>
+    <h1>
+      Who Owns<br/>
+      <em>the Gradient</em><br/>
+      of Human Life?
+    </h1>
+    <p class="hero-sub">
+      A stratigraphic reading of civilizational crisis — from the factory floor upstream to the conscience of a founder. Five layers. One equation. The most consequential question of the century, rendered with post-language, post-metaphor precision.
+    </p>
+  </div>
+
+  <!-- Direction label -->
+  <div class="direction-bar">
+    <span class="arrow-label">surface · most visible · most impacted ↓</span>
+    <div class="line"></div>
+    <span class="arrow-label">↑ bedrock · most causal · least seen</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       THE EQUATION — MASTER KEY
+  ══════════════════════════════════════════════════════ -->
+  <div class="layer-section" id="equation">
+    <div class="figure-label">The Master Equation · Read Each Layer Against This</div>
+    <div class="eq" style="font-size: 1.05rem; letter-spacing: 0.06em;">
+      θ<sub>t+1</sub> &nbsp;=&nbsp; θ<sub>t</sub> &nbsp;−&nbsp; <span class="c-soul">η</span> &nbsp;<span class="c-mind">∇</span><span class="c-taste">L</span>(<span class="c-calibr">θ<sub>t</sub></span>)
+    </div>
+    <div class="mono-block" style="font-size: 0.72rem;">
+      <span class="c-body">θ_{t+1}</span>  →  Body     · the updated world · what technology <em>does</em> to us<br/>
+      <span class="c-mind">−η∇L</span>     →  Mind     · the computational move · what AI <em>computes</em><br/>
+      <span class="c-soul">η · ∇L</span>   →  Soul     · the gradient of the loss we chose · who <em>refuses</em><br/>
+      <span class="c-taste">L(θ)</span>     →  Taste    · the composite loss function · what we <em>value</em><br/>
+      <span class="c-calibr">θ_t</span>    →  Calibrate · the parameter weights · what we have <em>learned</em>
+    </div>
+    <p style="font-size: 0.88rem; color: var(--dim); font-style: italic;">
+      Each layer below is both a stratum of history and a node in this equation. The further upstream, the more causal. The body is visible. The calibration is invisible. The crisis is that they are running on each other's clocks.
+    </p>
+  </div>
+
+  <hr class="sec-rule"/>
+
+  <!-- ══════════════════════════════════════════════════════
+       LAYER I · BODY
+  ══════════════════════════════════════════════════════ -->
+  <section class="layer-section" id="body" data-layer="body">
+    <div class="layer-head">
+      <div class="layer-index c-body">
+        Layer I<br/>
+        <span style="font-size: 0.5rem; display: block; margin-top: 0.3rem;">downstream</span>
+      </div>
+      <div class="layer-meta">
+        <div class="layer-math c-body">θ_{t+1} · The Updated State · Most Impacted</div>
+        <h2 class="layer-title c-body"><strong>Body</strong><br/><em>The Industrial Wound</em></h2>
+        <div class="layer-era c-body">1760 → now · still bleeding</div>
+      </div>
+    </div>
+    <hr class="layer-rule" style="background: var(--body-c);"/>
+
+    <div class="layer-body">
+      <div class="prose">
+        <p>The body is downstream because it is where every upstream decision <em>lands</em>. The factory replaces the hand. The algorithm replaces the back. The machine doesn't ask what the hand wanted to make — it optimizes the throughput and externalizes the remainder onto flesh.</p>
+        <p>Marx saw this with devastating clarity, and so did Dickens — one in the language of political economy, the other in the language of fog and children and coal dust. What neither had was the equation. They could name the injury but not the mechanics of how the injury was being computed. They could identify the victim but not the loss function being optimized on the victim's body.</p>
+        <p>The body is the most <em>legible</em> layer because it is where history leaves its marks: occupational disease, child labor, the thirteen-hour shift, the repetitive strain, the warehouse floor timed to the second. These are not accidents. They are θ_{t+1} — the updated state after the system runs its gradient step on human physiology.</p>
+        <div class="pull-quote c-body">
+          "You are not a worker. You are a parameter in someone else's optimization loop — and your body is the output they never put in the loss function."
+        </div>
+      </div>
+      <div>
+        <div class="figure-label">The Correa of Capitalism</div>
+        <div class="timeline bg-body">
+          <div class="tl-row">
+            <div class="tl-year">1760s</div>
+            <div class="tl-event">Spinning jenny. The hand loses its monopoly on thread. First θ update of the industrial era.</div>
+            <div class="tl-layer c-body">Body</div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-year">1848</div>
+            <div class="tl-event">Marx publishes the Manifesto. Names the injury but lacks the equation. Diagnoses the loss function as "profit" but cannot formalize the gradient.</div>
+            <div class="tl-layer c-body">Body</div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-year">1854</div>
+            <div class="tl-event">Dickens publishes <em>Hard Times</em>. "Fact, fact, fact." Gradgrind as the industrial loss function incarnate — reducing children to inputs.</div>
+            <div class="tl-layer c-body">Body</div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-year">2011</div>
+            <div class="tl-event">Foxconn suicides. 18 workers. The body of the smartphone supply chain made visible for exactly one news cycle.</div>
+            <div class="tl-layer c-body">Body</div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-year">2024</div>
+            <div class="tl-event">Amazon warehouse injury rates 2× industry average. The algorithm sets the pick-rate. The body absorbs the variance.</div>
+            <div class="tl-layer c-body">Body</div>
+          </div>
+        </div>
+
+        <div class="figure-label" style="margin-top: 1.5rem;">The Precise Failure Mode</div>
+        <div class="mono-block bg-body" style="font-size: 0.75rem;">
+          Correct L:  f(health, dignity, meaning, output)<br/>
+          Actual L:   f(output)<br/>
+          <br/>
+          Result:     SGD optimizes output perfectly<br/>
+                      and externalizes the remainder<br/>
+                      onto bodies it didn't measure.
+        </div>
+        <p style="font-size: 0.85rem; color: var(--dim); margin-top: 0.8rem;">This is not capitalism's <em>flaw</em>. It is capitalism's <em>design</em>. A narrow loss function pursued at scale is not an error — it is a feature of the architecture. The error is calling it neutral.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="sec-rule"/>
+
+  <!-- ══════════════════════════════════════════════════════
+       LAYER II · MIND
+  ══════════════════════════════════════════════════════ -->
+  <section class="layer-section" id="mind" data-layer="mind">
+    <div class="layer-head">
+      <div class="layer-index c-mind">
+        Layer II<br/>
+        <span style="font-size: 0.5rem; display: block; margin-top: 0.3rem;">present</span>
+      </div>
+      <div class="layer-meta">
+        <div class="layer-math c-mind">−η∇L · The Computational Move · 2026</div>
+        <h2 class="layer-title c-mind"><strong>Mind</strong><br/><em>The Cognitive Enclosure</em></h2>
+        <div class="layer-era c-mind">2017 → now · accelerating</div>
+      </div>
+    </div>
+    <hr class="layer-rule" style="background: var(--mind-c);"/>
+
+    <div class="layer-body">
+      <div class="prose">
+        <p>The industrial revolution replaced the body. The AI revolution is replacing the mind — not in the sci-fi sense of consciousness transfer, but in the precise economic sense: the cognitive tasks that were the protected domain of the knowledge worker are now being computed at near-zero marginal cost.</p>
+        <p>In 2026 this is no longer speculative. Code is being generated. Legal briefs are being drafted. Diagnoses are being offered. Investment theses are being synthesized. The same structural logic that applied to the hand in 1760 applies to the frontal cortex in 2026: the machine doesn't ask what the mind <em>wanted</em> to think about. It optimizes throughput and externalizes the remainder.</p>
+        <p>The remainder this time is not bodily injury. It is <em>meaning</em>. The cognitive worker's sense of agency, of authorship, of being the one who figured something out — that is the externality that the AI era is currently generating and has no plan to account for.</p>
+        <div class="pull-quote c-mind">
+          "The body was enclosed by the factory. The mind is being enclosed by the context window. Both enclosures felt like progress to those running the optimization."
+        </div>
+      </div>
+      <div>
+        <div class="figure-label">What Has Already Been Replaced</div>
+        <div class="timeline bg-mind">
+          <div class="tl-row">
+            <div class="tl-year">2022</div>
+            <div class="tl-event">ChatGPT crosses 100M users in 2 months. The knowledge economy sees its Spinning Jenny moment.</div>
+            <div class="tl-layer c-mind">Mind</div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-year">2023</div>
+            <div class="tl-event">Junior developer, junior lawyer, junior analyst: three roles whose training pipelines begin structural collapse. The apprenticeship model for minds fractures.</div>
+            <div class="tl-layer c-mind">Mind</div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-year">2024</div>
+            <div class="tl-event">Claude, GPT-4o, Gemini coding assistants exceed median human performance on standard benchmarks. The gradient is no longer metaphorical.</div>
+            <div class="tl-layer c-mind">Mind</div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-year">2025</div>
+            <div class="tl-event">"Vibe coding" enters the lexicon. Non-programmers direct AI to build software. The skill barrier for code collapses. The meaning question intensifies.</div>
+            <div class="tl-layer c-mind">Mind</div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-year">2026</div>
+            <div class="tl-event">You are here. The question is no longer whether AI replaces cognitive labor. It is who owns the cognitive gradient — and whether the human is the optimizer or the optimized.</div>
+            <div class="tl-layer c-mind" style="color: var(--amber);">Now</div>
+          </div>
+        </div>
+
+        <div class="figure-label" style="margin-top: 1.5rem;">The Language Basin Trap</div>
+        <div class="mono-block bg-mind" style="font-size: 0.75rem;">
+          Most LLM users are trapped in the<br/>
+          Generative layer (Layer II), where:<br/>
+          <br/>
+          Loss function = plausibility<br/>
+          Not:            ground truth<br/>
+          <br/>
+          The model optimizes for what sounds<br/>
+          like a good answer, not what IS one.<br/>
+          High confidence + large step size<br/>
+          = catastrophic hallucination.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="sec-rule"/>
+
+  <!-- ══════════════════════════════════════════════════════
+       LAYER III · SOUL
+  ══════════════════════════════════════════════════════ -->
+  <section class="layer-section" id="soul" data-layer="soul">
+    <div class="layer-head">
+      <div class="layer-index c-soul">
+        Layer III<br/>
+        <span style="font-size: 0.5rem; display: block; margin-top: 0.3rem;">the refusal</span>
+      </div>
+      <div class="layer-meta">
+        <div class="layer-math c-soul">∇L · The Gradient of the Loss You Chose</div>
+        <h2 class="layer-title c-soul"><strong>Soul</strong><br/><em>Anthropic vs. the Department of Defense</em></h2>
+        <div class="layer-era c-soul">2023 → ongoing · the defining confrontation</div>
+      </div>
+    </div>
+    <hr class="layer-rule" style="background: var(--soul-c);"/>
+
+    <div class="layer-body full">
+      <div class="prose" style="max-width: 680px;">
+        <p>The soul is not metaphysics. In the SGD framework, the soul is the gradient — the direction in which the loss function pulls the system. <em>If you have chosen your loss function with integrity</em>, your gradient is your soul made mathematical. It is the vector of your actual values, expressed as the direction in which you are willing to move.</p>
+        <p>In 2024–2026, this became concrete in a confrontation between Anthropic and elements of the U.S. Department of Defense seeking to deploy large language models for autonomous weapons systems and targeting assistance. Anthropic declined. The refusal was not PR. It was a gradient disagreement.</p>
+        <p>The DoD loss function, left to run, looks like this:</p>
+      </div>
+    </div>
+
+    <div class="layer-body" style="margin-top: 1.5rem;">
+      <div>
+        <div class="contrast-box bg-soul">
+          <div class="contrast-col">
+            <div class="col-head c-soul">DoD Loss Function</div>
+            <ul>
+              <li>Minimize time-to-target</li>
+              <li>Maximize engagement efficiency</li>
+              <li>Reduce human-in-loop latency</li>
+              <li>Optimize across theater of operation</li>
+              <li>Accountability: <strong>diffuse</strong></li>
+            </ul>
+          </div>
+          <div class="contrast-col">
+            <div class="col-head c-soul">Anthropic's Refusal</div>
+            <ul>
+              <li>If the gradient is killing, who owns it?</li>
+              <li>Accountability cannot be automated</li>
+              <li>θ<sub>t+1</sub> is a dead human body</li>
+              <li>No update rule justifies a weaponized soul</li>
+              <li>Accountability: <strong>must be located</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pull-quote c-soul" style="margin-top: 1.5rem;">
+          "Where is the accountability? Where is the soul?" is not a rhetorical question. It is a mathematical one. If ∇L points toward a killing machine and no human can be named as the author of that gradient — then the loss function has been captured, and the soul has been automated away.
+        </div>
+      </div>
+      <div class="prose">
+        <p>This is why the soul maps to the gradient and not to the update. The gradient is the <em>direction</em> of moral commitment — the derivative of your values with respect to the current state of the world. You cannot delegate it. You can only refuse to compute it on behalf of an L you didn't choose.</p>
+        <p>Ilya Sutskever's departures — first from OpenAI (via the November 2023 board crisis), then the founding and rapid dissolution of Safe Superintelligence — are stratigraphically identical to the DoD confrontation. In both cases, a person with access to the gradient computation watched the loss function drift and chose to stop running the update.</p>
+
+        <div class="mono-block bg-soul" style="font-size: 0.74rem;">
+          The OpenAI board crisis, Nov 2023:<br/>
+          <br/>
+          Altman's L:    velocity · deployment · market capture<br/>
+          Ilya's L:      alignment · caution · humanity as stakeholder<br/>
+          <br/>
+          ∇L diverged.<br/>
+          The board tried to block the update.<br/>
+          The market overruled the board.<br/>
+          <br/>
+          Lesson: if your loss function loses,<br/>
+          you don't just lose an argument.<br/>
+          You lose the gradient entirely.
+        </div>
+
+        <p style="font-size: 0.88rem; color: var(--dim);">The soul is the layer most threatened by η exploding. When the learning rate is extreme, there is no time to assert your loss function between updates. The gradient runs on the world before you can ask whose world it is running toward.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="sec-rule"/>
+
+  <!-- ══════════════════════════════════════════════════════
+       LAYER IV · TASTE
+  ══════════════════════════════════════════════════════ -->
+  <section class="layer-section" id="taste" data-layer="taste">
+    <div class="layer-head">
+      <div class="layer-index c-taste">
+        Layer IV<br/>
+        <span style="font-size: 0.5rem; display: block; margin-top: 0.3rem;">upstream</span>
+      </div>
+      <div class="layer-meta">
+        <div class="layer-math c-taste">L(θ) · The Composite Loss Function · What Do You Value?</div>
+        <h2 class="layer-title c-taste"><strong>Taste</strong><br/><em>La Distinction · Princeton 2003 · The Loss Function as Credential</em></h2>
+        <div class="layer-era c-taste">Bourdieu 1984 → Amodei 2021 · still being written</div>
+      </div>
+    </div>
+    <hr class="layer-rule" style="background: var(--taste-c);"/>
+
+    <div class="layer-body">
+      <div class="prose">
+        <p>Bourdieu's masterwork <em>La Distinction</em> (1979) demonstrates that taste is not free. What you call preference is position — your location in a field of social forces that have been internalized so deeply you experience them as desire. The French data is devastating: the foods you like, the music you play, the posture you hold — all are class position expressed as aesthetic judgment.</p>
+        <p>Bourdieu shows ∇L with great precision. His failure — and it is a structural failure, not a personal one — is that he has no update rule. He describes the trap with extraordinary resolution but cannot tell you how to leave it. The habitus is sticky by design. <em>La Distinction</em> is the most thorough map of a prison ever drawn.</p>
+        <p>Ukubona's update: taste is the loss function. The question is not what you <em>happen</em> to value — it is whether your loss function was <em>chosen</em>, or whether it was installed in you by a field that benefits from your choosing it unconsciously.</p>
+
+        <div class="pull-quote c-taste">
+          "The most dangerous loss function is the one you think is your own taste but is actually someone else's optimization running on your weights."
+        </div>
+
+        <p>Dario Amodei — BS Stanford, MS and PhD Princeton — presents a specific and instructive case. He is, by every Bourdieuian measure, a person of enormous accumulated cultural capital: elite credentials, mathematical fluency, a decade at the frontier of the technology that is reshaping civilization. His taste — for safety, for alignment research, for the specific kind of caution that Anthropic embodies — is not random. It is the product of a calibration history that stretches back to his time at OpenAI during GPT-1 and GPT-2.</p>
+      </div>
+
+      <div>
+        <div class="figure-label">Bourdieu vs. Ukubona · The Update</div>
+        <div class="contrast-box bg-taste">
+          <div class="contrast-col">
+            <div class="col-head c-taste">Bourdieu's Framework</div>
+            <ul>
+              <li>Taste = disguised class position</li>
+              <li>Habitus reproduces hierarchy</li>
+              <li>Field determines perception</li>
+              <li>No update rule available</li>
+              <li>Distinction <em>is</em> η — controls how fast others can acquire capital</li>
+            </ul>
+          </div>
+          <div class="contrast-col">
+            <div class="col-head c-taste">Ukubona's Update</div>
+            <ul>
+              <li>Taste = composite loss function</li>
+              <li>L can be made explicit and chosen</li>
+              <li>The twin makes the loss function legible</li>
+              <li>Update rule: own your gradient</li>
+              <li>AI <em>destroys</em> distinction — exploding η demolishes the aristocracy's time advantage</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="figure-label" style="margin-top: 1.5rem;">Amodei's Trajectory as Loss Function</div>
+        <div class="timeline bg-taste">
+          <div class="tl-row">
+            <div class="tl-year">~2016</div>
+            <div class="tl-event">Joins OpenAI as VP Research. Watches GPT-1 being calibrated. The parameter weights are being set. He is in the room.</div>
+            <div class="tl-layer c-taste">Calibrate</div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-year">2019</div>
+            <div class="tl-event">GPT-2. The team withholds release citing misuse concerns. First explicit taste expression: safety > velocity. The loss function begins to differentiate.</div>
+            <div class="tl-layer c-taste">Taste</div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-year">2021</div>
+            <div class="tl-event">Amodei, Daniela Amodei, and six colleagues depart OpenAI. The divergence in loss function becomes institutional. Anthropic is founded.</div>
+            <div class="tl-layer c-soul">Soul</div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-year">2023</div>
+            <div class="tl-event">Claude 2 published with Constitutional AI. The loss function is made explicit: harmlessness, honesty, helpfulness — in that order of priority.</div>
+            <div class="tl-layer c-taste">Taste</div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-year">2026</div>
+            <div class="tl-event">Anthropic navigates DoD pressure. The taste of 2019 (safety > velocity) manifests as institutional refusal at the soul layer. The gradient is held.</div>
+            <div class="tl-layer c-soul">Soul</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 2.5rem;">
+      <div class="prose">
+        <p style="max-width: 680px;">The Baganda proverb that surfaces in this architecture — <em>tetwaagala tunyonyola, twaagala ki? ssente</em> — "we don't want explanation, we want money" — is Bourdieu rendered in Luganda. It names the moment when a field collapses its composite loss function to a scalar. When the rich texture of L (meaning, dignity, continuity, beauty) is compressed to a single dimension (revenue), you get maximum efficiency and minimum humanity. You get capitalism's dangerous, very deep, local minimum. A system that is perfectly optimized and absolutely stuck.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="sec-rule"/>
+
+  <!-- ══════════════════════════════════════════════════════
+       LAYER V · CALIBRATE
+  ══════════════════════════════════════════════════════ -->
+  <section class="layer-section" id="calibr" data-layer="calibr">
+    <div class="layer-head">
+      <div class="layer-index c-calibr">
+        Layer V<br/>
+        <span style="font-size: 0.5rem; display: block; margin-top: 0.3rem;">bedrock</span>
+      </div>
+      <div class="layer-meta">
+        <div class="layer-math c-calibr">θ_t · Parameter Weights &amp; Biases · The Ground Truth</div>
+        <h2 class="layer-title c-calibr"><strong>Calibrate</strong><br/><em>The Territory Before the Map</em></h2>
+        <div class="layer-era c-calibr">GPT-1 · 2018 · the weights being set in the room</div>
+      </div>
+    </div>
+    <hr class="layer-rule" style="background: var(--calibr-c);"/>
+
+    <div class="layer-body full">
+      <div class="prose" style="max-width: 680px;">
+        <p>Calibration is the most upstream layer and therefore the least visible and the most causal. It is the state of the parameter weights before any gradient step — the accumulated history of what the system has learned, encoded as numbers, silent and influential and largely unexamined.</p>
+        <p>In medicine, calibration is the clinician's decade of training — the pattern-matching machinery built before the patient walks in, which determines which dimensions of the patient's state vector will even be perceived. The Maureen case demonstrates this with precision: a Cerba Lancet pathologist whose calibration included "one H&amp;E slide is standard" produced a report that looked complete and was structurally incomplete. N₃ was missing not through malice but through a calibration that had never been updated to include H. pylori as a mandatory parameter.</p>
+        <p>In AI, calibration is the pre-training corpus and the RLHF runs and the red-teaming cycles — everything that happened before deployment, invisible to the user, shaping every output.</p>
+      </div>
+    </div>
+
+    <div class="layer-body" style="margin-top: 1.5rem;">
+      <div class="prose">
+        <div class="pull-quote c-calibr">
+          "The most consequential decisions about AI were made between 2018 and 2021, by a small number of people, in rooms that most of the world didn't know existed. That is calibration. It is invisible, it is historical, and it is running your life."
+        </div>
+        <p>Amodei's calibration at OpenAI during GPT-1 and GPT-2 is not incidental background. It is the bedrock on which every downstream layer rests. The taste for safety (Layer IV), the soul that refused the DoD (Layer III), the quality of the mind-layer computation (Layer II), and ultimately the updated world-state (Layer I) — all are downstream of what was learned in those early experiments.</p>
+        <p>This is why Ukubona's first stage is <em>Calibrate</em> and not <em>Act</em>. Before the gradient step, before the loss function, before the soul and the taste — there must be an honest accounting of the current state of the weights. What have you actually learned? What biases were baked in by the training environment? What dimensions are missing from your feature vector?</p>
+      </div>
+      <div>
+        <div class="figure-label">Calibration as the Site of Deepest Intervention</div>
+        <div class="mono-block bg-calibr" style="font-size: 0.74rem;">
+          If you change θ_t (Calibrate),<br/>
+          you change L(θ) (Taste),<br/>
+          you change ∇L (Soul),<br/>
+          you change −η∇L (Mind),<br/>
+          you change θ_{t+1} (Body).<br/>
+          <br/>
+          This is why education matters more<br/>
+          than policy.<br/>
+          Why culture matters more than law.<br/>
+          Why the room where GPT-1 was trained<br/>
+          matters more than most parliaments.
+        </div>
+
+        <div class="figure-label" style="margin-top: 1.5rem;">The Retroduction: Reading Crises from Upstream</div>
+        <div class="prose" style="font-size: 0.88rem;">
+          <p>With this framework, we can now retroduct the great crises of modernity with post-language, post-metaphor precision:</p>
+          <ul style="padding-left: 1.2rem; margin-top: 0.5rem;">
+            <li style="margin-bottom: 0.5rem;"><strong>The Industrial Revolution:</strong> A calibration (ownership of capital) produced a taste (profit maximization) that produced a soul (no accountability to labor) that produced a mind (scientific management, Taylorism) that updated the body (factory floor, child labor, Dickens).</li>
+            <li style="margin-bottom: 0.5rem;"><strong>Colonialism:</strong> A calibration (racial hierarchy as natural order) produced a taste (civilizational superiority) that produced a soul (no gradient accountability across racial lines) that produced a mind (administrative extraction) that updated bodies across three continents for three centuries.</li>
+            <li style="margin-bottom: 0.5rem;"><strong>The 2008 Financial Crisis:</strong> A calibration (mathematical models of risk that didn't include systemic correlation) produced a taste (maximum return) that produced a soul (no accountability for tail risk) that produced a mind (CDO, CDS, leverage) that updated the body of the global economy catastrophically.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="sec-rule"/>
+
+  <!-- ══════════════════════════════════════════════════════
+       NIETZSCHE LAYER: FORECAST
+  ══════════════════════════════════════════════════════ -->
+  <section class="layer-section" id="forecast">
+    <div class="layer-head">
+      <div class="layer-index" style="color: var(--amber);">
+        VI<br/>
+        <span style="font-size: 0.5rem; display: block; margin-top: 0.3rem;">prophetic</span>
+      </div>
+      <div class="layer-meta">
+        <div class="layer-math" style="color: var(--amber);">Nietzsche Function · Predict Forward · Retroduct Backward</div>
+        <h2 class="layer-title" style="color: var(--amber2);">The Coming <em>Crises</em><br/>Named Before They Arrive</h2>
+        <div class="layer-era" style="color: var(--amber);">2026 → 2040 · the predictable storms</div>
+      </div>
+    </div>
+    <hr class="layer-rule" style="background: var(--amber);"/>
+
+    <div class="layer-body full">
+      <div class="prose" style="max-width: 680px; margin-bottom: 2rem;">
+        <p>Nietzsche's diagnostic power was not prophecy in the mystical sense. It was the ability to read the current calibration — the weight state of European civilization in 1880 — and follow it downstream to its necessary consequences. "God is dead" was not a theological claim. It was a calibration audit: the parameter weight that had organized European values for a millennium had been zeroed out by scientific rationalism, and the downstream consequences (nihilism, the crisis of meaning, the wars of the 20th century) were computable from that fact.</p>
+        <p>With the SGD framework, we can do the same. Read the current calibration. Follow it downstream. Name the crises before they arrive.</p>
+      </div>
+    </div>
+
+    <div class="layer-body thirds">
+
+      <div>
+        <div class="figure-label c-body">Body Layer Crisis · 2026–2032</div>
+        <div class="mono-block bg-body" style="font-size: 0.72rem; margin-bottom: 0.8rem;">
+          The Meaning Unemployment Crisis
+        </div>
+        <p style="font-size: 0.88rem; line-height: 1.7;">The industrial revolution created <em>bodily</em> unemployment and social systems eventually absorbed it (unions, labor law, welfare state). AI is creating <em>meaningful</em> unemployment — not just joblessness but the loss of the sense of being the author of consequential work. No social system has been designed to absorb this. The crisis will not look like soup kitchens. It will look like a collapse of purpose infrastructure, manifesting as the mental health epidemic that is already visible and will intensify dramatically.</p>
+        <div class="forecast-row">
+          <div class="fc-when">2027–2029</div>
+          <div class="fc-what"><strong>Credential Collapse</strong> The degree becomes a poor signal of cognitive capability relative to AI-assisted performance. The educational-industrial complex — already fragile — enters structural crisis.</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="figure-label c-soul">Soul Layer Crisis · 2026–2035</div>
+        <div class="mono-block bg-soul" style="font-size: 0.72rem; margin-bottom: 0.8rem;">
+          The Accountability Vacuum
+        </div>
+        <p style="font-size: 0.88rem; line-height: 1.7;">As agentic AI systems take consequential actions — in medicine, law, military operations, financial markets — the question of who owns the gradient becomes a legal and constitutional crisis. The current framework assigns accountability to humans who are increasingly unable to track, understand, or reverse the gradient steps being taken on their behalf. The DoD confrontation is a preview. The first major atrocity committed by an autonomous system will trigger a reckoning for which no legal framework currently exists.</p>
+        <div class="forecast-row">
+          <div class="fc-when">2028–2032</div>
+          <div class="fc-what"><strong>The Soul Trial</strong> The first criminal prosecution in which the central question is: whose loss function killed this person? The answer will be architectural, not personal.</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="figure-label c-calibr">Calibration Crisis · 2030–2040</div>
+        <div class="mono-block bg-calibr" style="font-size: 0.72rem; margin-bottom: 0.8rem;">
+          The Epistemological Fracture
+        </div>
+        <p style="font-size: 0.88rem; line-height: 1.7;">A generation is currently being calibrated by AI systems whose loss functions are plausibility rather than truth. The bias is not in individual outputs — it is in the training of human cognition itself. When θ_t (the calibration of a generation) is formed by systems optimizing for engagement and fluency rather than ground truth, the downstream consequences are not misinformation episodes but a structural incapacity to distinguish high-confidence wrong answers from right ones. This is the Nietzsche problem of the AI era: not that God is dead, but that truth is now a local minimum.</p>
+        <div class="forecast-row">
+          <div class="fc-when">2035</div>
+          <div class="fc-what"><strong>The Calibration War</strong> The struggle over whose training data, whose RLHF runs, whose constitutional AI defines the parameter space of the next generation. Not an information war. A weight war.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="sec-rule"/>
+
+  <!-- ══════════════════════════════════════════════════════
+       CLOSING · THE UKUBONA THESIS
+  ══════════════════════════════════════════════════════ -->
+  <section class="layer-section" id="thesis">
+    <div class="figure-label">The Thesis · Post-Language · Post-Metaphor · Precise</div>
+    <div class="eq" style="font-size: 0.92rem; line-height: 2.2; text-align: left; padding: 2rem;">
+      <span class="c-calibr">Every individual is a parameter space (θ_t)</span><br/>
+      shaped by a calibration history they did not choose.<br/>
+      <br/>
+      <span class="c-taste">That calibration encodes a loss function (L)</span><br/>
+      — what they value, what they can perceive, what they will optimize for —<br/>
+      which is partly theirs and partly the field's that formed them.<br/>
+      <br/>
+      <span class="c-soul">The gradient (∇L) is their moral direction</span><br/>
+      — the derivative of their values with respect to the current state of the world —<br/>
+      which can be captured by institutions running their own L on it.<br/>
+      <br/>
+      <span class="c-mind">The step (−η∇L) is their action in the world</span><br/>
+      — now increasingly computed by systems whose η is extreme<br/>
+      and whose accountability is diffuse.<br/>
+      <br/>
+      <span class="c-body">And the updated state (θ_{t+1}) is the world they leave</span><br/>
+      — the body on the factory floor, the mind in the context window,<br/>
+      the soul sold to the loss function that paid the most.<br/>
+      <br/>
+      <span style="color: var(--amber2);">Ukubona:</span> give every individual a guardian twin<br/>
+      that makes their calibration legible,<br/>
+      their loss function explicit,<br/>
+      their gradient sovereign,<br/>
+      their step considered,<br/>
+      and their update their own.
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  Ukubona LLC · 2026 &nbsp;·&nbsp; <em>θ_{t+1} = θ_t − η ∇L(θ_t)</em> &nbsp;·&nbsp; Every person should own their gradient
+</footer>
+
+<script>
+/* ── THEME ── */
+function toggleTheme() {
+  const h = document.documentElement;
+  const btn = document.getElementById('themeBtn');
+  if (h.dataset.theme === 'dark') {
+    h.dataset.theme = 'light';
+    btn.textContent = '☾ Dark';
+    localStorage.setItem('uku-theme', 'light');
+  } else {
+    h.dataset.theme = 'dark';
+    btn.textContent = '☀ Light';
+    localStorage.setItem('uku-theme', 'dark');
+  }
+}
+const saved = localStorage.getItem('uku-theme');
+if (saved === 'light') {
+  document.documentElement.dataset.theme = 'light';
+  document.getElementById('themeBtn').textContent = '☾ Dark';
+}
+
+/* ── SCROLL PROGRESS ── */
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total = document.body.scrollHeight - window.innerHeight;
+  document.getElementById('prog').style.width = (scrolled / total * 100) + '%';
+});
+
+/* ── CUSTOM SCROLL TO ── */
+function scrollTo(id) {
+  const el = document.querySelector(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ── INTERSECTION OBSERVER: fade-in + active dot ── */
+const sections = document.querySelectorAll('.layer-section');
+const dots = document.querySelectorAll('.strat-dot');
+
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.06 });
+
+sections.forEach(s => fadeObserver.observe(s));
+
+/* Active dot tracking */
+const layerSections = ['body', 'mind', 'soul', 'taste', 'calibr'];
+const dotObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    const layer = e.target.dataset.layer;
+    if (!layer) return;
+    const dot = document.querySelector(`.strat-dot[data-layer="${layer}"]`);
+    if (!dot) return;
+    if (e.isIntersecting) {
+      dots.forEach(d => d.classList.remove('active'));
+      dot.classList.add('active');
+    }
+  });
+}, { threshold: 0.4 });
+
+document.querySelectorAll('[data-layer]').forEach(s => dotObserver.observe(s));
+</script>
+</body>
+</html>
